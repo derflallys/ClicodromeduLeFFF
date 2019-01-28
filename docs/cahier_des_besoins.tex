@@ -1,31 +1,56 @@
-\documentclass{article}
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fullpage}
 \usepackage[utf8]{inputenc}
-
-\title{PdP - Le Clicodrome de LeFFF \\ Cahier des besoins}
-\author{}
-\date{2018 - 2019}
-
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[french]{babel}
+\usepackage[cyr]{aeguill}
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{verbatim}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\newcommand{\quotes}[1]{``#1''}
+
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+\centering
+{\scshape\LARGE Université de Bordeaux \par}
+{\scshape\Large Master 1 Informatique  \par}
+\vspace{3cm}
+
+{\Huge\bfseries Projet de Programmation\par}
+{\Huge\bfseries Le Clicodrome de LEFFF \par}
+\vspace{0.5cm}
+{\Large\itshape Cahier des besoins\par}
+{\large 01 février 2019\par}
+
+\vfill
+réalisé par \par
+BAKIR \textsc{Fatima Ezzahra} \par
+JELLITE \textsc{Oumayma} \par
+NEDELEC \textsc{Guillaume} \par
+SYLLA  \textsc{Alfred Aboubacar} \par
+\vfill
+
+{\large Enseignants responsables : Philippe NARBEL et Vincent PENELLE\par}
+
+\end{titlepage}
 
 \section{Introduction}
-\subsection{Contexte}
-Ce projet est réalisé dans le cadre de l'Unité d'Enseignement "Projet de Programmation" (PdP) de première année de Master Informatique à l'Université de Bordeaux.
-\\  
-L'équipe qui réalise ce projet est composée de : \\ 
-- Fatima Ezzahra BAKIR \\ 
-- Oumayma JELLITE \\ 
-- Guillaume NEDELEC \\ 
-- Alfred Aboubacar SYLLA \\
-Les enseignants responsables sont Phillipe NARBEL et Vincent PENNELLE.
 
 \subsection{Présentation du projet}
-Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est un lexique de formes fléchies et ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
+
+Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est une nouvelle technique pour la construction de lexiques morphologiques à large couverture. Elle repose sur l'idée d'associer à chaque forme, une règle, ses traits morphologiques et d'autres champs.
+\smallbreak La technique est validée en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français, les résultats sont très satisfaisants, car LeFFF couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues. 
+De plus, il est généralisable à toute langue ayant une morphologie substantielle.
+\smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
+
+Le LeFFF est un lexique de formes fléchies et ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
 \begin{itemize}  
   \item Lexème ou grammème (ie Prendre)
   \item Vocables (ie Prendre=saisir, Prendre=recevoir)
@@ -39,6 +64,8 @@ Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est un lexiqu
   \item Collocation (ie "Prendre une initiative")
   \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
 \end{itemize}
+
+\smallbreak
 
 Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
 Les transducteurs permettent par composition de construire les formes fléchies. 
