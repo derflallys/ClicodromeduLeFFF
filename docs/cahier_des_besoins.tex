@@ -165,7 +165,9 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 
   \hline
 \end{tabularx}
-
+\subsection{Contraintes}
+-L'historique : La date de la dernière modification ainsi que l'utilisateur qui a modifié doivent être enregistré.\\
+-La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.
 \subsection{Les besoins non fonctionnels}
 
 \subsubsection{Sécurité}
@@ -183,6 +185,7 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 \begin{itemize}
 \item Éléments de vérification dans les champs de saisies.
 \end{itemize}
+
 
 \section{Analyse et conception}
 
@@ -235,7 +238,16 @@ Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre pro
     \\
   \hline
 \end{tabularx}
-\section{Répartion des tâches et Avancement du projet}
+
+ \bf 2) Diagrammes de package:
+
+\bf  3) Diagrammes de cas d'utilisation:
+\begin{itemize}
+\item \bf Administrateur \\
+\item \bf Visiteur
+\end{itemize}
+
+\section{Réparation des tâches et Avancement du projet}
 
 \subsection{Planning du projet}
 
@@ -309,6 +321,20 @@ Rédaction du Rapport: & ../01/2019 &  ../01/2019
 
 \subsection{Diagramme de Gantt du projet}
 
+\section{Outils de développement}
+Chaque technologie a des spécificités, des avantages et des inconvénients et le choix d'une technologie est tellement important dans un projet.\\
+Pour notre cas nous avons choisi de réaliser notre projet en utilisant:
+\subsection{Java}
+\includegraphics[width=2cm]{java.png}
+On a choisi ce langage car il est de type orienté objet. Cela va rendre notre code plus structuré et maintenable.\\
+Le java dispose d'API forts pratiques tel que la manipulation de chaine/image. Toutes ces petites choses qui nous sont bien utiles et qu'on aura pas besoin de coder.
+\subsection{PHP}
+\includegraphics[width=2cm]{php.png}
+Pour réaliser un site web dynamique, nous avons choisi PHP car il est rapide ( les temps d'éxécuton sont très performants) et il gére très bien les requêtes SQL.
+\subsection{JQuery}
+\includegraphics[width=2cm]{jquery.png}
+\subsection{CSS}
+\includegraphics[width=2cm]{CSS.png}
 \section{Références}
 
 \end{document}
