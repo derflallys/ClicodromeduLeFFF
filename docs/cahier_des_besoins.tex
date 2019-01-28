@@ -50,7 +50,7 @@ Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est une nouve
 De plus, il est généralisable à toute langue ayant une morphologie substantielle.
 \smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
 
-Le LeFFF est un lexique de formes fléchies et ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
+Le LeFFF est un lexique de formes fléchies. Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
 \begin{itemize}  
   \item Lexème ou grammème (ie Prendre)
   \item Vocables (ie Prendre=saisir, Prendre=recevoir)
@@ -68,14 +68,17 @@ Le LeFFF est un lexique de formes fléchies et ce n'est donc pas une simple list
 \smallbreak
 
 Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
-Les transducteurs permettent par composition de construire les formes fléchies. 
-Les transducteurs sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
-Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (de données du lexique).
+\newline Les transducteurs permettent par composition de construire les formes fléchies. 
+Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
+\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
+
+\smallbreak
 
 L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
 De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
 
 \subsection{Description de l'existant et choix de conception}
+
 Pour ce projet, nous avons a notre de disposition le lexique LeFFF mis à jour en avril 2006 au format texte (.txt).
 Ce lexique est en langue anglaise et contient un ensemble de forme flechies de mots présentés de la manière suivante :
 \begin{verbatim}
@@ -84,8 +87,9 @@ Ce lexique est en langue anglaise et contient un ensemble de forme flechies de m
   Aaron		np	[pred='Aaron_____1<suj:(sn)>',@hum]
   Aast		np	[pred='Aast_____1<suj:(sn)>',@loc,@ms]
 \end{verbatim}
- Explication Du code ci-dessus
- 
+
+EXPLIQUER LA SYNTAXE DU LEFFF (EX CODE CI DESSUS)
+
 \section{Analyse des besoins}
 
 \subsection{Les besoins fonctionnels:}
@@ -143,7 +147,7 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
   Exporter le lexique &
   V, E, A , M &
-  Les utilisateurs du site peuvent exporter leFFF du site sous différents formats de fichier (a définir)\\
+  Les utilisateurs du site peuvent exporter LeFFF du site sous différents formats de fichier (a définir)\\
   \hline
 \end{tabularx}
 
