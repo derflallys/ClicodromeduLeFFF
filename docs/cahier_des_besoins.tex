@@ -1,25 +1,61 @@
-\documentclass{article}
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fullpage}
 \usepackage[utf8]{inputenc}
-
-\title{PdP - Le Clicodrome de LeFFF \\ Cahier des besoins}
-\author{}
-\date{2018 - 2019}
-
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[french]{babel}
+\usepackage[cyr]{aeguill}
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\newcommand{\quotes}[1]{``#1''}
+
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+\centering
+{\scshape\LARGE Université de Bordeaux \par}
+{\scshape\Large Master 1 Génie Logiciel  \par}
+\vspace{3cm}
+
+{\Huge\bfseries PDP -Le Clicodrome de LEFFF \par}
+\vspace{0.5cm}
+{\Large\itshape Cahier des besoins\par}
+
+\vfill
+réalisé par \par
+BAKIR \textsc{Fatima Ezzahra} \par
+JELLITE \textsc{Oumayma} \par
+NEDELEC \textsc{Guillaume} \par
+SYLLA  \textsc{Alfred Aboubacar} \par
+\vfill
+
+{\large 01 février 2019\par}
+
+\end{titlepage}
 
 \section{Présentation générale }
-L'une des ressources lexicales disponibles pour les applications du traitement automatique des langues en français est le LeFFF, Lexique Électronique des Formes Fléchies du Français - l'ivresse des mots, distribué depuis 2004.
-\smallbreak
-Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
-\smallbreak
-Le but de ce projet est de construire un site Internet interactif permettant de donner accès au lexique pour l'enrichir et l'extraire.
-\smallbreak
-Dans ce document, est présenté l'ensemble des besoins fonctionnels et non fonctionnels du projet.
+
+\subsection{Description de l'existant}
+
+ \subsection*{\textbf{LEFF} }
+\smallbreak LEFFF:lexique des formes fléchis du français est une nouvelle technique pour la construction de lexiques morphologiques a large couverture. Elle repose sur l'idée  d'associer a chaque forme une règle,ses traits morphologiques et d'autres champs .
+\smallbreak la technique est validé  en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français,les résultats sont très satisfaisants, car lefff couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues.De plus, il est généralisable à toute langue ayant une morphologie substantielle.
+
+\smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
+
+
+ \subsection*{\textbf{PFM}}
+
+
+\subsection{Objectif}
+\smallbreak 
+Le but du projet c'est de concevoir un site internet interactif conformément aux moyens existants déjà,qui permet d'accéder au lexique déjà existant LEFF en utilisant le compilateur PFM  pour l'enrichir et l'extraire .
+
 
 
 \section{Les besoins fonctionnels:}
