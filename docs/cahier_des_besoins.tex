@@ -9,6 +9,10 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
+<<<<<<< HEAD
+=======
+\usepackage{verbatim}
+>>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
 
@@ -19,12 +23,23 @@
 \begin{titlepage}
 \centering
 {\scshape\LARGE Université de Bordeaux \par}
+<<<<<<< HEAD
 {\scshape\Large Master 1 Génie Logiciel  \par}
 \vspace{3cm}
 
 {\Huge\bfseries PDP -Le Clicodrome de LEFFF \par}
 \vspace{0.5cm}
 {\Large\itshape Cahier des besoins\par}
+=======
+{\scshape\Large Master 1 Informatique  \par}
+\vspace{3cm}
+
+{\Huge\bfseries Projet de Programmation\par}
+{\Huge\bfseries Le Clicodrome de LEFFF \par}
+\vspace{0.5cm}
+{\Large\itshape Cahier des besoins\par}
+{\large 01 février 2019\par}
+>>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
 
 \vfill
 réalisé par \par
@@ -34,6 +49,7 @@ NEDELEC \textsc{Guillaume} \par
 SYLLA  \textsc{Alfred Aboubacar} \par
 \vfill
 
+<<<<<<< HEAD
 {\large 01 février 2019\par}
 
 \end{titlepage}
@@ -56,15 +72,70 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 \smallbreak 
 Le but du projet c'est de concevoir un site internet interactif conformément aux moyens existants déjà,qui permet d'accéder au lexique déjà existant LEFF en utilisant le compilateur PFM  pour l'enrichir et l'extraire .
 
+=======
+{\large Enseignants responsables : Philippe NARBEL et Vincent PENELLE\par}
 
+\end{titlepage}
 
-\section{Les besoins fonctionnels:}
+\section{Introduction}
+
+\subsection{Présentation du projet}
+
+Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est une nouvelle technique pour la construction de lexiques morphologiques à large couverture. Elle repose sur l'idée d'associer à chaque forme, une règle, ses traits morphologiques et d'autres champs.
+\smallbreak La technique est validée en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français, les résultats sont très satisfaisants, car LeFFF couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues. 
+De plus, il est généralisable à toute langue ayant une morphologie substantielle.
+\smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
+
+Le LeFFF est un lexique de formes fléchies. Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
+\begin{itemize}  
+  \item Lexème ou grammème (ie Prendre)
+  \item Vocables (ie Prendre=saisir, Prendre=recevoir)
+  \item Catégories syntaxiques (ie Verbe)
+  \item Sous-catégories syntaxiques (ie Transitif, passivable)
+  \item Catégories grammaticales (ie Nombre$\rightarrow\{sing, plur\}$, Personne$\rightarrow\{1, 2, 3\}$)
+  \item Règles de flexion (ie Table de conjugaison de prendre - Stem=.*(pren|mett))
+  \item Valence (ie objet nominal, oblique en à)
+  \item Réalisation syntaxique (ie passif en par)
+  \item Phraséologie (ie "Prendre ombrage", "Prendre ses jambes à son cou")
+  \item Collocation (ie "Prendre une initiative")
+  \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
+\end{itemize}
+
+\smallbreak
+
+Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
+\newline Les transducteurs permettent par composition de construire les formes fléchies. 
+Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
+\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
+
+\smallbreak
+>>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
+
+L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
+De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
+
+\subsection{Description de l'existant et choix de conception}
+
+Pour ce projet, nous avons a notre de disposition le lexique LeFFF mis à jour en avril 2006 au format texte (.txt).
+Ce lexique est en langue anglaise et contient un ensemble de forme flechies de mots présentés de la manière suivante :
+\begin{verbatim}
+  Aaren		np	[pred='Aaren_____1<suj:(sn)>',@hum]
+  Aarika		np	[pred='Aarika_____1<suj:(sn)>',@hum]
+  Aaron		np	[pred='Aaron_____1<suj:(sn)>',@hum]
+  Aast		np	[pred='Aast_____1<suj:(sn)>',@loc,@ms]
+\end{verbatim}
+
+EXPLIQUER LA SYNTAXE DU LEFFF (EX CODE CI DESSUS)
+
+\section{Analyse des besoins}
+
+\subsection{Les besoins fonctionnels:}
 
 Sur le site internet, il existe 4 types d’utilisateurs : Les Administrateurs (A) , les Éditeurs ou linguistes (E), les Modérateurs (M) et les Visiteurs (V).
 Chacun de ses utilisateurs possède des accès particuliers sur le site internet.
 Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc pas s'authentifier . 
 
-\subsection{Le site web interactif}
+\subsubsection{Le site web interactif}
 \begin{tabularx}{\textwidth}{|l|c|X|}
   \hline
   \textbf{Besoins} & 
@@ -113,11 +184,11 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
   Exporter le lexique &
   V, E, A , M &
-  Les utilisateurs du site peuvent exporter leFFF du site sous différents formats de fichier (a définir)\\
+  Les utilisateurs du site peuvent exporter LeFFF du site sous différents formats de fichier (a définir)\\
   \hline
 \end{tabularx}
 
-\subsection{Compilateur PFM}
+\subsubsection{Compilateur PFM}
 \begin{tabularx}{\textwidth}{|l|c|X|}
   \hline
   Besoins & Acteurs & Explication \\
@@ -133,23 +204,25 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
 \end{tabularx}
 
-\section{Les besoins non fonctionnels}
-\subsection{Sécurité}
+\subsection{Les besoins non fonctionnels}
+
+\subsubsection{Sécurité}
 \begin{itemize}
  \item La protection des données est faite à l'aide d'une page d'authentification.Il est impossible de modifier ou supprimer des données sans se connecter et avoir les droits nécessaires. 
  \item Déconnexion automatique après une période d'inactivité (durée à définir)
  \item Mise en place de logs afin de tracer les changements effectués.
 \end{itemize}
-\subsection{Ergonomie}
+\subsubsection{Ergonomie}
 \begin{itemize}
 \item Une boite de dialogue ou un message de confirmation sera affiché pour chaque opération effectuée par l'utilisateur.
 \item Des couleurs des icônes, des boutons, et des expression significatifs seront implémentée afin que le site soit utilisée avec le maximum de confort et d'efficacité.
 \end{itemize}
-\subsection{Audit}
+\subsubsection{Audit}
 \begin{itemize}
 \item Éléments de vérification dans les champs de saisies.
 \end{itemize}
 
+<<<<<<< HEAD
 \section{Analyse et conception}
 
 \subsection{Choix méthodologique}
@@ -201,5 +274,13 @@ Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre pro
     \\
   \hline
 \end{tabularx}
+=======
+\section{Répartion des tâches et Avancement du projet}
+
+\subsection{Répartition des tâches}
+\subsection{Diagramme de Gantt du projet}
+
+\section{Références}
+>>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
 
 \end{document}
