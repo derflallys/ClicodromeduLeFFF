@@ -9,7 +9,6 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
-\usepackage[document]{ragged2e}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
 
@@ -45,8 +44,12 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \subsection{Présentation du projet}
 
-Le LeFFF est un lexique de formes fléchies du français à large couverture, associant à chaque forme son lemme, ses traits morphologiques et d'autres champs récemment disponibles.
-Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
+Le LeFFF (Lexique Électronique des Formes Fléchies du Français) obtenu par une nouvelle technique pour la construction de lexiques morphologiques à large couverture. Elle repose sur l'idée d'associer à chaque forme, une règle, ses traits morphologiques et d'autres champs.
+\smallbreak La technique est validée en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français, les résultats sont très satisfaisants, car LeFFF couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues. 
+De plus, il est généralisable à toute langue ayant une morphologie substantielle.
+\smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
+
+Le LeFFF est un lexique de formes fléchies et ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
 \begin{itemize}  
   \item Lexème ou grammème (ie Prendre)
   \item Vocables (ie Prendre=saisir, Prendre=recevoir)
@@ -64,33 +67,25 @@ Ce n'est donc pas une simple liste de mots, mais une ressource complexe constitu
 \smallbreak
 
 Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
-\newline Les transducteurs permettent par composition de construire les formes fléchies. 
-Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
-\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
+Les transducteurs permettent par composition de construire les formes fléchies. 
+Les transducteurs sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
+Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (de données du lexique).
 
-\smallbreak
-Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter.
 L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
 De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
 
-\newpage
 \subsection{Description de l'existant et choix de conception}
-
 Pour ce projet, nous avons a notre de disposition le lexique LeFFF mis à jour en avril 2006 au format texte (.txt).
-Ce lexique contient un ensemble de forme flechies de mots français présentés de la manière suivante :
+Ce lexique est en langue anglaise et contient un ensemble de forme flechies de mots présentés de la manière suivante :
 \begin{verbatim}
-  débouler	v	[pred='débouler_____1<suj:(sn|sinf|scompl),obj:(sn)>',cat=v,@W]
-  à bon marché	adv	[pred='à bon marché_____1',cat=adv,advGP=+]
-  à bientôt	  pres	[pred='à bientôt_____1',advGP=+]
-  Égypte		np	[pred='Égypte_____1<suj:(sn)>',@loc,@fs]
+  Aaren		np	[pred='Aaren_____1<suj:(sn)>',@hum]
+  Aarika		np	[pred='Aarika_____1<suj:(sn)>',@hum]
+  Aaron		np	[pred='Aaron_____1<suj:(sn)>',@hum]
+  Aast		np	[pred='Aast_____1<suj:(sn)>',@loc,@ms]
 \end{verbatim}
-
-EXPLIQUER LA SYNTAXE DU LEFFF (EX CODE CI DESSUS)
-
-Ce lexique est dsponible sous licence « LGPLLR » (Lesser General Public License For Linguistic Resources) à l'adresse suivante : 
-\\ \begin{center}http://www.labri.fr/perso/clement/lefff/telechargement.html\end{center}
-
-  \section{Analyse des besoins}
+ Explication Du code ci-dessus
+ 
+\section{Analyse des besoins}
 
 \subsection{Les besoins fonctionnels:}
 
@@ -109,9 +104,9 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   A, E, M & 
   Chaque utilisateur ayant un compte sur le site peut s'authentifier pour avoir accès a l'interface d'administration \\ 
   \hline
-  Gérer les rôles & A
-   & Permet d'assigner les ôles (A,E,M) aux différents utilisateurs ayant un compte sur le site.
- \\
+  Gérer les rôles & 
+  A & 
+  Permet d'assigner les rôles (A, E, M) aux différents utilisateurs ayant un compte sur le site \\
   \hline
   Bannir un utilisateur& 
   A & 
@@ -147,7 +142,7 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
   Exporter le lexique &
   V, E, A , M &
-  Les utilisateurs du site peuvent exporter LeFFF du site sous différents formats de fichier (a définir)\\
+  Les utilisateurs du site peuvent exporter leFFF du site sous différents formats de fichier (a définir)\\
   \hline
 \end{tabularx}
 
@@ -166,9 +161,7 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 
   \hline
 \end{tabularx}
-\subsection{Contraintes}
--L'historique : La date de la dernière modification ainsi que l'utilisateur qui a modifié doivent être enregistré.\\
--La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.
+
 \subsection{Les besoins non fonctionnels}
 
 \subsubsection{Sécurité}
@@ -187,152 +180,13 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 \item Éléments de vérification dans les champs de saisies.
 \end{itemize}
 
-\section{Réparation des tâches et Avancement du projet}
+\section{Répartion des tâches et Avancement du projet}
 
-\subsection{Planning du projet}
-
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  \textbf{Tâche } & 
-  \textbf{Date de début} & 
-  \textbf{Date de fin} \\
-  \hline
-  \hline
-  \hline
-  Capture des besoins fonctionnels :& ../01/2019 & ../01/2019
-  \\ 
-   \hline
-    \hline
-     \hline
- 
- Étude de projet : & ../01/2019 &  ../01/2019
-    \\
-  \hline
- Reherche sur Internet sur les outils à utiliser  & ../01/2019 &  ../01/2019
-    \\
-  \hline
- Définition des besoins et installation des outils  & ../01/2019 &  ../01/2019
-    \\
-  \hline
- \hline
-  \hline
-  Analyse et conception :& ../01/2019 & ../01/2019
-  \\ 
-   \hline
-  \hline
-   \hline
-  Les diagrammes des cas d'utilisation & ../01/2019 &  ../01/2019 
-    \\
-  \hline
- Description contextuelle & ../01/2019 &  ../01/2019
-    \\
-  \hline
-  Diagrammes de séquence & ../01/2019 &  ../01/2019
-    \\
-    \hline
-     \hline
-      \hline
- 
-Codage et test: & ../01/2019 &  ../01/2019
-    \\
-      \hline
-       \hline
-        \hline
-    
-La création de la base de données & ../01/2019 &  ../01/2019
-    \\
-     \hline
-le codage des entités & ../01/2019 &  ../01/2019
-    \\
-         \hline
-la création des interfaces & ../01/2019 &  ../01/2019
-    \\
-       \hline
-        \hline
-         \hline
-
-Rédaction du Rapport: & ../01/2019 &  ../01/2019
-  \\
-  \hline
-   \hline
-    \hline
-
-\end{tabularx}
-
+\subsection{Répartition des tâches}
 \subsection{Diagramme de Gantt du projet}
 
-\section{Outils de développement}
-
-Ce projet peut être divisé en 3 parties :
-\begin{itemize}  
-  \item le site web
-  \item le compilateur 
-  \item la base de données
-\end{itemize}
-
-\subsection{Back-end du site web : PHP avec le framework Symfony 4}
-\begin{center}
-  \includegraphics[width=2cm]{img/php.png}
-  \includegraphics[width=2cm]{img/symfony.png}
-\end{center}
-
-Nous avons choisi de développer le site web en PHP car c'est un langage permettant de faire de la programmation orienté objet. 
-De plus c'est un langage très performant et simple à mettre en place.
-Nous avons décidé d'utiliser le framework Symfony car un framework a beaucoup d'avantages comme :
-\begin{itemize}  
-  \item une architecture MVC (Modèle-Vue-Contrôleur) permettant de découper le code en suivant une logique métier.
-  \item la facilité de création de tests automatisés
-  \item une sécurisation de l'application web (XSS, CSRF et injection SQL)
-  \item Un ensemble de packages déjà développés à intégrer à l'application.
-  \item Des performances optimisés avec une utilisation du cache optimisée
-  \item Une communauté importante et beaucoup de documentation
-\end{itemize}
-
-\smallbreak
-
-Nous utiliserons ce framework dans sa version 4.1 car c'est une version très légère par rapport à la version 3. 
-En effet aucun packages complémentaires au noyau n'est installé. De plus le déploiement et la configuration du framework a été très simplifiée dans cette version.
-Cette version de Symfony nécessite une version de PHP supérieure ou égale à 7.1.3
-
-\subsection{Front-end du site web : Framework Javascript Angular}
-\begin{center}
-  \includegraphics[width=2cm]{img/angular.png}
-\end{center}
-On a décidé d'utiliser un framework Javascript pour la partie front-end du site.
-Les framework javascript permettent la création d'interface dynamique tout en gardant un code très structuré, ce qui facilite grandement la maintenance de l'application par la suite.
-L'utilisation de Angular avec TypeScript permet de typer le javascript et d'adoper le nouveau standard Javascript ES6.
-
-\subsection{Compilateur PFM : Java}
-\begin{center}
-  \includegraphics[width=2cm]{img/java.png}
-\end{center}
-On a choisi d'utiliser le langage Java pour le compilateur PFM car c'est un langage orienté objet. 
-Cette caractéristique permet la mise en place du DDD (Domain Driven Design) qui va permettre une structure de l'application autour du domaine.
-Ce langage dispose de nombreuses API (Application Programming Interface) publiques pouvant être utilisées sans avoir a réimplémenter les fonctionnalités de ces API. 
-De plus, des librairies pour la manipulation de PFM sont disponibles pour le Java, un élément nécessaire pour ce projet.
-
-\subsection{Base de données : MySQL}
-\begin{center}
-  \includegraphics[width=2cm]{img/mysql.png}
-\end{center}
-Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et ses bonnes performances. 
-De plus, ce Système de Gestion de Base de Données (SGBD) s'intègre facilement à un environnement PHP tel que celui qu'on le souhaite utiliser.
-
 \section{Références}
-Lien php / symfony / angular / TypeScript/ ES6 / mysql / java
-+ Biblio
+\bibliographystyle{style}
+\bibliography{biblio}
 
-https://app.moqups.com/GuillaumeNed33/Tr6FjBELx1/view
- 
-
-\section{Questionnement}
-\begin{itemize}  
-  \item que fait réellement le compilateur ?
-  \item Quand doit il être utiliser ?
-  \item Que prend il en entrée ?
-  \item Quel type de données renvoie t -il?
-  \item Le compilateur est il nécessaire si tout est enregistré en base ?
-  \item Que signifie le format de données du LeFFF (voir dans l'intro) ?
-  \item Comment lier les formes fléchies (pour configurer la base) ?
-\end{itemize}
 \end{document}
