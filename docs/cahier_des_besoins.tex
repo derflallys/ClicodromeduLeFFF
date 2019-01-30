@@ -9,6 +9,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{hyperref}
 \usepackage[document]{ragged2e}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
@@ -41,7 +42,9 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \end{titlepage}
 
-\section{Introduction}
+\tableofcontents
+
+\newpage\section{Introduction}
 
 \subsection{Présentation du projet}
 
@@ -151,46 +154,24 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
 \end{tabularx}
 
-\subsubsection{Compilateur PFM}
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  Besoins & Acteurs & Explication \\
-  \hline
-  Générer le lexique d'un mot &
-  Système(PFM)
-  & Quand un utilisateur veut consulter le lexique d'un mot via le site web , une requête est transmise à notre Systeme(Back-end) qui lui renvoie le lexique du mot demandé \\
-  \hline
-  ...
-  & ... 
-  & ... \\
-
-  \hline
-\end{tabularx}
-\subsection{Contraintes}
--L'historique : La date de la dernière modification ainsi que l'utilisateur qui a modifié doivent être enregistré.\\
--La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.
 \subsection{Les besoins non fonctionnels}
 
 \subsubsection{Sécurité}
 \begin{itemize}
- \item La protection des données est faite à l'aide d'une page d'authentification.Il est impossible de modifier ou supprimer des données sans se connecter et avoir les droits nécessaires. 
- \item Déconnexion automatique après une période d'inactivité (durée à définir)
- \item Mise en place de logs afin de tracer les changements effectués.
+ \item Les données du LeFFF sont protégée. En effet toute intéraction avec ces données (modification / ajout ou suppression) ne peut être effectuée que par des utilisateurs authentifié et par conséquent, validé par unn administrateur.
+ \item Le système de rôle (Visiteur, Editeur, Modérateur et Administrateur) permet de réguler les droits de chacun.
+ \item Une déconnexion automatique après une période d'inactivité (durée à définir) sera mis en place.
+ \item Des logs seront implémentés afin de tracer les changements effectués.
+ \item Un historique par rapport à chaque mot du lexique sera mis en place afin de connaitre la date de dernière modification ainsi que l'utilisateur acteur de cette modification.
 \end{itemize}
 \subsubsection{Ergonomie}
 \begin{itemize}
-\item Une boite de dialogue ou un message de confirmation sera affiché pour chaque opération effectuée par l'utilisateur.
-\item Des couleurs des icônes, des boutons, et des expression significatifs seront implémentée afin que le site soit utilisée avec le maximum de confort et d'efficacité.
-\end{itemize}
-\subsubsection{Audit}
-\begin{itemize}
-\item Éléments de vérification dans les champs de saisies.
+\item Nous avons fait le choix d'adpoter une design très simple et épurée afin que l'utilisateur ne se perde pas dans l'interface et puisse trouver des solutions à son besoin de maninère simple et naturelle.
+\item Des boites de dialogue et des messages de confirmation seront affichés à chaque opération effectuée par l'utilisateur afin d'éviter les erreurs dans les actions utilisateurs.
+\item Des codes couleurs et icones distinctifs seront mis en place afin que l'utilsiateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 \end{itemize}
 
-\section{Réparation des tâches et Avancement du projet}
-
-\subsection{Planning du projet}
-
+\section{Planning du projet}
 
 \begin{tabularx}{\textwidth}{|l|c|X|}
   \hline
@@ -307,5 +288,10 @@ De plus, ce Système de Gestion de Base de Données (SGBD) s'intègre facilement
   \item Le compilateur est il nécessaire si tout est enregistré en base ?
   \item Que signifie le format de données du LeFFF (voir dans l'intro) ?
   \item Comment lier les formes fléchies (pour configurer la base) ?
+  \item Au niveau des rôle, qui peut supprimer des mots ? Dofférence entre modérateur et editeur ?
+  \item 
 \end{itemize}
+
+\bibliography{references}
+\bibliographystyle{plain}
 \end{document}
