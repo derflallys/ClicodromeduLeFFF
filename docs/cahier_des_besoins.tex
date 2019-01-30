@@ -9,10 +9,6 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
-<<<<<<< HEAD
-=======
-\usepackage{verbatim}
->>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
 
@@ -23,14 +19,6 @@
 \begin{titlepage}
 \centering
 {\scshape\LARGE Université de Bordeaux \par}
-<<<<<<< HEAD
-{\scshape\Large Master 1 Génie Logiciel  \par}
-\vspace{3cm}
-
-{\Huge\bfseries PDP -Le Clicodrome de LEFFF \par}
-\vspace{0.5cm}
-{\Large\itshape Cahier des besoins\par}
-=======
 {\scshape\Large Master 1 Informatique  \par}
 \vspace{3cm}
 
@@ -39,7 +27,6 @@
 \vspace{0.5cm}
 {\Large\itshape Cahier des besoins\par}
 {\large 01 février 2019\par}
->>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
 
 \vfill
 réalisé par \par
@@ -49,30 +36,6 @@ NEDELEC \textsc{Guillaume} \par
 SYLLA  \textsc{Alfred Aboubacar} \par
 \vfill
 
-<<<<<<< HEAD
-{\large 01 février 2019\par}
-
-\end{titlepage}
-
-\section{Présentation générale }
-
-\subsection{Description de l'existant}
-
- \subsection*{\textbf{LEFF} }
-\smallbreak LEFFF:lexique des formes fléchis du français est une nouvelle technique pour la construction de lexiques morphologiques a large couverture. Elle repose sur l'idée  d'associer a chaque forme une règle,ses traits morphologiques et d'autres champs .
-\smallbreak la technique est validé  en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français,les résultats sont très satisfaisants, car lefff couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues.De plus, il est généralisable à toute langue ayant une morphologie substantielle.
-
-\smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
-
-
- \subsection*{\textbf{PFM}}
-
-
-\subsection{Objectif}
-\smallbreak 
-Le but du projet c'est de concevoir un site internet interactif conformément aux moyens existants déjà,qui permet d'accéder au lexique déjà existant LEFF en utilisant le compilateur PFM  pour l'enrichir et l'extraire .
-
-=======
 {\large Enseignants responsables : Philippe NARBEL et Vincent PENELLE\par}
 
 \end{titlepage}
@@ -81,12 +44,12 @@ Le but du projet c'est de concevoir un site internet interactif conformément au
 
 \subsection{Présentation du projet}
 
-Le LeFFF (Lexique Électronique des Formes Fléchies du Français) est une nouvelle technique pour la construction de lexiques morphologiques à large couverture. Elle repose sur l'idée d'associer à chaque forme, une règle, ses traits morphologiques et d'autres champs.
+Le LeFFF (Lexique Électronique des Formes Fléchies du Français) obtenu par une nouvelle technique pour la construction de lexiques morphologiques à large couverture. Elle repose sur l'idée d'associer à chaque forme, une règle, ses traits morphologiques et d'autres champs.
 \smallbreak La technique est validée en extrayant des verbes et des adjectifs sur un corpus français général de 25 millions de mots. Comparé à d'autres ressources lexicales disponibles en français, les résultats sont très satisfaisants, car LeFFF couvre de nombreux mots, souvent dérivés, qui ne sont pas toujours présents dans d’autres langues. 
 De plus, il est généralisable à toute langue ayant une morphologie substantielle.
 \smallbreak Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter automatiquement.
 
-Le LeFFF est un lexique de formes fléchies. Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
+Le LeFFF est un lexique de formes fléchies et ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
 \begin{itemize}  
   \item Lexème ou grammème (ie Prendre)
   \item Vocables (ie Prendre=saisir, Prendre=recevoir)
@@ -104,18 +67,14 @@ Le LeFFF est un lexique de formes fléchies. Ce n'est donc pas une simple liste 
 \smallbreak
 
 Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
-\newline Les transducteurs permettent par composition de construire les formes fléchies. 
-Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
-\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
-
-\smallbreak
->>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
+Les transducteurs permettent par composition de construire les formes fléchies. 
+Les transducteurs sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
+Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (de données du lexique).
 
 L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
 De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
 
 \subsection{Description de l'existant et choix de conception}
-
 Pour ce projet, nous avons a notre de disposition le lexique LeFFF mis à jour en avril 2006 au format texte (.txt).
 Ce lexique est en langue anglaise et contient un ensemble de forme flechies de mots présentés de la manière suivante :
 \begin{verbatim}
@@ -124,9 +83,8 @@ Ce lexique est en langue anglaise et contient un ensemble de forme flechies de m
   Aaron		np	[pred='Aaron_____1<suj:(sn)>',@hum]
   Aast		np	[pred='Aast_____1<suj:(sn)>',@loc,@ms]
 \end{verbatim}
-
-EXPLIQUER LA SYNTAXE DU LEFFF (EX CODE CI DESSUS)
-
+ Explication Du code ci-dessus
+ 
 \section{Analyse des besoins}
 
 \subsection{Les besoins fonctionnels:}
@@ -146,9 +104,9 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   A, E, M & 
   Chaque utilisateur ayant un compte sur le site peut s'authentifier pour avoir accès a l'interface d'administration \\ 
   \hline
-  Gérer les rôles & A
-   & Permet d'assigner les ôles (A,E,M) aux différents utilisateurs ayant un compte sur le site.
- \\
+  Gérer les rôles & 
+  A & 
+  Permet d'assigner les rôles (A, E, M) aux différents utilisateurs ayant un compte sur le site \\
   \hline
   Bannir un utilisateur& 
   A & 
@@ -184,7 +142,7 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
   Exporter le lexique &
   V, E, A , M &
-  Les utilisateurs du site peuvent exporter LeFFF du site sous différents formats de fichier (a définir)\\
+  Les utilisateurs du site peuvent exporter leFFF du site sous différents formats de fichier (a définir)\\
   \hline
 \end{tabularx}
 
@@ -222,65 +180,13 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 \item Éléments de vérification dans les champs de saisies.
 \end{itemize}
 
-<<<<<<< HEAD
-\section{Analyse et conception}
-
-\subsection{Choix méthodologique}
-
-Pour la réalisation de ce projet, notre choix a été porté sur le langage de modélisation UML.\\
-UML : Unified Modeling language, traduit en langage de modélisation unifiée): est un langage de modélisation graphique.
-Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre projet (Diagramme des cas d'utilisation, Diagramme de classe, Diagramme de séquence) et même pour bien expliquer quelques besoins fonctionnels.\\  
-
-\subsection{Étude préliminaire - modélisation du contexte}
-
-1) Les messages émis et reçus : \\
-
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  \textbf{Cas d'utilisation} & 
-  \textbf{Messages émis} & 
-  \textbf{Messages reçus} \\
-  \hline
-  Authentification & 
-  Login et Mot de passe & Soit page d'accueil soit demande de ressaisie
-  \\ 
-   \hline
-  \hline
- Ajouter Éditeur/Modérateur & Informations sur la personne & Attente de la réponses Soit demande de ressaisie
-    \\
-  \hline
-  \hline
- Bannir un utilisateur & Nom de la personne  &  Soit validation Soit demande de ressaisie
-    \\
-  \hline
-    \hline
- Rechercher un mot & Écrire le mot &  Soit Informations sur le mot Soit Résultat vide.
-    \\
-  \hline
-   \hline
- Consulter un mot & Saisir le mot &  Soit les données correspondent au mot Soit Résultat vide.
-    \\
-  \hline
-   \hline
- Modifier un mot & les modifications &  Soit Validation  Soit Demande de ressaisie.
-    \\
-  \hline
-    \hline
- Supprimer un mot & Saisir le mot &  Soit Validation  Soit Demande de ressaisie.
-    \\
-  \hline
-      \hline
- Faire un signalement & Description &  Validation
-    \\
-  \hline
-\end{tabularx}
-=======
 \section{Répartion des tâches et Avancement du projet}
 
 \subsection{Répartition des tâches}
 \subsection{Diagramme de Gantt du projet}
 
 \section{Références}
->>>>>>> 32dbf30f9953045eb51eac77977cfd43656b12d5
+\bibliographystyle{style}
+\bibliography{biblio}
 
 \end{document}
