@@ -132,10 +132,6 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   A, E, M & 
   Permet de supprimer un mot du lexique \\
   \hline
-  Faire un signalement & 
-  V &
-  Permet de signaler une erreur et de proposer une éventuelle correction \\
-  \hline
   Valider inscription Éditeur &
   A &
   Après l'inscription d'un éditeur sur le site, l'administrateur doit activer son compte après vérification \\
@@ -150,24 +146,10 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
   \hline
 \end{tabularx}
 
-\subsubsection{Compilateur PFM}
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  Besoins & Acteurs & Explication \\
-  \hline
-  Générer le lexique d'un mot &
-  Système(PFM)
-  & Quand un utilisateur veut consulter le lexique d'un mot via le site web , une requête est transmise à notre Systeme(Back-end) qui lui renvoie le lexique du mot demandé \\
-  \hline
-  ...
-  & ... 
-  & ... \\
-
-  \hline
-\end{tabularx}
 \subsection{Contraintes}
+- Implémentation du PFM c'est à dire on doit implémenté des règles pour que le compilateur puisse générer les formes fléchies des mots.    \\
 -L'historique : La date de la dernière modification ainsi que l'utilisateur qui a modifié doivent être enregistré.\\
--La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.
+- La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.\\
 \subsection{Les besoins non fonctionnels}
 
 \subsubsection{Sécurité}
@@ -181,19 +163,8 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 \item Une boite de dialogue ou un message de confirmation sera affiché pour chaque opération effectuée par l'utilisateur.
 \item Des couleurs des icônes, des boutons, et des expression significatifs seront implémentée afin que le site soit utilisée avec le maximum de confort et d'efficacité.
 \end{itemize}
-\subsubsection{Audit}
-\begin{itemize}
-\item Éléments de vérification dans les champs de saisies.
-\end{itemize}
-
 
 \section{Analyse et conception}
-
-\subsection{Choix méthodologique}
-
-Pour la réalisation de ce projet, notre choix a été porté sur le langage de modélisation UML.\\
-UML : Unified Modeling language, traduit en langage de modélisation unifiée): est un langage de modélisation graphique.
-Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre projet (Diagramme des cas d'utilisation, Diagramme de classe, Diagramme de séquence) et même pour bien expliquer quelques besoins fonctionnels.\\  
 
 \subsection{Étude préliminaire - modélisation du contexte}
 
@@ -241,12 +212,12 @@ Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre pro
 
  \bf 2) Diagrammes de package:
 
-\bf  3) Diagrammes de cas d'utilisation:
+\bf  3) Diagrammes de cas d'utilisation:\\
+On va donner juste un exemple de deux cas d'utilisation:\\
 \begin{itemize}
-\item \bf Administrateur \\
-\item \bf Visiteur
+\item \bf L'administrateur: \\
+\item \bf Le visiteur: \\
 \end{itemize}
-
 \section{Réparation des tâches et Avancement du projet}
 
 \subsection{Planning du projet}
@@ -259,59 +230,56 @@ Donc, on va utiliser les diagrammes d'UML pour faire l'architecture de notre pro
   \hline
   \hline
   \hline
-  Capture des besoins fonctionnels :& ../01/2019 & ../01/2019
+  Capture des besoins fonctionnels :& 18/01/2019 & 07/02/2019
   \\ 
    \hline
     \hline
      \hline
  
- Étude de projet : & ../01/2019 &  ../01/2019
+ Étude de projet : & 18/01/2019 &  07/02/2019
     \\
   \hline
- Reherche sur Internet sur les outils à utiliser  & ../01/2019 &  ../01/2019
+ Recherche sur Internet sur les outils à utiliser  & 28/01/2019 &  03/02/2019
     \\
   \hline
- Définition des besoins et installation des outils  & ../01/2019 &  ../01/2019
+ Définition des besoins et installation des outils  & 04/02/2019 &  05/02/2019
     \\
   \hline
  \hline
   \hline
-  Analyse et conception :& ../01/2019 & ../01/2019
+  Analyse et conception :& 28/01/2019 & 01/02/2019
   \\ 
    \hline
   \hline
    \hline
-  Les diagrammes des cas d'utilisation & ../01/2019 &  ../01/2019 
+  Les diagrammes des cas d'utilisation & 28/01/2019 &  01/02/2019 
     \\
   \hline
- Description contextuelle & ../01/2019 &  ../01/2019
-    \\
-  \hline
-  Diagrammes de séquence & ../01/2019 &  ../01/2019
+  Diagrammes de séquence & 31/01/2019 &  01/02/2019
     \\
     \hline
      \hline
       \hline
  
-Codage et test: & ../01/2019 &  ../01/2019
+Codage et test: & 04/02/2019 &  03/04/2019
     \\
       \hline
        \hline
         \hline
     
-La création de la base de données & ../01/2019 &  ../01/2019
+La création de la base de données & 04/02/2019 &  05/02/2019
     \\
      \hline
-le codage des entités & ../01/2019 &  ../01/2019
+Implémentation du compilateur & 07/02/2019 &  03/04/2019
     \\
          \hline
-la création des interfaces & ../01/2019 &  ../01/2019
+la création des interfaces & 15/03/2019 &  02/04/2019
     \\
        \hline
         \hline
          \hline
 
-Rédaction du Rapport: & ../01/2019 &  ../01/2019
+Rédaction du Rapport: & 05/03/2019 &  05/04/2019
   \\
   \hline
    \hline
@@ -320,21 +288,18 @@ Rédaction du Rapport: & ../01/2019 &  ../01/2019
 \end{tabularx}
 
 \subsection{Diagramme de Gantt du projet}
+\includegraphics[width=17cm]{Ganttdiag.PNG}
+
 
 \section{Outils de développement}
 Chaque technologie a des spécificités, des avantages et des inconvénients et le choix d'une technologie est tellement important dans un projet.\\
 Pour notre cas nous avons choisi de réaliser notre projet en utilisant:
 \subsection{Java}
-\includegraphics[width=2cm]{java.png}
 On a choisi ce langage car il est de type orienté objet. Cela va rendre notre code plus structuré et maintenable.\\
 Le java dispose d'API forts pratiques tel que la manipulation de chaine/image. Toutes ces petites choses qui nous sont bien utiles et qu'on aura pas besoin de coder.
 \subsection{PHP}
-\includegraphics[width=2cm]{php.png}
 Pour réaliser un site web dynamique, nous avons choisi PHP car il est rapide ( les temps d'éxécuton sont très performants) et il gére très bien les requêtes SQL.
 \subsection{JQuery}
-\includegraphics[width=2cm]{jquery.png}
 \subsection{CSS}
-\includegraphics[width=2cm]{CSS.png}
 \section{Références}
-
 \end{document}
