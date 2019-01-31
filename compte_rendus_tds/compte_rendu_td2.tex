@@ -1,0 +1,58 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{PdP - Le Clicodrome de LeFFF \\ Comtpe rendu du TD2}
+\author{}
+\date{Mercredi 30 Janvier 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Contexte}
+Cette séance de TD avait pour but de faire un point sur la 2ème version du cahier des besoins et de répondre à nos questionnement sur le compilateur PFM.
+
+\section{Remarques et conseils}
+\subsection{Partie d'introduction}
+\begin{itemize}
+    \item Introduction imcompréhensible, il faut citer les références quand on reprend des explications d'une source externe
+    \item Citer les références du fichier .bibtex dans le cahier des besoins pour quelles apparaissent.
+    \item Bien expliquer le projet, de quoi on part ? les problèmes de l'existant ? Notre solution proposée...
+    \item Transducteurs/unificateurs $\longrightarrow$ quel est le rapport ? c'est quoi ? ca fait quoi ?
+    \item Définir le leFFF, les formes fléchies avec des infos compréhensible de tous
+    \item Bien parler le l'existant ? Comment on le manipule ect...
+    \item Objectif du projet a bien détaillé
+\end{itemize}
+
+\subsection{Partie besoin}
+\begin{itemize}
+    \item Transformer le lexique (.txt) en une base de données $\longrightarrow$ Besoin principal
+    \item Les besoins non fonctionnels qu'on a rensigné sont pour la majorité des besoins fonctionnels
+    \item Partie sécurité incomplete $\longrightarrow$ Protection de la base, Injection SQL, faille XSS ect...
+\end{itemize}
+
+\subsection{Partie Planning}
+\begin{itemize}
+    \item Reformuler les taches
+    \item Certaines taches trop vagues (ex: codage)
+    \item Certaines taches trop détaillés
+\end{itemize}
+
+\subsection{Partie Outils de dev}
+\begin{itemize}
+    \item Logo inutile
+    \item Indiquer dans les raisons de ces choix, des raisons en lien avec le projet
+    \item DDD $\longrightarrow$ expliquer $\longrightarrow$  pourquoi ca serait utile au projet (si ça l'est !)
+\end{itemize}
+
+\subsection{Partie projet}
+\begin{itemize}
+    \item En base, on enregistre seulement le mot et son lème (ses attributs)
+    \item Aucune forme fléchies en base, le compilateur peut les générer
+    \item Des compilateurs PFM existent, à nous d'exploiter ce qui existe déjà
+    \item Notre projet cible le leFFF mais il devraient etre générique à n'importe quel lexique
+    \item Forme fléchies du francais : la conjugaison du mot et ses déclinaisons (ex : "mien" est une déclinaison de "moi")
+    \item Fonctionnalité d'export du lexique (avec ou sans les formes fléchies) $\longrightarrow$ format correspondant au format d'entrée (à la base du projet : .txt)
+    \item Importer le lexique en base
+\end{itemize}
+\end{document}

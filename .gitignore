@@ -8,3 +8,5 @@
 **/*.fls
 **/*.aux
 **/*.synctex.gz
+**/*.out
+**/*.toc
