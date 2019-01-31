@@ -9,6 +9,7 @@
 \usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{tabularx}
+\usepackage{hyperref}
 \usepackage[document]{ragged2e}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
@@ -41,37 +42,26 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \end{titlepage}
 
-\section{Introduction}
+\tableofcontents
+
+\newpage\section{Introduction}
 
 \subsection{Présentation du projet}
 
-Le LeFFF est un lexique de formes fléchies du français à large couverture, associant à chaque forme son lemme, ses traits morphologiques et d'autres champs récemment disponibles.
-Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
-\begin{itemize}  
-  \item Lexème ou grammème (ie Prendre)
-  \item Vocables (ie Prendre=saisir, Prendre=recevoir)
-  \item Catégories syntaxiques (ie Verbe)
-  \item Sous-catégories syntaxiques (ie Transitif, passivable)
-  \item Catégories grammaticales (ie Nombre$\rightarrow\{sing, plur\}$, Personne$\rightarrow\{1, 2, 3\}$)
-  \item Règles de flexion (ie Table de conjugaison de prendre - Stem=.*(pren|mett))
-  \item Valence (ie objet nominal, oblique en à)
-  \item Réalisation syntaxique (ie passif en par)
-  \item Phraséologie (ie "Prendre ombrage", "Prendre ses jambes à son cou")
-  \item Collocation (ie "Prendre une initiative")
-  \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
-\end{itemize}
 
 \smallbreak
+le Lexique des formes fléchies du français ; LEFFF est un lexique de la langue française mis en place par notre client Lionnel Clement et Benoit Sagot.Ce lexique est obtenu par des nouvelles techniques qui repose sur le fait d'associer a chaque forme fléchis des informations morphologiques et de factoriser l'information en utilisant une structure d'héritage.Ce n'est donc pas une simple liste de mots ,mais une ressource complexe constituée de Lexème,vocables,catégories syntaxiques,etc
 
-Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
-\newline Les transducteurs permettent par composition de construire les formes fléchies. 
-Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
-\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
+ On propose donc de fournir un site web interactif qui permet d'interagir avec le lexique pour enrichir les données morphologiques et syntaxiques et d'obtenir une extraction du lexique .Ce dernier va être enregistré sous la forme d'une base de données relationnelle qui va servir dans un premier temps a éditer le lexique par exemple ajouter ou supprimer un mot . Ensuite pour consulter ou exporter le lexique on va utiliser le \textbf{PFM} ,c'est est transducteur qui permet par composition de construire les formes fléchis .
 
-\smallbreak
-Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter.
-L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
-De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
+ Pour la bonne compréhension de notre projet nous allons clarifier quelques notions. D'abord une forme fléchis est un modèle qui s'emploie pour indiquer la liste des modes,temps d'un verbe français conjugue et personnes pour lequel cette forme fléchie est utilisée ,en plus elle s'emploie pas pour l'infinitif .
+\\ Exemple :
+\textbf{{{fr-verbe-flexion|payer|ind.p.2s=oui|sub.p.2s=oui|imp.p.2s.postposé=oui}} payes,  \textbf{forme fléchie} du verbe paye }
+\\  \textit{ ind.p.2s=oui} :  2e personne du singulier, impératif présent
+\\  \textit{ imp.p.2s.postposé=oui} :   2e personne du singulier, impératif présent, cas particulier devant -en et -y, verbes du premier groupe et aller.
+
+
+
 
 \newpage
 \subsection{Description de l'existant et choix de conception}
@@ -153,46 +143,24 @@ Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc 
 \subsubsection{Le diagramme des cas d'utilisation:}
   \includegraphics[width=18cm]{img/Diagram_UseCase.PNG}
 
-\subsubsection{Compilateur PFM}
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  Besoins & Acteurs & Explication \\
-  \hline
-  Générer le lexique d'un mot &
-  Système(PFM)
-  & Quand un utilisateur veut consulter le lexique d'un mot via le site web , une requête est transmise à notre Systeme(Back-end) qui lui renvoie le lexique du mot demandé \\
-  \hline
-  ...
-  & ... 
-  & ... \\
-
-  \hline
-\end{tabularx}
-\subsection{Contraintes}
--L'historique : La date de la dernière modification ainsi que l'utilisateur qui a modifié doivent être enregistré.\\
--La gestion de la sécurité est la principale contrainte de notre système.Le site web doit possède une gestion de privilège et de niveaux d'accés pour les différents types d'utilisateurs. Selon leurs statuts, le contenu des pages varie.
 \subsection{Les besoins non fonctionnels}
 
 \subsubsection{Sécurité}
 \begin{itemize}
- \item La protection des données est faite à l'aide d'une page d'authentification.Il est impossible de modifier ou supprimer des données sans se connecter et avoir les droits nécessaires. 
- \item Déconnexion automatique après une période d'inactivité (durée à définir)
- \item Mise en place de logs afin de tracer les changements effectués.
+ \item Les données du LeFFF sont protégée. En effet toute intéraction avec ces données (modification / ajout ou suppression) ne peut être effectuée que par des utilisateurs authentifié et par conséquent, validé par unn administrateur.
+ \item Le système de rôle (Visiteur, Editeur, Modérateur et Administrateur) permet de réguler les droits de chacun.
+ \item Une déconnexion automatique après une période d'inactivité (durée à définir) sera mis en place.
+ \item Des logs seront implémentés afin de tracer les changements effectués.
+ \item Un historique par rapport à chaque mot du lexique sera mis en place afin de connaitre la date de dernière modification ainsi que l'utilisateur acteur de cette modification.
 \end{itemize}
 \subsubsection{Ergonomie}
 \begin{itemize}
-\item Une boite de dialogue ou un message de confirmation sera affiché pour chaque opération effectuée par l'utilisateur.
-\item Des couleurs des icônes, des boutons, et des expression significatifs seront implémentée afin que le site soit utilisée avec le maximum de confort et d'efficacité.
-\end{itemize}
-\subsubsection{Audit}
-\begin{itemize}
-\item Éléments de vérification dans les champs de saisies.
+\item Nous avons fait le choix d'adpoter une design très simple et épurée afin que l'utilisateur ne se perde pas dans l'interface et puisse trouver des solutions à son besoin de maninère simple et naturelle.
+\item Des boites de dialogue et des messages de confirmation seront affichés à chaque opération effectuée par l'utilisateur afin d'éviter les erreurs dans les actions utilisateurs.
+\item Des codes couleurs et icones distinctifs seront mis en place afin que l'utilsiateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 \end{itemize}
 
-\section{Réparation des tâches et Avancement du projet}
-
-\subsection{Planning du projet}
-
+\section{Planning du projet}
 
 \begin{tabularx}{\textwidth}{|l|c|X|}
   \hline
@@ -309,5 +277,10 @@ De plus, ce Système de Gestion de Base de Données (SGBD) s'intègre facilement
   \item Le compilateur est il nécessaire si tout est enregistré en base ?
   \item Que signifie le format de données du LeFFF (voir dans l'intro) ?
   \item Comment lier les formes fléchies (pour configurer la base) ?
+  \item Au niveau des rôle, qui peut supprimer des mots ? Dofférence entre modérateur et editeur ?
+  \item 
 \end{itemize}
+
+\bibliography{references}
+\bibliographystyle{plain}
 \end{document}
