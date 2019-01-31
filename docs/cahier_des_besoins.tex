@@ -50,9 +50,9 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 
 \smallbreak
-le Lexique des formes fléchies du français ; LEFFF est un lexique de la langue française mis en place par notre client Lionnel Clement et Benoit Sagot.Ce lexique est obtenu par des nouvelles techniques qui repose sur le fait d'associer a chaque forme fléchis des informations morphologiques et de factoriser l'information en utilisant une structure d'héritage.Ce n'est donc pas une simple liste de mots ,mais une ressource complexe constituée de Lexème,vocables,catégories syntaxiques,etc
+Le lexique des formes fléchies du français , LEFFF est un lexique de la langue française mis en place par notre client Lionnel Clement et Benoit Sagot.Ce lexique est obtenu par des nouvelles techniques qui repose sur le fait d'associer a chaque forme fléchie un lemme et des informations morphologiques .Ce n'est donc pas une simple liste de mots ,mais une ressource complexe constituée de Lexème,vocables,catégories syntaxiques,etc
 
- On propose donc de fournir un site web interactif qui permet d'interagir avec le lexique pour enrichir les données morphologiques et syntaxiques et d'obtenir une extraction du lexique .Ce dernier va être enregistré sous la forme d'une base de données relationnelle qui va servir dans un premier temps a éditer le lexique par exemple ajouter ou supprimer un mot . Ensuite pour consulter ou exporter le lexique on va utiliser le \textbf{PFM} ,c'est est transducteur qui permet par composition de construire les formes fléchis .
+ On propose donc de fournir un site Web interactif qui permet d'interagir avec le lexique pour enrichir les données morphologiques et syntaxiques et d'obtenir une extraction du lexique .Ce dernier va être enregistré sous la forme d'une base de données relationnelle qui va servir dans un premier temps a éditer le lexique par exemple ajouter ou supprimer un mot . Ensuite pour consulter un mot ou exporter le lexique on va utiliser le \textbf{PFM} ,c'est un transducteur qui va nous permettre de générer les formes fléchis d'un mot en utilisant la base de données ou on va stocker le mot avec ses différents attributs étant donnée que qu'on un utilisateur veut consulter un mot on va lui afficher le mot et ses formes fléchis aussi .
 
  Pour la bonne compréhension de notre projet nous allons clarifier quelques notions. D'abord une forme fléchis est un modèle qui s'emploie pour indiquer la liste des modes,temps d'un verbe français conjugue et personnes pour lequel cette forme fléchie est utilisée ,en plus elle s'emploie pas pour l'infinitif .
 \\ Exemple :
@@ -60,7 +60,7 @@ le Lexique des formes fléchies du français ; LEFFF est un lexique de la langue
 \\  \textit{ ind.p.2s=oui} :  2e personne du singulier, impératif présent
 \\  \textit{ imp.p.2s.postposé=oui} :   2e personne du singulier, impératif présent, cas particulier devant -en et -y, verbes du premier groupe et aller.
 
-
+  Ensuite \textbf{un transducteur} est un automate finis avec sorties . En effet il opère sur un mot et un alphabet d'entrée puis le transforment au lieu de simplement accepter ou refuser le mot, il permet des transformations de langages ce qui va nous servir essentiellement pour générer des formes fléchis d'un mot donné .
 
 
 \newpage
@@ -268,23 +268,7 @@ Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'ut
 De plus, ce Système de Gestion de Base de Données (SGBD) s'intègre facilement à un environnement PHP tel que celui qu'on le souhaite utiliser.
 
 
-\section{Questionnement}
-\begin{itemize}  
-  \item que fait réellement le compilateur ?
-  \item Quand doit il être utiliser ?
-  \item Que prend il en entrée ?
-  \item Quel type de données renvoie t -il?
-  \item Le compilateur est il nécessaire si tout est enregistré en base ?
-  \item Que signifie le format de données du LeFFF (voir dans l'intro) ?
-  \item Comment lier les formes fléchies (pour configurer la base) ?
-  \item Au niveau des rôle, qui peut supprimer des mots ? Dofférence entre modérateur et editeur ?
-  \item 
-\end{itemize}
 
 \bibliography{references}
 \bibliographystyle{plain}
-<<<<<<< HEAD
 \end{document}
-=======
-\end{document}
->>>>>>> 8cda4562cfd73d41eb8cc1411209dfc8fea34981
