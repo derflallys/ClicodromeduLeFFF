@@ -26,6 +26,7 @@
 
 {\Huge\bfseries Projet de Programmation\par}
 {\Huge\bfseries Le Clicodrome de LEFFF \par}
+{\Large\bfseries par Lionel CLEMENT \par}
 \vspace{0.5cm}
 {\Large\itshape Cahier des besoins\par}
 {\large 01 février 2019\par}
@@ -42,258 +43,255 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \end{titlepage}
 
+\newpage
 \tableofcontents
 
 \newpage\section{Introduction}
 
 \subsection{Présentation du projet}
 
-Le LeFFF est un lexique de formes fléchies du français à large couverture, associant à chaque forme son lemme, ses traits morphologiques et d'autres champs récemment disponibles.
-Ce n'est donc pas une simple liste de mots, mais une ressource complexe constituée de :
-\begin{itemize}  
-  \item Lexème ou grammème (ie Prendre)
-  \item Vocables (ie Prendre=saisir, Prendre=recevoir)
-  \item Catégories syntaxiques (ie Verbe)
-  \item Sous-catégories syntaxiques (ie Transitif, passivable)
-  \item Catégories grammaticales (ie Nombre$\rightarrow\{sing, plur\}$, Personne$\rightarrow\{1, 2, 3\}$)
-  \item Règles de flexion (ie Table de conjugaison de prendre - Stem=.*(pren|mett))
-  \item Valence (ie objet nominal, oblique en à)
-  \item Réalisation syntaxique (ie passif en par)
-  \item Phraséologie (ie "Prendre ombrage", "Prendre ses jambes à son cou")
-  \item Collocation (ie "Prendre une initiative")
-  \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
+\smallbreak Lionel CLEMENT est un enseignant-chercheur du Labri (Laboratoire Bordelais de Recherche en Informatique) informatique, spécialisé dans le domaine de la linguistique formelle et du traitement automatiques des langues. Il a réalisé avec Benoît SAGOT, chercheur dans le même domaine à l'Inria (Institut National de Recherche en Informatique et en Automatique), Le Lexique des formes fléchies du français, appelé le LeFFF.
+
+Avant de détailler l’objectif de notre projet, nous allons mettre
+au clair quelques notions nécessaires à la compréhension du sujet. 
+Il faut savoir que dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).
+De plus ce lexique est un “dictionnaire” contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française.
+Notre but sera de trier tous ces types de mots afin de déterminer quelles sont les formes fléchies et quelles sont les mots "racines".
+
+Lionel CLEMENT qualifie ce lexique comme "une ressource complexe constituée de
+\begin{itemize}
+\item Lexème ou grammème (ie Prendre)
+\item Vocables (ie Prendre=saisir, Prendre=recevoir)
+\item Catégories syntaxiques (ie Verbe)
+\item Sous-catégories syntaxiques (ie Transitif, passivable)
+\item Catégories grammaticales (ie Nombre$\rightarrow\{sing, plur\}$, Personne$\rightarrow\{1, 2, 3\}$)
+\item Règles de flexion (ie Table de conjugaison de prendre - Stem=.*(pren|mett))
+\item Valence (ie objet nominal, oblique en à)
+\item Réalisation syntaxique (ie passif en par)
+\item Phraséologie (ie "Prendre ombrage", "Prendre ses jambes à son cou")
+\item Collocation (ie "Prendre une initiative")
+\item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
 \end{itemize}
 
-\smallbreak
+\smallbreak Aujourd'hui ce lexique est présent dans un fichier texte et il n'existe pas d'outils permettant de faciliter son accès, sa modification et son enrichissement.
+Le système actuel n'assure pas une bonne traçabilité des modifications des mots effectués par les linguistes et ne permet aucun contrôle de ces modifications. 
 
-Ses données dont des structures complexes sur lesquelles opèrent des unificateurs et des transducteurs.
-\newline Les transducteurs permettent par composition de construire les formes fléchies. 
-Ce sont des automates finis avec sorties permettant de transformer des mots d'un alphabet entrée en un ou plusieurs mot sur un alphabet de sortie.
-\newline Les annotations morphosyntaxiques et syntaxiques sont obtenues à partir de l'unification de structures (données du LeFFF).
+L'objectif de ce projet est donc de transformer le lexique au format texte en une base de données et de développer une interface web facilitant les interactions avec ce lexique via cette base de données.
+Le projet peut être donc séparé en trois parties principales : 
+\begin{itemize}
+    \item L'importation du lexique au format texte dans une base de données
+    \item La création de l'interface web qui interagira avec la base de données
+    \item Le développement d'un compilateur permettant de générer les formes fléchies d"un mot donné en entrée
+\end{itemize}
 
-\smallbreak
-Ce lexique souffre depuis sa création du manque de moyens techniques permettant de le modifier et de l'exploiter.
-L'objectif du projet est donc de réaliser un site web permettant une interaction des utilisateurs sur le lexique (ajout / modification / suppression de mots et de formes fléchies). 
-De plus il faudra réaliser un compilateur permettant de construire des unificateurs et des transducteurs afin de concrétiser ces interactions.
 
 \newpage
 \subsection{Description de l'existant et choix de conception}
 
-Pour ce projet, nous avons a notre de disposition le lexique LeFFF mis à jour en avril 2006 au format texte (.txt).
-Ce lexique contient un ensemble de forme flechies de mots français présentés de la manière suivante :
+Pour ce projet, nous avons a notre  disposition différentes versions  du Lefff  dont la dernière réalisé par Benoît Sagot en 2010. Cette version regroupe diffèrent format du lefff , à savoir \cite{lefff_int} :
+\begin{itemize}
+\item le lexique \textbf{intentionnel}, qui décrit pour chaque entrée son lemme (forme canonique + tableau d'inflexion) ainsi que des informations syntaxiques profondes (cadre de sous-catégorisation profonde + réalisations possibles + restructurations possibles) .
+\item le lexique \textbf{extensionnel}, construit automatiquement par compilation du lexique intentionnel. Ce processus de génération comprend une étape d'inflexion, en fonction de la classe d'inflexion associée à l'entrée intentionnelle, puis une étape de construction des différentes structures syntaxiques (une pour chaque restructuration pertinente) associées à chaque forme infléchie (les informations syntaxiques peuvent varier d'une forme à une autre, notamment les formes infinitive, de participant, d'une restructuration à une autre).
+\end{itemize} 
+
+\smallbreak Les formats de la dernière version de lefff ont des extensions et contenues différents, le lexique \textbf{intentionnel} est manipulable grâce à l'outil "alexina-tools" qui permet de le compiler pour avoir le format extensionnel avec seulement les paramètres morphologiques et une avec tous les paramètres d'un mot .
+
+Le lexique extensionnel avec seulement les paramètres morphologiques est présenté sous la forme ci-dessous :
 \begin{verbatim}
-  débouler	v	[pred='débouler_____1<suj:(sn|sinf|scompl),obj:(sn)>',cat=v,@W]
-  à bon marché	adv	[pred='à bon marché_____1',cat=adv,advGP=+]
-  à bientôt	  pres	[pred='à bientôt_____1',advGP=+]
-  Égypte		np	[pred='Égypte_____1<suj:(sn)>',@loc,@fs]
+démariés	adj	démarier	Kmp
+démariés	v	démarier	Kmp
+démarqua	v	démarquer	J3s
+démarquage	nc	démarquage	ms
+démarquages	nc	démarquage	mp
 \end{verbatim}
 
-EXPLIQUER LA SYNTAXE DU LEFFF (EX CODE CI DESSUS)
+\smallbreak La première colonne comprend le mot recherché. 
+\smallbreak La seconde présente sa catégorie (\textbf{adj}(adjectif), \textbf{v}(verbe), \textbf{np}(nom propre), \textbf{nc} (nom commun).
+\smallbreak La troisième colonne présente le mot auxquel est lié le mot de la première colonne.
+Si la première colonne et la troisième sont différentes, cela signifie que le mot de la première colonne est une forme fléchie du mot de la troisième colonne. S'il les 2 colonnes sont identiques alors c'est que ce mot est un mot que l'on sauvegardera dans la base de données avec ses attributs.
+Enfin la dernière colonne apporte des informations sur le mot comme le genre, s'il est singulier pluriel ou encore a quel personne le verbe est employé. Une explication de ces codes est disponible sur le site de Lionel CLEMENT \cite{tagset}.
 
-Ce lexique est dsponible sous licence « LGPLLR » (Lesser General Public License For Linguistic Resources) à l'adresse suivante : 
-\\ \begin{center}http://www.labri.fr/perso/clement/lefff/telechargement.html\end{center}
+La différence entre le contenu des différents formats de fichier du LeFFF à notre disposition est principalement le détail par rapport au paramètre morphologique du mot.
+Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functions for periphrasis) qui permet de générer les formes fléchies d'un mot en prenant comme entrée les paramètres morphologique et le lexème (une unité minimale de sens dans une langue).
 
-  \section{Analyse des besoins}
 
-\subsection{Les besoins fonctionnels:}
+\section{Besoins fonctionnels}
+\smallbreak Lors de nos communication avec le client, nous avons pu identifié ses principaux besoins pour le projet. En effet, le projet se découpe en trois partie principales : 
+\begin{itemize}  
+  \item Une application web permettant aux utilisateurs d'interagir facilement avec le lexique
+  \item une base de données contenant les différents mot du lexique (les formes fléchies des mots sont exclus de la base) et leurs attributs.
+  \item Un compilateur permettant, pour un mot donné, de générer ses formes fléchies.
+\end{itemize}
 
-Sur le site internet, il existe 4 types d’utilisateurs : Les Administrateurs (A) , les Éditeurs ou linguistes (E), les Modérateurs (M) et les Visiteurs (V).
-Chacun de ses utilisateurs possède des accès particuliers sur le site internet.
-Les visiteurs ne possèdent pas de compte sur la plate-forme et ne peuvent donc pas s'authentifier . 
+\smallbreak Pour apporter un contrôle des interactions des utilisateurs depuis le site web, un système de rôle sur le site sera mis en place. Avant de présenter la liste des besoins fonctionnels identifiés, voici une présentation de ces différents rôles, qui vous aidera a mieux comprendre ces besoins : 
+\begin{itemize}  
+  \item \textbf{Les visiteurs} : Ils ne peuvent que rechercher, consulter les mots du lexique, signaler des erreurs sur un mot ou exporter le lexique.
+  \item \textbf{Les éditeurs} : Ce type d'utilisateur peut, en plus d'avoir les mêmes droits que les visiteurs, modifier (le mot ou ses attributs) un mot du lexique. Ces actions ne peuvent être effectué qu'en étant connecté (système d'authentification) sur le site.
+  \item \textbf{Les modérateurs} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui ont un accès à la liste des utilisateurs ayant un compte sur le site.
+  \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, c'est eux qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
+\end{itemize}
+ 
+\subsubsection{Importer le LeFFF dans une base de données relationnelle}
+\textbf{Priorité : 1} \\ 
+Cette fonctionnalité permet d'importer les données du lexique dans un format donné (.txt / .mlex) directement dans une base de données où l'architecture sera préalablement configuré.
+Cette fonctionnalité est nécessaire pour alimenter notre base de donnée puisque le leFFF comprend un très grand nombre de données (environ 500 000 lignes).
+Pour l'implémenter, nous allons définir un algorithme qui permet de découper le fichier d'entrée, de filtrer les mots a enregistré et d'effectuer des requêtes d'ajout dans notre base de données
 
-\subsubsection{Le site web interactif}
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  \textbf{Besoins} & 
-  \textbf{Acteurs} & 
-  \textbf{Explication} \\
-  \hline
-  Authentifier les utilisateurs & 
-  A, E, M & 
-  Chaque utilisateur ayant un compte sur le site peut s'authentifier pour avoir accès a l'interface d'administration \\ 
-  \hline
-  Gérer les rôles & A
-   & Permet d'assigner les ôles (A,E,M) aux différents utilisateurs ayant un compte sur le site.
- \\
-  \hline
-  Bannir un utilisateur& 
-  A & 
-  L'administrateur peut bannir tous les autres utilisateurs de la plateforme \\
-  \hline
-  Rechercher un mot & 
-  A , E, M, V & 
-  Rechercher un mot dans le lexique pour accéder à ses données \\
-  \hline
-  Consulter un mot &
-  A, E, M, V &
-  Permet de consulter les données d'un mot du lexique \\
-  \hline
-  Modifier un mot &
-  A, E, M & 
-  Permet de modifier les données liées à un mot \\
-  \hline
-  Supprimer un mot &
-  A, E, M & 
-  Permet de supprimer un mot du lexique \\
-  \hline
-  Faire un signalement & 
-  V &
-  Permet de signaler une erreur et de proposer une éventuelle correction \\
-  \hline
-  Valider inscription Éditeur &
-  A &
-  Après l'inscription d'un éditeur sur le site, l'administrateur doit activer son compte après vérification \\
-  \hline
-  Signaler un mot &
-  V, E &
-  Un visiteur ou un éditeur peut signaler un mot qui comporte des erreurs ou qui est fausse \\
-  \hline
-  Exporter le lexique &
-  V, E, A , M &
-  Les utilisateurs du site peuvent exporter LeFFF du site sous différents formats de fichier (a définir)\\
-  \hline
-\end{tabularx}
-\subsubsection{Le diagramme des cas d'utilisation:}
-  \includegraphics[width=18cm]{img/Diagram_UseCase.PNG}
+ \subsubsection{Génération des formes fléchies}
+\textbf{Priorité : 1} \\
+Le compilateur nous permet de générer les formes fléchies d'un mot donné en entrée. Nous somme toujours à l'étude du comportement de se compilateur pour qu'il arrive à effectuer son rôle correctement.
 
-\subsection{Les besoins non fonctionnels}
+\subsubsection{Rechercher un mot}
+ \textbf{Priorité : 2}
+\\ Nous allons mettre à la disposition de tous les utilisateurs un champ de saisie sur toutes les pages de l'application web leur permettant de rechercher un mot. A la manière d'un moteur de recherche classique, la liste des mots enregistrés dans notre base de données, correspondant plus ou moins à ce qui a été recherché apparaîtront sur la page. Il sera ensuite possible à l'utilisateur de consulter en détail un mot, de signaler une erreur, de le modifier ou le supprimer (Si les droits de l'utilisateur le lui permet). Si aucun mot ne correspond en base de données, un message d'avertissement apparaîtra sur l'interface.
+\begin{center}\includegraphics[width=150mm]{img/search_screen.png}\end{center}
+
+\subsubsection{Consulter un mot}
+ \textbf{Priorité : 2}
+\\ Tous les utilisateurs du site web peuvent consulter un mot. Pour cela il suffit à l'utilisateur de rechercher un mot (voir la partie "Rechercher un mot") et de sélectionné le mot voulu. Ce mot sera ensuite envoyé à notre compilateur pour générer ses formes fléchies et les renvoyer à notre application afin d'avoir toutes les informations du mot affichées sur l'interface.
+Si les droits de l'utilisateur le permet, les boutons d'ajout, de modification et de suppression apparaissent sur cet écran.
+\begin{center}\includegraphics[width=150mm]{img/consult_screen.png}\end{center}
+
+\subsubsection{Ajouter un mot}
+ \textbf{Priorité : 2}
+\\ Cette fonctionnalité est réservé au utilisateurs authentifiés (les administrateur ,les éditeurs et les modérateurs). Un formulaire est proposé, où il est demandé d'ajouter le mot, son type (adjectifs, nom commun etc...), sa nature (féminin ou masculin), s'il est singulier ou pluriel. Les champs s'adaptent selon le type sélectionné. Par exemple, si le type "verbe" est sélectionné, alors des champs concernant le temps et la personne seront ajouté.
+Avant d'ajouter le mot en base, des vérifications seront effectués afin  de vérifier si le mot n'existe pas déjà en base, ou si le mot n'est pas une forme fléchies d'un mot en base de données.
+\begin{center}\includegraphics[width=150mm]{img/add_modif_screen.png}\end{center}
+
+\subsubsection{Supprimer un mot}
+ \textbf{Priorité : 2} \\ 
+ Les modérateurs et les administrateurs peuvent supprimer un mot de la base de données. Il suffit simplement de rechercher le mot et d'appuyer sur "Supprimer". Une notification sera envoyé aux administrateurs pour les informer de la suppression du mot. Le mot sera alors supprimé de la base de données.
+
+\subsubsection{Modifier un mot}
+ \textbf{Priorité : 2} \\ 
+ La fonction de modification d'un mot ressemble à celle d'ajout (voir partie Ajouter un mot). Elle est accessible a tous les utilisateurs connectés. En effet le formulaire sera le même mais pré rempli avec les informations existante du mot. Il suffit à  l'utilisateur d'effectuer les modification qu'il souhaite et de les valider pour que les changements soient persisté en base de données.
+
+\subsubsection{Signaler un mot}
+ \textbf{Priorité : 2}
+ \\ Les visiteurs simple et les éditeurs ont la possibilité de signaler des erreurs sur un mot. Ce mécanisme permet d'envoyer une notification aux administrateurs pour leur faire part d'informations sur un mot en particulier. 
+
+\subsubsection{Contrôler les interactions }
+ \textbf{Priorité : 2}
+\\ Tous les utilisateurs doivent s'authentifier pour pouvoir modifier où enrichir le LeFFF. Afin d'ajouter de la sécurité, nous avons décider de mettre constamment des message de validation pour être sur que l'utilisateur souhaite réellement effectuer une action et ne pas faire d'erreur.
+De plus un système de déconnexion automatique après une période d'inactivité (environ 10 minutes) sera mis en place en cas d'oubli de fermeture de session afin que personne ne puisse subtiliser la session.
+Enfin des logs seront implémentés afin de tracer les changements effectués en plus de l'historique.
+
+\subsubsection{Gérer les rôles:}
+ \textbf{Priorité : 3} \\
+Pour qu'un utilisateur puisse effectuer des tâches d'ajout, de modification ou de suppression de mot, il faut qu'un administrateur lui affecte ces droits (les rôle d'éditeur ou modérateur). A cet égard, on doit créer une interface où l'administrateur puisse faire cela.
+Sur cette interface, apparaîtra la liste des comptes utilisateurs, pour chaque utilisateur se trouvera des boutons  : \textbf{Supprimer} cet utilisateur ,\textbf{ Modifier} le rôle de cet utilisateur. 
+Sur la même interface on va mettre en place un bouton pour \textbf{Valider} l'inscription d'un nouvel utilisateur.
+\begin{center}\includegraphics[width=150mm]{img/user_screen.png}\end{center}
+
+ \subsubsection{Exporter le Lefff}
+\textbf{Priorité : 3}  \\
+Tous les utilisateurs peuvent effectuer une exportation du lexique. Cette option sera disponible depuis notre application web. Cette opération nécessite l'utilisation du compilateur PFM pour générer les formes fléchis de tous les mots présents dans la base de données.
+Nous proposerons aussi une exportation du lexique sans les formes fléchies, qui sera bien plus rapide et légère.
+
+
+\subsubsection{Gestion de l'historique d'un mot}
+ \textbf{Priorité : 3} \\
+Nous avons décidé de mettre en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression. Pour cela nous voulons implémenter de l'Event Sourcing permettant d'enregistrer tous les évènements exécutés plutôt que d'enregistrer les données modifiées en base de données.
+
+
+\section{Les besoins non fonctionnels}
+\smallbreak
 
 \subsubsection{Sécurité}
+\textbf{Priorité : 1}
+\smallbreak
+Afin de protéger l'intégrité des données du LeFFF dans la base de données, nous sécuriserons la base et l'application web des problèmes de sécurité suivants :
 \begin{itemize}
- \item Les données du LeFFF sont protégée. En effet toute intéraction avec ces données (modification / ajout ou suppression) ne peut être effectuée que par des utilisateurs authentifié et par conséquent, validé par unn administrateur.
- \item Le système de rôle (Visiteur, Editeur, Modérateur et Administrateur) permet de réguler les droits de chacun.
- \item Une déconnexion automatique après une période d'inactivité (durée à définir) sera mis en place.
- \item Des logs seront implémentés afin de tracer les changements effectués.
- \item Un historique par rapport à chaque mot du lexique sera mis en place afin de connaitre la date de dernière modification ainsi que l'utilisateur acteur de cette modification.
+    \item \textbf{Les injections SQL}, permettant de récupérer ou d'altérer des données, voir même prendre le contrôle de serveur. L'attaque par injection SQL consiste à injecter du code malicieux SQL qui sera interprété par le moteur de base de données dans un champ de saisie d'une application web. \\
+    \textbf{Notre solution :} Afin de se protéger de se genre d'attaque, nous avons choisi de développer l'application web en PHP avec le framework Symfony, qui comprend un l'ORM (Object-Relational Mapping) Doctrine. Cet ORM est une couche d'abstraction de base de données qui permet d'interagir avec le contenu de la base de données en manipulant des objets (informatique) du coté de notre application. Il comprend des modules de sécurité (génération de contraintes, formatage des données envoyées ect...) qui détecte les attaques par injection SQL.
+    
+    \item \textbf{Le Cross-Site Scripting (XSS)} : Cette faille permet d'injecter du code malicieux sur une page web. Par exemple sur un forum, si quelqu'un entre en commentaire un code Javascript nuisible, tous les autres utilisateurs qui accéderont à cette page seront impacté par ce code qui s'exécutera sur leur navigateur. \\
+    \textbf{Notre solution :}Pour remédier à cela, le framework Symfony possède aussi un système (filtrage des données d'entrées, échappement des données en sortie...) protégeant de ce genre d'attaque afin de filtrer tous ce qui pourrait ressembler à du code. C'est un procédé assez similaire à celui de la protection contre les injections SQL.
+    
+    \item \textbf{La falsification de requête inter-sites (CSRF)} : Cette faille permet à un attaquant de forcer ses victimes à effectuer certaines actions sur un site cible, sans qu’elles s’en aperçoivent. Pour cela, les attaquants cherche à ce que leur victime visite une page (en étant connecté) où des scripts malicieux seront exécutes sans que la victime s'en aperçoive à l'aide de balise image chargeant le script par exemple. La victime étant authentifié sur le site, les scripts pourront s'exécuter correctement et corrompre les données du site. \\
+    \textbf{Notre solution :} Voici la dernière faille de sécurité à laquelle Symfony nous protège. En effet le framework fait cela en générèrant des jetons ("tokens") au moment de l'authentification, différents pour chaque utilisateur et qui sont stockés dans la session. Ce jeton est ensuite vérifié a chaque action avec la base afin de vérifier que c'est bien une action voulue par l'utilisateur et non une attaque CSRF. 
+    
+    \item \textbf{Le déchiffrement de données} qui consiste à déchiffrer des données crypté. Cela peut permettre de trouver des mot de passe et donc prendre le contrôle d'une session utilisateur ou bien de découvrir des informations sensibles (informations bancaire, personnelles...) \\
+    \textbf{Notre solution :} Pour éviter cela, nous avons décidé de chiffrer les données avec des algorithmes irréversible (une fois crypté, aucune technique connue à ce jour peut décrypter le mot, il faut forcement connaître le mot initial) comme "bcrypt" ou "sha512".
+    
+    \item \textbf{L'écoute de communication réseau} : Requêter un site web avec un protocole HTTP permet à des intrus présent sur votre réseau de lire ou modifier le site internet que vous souhaitez consultez et présente donc un gros risque. \\
+    \textbf{Notre solution} : Utiliser le protocole HTTPS qui permet de chiffrer les données échangées et ainsi les protéger de toutes interceptions ou modification.
 \end{itemize}
+
+\subsubsection{Format de fichier}
+\textbf{Priorité : 2}
+\smallbreak
+\begin{itemize}
+\item Afin de pouvoir répondre aux besoins d'importation et d'exportation du LeFFF avec la base de données, il nous faut définir les format de fichiers compatibles avec ces fonctions.
+Nous avons fait le choix d'utiliser les formats textes et elex (.txt et .elex)  car ce sont les formats disponibles au téléchargement du LeFFF actuellement. Ce choix nous permet de pouvoir exploiter le LeFFF existant sans avoir à le reformatter dans un autre format.
+\end{itemize}
+
+\subsubsection{Performances}
+\textbf{Priorité : 3}
+\smallbreak
+Au niveau des performances, nous avons décider de faire une implémentation du projet de manière à ce que la requête de demande des formes fléchies d'un mot (requête en base et génération des formes fléchies par le compilateur) n'excède pas les deux secondes d'exécutions. De plus les actions d'importation et d'exportation étant plus lourdes, nous voulons implémenter ces fonctions pour qu'elles n'excèdent pas 10 minutes d'exécution.
+
 \subsubsection{Ergonomie}
-\begin{itemize}
-\item Nous avons fait le choix d'adpoter une design très simple et épurée afin que l'utilisateur ne se perde pas dans l'interface et puisse trouver des solutions à son besoin de maninère simple et naturelle.
-\item Des boites de dialogue et des messages de confirmation seront affichés à chaque opération effectuée par l'utilisateur afin d'éviter les erreurs dans les actions utilisateurs.
-\item Des codes couleurs et icones distinctifs seront mis en place afin que l'utilsiateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
-\end{itemize}
+\textbf{Priorité : 4}
+\smallbreak
+Nous avons fait le choix d'adopter une design très simple et épurée afin que l'utilisateur ne se perde pas dans l'interface et puisse trouver des solutions à son besoin de manière simple et naturelle.
+\smallbreak
+Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
 \section{Planning du projet}
+Pour ce planning prévisionnel, nous nous réferrons aux semaines indiquées par M. NARBEL à l'adresse suivante : 
+\smallbreak
+http://dept-info.labri.fr/~narbel/PdP/calendar19.html
 
-\begin{tabularx}{\textwidth}{|l|c|X|}
-  \hline
-  \textbf{Tâche } & 
-  \textbf{Date de début} & 
-  \textbf{Date de fin} \\
-  \hline
-  \textbf{Capture des besoins fonctionnels} :& 18/01/2019 & 07/02/2019
-  \\ 
-     \hline
- 
- Étude de projet : & 18/01/2019 &  07/02/2019
-    \\
-  \hline
- Recherche sur Internet sur les outils à utiliser  & 28/01/2019 &  03/02/2019
-    \\
-  \hline
- Définition des besoins et installation des outils  & 04/02/2019 &  05/02/2019
-    \\
-  \hline
-  \textbf{Analyse et conception} :& 28/01/2019 & 01/02/2019
-  \\ 
-   \hline
-  Les diagrammes des cas d'utilisation & 28/01/2019 &  01/02/2019 
-    \\
-  \hline
-  Diagrammes de séquence & 31/01/2019 &  01/02/2019
-    \\
+\begin{tabularx}{\textwidth}{|p{7cm}|c|X|}
     \hline
-\textbf{Codage et test}: & 04/02/2019 &  03/04/2019
-    \\
-      \hline
-La création de la base de données & 04/02/2019 &  05/02/2019
-    \\
-     \hline
-Implémentation du compilateur & 07/02/2019 &  03/04/2019
-    \\
-         \hline
-la création des interfaces & 15/03/2019 &  02/04/2019
-    \\
-       \hline
-       
-
-\textbf{Rédaction du Rapport}: & 05/03/2019 &  05/04/2019
-  \\
-  \hline
-
+    \textbf{Tâches} & 
+    \textbf{Semaines} & 
+    \textbf{Acteurs} \tabularnewline
+    \hline
+    Rédaction du cahier des besoins & 1 à 4 & TOUS \tabularnewline
+    \hline
+    Mise en place de l'architecture de la base de données  & 5 à 6  & TOUS \tabularnewline
+    \hline
+    Importation du LeFFF dans la base de données  & 5 à 6 & Alfred et Guillaume \tabularnewline
+    \hline
+    Conception du compilateur & 5 à 6 & Oumayma et Fatima Ezzahra  \tabularnewline
+    \hline
+    Conception de l'application web & 7 à 8 & Fatima Ezzahra et Alfred  \tabularnewline
+    \hline
+    Développement du compilateur & 8 à 12 & Alfred et Oumayma \tabularnewline
+    \hline
+    Développement de l'application web & 8 à 12 & Fatima Ezzahra et Guillaume \tabularnewline
+    \hline
+    Interfaçage entre l'application web, le compilateur et la base de données & 12 & TOUS \tabularnewline
+    \hline
+    Phases de tests unitaires & 12 à 13 & TOUS \tabularnewline
+   \hline
+    Soutenance & 14 & TOUS \tabularnewline
+   \hline
 \end{tabularx}
 
 \section{Outils de développement}
 
 Ce projet peut être divisé en 3 parties :
 \begin{itemize}  
-  \item le site web
+  \item l'application web
   \item le compilateur 
   \item la base de données
 \end{itemize}
 
-\subsection{Back-end du site web : PHP avec le framework Symfony 4}
-\begin{center}
-  \includegraphics[width=2cm]{img/php.png}
-  \includegraphics[width=2cm]{img/symfony.png}
-\end{center}
-
-Nous avons choisi de développer le site web en PHP car c'est un langage permettant de faire de la programmation orienté objet. 
-De plus c'est un langage très performant et simple à mettre en place.
-Nous avons décidé d'utiliser le framework Symfony car un framework a beaucoup d'avantages comme :
-\begin{itemize}  
-  \item une architecture MVC (Modèle-Vue-Contrôleur) permettant de découper le code en suivant une logique métier.
-  \item la facilité de création de tests automatisés
-  \item une sécurisation de l'application web (XSS, CSRF et injection SQL)
-  \item Un ensemble de packages déjà développés à intégrer à l'application.
-  \item Des performances optimisés avec une utilisation du cache optimisée
-  \item Une communauté importante et beaucoup de documentation
-\end{itemize}
+\subsection{Application web : PHP avec le framework Symfony 4}
+Nous avons choisi de développer le site web en PHP car c'est un langage simple d'utilisation et que ce framework apporte beaucoup d'avantages en termes de sécurité (comme énoncé précédemment dans la partie 2.2.1) et de développement (configuration simple et rapide ect...)
 
 \smallbreak
-
-Nous utiliserons ce framework dans sa version 4.1 car c'est une version très légère par rapport à la version 3. 
-En effet aucun packages complémentaires au noyau n'est installé. De plus le déploiement et la configuration du framework a été très simplifiée dans cette version.
-Cette version de Symfony nécessite une version de PHP supérieure ou égale à 7.1.3
-
-\subsection{Front-end du site web : Framework Javascript Angular}
-\begin{center}
-  \includegraphics[width=2cm]{img/angular.png}
-\end{center}
-On a décidé d'utiliser un framework Javascript pour la partie front-end du site.
-Les framework javascript permettent la création d'interface dynamique tout en gardant un code très structuré, ce qui facilite grandement la maintenance de l'application par la suite.
-L'utilisation de Angular avec TypeScript permet de typer le javascript et d'adoper le nouveau standard Javascript ES6.
-
 \subsection{Compilateur PFM : Java}
-\begin{center}
-  \includegraphics[width=2cm]{img/java.png}
-\end{center}
-On a choisi d'utiliser le langage Java pour le compilateur PFM car c'est un langage orienté objet. 
-Cette caractéristique permet la mise en place du DDD (Domain Driven Design) qui va permettre une structure de l'application autour du domaine.
-Ce langage dispose de nombreuses API (Application Programming Interface) publiques pouvant être utilisées sans avoir a réimplémenter les fonctionnalités de ces API. 
+Pour le compilateur, nous avons choisi d'utiliser le langage Java car il existe de nombreuses nombreuses API (Application Programming Interface) publiques pouvant aidés à notre développement. 
 De plus, des librairies pour la manipulation de PFM sont disponibles pour le Java, un élément nécessaire pour ce projet.
 
 \subsection{Base de données : MySQL}
-\begin{center}
-  \includegraphics[width=2cm]{img/mysql.png}
-\end{center}
-Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et ses bonnes performances. 
-De plus, ce Système de Gestion de Base de Données (SGBD) s'intègre facilement à un environnement PHP tel que celui qu'on le souhaite utiliser.
+Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et sa bonne compatibilité avec le framework Symfony utilisé pour le site web. 
 
-
-\section{Questionnement}
-\begin{itemize}  
-  \item que fait réellement le compilateur ?
-  \item Quand doit il être utiliser ?
-  \item Que prend il en entrée ?
-  \item Quel type de données renvoie t -il?
-  \item Le compilateur est il nécessaire si tout est enregistré en base ?
-  \item Que signifie le format de données du LeFFF (voir dans l'intro) ?
-  \item Comment lier les formes fléchies (pour configurer la base) ?
-  \item Au niveau des rôle, qui peut supprimer des mots ? Dofférence entre modérateur et editeur ?
-  \item 
-\end{itemize}
-
+\section{Références}
 \bibliography{references}
 \bibliographystyle{plain}
 \end{document}
