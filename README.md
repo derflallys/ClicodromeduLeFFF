@@ -17,6 +17,29 @@ flex-direction: row";
 
 *A venir*
 
+## Arborescence du projet
+```
+.
+|-- compiler
+|-- compte_rendus_td
+|-- docs
+|-- web
+    |-- back-end
+    `-- front-end
+```
+Vous trouverez dans le répertoire ``` compiler ```  le code du compilateur générant les formes fléchies d'un mot.  
+[Plus d'infos sur le compilateur...](compiler/)
+
+Vous trouverez dans le répertoire ``` compte_rendus_td ``` les comptes rendus des différents TDs réalisé avec notre chargé de TD, au format [LaTeX](https://www.latex-project.org/).  
+[Voir les compte rendus des TDs.](compte_rendus_td/)
+
+Vous trouverez dans le répertoire ``` docs ```  la documentation du projet au format [LaTeX](https://www.latex-project.org/).  
+[Consulter la documentation.](docs/)
+
+Vous trouverez dans le répertoire ``` web ```  le code de l'application web du projet. Cette application possède un back-end réalisé en PHP avec [Symfony](https://symfony.com/) et le front réalisé avec [Angular](https://angular.io/).  
+[Plus d'infos sur le back-end Symfony...](web/back-end/)   
+[Plus d'infos sur le front-end Angular...](web/front-end/)
+
 ## L'équipe
 
 * Fatima Ezzahra BAKIR
@@ -36,6 +59,6 @@ flex-direction: row";
                  
 * **Sagot, B. 2010,** *« The Lefff , a freely available, accurate and large-coverage lexicon for french »*, dans Proceedings of the 7th International Conference on Language Resources and Evaluation (LREC 2010), La Valette, Malte.
 
-## License
-Le Clicodrome de LeFFF est  un projet université sous [licence MIT](https://opensource.org/licenses/MIT).
+## Licence
+Le Clicodrome de LeFFF est  un projet universitaire sous [licence MIT](https://opensource.org/licenses/MIT).
 
