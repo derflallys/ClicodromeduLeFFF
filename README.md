@@ -14,8 +14,17 @@ flex-direction: row";
 *Présentation du projet à faire*
 
 ## Manuel d'installation
+Déployer la base de données
+Importer un lexique en base dans la base
 
-*A venir*
+le script "script " lancera tout.
+Pour lancer le back, le front ou le compilateur séparememnt, consulter les docs spécifique
+
+### Pré-requis
+NPM or yarn  
+PHP 7.1.3 ou >  
+Java ? C++?  
+Latex pour la docs
 
 ## Arborescence du projet
 ```
@@ -25,7 +34,7 @@ flex-direction: row";
 |-- docs
 |-- web
     |-- back-end
-    `-- front-end
+    |-- front-end
 ```
 Vous trouverez dans le répertoire ``` compiler ```  le code du compilateur générant les formes fléchies d'un mot.  
 [Plus d'infos sur le compilateur...](compiler/)
