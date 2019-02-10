@@ -53,7 +53,7 @@ export class UploadLefffComponent implements OnInit {
      reader.readAsText(this.lefffFile);
   }
   uploadFileToActivity() {
-    this.uploadLefffService.postFile(this.lefffFile).subscribe(data => {
+    this.uploadLefffService.postFile(this.lefff).subscribe(data => {
       // do something, if upload success
     }, error => {
       console.log(error);
