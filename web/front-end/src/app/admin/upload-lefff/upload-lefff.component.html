@@ -1,0 +1,11 @@
+
+  <div class="input-group">
+    <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="file" (change)="handleFileInput($event)" aria-describedby="inputGroupFileAddon04">
+        <label class="custom-file-label" for="file">Choose file</label>
+      </div>
+    </form>
+  </div>
+
+
