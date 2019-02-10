@@ -2,24 +2,26 @@ import { Injectable } from '@angular/core';
 import {Observable, of, throwError} from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    // 'Authorization': 'my-auth-token'
+  })
+};
+
 @Injectable({
   providedIn: 'root'
 })
-export class UploadLefffService {
-   httpOptions = {
-    headers: new HttpHeaders({
-      'Content-type': 'text/plain',
-    })
-  };
 
+export class UploadLefffService {
+  lefffUrl = 'UrlAPIVERSLESERVEUR';
   constructor(private httpClient: HttpClient) { }
 
-  postFile(fileToUpload: any) {
-    const endpoint = 'your-destination-url';
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.httpClient
-      .post(endpoint, formData, this.httpOptions);
+  postFile(lefff: any) {
+    return this.httpClient.post(this.lefffUrl, lefff, httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   private handleError(err: HttpErrorResponse) {
