@@ -14,17 +14,20 @@ flex-direction: row";
 *Présentation du projet à faire*
 
 ## Manuel d'installation
-Déployer la base de données
-Importer un lexique en base dans la base
 
-le script "script " lancera tout.
-Pour lancer le back, le front ou le compilateur séparememnt, consulter les docs spécifique
+### **Déploiement d'une base de données**
+*Docs à faire*
 
-### Pré-requis
-NPM or yarn  
-PHP 7.1.3 ou >  
-Java ? C++?  
-Latex pour la docs
+### **Importation d'un lexique en base de données**
+*Docs à faire*
+
+### **Lancement de l'application web**
+*Docs à faire*
+
+
+## Pré-requis
+Symfony 4 : [PHP](http://php.net/downloads.php) 7.1.3 ou une version supérieure.  
+Angular 7 : [NodeJS](https://nodejs.org/en/download/) 8.x or 10.x. ainsi qu'un gestionnaire de package tel que [NPM](https://www.npmjs.com/get-npm).
 
 ## Arborescence du projet
 ```
@@ -36,7 +39,7 @@ Latex pour la docs
     |-- back-end
     |-- front-end
 ```
-Vous trouverez dans le répertoire ``` compiler ```  le code du compilateur générant les formes fléchies d'un mot.  
+Vous trouverez dans le répertoire ``` compiler ```  le code du compilateur générant les formes fléchies d'un mot. Ce dossier contient aussi les parseur du LeFFF permettant de récupérer les mots a enregistrer en base de données. 
 [Plus d'infos sur le compilateur...](compiler/)
 
 Vous trouverez dans le répertoire ``` compte_rendus_td ``` les comptes rendus des différents TDs réalisé avec notre chargé de TD, au format [LaTeX](https://www.latex-project.org/).  
