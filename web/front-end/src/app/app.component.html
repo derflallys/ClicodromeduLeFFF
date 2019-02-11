@@ -1,14 +1,6 @@
 <nav class="navbar navbar-dark bg-dark">
   <button class="btn btn-sm btn-outline-success pull-right" type="button">Se connecter</button>
   <button class="btn btn-sm btn-outline-primary pull-right" type="button">S'inscrire</button>
+  <button class="btn btn-sm btn-outline-primary pull-left" type="button" routerLink="/admin">Admin</button>
 </nav>
-<div style="text-align:center">
-  <img width="300" alt="leFFF Logo" src="assets/img/lefff.jpg">
-  <h2> Rechercher un mot du leFFF </h2>
-  <div class="container">
-
-    <app-search></app-search>
-  </div>
-
-
-</div>
+<router-outlet></router-outlet>
