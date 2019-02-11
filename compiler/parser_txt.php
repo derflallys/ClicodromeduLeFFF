@@ -37,6 +37,20 @@ function help() {
     echo "\tabaissables		adj	[pred='abaissable_____1<suj:(sn),obl:(de-sn|de-sinf|de-scompl|à-sn|à-sinf|à-scompl)>',cat=adj,@p]\n";
 }
 
+function insertCategory($cat) {
+    return "INSERT INTO categorie ('ValueCat') VALUES '" . $cat . "';\n";    
+}
+
+function insertWord($word, $cat) {
+    return "INSERT INTO word ('ValueWord', 'Idcat') VALUES ('" . $word .
+     "', (SELECT 'IdCat' FROM categorie WHERE 'ValueCat' = '". $cat .  "') );\n"; 
+}
+
+function insertTags($tag, $word) {
+    return "INSERT INTO tags ('valueTag', 'objà', 'objde', 'obj', 'obl', 'IdWord') VALUES (" 
+    . "', (SELECT 'IdWord' FROM word WHERE 'ValueWord' = '". $word .  "') );\n"; 
+}
+
 /**
  * Objectif : Récupérer les mots et leurs nature pour lese enregistrer en base
  * Ne pas prendre en compte les formes fléchies
@@ -50,9 +64,11 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
     else {
         $handle = fopen($argv[1], "r");
         $fp = fopen('result.txt', 'w');
-
         if ($handle) {
             $categoryList = [];
+            $categoryToImport = [];
+            $tagsToImport = [];
+            $wordToImport = [];
             while (($line = fgets($handle)) !== false) {
                 $write = false;
 
@@ -149,7 +165,15 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
 
                     /** WRITE HERE */
                     if($write) {
-                        fwrite($fp, $line);
+                        if (!in_array($category, $categoryToImport)) { 
+                            fwrite($fp, insertCategory($category));
+                            array_push($categoryToImport, $category);
+                        }
+                        fwrite($fp, insertWord($word, $category));
+                        if($tags != false) {
+                            //fwrite($fp, insertTags($tags));
+                        }
+
                         /*fwrite($fp, "MOT = " . $word . "\n");
                         fwrite($fp, "CAT = " . $category . "\n");
                         fwrite($fp, "PRED = " . $pred . "\n");
@@ -162,13 +186,14 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     //writeInFile($category, $line);
                 }
             }
+
             fclose($handle);
             fclose($fp);
             //var_dump($categoryList); //Liste des différentes catégories de mots
 
-            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.txt'.";
+            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.txt'.\n";
         } else {
-            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.";
+            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.\n";
         }
     }
 }
