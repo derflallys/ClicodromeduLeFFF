@@ -37,9 +37,11 @@ export class UploadLefffComponent implements OnInit {
           {
             let sub = new Array();
             for (let j=0;j<row.length;++j){
-              if(row[j]!=='')
-                sub.push(row[j]);
+
+              if(row[j]!==''  )
+                    sub.push(row[j]);
             }
+            if(sub.length!=0 && sub[0] == sub[2])
             this.lefff.push(sub);
 
           }
