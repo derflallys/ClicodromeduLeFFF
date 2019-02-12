@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function writeInFile($category, $line) {
     if(isset($category) && !empty($category) ) {
@@ -71,18 +71,18 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
             $wordToImport = [];
             while (($line = fgets($handle)) !== false) {
                 $write = false;
-                
+
                 if($line[0] != '#') { // On ne prends pas en compte les commentaires
                     $split = explode("\t", $line);
-                    
+
                     //Detection du mot
                     $word = trim($split[0]);
 
                     //Catégories de mots
                     $category = trim($split[2]);
                     $number =  trim($split[1]);
-                
-                    if (!in_array($category, $categoryList)) { 
+
+                    if (!in_array($category, $categoryList)) {
                         array_push($categoryList, $category);
                     }
 
@@ -126,20 +126,20 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                             $splitting = explode("',", $dataWord);
                             if(isset($splitting[1])) {
                                 $otherData = trim(explode("]", $splitting[1])[0]);
-                            } 
+                            }
                             else {
                                 $otherData = false;
                             }
                         }
-                    } 
+                    }
                     else {
                         $pred = false;
                         $tags = false;
                         $otherData = false;
                     }
-                
+
                     /**
-                     * TRAITEMENT DU FICHIER 
+                     * TRAITEMENT DU FICHIER
                      */
                     if($pred == false) { // Aucune prédiciton
                         $write = true;
@@ -150,7 +150,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     else if ($category == "np") { //Nom propres
                         $write = true;
                     }
-                    else if ($category == "poncts") { 
+                    else if ($category == "poncts") {
                         $write = true;
                     }
                     else if ($category == "ponctw") {
@@ -158,7 +158,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     }
                     else if ($category == "epsilon") {
                         $write = true;
-                    } 
+                    }
                     else if ($word == $pred) {
                         $write = true;
                     }
@@ -181,7 +181,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                         fwrite($fp, "OTHER = " . $otherData . "\n");
                         fwrite($fp, "DATA = " . $dataWord . "\n\n");*/
                     }
-                    
+
                     //Séparation de toutes les catégories de mots
                     //writeInFile($category, $line);
                 }
@@ -196,7 +196,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
             echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.\n";
         }
     }
-} 
+}
 else {
     help();
 }
