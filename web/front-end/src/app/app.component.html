@@ -1,6 +1,17 @@
-<nav class="navbar navbar-dark bg-dark">
+<!--<nav class="navbar navbar-dark bg-dark">
   <button class="btn btn-sm btn-outline-success pull-right" type="button">Se connecter</button>
   <button class="btn btn-sm btn-outline-primary pull-right" type="button">S'inscrire</button>
   <button class="btn btn-sm btn-outline-primary pull-left" type="button" routerLink="/admin">Admin</button>
-</nav>
+</nav> -->
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-dark border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal text-white">LeFFF</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-white" href="#" routerLink="/home">Home</a>
+    <a class="p-2 text-info" href="#">Se Connecter</a>
+    <a class="p-2 text-danger " href="#" routerLink="/admin">Admin</a>
+  </nav>
+  <a class="btn btn-outline-primary" href="#">S'inscrire</a>
+</div>
+
+
 <router-outlet></router-outlet>

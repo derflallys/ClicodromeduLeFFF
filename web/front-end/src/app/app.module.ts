@@ -10,10 +10,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ListWordComponent } from './list-word/list-word.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'list-word/:word', component: ListWordComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full',
@@ -28,7 +30,8 @@ const appRoutes: Routes = [
     UploadLefffComponent,
     AdminHomeComponent,
     HomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ListWordComponent
   ],
   imports: [
     BrowserModule,
