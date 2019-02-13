@@ -11,11 +11,15 @@ import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ListWordComponent } from './list-word/list-word.component';
+import { ModifyWordComponent } from './modify-word/modify-word.component';
+import { ConsultationComponent } from './consultation/consultation.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'list-word/:word', component: ListWordComponent },
+  { path: 'modify-word', component: ModifyWordComponent },
+  { path: 'consultation', component: ConsultationComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full',
@@ -31,7 +35,9 @@ const appRoutes: Routes = [
     AdminHomeComponent,
     HomeComponent,
     PageNotFoundComponent,
-    ListWordComponent
+    ListWordComponent,
+    ModifyWordComponent,
+    ConsultationComponent
   ],
   imports: [
     BrowserModule,
