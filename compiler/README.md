@@ -34,6 +34,12 @@ Exemples:
 
 Le LeFFF est disponible à  ce format à l'adresse suivante : [http://www.labri.fr/perso/clement/lefff/telechargement.html](http://www.labri.fr/perso/clement/lefff/telechargement.html).
 
+## Résultat
+
+Le script permet d'obtenir un fichier "resultat.sql" a executer sur la base de données.
+Ce fichier contient un grand nombre de requête, son execution peut donc prendre quelques minutes.
+
+
 ## Avertissement
 
 Le parser ne prend pas en compte l'encodage. On suppose que le format des données est UTF-8. Nous nous dégageons de toute responsabilité en cas d'erreur d'encodage.
