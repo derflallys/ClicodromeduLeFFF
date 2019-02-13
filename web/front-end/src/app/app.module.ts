@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ListWordComponent } from './list-word/list-word.component';
 import { ModifyWordComponent } from './modify-word/modify-word.component';
 import { ConsultationComponent } from './consultation/consultation.component';
+import { AddWordComponent  } from './add-word/add-word.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'list-word/:word', component: ListWordComponent },
   { path: 'modify-word', component: ModifyWordComponent },
   { path: 'consultation', component: ConsultationComponent },
+  { path: 'add-word', component: AddWordComponent  },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full',
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     ListWordComponent,
     ModifyWordComponent,
-    ConsultationComponent
+    ConsultationComponent,
+    AddWordComponent
   ],
   imports: [
     BrowserModule,

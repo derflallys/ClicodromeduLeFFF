@@ -16,7 +16,10 @@ flex-direction: row";
 ## Manuel d'installation
 
 ### **Déploiement d'une base de données**
-*Docs à faire*
+*Pour déployer la base de données sur windows il faut installer [XAMPP](https://www.apachefriends.org/fr/download.html) 
+Une fois installé lancez le logiciel pour afficher le tableau de bord de XAMPP.
+Démarrez les serveurs Apache, MySQL en cliquant sur Start.
+Aprés sur le navigateur il suffit de taper 127.0.0.1/phpmyadmin pour acceder a l'interface phpMyAdmin et exporter le script web/lefff.sql pour gérer la base de données *
 
 ### **Importation d'un lexique en base de données**
 *Docs à faire*
