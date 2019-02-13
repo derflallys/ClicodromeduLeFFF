@@ -38,16 +38,16 @@ function help() {
 }
 
 function insertCategory($cat) {
-    return "INSERT INTO categorie ('ValueCat') VALUES '" . $cat . "';\n";    
+    return "INSERT INTO `category` (`code`, `name`) VALUES ('" . $cat . "', '". $cat ."');\n";    
 }
 
 function insertWord($word, $cat) {
-    return "INSERT INTO word ('ValueWord', 'Idcat') VALUES ('" . $word .
-     "', (SELECT 'IdCat' FROM categorie WHERE 'ValueCat' = '". $cat .  "') );\n"; 
+    return "INSERT INTO `word` (`value`, `idCategory`) VALUES ('" . addslashes($word) .
+     "', (SELECT `idCategory` FROM `category` WHERE `code` = '". $cat .  "') );\n"; 
 }
 
 function insertTags($tag, $word) {
-    return "INSERT INTO tags ('valueTag', 'objà', 'objde', 'obj', 'obl', 'IdWord') VALUES (" 
+    return "INSERT INTO tags ('valueTag', 'obja', 'objde', 'obj', 'obl', 'IdWord') VALUES (" 
     . "', (SELECT 'IdWord' FROM word WHERE 'ValueWord' = '". $word .  "') );\n"; 
 }
 
@@ -63,7 +63,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
     }
     else {
         $handle = fopen($argv[1], "r");
-        $fp = fopen('result.txt', 'w');
+        $fp = fopen('result.sql', 'w');
         if ($handle) {
             $categoryList = [];
             $categoryToImport = [];
