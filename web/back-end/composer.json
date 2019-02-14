@@ -13,7 +13,8 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.11",
         "symfony/orm-pack": "^1.0",
-        "symfony/yaml": "4.2.*"
+        "symfony/yaml": "4.2.*",
+        "symfony/web-server-bundle": "4.2.*"
     },
     "config": {
         "preferred-install": {
@@ -62,6 +63,5 @@
     },
     "require-dev": {
         "symfony/profiler-pack": "^1.0",
-        "symfony/web-server-bundle": "4.2.*"
     }
 }

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aboubacar
- * Date: 11/02/19
- * Time: 16:05
- */
+
 function writeInFile($category, $line) {
     if(isset($category) && !empty($category) ) {
         $file = fopen("data/". $category . ".txt", 'a');
@@ -21,12 +16,12 @@ function help() {
     echo "Aguments:\n";
     echo "\t<fichier> \t Fichier encodé en UTF-8 (Nous nous dégageons de toute responsabilité en cas d'erreur d'encodage). \n\n";
     echo "Le fichier doit respecter un format précis présenté ci-contre:\n";
-    echo "\tmot 'tabulation' categorie 'tabulation' lexeme 'tabulation' infos_complémentaires\n";
+    echo "\tmot 'tabulation' categorie 'tabulation' lemme 'tabulation' infos_complémentaires\n";
     echo "\t\t[obligatoire] : 'mot' \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
     echo "\t\t[facultatif]  : 'categorie' : code de la catégorie du mot (ex: verbe=v, adjectif=adj, nom commun=nc, ect...) \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
-    echo "\t\t[obligatoire] : 'lexeme \n";
+    echo "\t\t[obligatoire] : 'lemme \n";
     echo "\t\t[facultatif]  : 'infos_complémentaires : le genre,Mode,Temps ect... (ex: ms qui signifie genre masculin et nombre singulier ,W : infinitif)\n";
     echo "\t\t[obligatoire] : ']'\n";
     echo "Options:\n";
@@ -39,7 +34,7 @@ function help() {
 }
 
 /**
- * Objectif : Récupérer les mots et leurs nature pour lese enregistrer en base
+ * Objectif : Récupérer les mots et leurs nature pour les enregistrer en base
  * Ne pas prendre en compte les formes fléchies
  */
 $allLetters = "#[a-zA-ZàâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ_]#";
