@@ -1,0 +1,61 @@
+
+<div class="container px-lg-5">
+  <div class="row  mx-lg-n5">
+
+    <h1 style="margin-left: 400px;">Modifier un mot </h1>
+  </div>
+  <p *ngIf="dataSaved && articleForm.pristine" ngClass = "success">
+    Modification réussie.
+  </p>
+  <form method="post" (ngSubmit)="onFormSubmit()">
+    <div class="col py-3 px-lg-5 border bg-light">
+      <div class="form-group">
+        <label for="lemme">Nouveau Lemme : </label>
+        <input type="text" class="form-control" id="lemme"
+               required
+               [(ngModel)]="model.lemme" name="lemme">
+      </div>
+
+      <div class="form-group">
+        <label for="categorie">Categorie</label>
+        <select class="form-control" id="categorie"   required>
+          <option *ngFor="let pow of categorie" [value]="pow">{{pow}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="genre">Le genre :</label>
+        <select class="form-control" id="genre"   required>
+          <option *ngFor="let pow of genre" [value]="pow">{{pow}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="nombre">Le nombre :</label>
+        <select class="form-control" id="nombre"  required>
+          <option *ngFor="let pow of nombre" [value]="pow">{{pow}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col py-3 px-lg-5 border bg-light">
+      <div class="form-group">
+        <h4 style="text-align: center"> Tag :</h4>
+
+        <label for="Obja">Objà :</label>
+        <input type="text" class="form-control"  id="Obja">
+        <label for="Objde">Objde :</label>
+        <input type="text" class="form-control"  id="Objde">
+        <label for="Obj">Obj :</label>
+        <input type="text" class="form-control"   id="Obj">
+        <label for="Obl">Obl :</label>
+        <input type="text" class="form-control"  id="Obl">
+      </div>
+    </div>
+    <div class="fa-pull-right ">
+      <button type="submit" class="btn btn-success" >Modifier</button>
+      <button   type="reset" class="btn btn-success">Annuler</button>
+    </div>
+
+
+  </form>
+
+</div>
