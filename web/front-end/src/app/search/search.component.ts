@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  wordText = 'manger' ;
+  wordText = '' ;
 
   onSubmit() {
     console.log(this.wordText);

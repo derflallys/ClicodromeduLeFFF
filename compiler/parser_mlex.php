@@ -49,6 +49,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
         help();
     }
     else {
+        $categoryList = [];
         $handle = fopen($argv[1], "r");
         $fp = fopen('result.txt', 'w');
         if ($handle) {
@@ -68,6 +69,9 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     if(count($sub)!=0 && strcmp($sub[0],$sub[2])==0){
                         $word = trim($sub[0]);
                         $category = trim($sub[1]);
+                        if (!in_array($category, $categoryList)) {
+                            array_push($categoryList, $category);
+                        }
                         $lemme = trim($sub[2]);
                         $othersInfos = trim($sub[3]);
                         $write = fwrite($fp, $line);
