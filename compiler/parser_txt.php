@@ -16,18 +16,18 @@ function help() {
     echo "Aguments:\n";
     echo "\t<fichier> \t Fichier encodé en UTF-8 (Nous nous dégageons de toute responsabilité en cas d'erreur d'encodage). \n\n";
     echo "Le fichier doit respecter un format précis présenté ci-contre:\n";
-    echo "\tmot 'tabulation' nombre 'tabulation' categorie [pred='infos_du_leme', infos_complémentaires]\n";
+    echo "\tmot 'tabulation' nombre 'tabulation' categorie [pred='infos_du_lemme', infos_complémentaires]\n";
     echo "\t\t[obligatoire] : 'mot' \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
     echo "\t\t[facultatif]  : 'nombre' \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
     echo "\t\t[obligatoire] : 'categorie' : code de la catégorie du mot (ex: verbe=v, adjectif=adj, nom commun=nc, ect...)\n";
     echo "\t\t[obligatoire] : '['\n";
-    echo "\t\t[facultatif]  : 'pred='leme_du_mot_SEPARATEUR_<tags>'  : \n";
-    echo "\t\t\t[facultatif]  : 'leme_du_mot' : \n";
+    echo "\t\t[facultatif]  : 'pred='lemme_du_mot_SEPARATEUR_<tags>'  : \n";
+    echo "\t\t\t[facultatif]  : 'lemme_du_mot' : \n";
     echo "\t\t\t[facultatif]  : '_SEPARATEUR_' : séparateur composé de 5 underscores et d'un chiffre. (ex: _____1).\n";
     echo "\t\t\t[facultatif]  : '<tags>' : informations sur les emploi du mot comme les sujet par exemple (ex: <suj:(sn),objde:(de-sn|de-sinf),obja:(à-sinf)>).\n";
-    echo "\t\t[facultatif]  : 'infos_complémentaires : précédé d'une virgule lorsque qu'un \"pred='infos_du_leme'\" est renseigné, diverses informations comme la catégorie, le genre ect... (ex: ,cat=nc,@m)\n";
+    echo "\t\t[facultatif]  : 'infos_complémentaires : précédé d'une virgule lorsque qu'un \"pred='infos_du_lemme'\" est renseigné, diverses informations comme la catégorie, le genre ect... (ex: ,cat=nc,@m)\n";
     echo "\t\t[obligatoire] : ']'\n";
     echo "Options:\n";
     echo "\t-h \t\t Manuel d'utilisation\n";
@@ -52,7 +52,7 @@ function insertTags($tag, $word) {
 }
 
 /**
- * Objectif : Récupérer les mots et leurs nature pour lese enregistrer en base
+ * Objectif : Récupérer les mots et leurs nature pour les enregistrer en base
  * Ne pas prendre en compte les formes fléchies
  */
 $allLetters = "#[a-zA-ZàâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ_]#";
@@ -159,7 +159,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     else if ($category == "epsilon") {
                         $write = true;
                     }
-                    else if ($word == $pred) {
+                    else if ($word == $pred) { //Si le mot = lemme
                         $write = true;
                     }
 
