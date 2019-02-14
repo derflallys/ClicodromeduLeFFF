@@ -1,26 +1,24 @@
-
-
 <div class="container px-lg-5">
     <div class="row  mx-lg-n5">
-
-    <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
+        <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
     </div>
-
-
-    <form>
+    <p *ngIf="dataSaved && articleForm.pristine" ngClass = "success">
+        Modification réussie.
+    </p>
+    <form (ngSubmit)="onSubmit()">
         <div class="col py-3 px-lg-5 border bg-light">
             <div class="form-group">
-            <label for="lemme">Lemme : </label>
-            <input type="text" class="form-control" id="lemme"
-                   required
-                   [(ngModel)]="model.lemme" name="lemme">
-             </div>
-
+                <label for="lemme">Lemme : </label>
+                <input type="text" class="form-control" id="lemme"
+                       required
+                       [(ngModel)]="model.lemme" name="lemme">
+            </div>
             <div class="form-group">
                 <label for="categorie">Categorie</label>
-                <input type="text" class="form-control"  id="categorie">
+                <select class="form-control" id="categorie"   required>
+                    <option *ngFor="let pow of categorie" [value]="pow">{{pow}}</option>
+                </select>
             </div>
-
             <div class="form-group">
                 <label for="genre">Le genre :</label>
                 <select class="form-control" id="genre"   required>
@@ -35,25 +33,33 @@
             </div>
         </div>
         <div class="col py-3 px-lg-5 border bg-light">
-            <div class="form-group">
+            <div class="form-group row" >
                 <h4 style="text-align: center"> Tag :</h4>
-
-                <label for="Obja">Objà :</label>
-                <input type="text" class="form-control"  id="Obja">
-                <label for="Objde">Objde :</label>
-                <input type="text" class="form-control"  id="Objde">
-                <label for="Obj">Obj :</label>
-                <input type="text" class="form-control"   id="Obj">
-                <label for="Obl">Obl :</label>
-                <input type="text" class="form-control"  id="Obl">
+                <div class="w-100"></div>
+                <div class="col">
+                    <label for="Obja">Objà :</label>
+                    <input type="text" class="form-control"  id="Obja">
+                </div>
+                <div class="col">
+                    <label for="Objde">Objde :</label>
+                    <input type="text" class="form-control"  id="Objde">
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <label for="Obj">Obj :</label>
+                    <input type="text" class="form-control"   id="Obj">
+                </div>
+                <div class="col">
+                    <label for="Obl">Obl :</label>
+                    <input type="text" class="form-control"  id="Obl">
+                </div>
             </div>
         </div>
         <div class="fa-pull-right ">
-            <button type="submit" class="btn btn-success">Ajouter</button>
-            <button   type="reset" class="btn btn-success">Annuler</button>
+
+            <button class="btn btn-outline-success" type="submit" id="button-addon2">Ajouter</button>
+            <button   type="reset" class="btn btn-outline-success"  id="btn-addon2">Annuler</button>
         </div>
-
-
     </form>
 
 </div>

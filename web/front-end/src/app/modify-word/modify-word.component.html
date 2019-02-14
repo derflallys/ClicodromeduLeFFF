@@ -2,11 +2,12 @@
 <div class="container px-lg-5">
   <div class="row  mx-lg-n5">
 
-    <h1 style="margin-left: 400px;">Modifier un nouveau mot </h1>
+    <h1 style="margin-left: 400px;">Modifier un mot </h1>
   </div>
-
-
-  <form>
+  <p *ngIf="dataSaved && articleForm.pristine" ngClass = "success">
+    Modification réussie.
+  </p>
+  <form method="post" (ngSubmit)="onFormSubmit()">
     <div class="col py-3 px-lg-5 border bg-light">
       <div class="form-group">
         <label for="lemme">Nouveau Lemme : </label>
@@ -17,7 +18,9 @@
 
       <div class="form-group">
         <label for="categorie">Categorie</label>
-        <input type="text" class="form-control"  id="categorie">
+        <select class="form-control" id="categorie"   required>
+          <option *ngFor="let pow of categorie" [value]="pow">{{pow}}</option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -48,7 +51,7 @@
       </div>
     </div>
     <div class="fa-pull-right ">
-      <button type="submit" class="btn btn-success">Modifier</button>
+      <button type="submit" class="btn btn-success" >Modifier</button>
       <button   type="reset" class="btn btn-success">Annuler</button>
     </div>
 
