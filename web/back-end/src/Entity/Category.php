@@ -54,4 +54,11 @@ class Category
 
         return $this;
     }
+
+    public function toJSON() {
+        $json['id'] = $this->getId();
+        $json['code'] = $this->getCode();
+        $json['name'] = $this->getName();
+        return $json;
+    }
 }
