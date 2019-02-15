@@ -19,7 +19,7 @@ export class ListWordComponent implements OnInit {
   ngOnInit(): void {
     this.service.getListWords(this.route.snapshot.paramMap.get('word')).subscribe(
       w => {this.words = w; },
-      tap(w => console.log('All: ' + JSON.stringify(w))),
+      //tap(w => console.log('All: ' + JSON.stringify(w))),
 
     );
     console.log(this.words);
