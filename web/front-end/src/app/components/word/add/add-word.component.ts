@@ -72,10 +72,8 @@ export class AddWordComponent  implements OnInit {
     this.service.getcategories().subscribe(
       categories => {
         this.categories = categories.categories;
-        console.log(categories.categories);
       },
     );
-    console.log(this.categories);
   }
 
 }
