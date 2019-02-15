@@ -23,10 +23,10 @@ export class WordService {
   constructor(private http: HttpClient) { }
 
   getListWords(word: string): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.searchWordUrl + '/' + word).pipe(
+    return this.http.get<IWord[]>(this.searchWordUrl + '/' + word)/*.pipe(
       tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
-    );
+    )*/;
   }
   updateWord(word: Word) {
     return this.http.put<Word>(this.updateWordUrl + '/' + word, httpOptions )

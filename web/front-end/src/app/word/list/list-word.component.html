@@ -2,14 +2,14 @@
 <div class="container">
   <div class="row justify-content-center">
     <h3  class="text-danger" *ngIf="!words">Ce mot n'existe pas dans le leFFF</h3>
-    <div class="list-group" *ngIf="words.length">
+    <div class="list-group" *ngIf="words">
       <a href="#" class="list-group-item list-group-item-action " *ngFor="let word of words">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
+          <h5 class="mb-1">{{word.lemme}}</h5>
           <small>{{word.category}}</small>
         </div>
-        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-        <small>{{word.lemme}}</small>
+        <p class="mb-1"> {{word.genre}}</p>
+        <small></small>
       </a>
 
     </div>
