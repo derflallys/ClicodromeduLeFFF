@@ -4,9 +4,9 @@ export class Word implements IWord {
      lemme: string;
      genre: number;
      nombre: number;
-     category: string;
+     category: number;
 
-  constructor(lemme: string, genre: number, nombre: number, category: string) {
+  constructor(lemme: string, genre: number, nombre: number, category: number) {
     this.lemme = lemme;
     this.genre = genre;
     this.nombre = nombre;
