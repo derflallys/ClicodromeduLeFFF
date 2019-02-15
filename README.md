@@ -11,7 +11,10 @@ flex-direction: row";
 -----------------
 ## Projet : Le Clicodrome de LeFFF
 
-*Présentation du projet à faire*
+Le Lexique des formes fĺechies du francais, appelé le **LeFFF** est un lexique contenant des mots ainsi que les formes fléchies de chacun des mots (conjuagison et déclinaisons du mot). 
+Aujourd'hui il n'existe pas d'outil permettant d'interagir avec ce lexique, que ce soit pour l'enrichir ou le corriger.
+L'objectif du projet est donc de réaliser une application web facilitant la manipulation de ce lexique.  
+Pour ce faire, nous allons devoir importer ce lexique dans une base de données et créer des algorithmes permettant de générer les formes fléchies d'un mot afin de ne pas avoir à les enregistrer en base de données.
 
 
 ## Pré-requis
