@@ -16,6 +16,32 @@ Aujourd'hui il n'existe pas d'outil permettant d'interagir avec ce lexique, que 
 L'objectif du projet est donc de réaliser une application web facilitant la manipulation de ce lexique.  
 Pour ce faire, nous allons devoir importer ce lexique dans une base de données et créer des algorithmes permettant de générer les formes fléchies d'un mot afin de ne pas avoir à les enregistrer en base de données.
 
+### 1ère release - 15 février 2019
+A ce stade du développment à été développé :
+- La base de données
+- Les scripts permettant de parser le LeFFF est de générer les données à importer
+- L'interface graphique
+    * écran d'accueil,
+    * écran de recherche
+    * écran d'ajout d'un mot
+    * écran de modification d'un mot
+    * écran de consultation d'un mot
+
+- Traitement back-end 
+    * Recherche de mot dans la base de données
+    * Ajout/Modification d'un mot
+    * Consulatiion d'un mot
+
+Objectifs de la seconde release :
+- Génération des formes fléchies d'un mot
+    * Lister l'emsemble des règles PFM
+    * Implémenter le comportement de chaque règles
+- Importation du lexique depuis l'interface web
+- Exportation du lexique (avec ou sans les formes fléchies)
+- Gestion des utilisateurs/rôles sur l'application
+- Suppression d'un de mot
+- Signalement d'un mot
+
 
 ## Pré-requis
 Symfony 4 : [PHP](http://php.net/downloads.php) 7.1.3 ou une version supérieure.  
