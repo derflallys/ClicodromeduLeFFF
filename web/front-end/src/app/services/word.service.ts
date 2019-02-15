@@ -22,11 +22,11 @@ export class WordService {
   private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
-  getListWords(word: string): Observable<IWord[]> {
-    return this.http.get<IWord[]>(this.searchWordUrl + '/' + word)/*.pipe(
+  getListWords(word: string): Observable<any> {
+    return this.http.get<any>(this.searchWordUrl + '/' + word).pipe(
       tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
-    )*/;
+    );
   }
   updateWord(word: Word) {
     return this.http.put<Word>(this.updateWordUrl + '/' + word, httpOptions )

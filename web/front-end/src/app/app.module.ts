@@ -10,16 +10,18 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import {HomeComponent} from './components/home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ListWordComponent } from './components/word/list/list-word.component';
+
 import {AddWordComponent} from './components/word/add/add-word.component';
 import { ModifyWordComponent } from './components/word/modify/modify-word.component';
 import { ConsultationComponent } from './components/word/details/consultation.component';
+import {ListWordComponent} from './components/word/list/list-word.component';
+
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'list/:word', component: ListWordComponent },
-  { path: 'modify-word', component: ModifyWordComponent },
+  { path: 'modify', component: ModifyWordComponent },
   { path: 'show', component: ConsultationComponent },
   { path: 'add', component: AddWordComponent  },
   { path: '',

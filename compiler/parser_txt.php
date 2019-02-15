@@ -42,7 +42,7 @@ function insertCategory($cat) {
 }
 
 function insertWord($word, $cat) {
-    return "INSERT INTO `word` (`value`, `id_category_id`) VALUES ('" . addslashes($word) .
+    return "INSERT INTO `word` (`value`, `category_id`) VALUES ('" . addslashes($word) .
      "', (SELECT `id` FROM `category` WHERE `code` = '". $cat .  "') );\n";
 }
 
