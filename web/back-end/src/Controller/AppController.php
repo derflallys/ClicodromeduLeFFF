@@ -17,32 +17,65 @@ class AppController {
     }
 
     /**
-     * @Route("/search/{word}", name="searchWord")
+     * @Route("/list/word/{word}", name="searchWord")
      */
-    public function search()
-    {}
+    public function search($word) {
+        return new Response(
+            'Search word'
+        );
+    }
 
     /**
-     * @Route("/add/{word}", name="addWord")
+     * @Route("/get/word/{word}", name="addWord")
      */
-    public function addWord()
-    {}
+    public function getWord() {
+        return new Response(
+            'GET WORD'
+        );
+    }
 
     /**
-     * @Route("/edit/{word}", name="editWord")
+     * @Route("/add/word/{word}", name="addWord")
      */
-    public function editWord()
-    {}
+    public function addWord() {
+        return new Response(
+            'ADD WORD'
+        );
+    }
 
     /**
-     * @Route("/delete/{word}", name="deleteWord")
+     * @Route("/update/word/{word}", name="editWord")
      */
-    public function deleteWord()
-    {}
+    public function editWord() {
+        return new Response(
+            'EDIT WORD'
+        );
+    }
 
     /**
-     * @Route("/report/{word}", name="reportWord")
+     * @Route("/delete/word/{word}", name="deleteWord")
      */
-    public function reportWord()
-    {}
+    public function deleteWord() {
+        return new Response(
+            'DELETE WORD'
+        );
+    }
+
+    /**
+     * @Route("/report/word/{word}", name="reportWord")
+     */
+    public function reportWord() {
+        return new Response(
+            'REPORT WORD'
+        );
+    }
+
+    /**
+     * @Route("/get/category/{category}", name="reportWord")
+     */
+    public function getCategory() {
+        return new Response(
+            'GET CATEGORY'
+        );
+    }
 }
