@@ -2,18 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { SearchComponent } from './word/search/search.component';
-import { UploadLefffComponent } from './admin/upload-lefff/upload-lefff.component';
-import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { SearchComponent } from './components/word/search/search.component';
+import { UploadLefffComponent } from './components/admin/upload-lefff/upload-lefff.component';
+import { AdminHomeComponent } from './components/admin/admin-home/admin-home.component';
 import {RouterModule, Routes} from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import {HomeComponent} from './home/home.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import {HomeComponent} from './components/home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { ListWordComponent } from './word/list/list-word.component';
-import {AddWordComponent} from './word/add/add-word.component';
-import { ModifyWordComponent } from './word/modify/modify-word.component';
-import { ConsultationComponent } from './word/details/consultation.component';
+import { ListWordComponent } from './components/word/list/list-word.component';
+import {AddWordComponent} from './components/word/add/add-word.component';
+import { ModifyWordComponent } from './components/word/modify/modify-word.component';
+import { ConsultationComponent } from './components/word/details/consultation.component';
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },

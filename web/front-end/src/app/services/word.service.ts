@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {Word} from './Word';
+import {Word} from '../models/Word';
 import {environment} from '../../environments/environment';
-import {IWord} from './IWord';
+import {IWord} from '../models/IWord';
 
 const httpOptions = {
   headers: new HttpHeaders({

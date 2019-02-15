@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Word} from '../Word';
+import {Word} from '../../../models/Word';
 import { Injectable } from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {WordService} from '../word.service';
+import {WordService} from '../../../services/word.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tags} from '../Tags';
+import {Tags} from '../../../models/Tags';
 
 
 

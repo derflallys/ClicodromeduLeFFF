@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UploadLefffService} from './upload-lefff.service';
+import {UploadLefffService} from '../../../services/upload-lefff.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {computeStyle} from "@angular/animations/browser/src/util";
 
