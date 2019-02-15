@@ -24,15 +24,14 @@ A ce stade du développment à été développé :
     * écran d'accueil
     * écran de recherche
     * écran d'ajout d'un mot
-    * écran de modification d'un mot
-    * écran de consultation d'un mot
 
 - Traitement back-end 
     * Recherche de mot dans la base de données
-    * Consulatition d'un mot (sans génération des formes fléchies)
+    * Ajout d'un mot en base de données (début)
+    * Consultation d'un mot (sans génération des formes fléchies)
 
 **Objectifs de la seconde release :**
-- Ajout/Modification d'un mot
+- Modification d'un mot
 - Génération des formes fléchies d'un mot
     * Lister l'emsemble des règles PFM
     * Implémenter le comportement de chaque règles
@@ -42,7 +41,9 @@ A ce stade du développment à été développé :
 - Suppression d'un de mot
 - Signalement d'un mot
 - Gestion des tags
-
+- écran de consultation d'un mot
+- écran de modification d'un mot
+- Amélioration des écrans existants (Ergonomie)
 
 ## Pré-requis
 Symfony 4 : [PHP](http://php.net/downloads.php) 7.1.3 ou une version supérieure.  
