@@ -7,11 +7,11 @@ import {Router} from '@angular/router';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  wordText = 'manger' ;
+  wordText = '' ;
 
   onSubmit() {
     console.log(this.wordText);
-    this.router.navigate(['/list-word', this.wordText]);
+    this.router.navigate(['/word', this.wordText]);
   }
   constructor(private router: Router ) { }
 
