@@ -2,14 +2,31 @@
     <img src="https://symfony.com/logos/symfony_black_02.svg">
 </a></p>
 
-[Symfony][1] is a **PHP framework** for web applications and a set of reusable
-**PHP components**. Symfony is used by thousands of web applications (including
-BlaBlaCar.com and Spotify.com) and most of the [popular PHP projects][2] (including
-Drupal and Magento).
+[Symfony][1] est un framework PHP pour les applications web. Nous avons choisi d'utiliser ce framework pour les nombreuses fonctionnalités en termes de sécurité, d'architecture de projet ou encore d'interaction avec la base de données.
+
 
 # Installation
+Le lancement de l'application nécessite l'installation des dépendances avec la commande :  
+
+    $ php composer.phar install
+      
+Il vous suffit ensuite de lancer le serveur avec la commande :
+   
+    $ php bin/console server:run   
+
+Votre application est maintenant lancée sur : [http://localhost:8000](http://localhost:8000) !
 
 # Arborescence
+Un projet symfony est composé de plusieurs dossiers :
+- `bin/` : Dossier contenant des executables permettant d'automatiser des taches
+- `config/` : Dossier contenant les fichiers de configuration de notre projet
+- `public/` : Dossier racine du serveur web. 
+- `src/` : Contient le code du projet (Entités, Controleurs ect...)
+- `templates/` : Dossier contenant les vues de l'application (Inutilisé dans notre projet.)
+- `var/` : Dossier contenant les fichiers de cache et de logs 
+- `vendor/` : Le dossier utilisé pour stocké les dépendances installées du fichier `composer.json` 
+- `.env` : Fichier contenant la configuration de l'environnement d'exécution de notre code
+- `composer.json` : Fichier listant les dépendances du projet ainsi que d'autres métadonnées
 
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `composer.json`).  
