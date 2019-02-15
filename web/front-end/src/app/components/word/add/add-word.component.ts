@@ -50,7 +50,7 @@ export class AddWordComponent  implements OnInit {
       tags: this.tags
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
-    this.service.addWordModified(this.wordTags);
+    this.service.addWordModified(this.wordTags).subscribe();
    /* } else {
       this.service.addWordModified(this.word);
     }*/

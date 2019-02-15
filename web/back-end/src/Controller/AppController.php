@@ -70,12 +70,14 @@ class AppController {
      */
     public function addWord(EntityManagerInterface $entityManager, Request $request) {
         $response = new Response();
-        $content = $request->getContent();
-
+        $parametersAsArray = [];
+        if ($content = $request->getContent()) {
+            $parametersAsArray = json_decode($content, true);
+        }
         try {
             $word = new Word();
-            $word->setCategory($content['idCategory']);
-            $word->setValue($content['value']);
+            $word->setCategory($parametersAsArray['word']['category']);
+            $word->setValue($parametersAsArray['word']['lemme']);
 
             $entityManager->persist($word);
             $entityManager->flush();
