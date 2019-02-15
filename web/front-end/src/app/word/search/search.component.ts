@@ -11,7 +11,7 @@ export class SearchComponent implements OnInit {
 
   onSubmit() {
     console.log(this.wordText);
-    this.router.navigate(['/list-word', this.wordText]);
+    this.router.navigate(['/word', this.wordText]);
   }
   constructor(private router: Router ) { }
 

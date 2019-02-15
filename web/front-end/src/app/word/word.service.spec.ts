@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AddWordService } from './add-word.service';
+import { WordService } from './word.service';
 
-describe('AddWordService', () => {
+describe('WordService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: AddWordService = TestBed.get(AddWordService);
+    const service: WordService = TestBed.get(WordService);
     expect(service).toBeTruthy();
   });
 });

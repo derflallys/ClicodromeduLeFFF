@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 import {Observable} from 'rxjs';
-import {ListWordService} from './list-word.service';
+import {WordService} from '../word.service';
 
 @Component({
   selector: 'app-list-word',
@@ -12,7 +12,7 @@ import {ListWordService} from './list-word.service';
 export class ListWordComponent implements OnInit {
   words: Observable<string>[];
   word  ;
-  constructor(private route: ActivatedRoute, private listWordService: ListWordService ) { }
+  constructor(private route: ActivatedRoute, private listWordService: WordService ) { }
 
 
   ngOnInit() {
