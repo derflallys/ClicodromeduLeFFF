@@ -23,7 +23,7 @@ final class Version20190214015503 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, code VARCHAR(10) NOT NULL, name VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE noun_type (id INT AUTO_INCREMENT NOT NULL, word_id INT NOT NULL, gender TINYINT(1) NOT NULL, number TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_E014BD063DCAEAFD (id_word_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE noun_type (id INT AUTO_INCREMENT NOT NULL, word_id INT NOT NULL, gender TINYINT(1) NOT NULL, number TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_E014BD063DCAEAFD (word_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE word (id INT AUTO_INCREMENT NOT NULL, category_id INT NOT NULL, value VARCHAR(50) NOT NULL, INDEX IDX_C3F17511A545015 (id_category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE noun_type ADD CONSTRAINT FK_E014BD063DCAEAFD FOREIGN KEY (word_id) REFERENCES word (id)');
         $this->addSql('ALTER TABLE word ADD CONSTRAINT FK_C3F17511A545015 FOREIGN KEY (category_id) REFERENCES category (id)');
