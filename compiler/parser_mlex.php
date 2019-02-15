@@ -28,9 +28,18 @@ function help() {
     echo "\t-h \t\t Manuel d'utilisation\n";
     echo "\t--help \t\t Manuel d'utilisation\n\n";
     echo "Exemples:\n";
-    echo "\repentir	v	repentir	W\n";
+    echo "\trepentir	v	repentir	W\n";
     echo "\trepercement	nc	repercement	ms\n";
     echo "\trepercer	v	repercer	W\n";
+}
+
+function insertCategory($cat) {
+    return "INSERT INTO `category` (`code`, `name`) VALUES ('" . $cat . "', '". $cat ."');\n";    
+}
+
+function insertWord($word, $cat) {
+    return "INSERT INTO `word` (`value`, `idCategory`) VALUES ('" . addslashes($word) .
+     "', (SELECT `idCategory` FROM `category` WHERE `code` = '". $cat .  "') );\n"; 
 }
 
 /**
@@ -46,7 +55,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
     else {
         $categoryList = [];
         $handle = fopen($argv[1], "r");
-        $fp = fopen('result.txt', 'w');
+        $fp = fopen('result.sql', 'w');
         if ($handle) {
             $categoryList = [];
             while (($line = fgets($handle)) !== false) {
@@ -66,10 +75,11 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                         $category = trim($sub[1]);
                         if (!in_array($category, $categoryList)) {
                             array_push($categoryList, $category);
+                            fwrite($fp, insertCategory($category));
                         }
                         $lemme = trim($sub[2]);
                         $othersInfos = trim($sub[3]);
-                        $write = fwrite($fp, $line);
+                        fwrite($fp, insertWord($word, $category));
                     }
                 }
 
@@ -78,9 +88,9 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
             fclose($fp);
             //var_dump($categoryList); //Liste des différentes catégories de mots
 
-            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.txt'.";
+            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.sql'.\n";
         } else {
-            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.";
+            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.\n";
         }
     }
 }

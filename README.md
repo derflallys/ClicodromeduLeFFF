@@ -41,6 +41,7 @@ A ce stade du développment à été développé :
 - Gestion des utilisateurs/rôles sur l'application
 - Suppression d'un de mot
 - Signalement d'un mot
+- Gestion des tags
 
 
 ## Pré-requis

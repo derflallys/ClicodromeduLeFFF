@@ -63,7 +63,7 @@ Options:
         --help           Manuel d'utilisation
 
 Exemples:
-epentir v       repentir        W
+        repentir v       repentir        W
         repercement     nc      repercement     ms
         repercer        v       repercer        W
 ```
