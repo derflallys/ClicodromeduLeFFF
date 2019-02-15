@@ -35,11 +35,13 @@ Un projet Angular est composé de plusieurs dossiers :
 - `tslint.json` : Configuration pour [TSLint](https://palantir.github.io/tslint/)
 
 Le dossier `src` est le dossier où l'oin implémente notre code. En voici une présentation plus détaillées :
-- `src/app` : Contient l'ensemble des composants de l'application. Un composant est défini par 4 fichiers :
+- `src/app/components` : Contient l'ensemble des composants de l'application. Un composant est défini par 4 fichiers :
   * `NOM_DU_COMPOSANT.compoment.css` : Style inhérent au composant
   * `NOM_DU_COMPOSANT.compoment.html` : Squelette HTML du composant
   * `NOM_DU_COMPOSANT.compoment.ts` : Comportement du composant
   * `NOM_DU_COMPOSANT.compoment.spec.ts` : Fichier de tests du comportement du composant
+- `src/app/models` : Contient l'ensemble des modèles de l'application. Un modèle peut s'apparenter à une classe.
+- `src/app/services` : Contient l'ensemble des services de l'application. Les services vont effectuer les actions de l'application (requête au back-end...)
 - `src/assets` : Contient toutes les images et autres ressources à intégrer sur les pages web 
 - `src/environments` : Contient la configuration de l'environnement
 - `src/index.html` : La page HTML principale qui est servie lorsque quelqu'un visite l'application. Les modules Javascript et CSS sont ajoutés automatiquement au lancement du serveur.

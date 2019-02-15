@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Word} from '../Word';
+import {Word} from '../../../models/Word';
 import {ActivatedRoute, Router} from '@angular/router';
-import {WordService} from '../word.service';
-import {Tags} from '../Tags';
+import {WordService} from '../../../services/word.service';
+import {Tags} from '../../../models/Tags';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 

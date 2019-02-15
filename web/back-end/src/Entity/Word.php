@@ -25,10 +25,10 @@ class Word
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idCategory;
+    private $category;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\NounType", mappedBy="idWord", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\NounType", mappedBy="word", cascade={"persist", "remove"})
      */
     private $grammar;
 
@@ -49,14 +49,14 @@ class Word
         return $this;
     }
 
-    public function getIdCategory(): ?Category
+    public function getCategory(): ?Category
     {
-        return $this->idCategory;
+        return $this->category;
     }
 
-    public function setIdCategory(?Category $idCategory): self
+    public function setCategory(?Category $category): self
     {
-        $this->idCategory = $idCategory;
+        $this->category = $category;
 
         return $this;
     }
@@ -71,10 +71,17 @@ class Word
         $this->grammar = $grammar;
 
         // set the owning side of the relation if necessary
-        if ($this !== $grammar->getIdWord()) {
-            $grammar->setIdWord($this);
+        if ($this !== $grammar->getWord()) {
+            $grammar->setWord($this);
         }
 
         return $this;
+    }
+
+    public function toJSON() {
+        $json['id'] = $this->id;
+        $json['value'] = $this->value;
+        $json['category'] = $this->category->toJSON();
+        return $json;
     }
 }

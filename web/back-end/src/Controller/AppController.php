@@ -15,84 +15,111 @@ class AppController {
      * @Route("/", name="homepage")
      */
     public function index() {
-        return new Response(
-            'Index page'
-        );
+        $response = new Response();
+        $response->setContent(json_encode(['code' => 1, "value" => "Homepage"]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/list/word/{word}", name="searchWord")
      */
     public function search(EntityManagerInterface $entityManager, $word) {
-        $searchResult = $entityManager->getRepository(Word::class)->searchWord($word);
+        $response = new Response();
 
-        $res = [];
-        foreach ($searchResult as $search) {
-            array_push($res, $search->getValue());
+        if(!empty($word)) {
+            $searchResult = $entityManager->getRepository(Word::class)->searchWord($word);
+        } else {
+            $searchResult = $entityManager->getRepository(Word::class)->findAll();
         }
-        return new Response(
-            json_encode($res)
-        );
+        $response->setContent(json_encode(['status' => 1, "searchResult" => $searchResult]));
+
+            $res = [];
+            foreach ($searchResult as $search) {
+                array_push($res, $search->toJSON());
+            }
+        if(count($res) > 0) {
+            $response->setContent(json_encode(['status' => 1, "nbResult" => count($res), "searchResult" => $res]));
+        } else {
+            $response->setContent(json_encode(['status' => 0, "nbResult" => count($res), 'msg' => 'Aucun mot ne correspond à la recherche.' ]));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/get/word/{idWord}", name="getWord")
      */
     public function getWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->find($idWord);
-        $res = [];
-        foreach ($word as$w) {
-            array_push($res, $w->getValue());
+        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $response = new Response();
+        if($word != null) {
+            $response->setContent(json_encode(['status' => 1, 'word' => $word->toJSON()]));
         }
-        return new Response(
-            json_encode($res)
-        );
+        else {
+            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/add/word", name="addWord")
      */
     public function addWord() {
-
-        return new Response(
-            'ADD WORD'
-        );
+        $response = new Response();
+        $response->setContent(json_encode(['code' => 1, "value" => "ADD_WORD"]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/update/word/{idWord}", name="editWord")
      */
     public function editWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->find($idWord);
-
-        // TODO: EDITION
-        return new Response(
-            'EDIT WORD'
-        );
+        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $response = new Response();
+        if($word != null) {
+            $response->setContent(json_encode(['status' => 1, 'word' => $word->toJSON()]));
+        }
+        else {
+            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/delete/word/{idWord}", name="deleteWord")
      */
     public function deleteWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->find($idWord);
-
-        // TODO: Suppression
-        return new Response(
-            'DELETE WORD'
-        );
+        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $response = new Response();
+        if($word != null) {
+            $wordDeleteValue = $word->getValue();
+            $response->setContent(json_encode(['status' => 1, 'msg' => 'Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès']));
+        }
+        else {
+            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
      * @Route("/report/word/{idWord}", name="reportWord")
      */
-    public function reportWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->find($idWord);
-
-        // TODO: Signalement
-        return new Response(
-            'REPORT WORD'
-        );
+    public function reportWord(EntityManagerInterface $entityManager, $idWord)
+    {
+        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $response = new Response();
+        if ($word != null) {
+            $response->setContent(json_encode(['status' => 1, 'msg' => 'Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès']));
+        } else {
+            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
@@ -101,11 +128,17 @@ class AppController {
     public function getCategory(EntityManagerInterface $entityManager) {
         $categotiesList = $entityManager->getRepository(Category::class)->findAll();
         $categories = [];
-        foreach ($categotiesList as $cat) {
-            array_push($categories, $cat->getName());
+        $response = new Response();
+        if(!empty($categotiesList)) {
+            foreach ($categotiesList as $cat) {
+                array_push($categories, $cat->toJSON());
+            }
+            $response->setContent(json_encode(['status' => 1 , 'categories' => $categories]));
+        } else {
+            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucune catégories enregistrées.']));
         }
-        return new Response(
-            json_encode($categories)
-        );
+
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

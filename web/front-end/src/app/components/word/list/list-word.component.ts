@@ -17,13 +17,12 @@ export class ListWordComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.service.getListWords(this.route.snapshot.paramMap.get('word')).
-    subscribe(w => {
-      w.forEach(function(element) {
-        this.words.push(element) ;
-      }),
-       console.log(w); }
+    this.service.getListWords(this.route.snapshot.paramMap.get('word')).subscribe(
+      w => {this.words = w; },
+      tap(w => console.log('All: ' + JSON.stringify(w))),
+
     );
+    console.log(this.words);
   }
 
 }

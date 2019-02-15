@@ -30,7 +30,7 @@ class NounType
      * @ORM\OneToOne(targetEntity="App\Entity\Word", inversedBy="grammar", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idWord;
+    private $word;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class NounType
         return $this;
     }
 
-    public function getIdWord(): ?Word
+    public function getWord(): ?Word
     {
-        return $this->idWord;
+        return $this->word;
     }
 
-    public function setIdWord(Word $idWord): self
+    public function setWord(Word $word): self
     {
-        $this->idWord = $idWord;
+        $this->word = $word;
 
         return $this;
     }
