@@ -43,7 +43,7 @@ export class ModifyWordComponent  implements OnInit {
       nombre = 0;
     }
     this.word = new  Word(lemme, genre, nombre, category);
-    this.service.updateWord(this.word);
+    this.service.updateWord(this.word).subscribe();
 
   }
   ngOnInit() {

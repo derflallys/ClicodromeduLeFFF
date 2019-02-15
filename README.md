@@ -29,10 +29,10 @@ A ce stade du développment à été développé :
 
 - Traitement back-end 
     * Recherche de mot dans la base de données
-    * Ajout/Modification d'un mot
-    * Consulatiion d'un mot
+    * Consulatition d'un mot (sans génération des formes fléchies)
 
 **Objectifs de la seconde release :**
+- Ajout/Modification d'un mot
 - Génération des formes fléchies d'un mot
     * Lister l'emsemble des règles PFM
     * Implémenter le comportement de chaque règles
