@@ -28,7 +28,7 @@ class AppController {
 
         $res = [];
         foreach ($searchResult as $search) {
-            array_push($res, $search->getName());
+            array_push($res, $search->getValue());
         }
         return new Response(
             json_encode($res)

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Word} from './Word';
+import {environment} from '../../environments/environment';
+import {IWord} from './IWord';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,21 +15,21 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class WordService {
-  private searchWordUrl = '/list/word?';
-  private addWordUrl = '/add/word?';
-  private updateWordUrl = '/update/word?';
-  private wordUrl = '/get/word';
-  private categoryUrl = '/get/category';
+  private searchWordUrl = environment.BACK_END_URL + '/list/word';
+  private addWordUrl = environment.BACK_END_URL + '/add/word';
+  private updateWordUrl = environment.BACK_END_URL + '/update/word';
+  private wordUrl = environment.BACK_END_URL + '/get/word';
+  private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
-  getListWords(word: string) {
-    return this.http.get<any[]>(this.searchWordUrl + word).pipe(
+  getListWords(word: string): Observable<IWord[]> {
+    return this.http.get<IWord[]>(this.searchWordUrl + '/' + word).pipe(
       tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
   updateWord(word: Word) {
-    return this.http.put<Word>(this.updateWordUrl, word, httpOptions )
+    return this.http.put<Word>(this.updateWordUrl + '/' + word, httpOptions )
       .pipe(
         catchError(this.handleError)
       );
@@ -41,14 +43,14 @@ export class WordService {
   }
 
   getWord(id: string) {
-    return this.http.get<Word>(this.wordUrl + id, )
+    return this.http.get<Word>(this.wordUrl + '/' + id, )
       .pipe(
         catchError(this.handleError)
       );
   }
 
   getcategories() {
-    return this.http.get<any>(this.categoryUrl, )
+    return this.http.get<any>(this.categoryUrl )
       .pipe(
         catchError(this.handleError)
       );

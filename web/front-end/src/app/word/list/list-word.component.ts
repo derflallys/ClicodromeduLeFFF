@@ -3,6 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 
 import {Observable} from 'rxjs';
 import {WordService} from '../word.service';
+import {IWord} from '../IWord';
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-list-word',
@@ -10,16 +12,17 @@ import {WordService} from '../word.service';
   styleUrls: ['./list-word.component.css']
 })
 export class ListWordComponent implements OnInit {
-  words: Observable<string>[];
-  word  ;
-  constructor(private route: ActivatedRoute, private listWordService: WordService ) { }
+  words: IWord[] = [];
+  constructor(private route: ActivatedRoute, private service: WordService ) { }
 
 
-  ngOnInit() {
-    this.word = this.route.snapshot.paramMap.get('word');
-    this.listWordService.getListWords(this.word).subscribe(
-      words => {this.words = words; }
+  ngOnInit(): void {
+    this.service.getListWords(this.route.snapshot.paramMap.get('word')).subscribe(
+      w => {this.words = w; },
+      tap(w => console.log('All: ' + JSON.stringify(w))),
+
     );
+    console.log(this.words);
   }
 
 }

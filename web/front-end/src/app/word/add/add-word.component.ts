@@ -58,7 +58,6 @@ export class AddWordComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.categories = ['TestCato', 'TestC'];
     this.addWord = this.formBuilder.group({
       lemme: ['', Validators.required],
       category: ['', Validators.required],

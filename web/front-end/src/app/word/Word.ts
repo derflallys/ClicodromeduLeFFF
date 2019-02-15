@@ -1,4 +1,6 @@
-export class Word {
+import {IWord} from "./IWord";
+
+export class Word implements IWord {
      lemme: string;
      genre: number;
      nombre: number;

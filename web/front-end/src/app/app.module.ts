@@ -18,7 +18,7 @@ import { ConsultationComponent } from './word/details/consultation.component';
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'word/:word', component: ListWordComponent },
+  { path: 'list/:word', component: ListWordComponent },
   { path: 'modify-word', component: ModifyWordComponent },
   { path: 'show', component: ConsultationComponent },
   { path: 'add', component: AddWordComponent  },
