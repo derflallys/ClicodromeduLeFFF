@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
+use App\Entity\Word;
 
 class AppController {
 
@@ -20,21 +23,29 @@ class AppController {
     /**
      * @Route("/list/word/{word}", name="searchWord")
      */
-    public function search($word) {
-        $searchResult = $this->getDoctrine()->getRepository(Word::class)->searchWord($word);
+    public function search(EntityManagerInterface $entityManager, $word) {
+        $searchResult = $entityManager->getRepository(Word::class)->searchWord($word);
+
+        $res = [];
+        foreach ($searchResult as $search) {
+            array_push($res, $search->getName());
+        }
         return new Response(
-            json_encode($searchResult)
+            json_encode($res)
         );
     }
 
     /**
-     * @Route("/get/word/{idWord}", name="addWord")
+     * @Route("/get/word/{idWord}", name="getWord")
      */
-    public function getWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->find($idWord);
-        
+    public function getWord(EntityManagerInterface $entityManager, $idWord) {
+        $word = $entityManager->getRepository(Word::class)->find($idWord);
+        $res = [];
+        foreach ($word as$w) {
+            array_push($res, $w->getValue());
+        }
         return new Response(
-            json_encode($word)
+            json_encode($res)
         );
     }
 
@@ -42,7 +53,7 @@ class AppController {
      * @Route("/add/word", name="addWord")
      */
     public function addWord() {
-        
+
         return new Response(
             'ADD WORD'
         );
@@ -51,8 +62,8 @@ class AppController {
     /**
      * @Route("/update/word/{idWord}", name="editWord")
      */
-    public function editWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->find($idWord);
+    public function editWord(EntityManagerInterface $entityManager, $idWord) {
+        $word = $entityManager->getRepository(Word::class)->find($idWord);
 
         // TODO: EDITION
         return new Response(
@@ -63,9 +74,9 @@ class AppController {
     /**
      * @Route("/delete/word/{idWord}", name="deleteWord")
      */
-    public function deleteWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->find($idWord);
-        
+    public function deleteWord(EntityManagerInterface $entityManager, $idWord) {
+        $word = $entityManager->getRepository(Word::class)->find($idWord);
+
         // TODO: Suppression
         return new Response(
             'DELETE WORD'
@@ -75,8 +86,8 @@ class AppController {
     /**
      * @Route("/report/word/{idWord}", name="reportWord")
      */
-    public function reportWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->find($idWord);
+    public function reportWord(EntityManagerInterface $entityManager, $idWord) {
+        $word = $entityManager->getRepository(Word::class)->find($idWord);
 
         // TODO: Signalement
         return new Response(
@@ -87,9 +98,12 @@ class AppController {
     /**
      * @Route("/get/category", name="getCategory")
      */
-    public function getCategory() {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
-        
+    public function getCategory(EntityManagerInterface $entityManager) {
+        $categotiesList = $entityManager->getRepository(Category::class)->findAll();
+        $categories = [];
+        foreach ($categotiesList as $cat) {
+            array_push($categories, $cat->getName());
+        }
         return new Response(
             json_encode($categories)
         );

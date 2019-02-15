@@ -1,61 +1,39 @@
-
 <div class="container px-lg-5">
   <div class="row  mx-lg-n5">
-
-    <h1 style="margin-left: 400px;">Modifier un mot </h1>
+    <h1 style="margin-left: 400px;">Modifier {{word.lemme}}</h1>
   </div>
-  <p *ngIf="dataSaved && articleForm.pristine" ngClass = "success">
-    Modification réussie.
-  </p>
-  <form method="post" (ngSubmit)="onFormSubmit()">
+  <form (ngSubmit)="onSubmit()" [formGroup]="updateWord">
     <div class="col py-3 px-lg-5 border bg-light">
       <div class="form-group">
-        <label for="lemme">Nouveau Lemme : </label>
-        <input type="text" class="form-control" id="lemme"
-               required
-               [(ngModel)]="model.lemme" name="lemme">
+        <label for="lemme">Lemme : </label>
+        <input type="text" class="form-control"
+               id="lemme" required formControlName="lemme" >
       </div>
-
       <div class="form-group">
         <label for="categorie">Categorie</label>
-        <select class="form-control" id="categorie"   required>
-          <option *ngFor="let pow of categorie" [value]="pow">{{pow}}</option>
+        <select class="form-control" id="categorie"  formControlName="category"  required>
+          <option *ngFor="let category of categories" [value]="category" >{{category}}</option>
         </select>
       </div>
-
       <div class="form-group">
         <label for="genre">Le genre :</label>
-        <select class="form-control" id="genre"   required>
-          <option *ngFor="let pow of genre" [value]="pow">{{pow}}</option>
+        <select class="form-control" id="genre"  formControlName="genre" required>
+          <option *ngFor="let genre of genres" [value]="genre" >{{genre}}</option>
         </select>
       </div>
       <div class="form-group">
         <label for="nombre">Le nombre :</label>
-        <select class="form-control" id="nombre"  required>
-          <option *ngFor="let pow of nombre" [value]="pow">{{pow}}</option>
+        <select class="form-control" id="nombre" formControlName="nombre" required>
+          <option *ngFor="let nombre of nombres" [value]="nombre" >{{nombre}}</option>
         </select>
       </div>
     </div>
-    <div class="col py-3 px-lg-5 border bg-light">
-      <div class="form-group">
-        <h4 style="text-align: center"> Tag :</h4>
 
-        <label for="Obja">Objà :</label>
-        <input type="text" class="form-control"  id="Obja">
-        <label for="Objde">Objde :</label>
-        <input type="text" class="form-control"  id="Objde">
-        <label for="Obj">Obj :</label>
-        <input type="text" class="form-control"   id="Obj">
-        <label for="Obl">Obl :</label>
-        <input type="text" class="form-control"  id="Obl">
-      </div>
-    </div>
     <div class="fa-pull-right ">
-      <button type="submit" class="btn btn-success" >Modifier</button>
-      <button   type="reset" class="btn btn-success">Annuler</button>
+
+      <button class="btn btn-outline-success" type="submit" id="button-addon2">Ajouter</button>
+      <button   type="reset" class="btn btn-outline-danger"  id="btn-addon2">Reset</button>
     </div>
-
-
   </form>
 
 </div>

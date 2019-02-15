@@ -42,7 +42,8 @@ export class AddWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }
-    this.word = new  Word(lemme, genre, nombre, category);this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
+    this.word = new  Word(lemme, genre, nombre, category);
+    this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
     this.wordTags = {
       word: this.word,
       tags: this.tags

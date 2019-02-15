@@ -22,7 +22,7 @@ class WordRepository extends ServiceEntityRepository
     public function searchWord($word) {
         return $this->createQueryBuilder('w')
             ->andWhere('w.value LIKE :val')
-            ->setParameter('val', '%' . $value . "%")
+            ->setParameter('val', '%' . $word . "%")
             ->orderBy('w.value', 'ASC')
             ->getQuery()
             ->getResult()

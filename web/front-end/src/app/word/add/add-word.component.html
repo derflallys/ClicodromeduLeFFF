@@ -2,9 +2,7 @@
     <div class="row  mx-lg-n5">
         <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
     </div>
-    <p *ngIf="dataSaved && articleForm.pristine" ngClass = "success">
-        Modification réussie.
-    </p>
+
     <form (ngSubmit)="onSubmit()" [formGroup]="addWord">
         <div class="col py-3 px-lg-5 border bg-light">
             <div class="form-group">
