@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Tags} from '../../../models/Tags';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Category} from '../../../models/Category';
 
 
 
@@ -15,7 +16,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddWordComponent  implements OnInit {
   addWord: FormGroup;
   word: Word  ;
-  categories: any[];
+  categories: Category[];
   tags: Tags;
   constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService ) { }
   genres = ['Feminin' , 'Masculin'];
@@ -48,8 +49,8 @@ export class AddWordComponent  implements OnInit {
       word: this.word,
       tags: this.tags
     };
-    //if (Object.keys(this.wordTags.tags).length === 0 ) {
-      this.service.addWordModified(this.wordTags);
+    // if (Object.keys(this.wordTags.tags).length === 0 ) {
+    this.service.addWordModified(this.wordTags);
    /* } else {
       this.service.addWordModified(this.word);
     }*/
@@ -70,9 +71,11 @@ export class AddWordComponent  implements OnInit {
     });
     this.service.getcategories().subscribe(
       categories => {
-        this.categories = categories;
+        this.categories = categories.categories;
+        console.log(categories.categories);
       },
     );
+    console.log(this.categories);
   }
 
 }

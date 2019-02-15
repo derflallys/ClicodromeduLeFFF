@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {WordService} from '../word.service';
-import {IWord} from '../IWord';
-import {forEach} from "@angular/router/src/utils/collection";
 
+import {Observable} from 'rxjs';
+import {WordService} from '../../../services/word.service';
+import {IWord} from '../../../models/IWord';
 
 
 @Component({
@@ -12,7 +12,7 @@ import {forEach} from "@angular/router/src/utils/collection";
   styleUrls: ['./list-word.component.css']
 })
 export class ListWordComponent implements OnInit {
-  words: IWord[] = [] ;
+  words: IWord[] = [];
   constructor(private route: ActivatedRoute, private service: WordService ) { }
 
 
