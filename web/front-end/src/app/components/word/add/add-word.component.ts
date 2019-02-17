@@ -18,7 +18,8 @@ export class AddWordComponent  implements OnInit {
   word: Word  ;
   categories: Category[];
   tags: Tags;
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService ) { }
+  error = false;
+  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
   genres = ['Feminin' , 'Masculin'];
   nombres = ['Pluriel' , 'Singulier'];
   wordTags;
@@ -30,7 +31,12 @@ export class AddWordComponent  implements OnInit {
     }
     console.log(this.addWord.controls.lemme.value);
     const lemme = this.addWord.controls.lemme.value;
-    const category = this.addWord.controls.category.value;
+    const cat = this.addWord.controls.category.value;
+    console.log(this.categories);
+    console.log(cat);
+    const category: Category = this.categories.filter(obj => {
+      return obj.id === Number(cat); })[0];
+    console.log(category);
     let genre;
     if (this.addWord.controls.genre.value === 'Masculin') {
       genre = 1;
@@ -43,19 +49,24 @@ export class AddWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }
-    this.word = new  Word(lemme, genre, nombre, category);
-    this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
+    this.word = new  Word(null, lemme, genre, nombre, category);
+    this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value,
+      this.addWord.controls.obj.value, this.addWord.controls.obl.value);
     this.wordTags = {
       word: this.word,
       tags: this.tags
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
-    this.service.addWordModified(this.wordTags).subscribe();
+    this.service.addWordModified(this.wordTags).subscribe(response => { if (response.status === 200) {
+      this.route.navigate(['/list', this.word.value]);
+    } else {
+      this.error = true;
+    }});
    /* } else {
       this.service.addWordModified(this.word);
     }*/
 
-    console.log(this.wordTags);
+    console.log(JSON.stringify(this.wordTags));
   }
 
   ngOnInit() {
@@ -69,9 +80,9 @@ export class AddWordComponent  implements OnInit {
       obja: [''],
       objde: ['']
     });
-    this.service.getcategories().subscribe(
+    this.service.getCategories().subscribe(
       categories => {
-        this.categories = categories.categories;
+        this.categories = categories;
       },
     );
   }

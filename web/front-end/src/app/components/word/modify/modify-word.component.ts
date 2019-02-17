@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Tags} from '../../../models/Tags';
+import {Category} from '../../../models/Category';
 
 
 
@@ -17,12 +18,13 @@ import {Tags} from '../../../models/Tags';
 })
 export class ModifyWordComponent  implements OnInit {
   word: Word ;
+  newword: any;
   updateWord: FormGroup;
-  categories: any[];
+  categories: Category[];
   words: Observable<string>[];
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private service: WordService ) { }
-  genre = ['Feminin', 'Masculin'];
-  nombre = ['Pluriel', 'Singulier'];
+  genres = ['Feminin' , 'Masculin'];
+  nombres = ['Pluriel' , 'Singulier'];
 
   onSubmit() {
     if (this.updateWord.invalid) {
@@ -42,23 +44,23 @@ export class ModifyWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }
-    this.word = new  Word(lemme, genre, nombre, category);
-    this.service.updateWord(this.word).subscribe();
+    this.newword = new  Word(null, lemme, genre, nombre, category);
+    this.service.updateWord(this.newword, this.word.id).subscribe();
 
   }
   ngOnInit() {
-    this.categories = ['TestCato', 'TestC'];
+    this.updateWord = this.formBuilder.group({
+      lemme: ['', Validators.required],
+      category: ['', Validators.required],
+      genre: ['', Validators.required],
+      nombre: ['', Validators.required],
+    });
     this.service.getWord(this.route.snapshot.paramMap.get('id')).subscribe(
       word => {
       this.word = word;
     });
-    this.updateWord = this.formBuilder.group({
-      lemme: [this.word.lemme, Validators.required],
-      category: [this.word.category, Validators.required],
-      genre: [this.word.genre, Validators.required],
-      nombre: [this.word.nombre, Validators.required],
-    });
-    this.service.getcategories().subscribe(
+
+    this.service.getCategories().subscribe(
       categories => {
         this.categories = categories;
       }

@@ -1,6 +1,9 @@
 <div class="container px-lg-5">
     <div class="row  mx-lg-n5">
         <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
+        <div class="alert alert-danger" role="alert" *ngIf="error">
+         Erreur lor de l'ajout
+        </div>
     </div>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="addWord">

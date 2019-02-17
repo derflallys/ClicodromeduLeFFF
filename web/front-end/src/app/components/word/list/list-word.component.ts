@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 
 import {WordService} from '../../../services/word.service';
 import {IWord} from '../../../models/IWord';
+import {Word} from '../../../models/Word';
 
 
 @Component({
@@ -11,16 +12,15 @@ import {IWord} from '../../../models/IWord';
   styleUrls: ['./list-word.component.css']
 })
 export class ListWordComponent implements OnInit {
-  words: any[] = [];
+  words: Word[] = [];
 
   constructor(private route: ActivatedRoute, private service: WordService ) { }
 
 
   ngOnInit(): void {
     this.service.getListWords(this.route.snapshot.paramMap.get('word')).subscribe(
-      w => {this.words = w.searchResult;console.log(w.searchResult); },
+      w => {this.words = w; },
     );
-    console.log(this.words); //vide
   }
 
 }
