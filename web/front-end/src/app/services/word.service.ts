@@ -29,11 +29,12 @@ export class WordService {
       catchError(this.handleError)
     );
   }
-  updateWord(word: IWord, id: number): Observable<Word> {
-    return this.http.put<Word>(this.updateWordUrl + '/' + id, word, httpOptions )
+  updateWord(word: IWord, id: number): Observable<Response> {
+    return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions )
       .pipe(
         catchError(this.handleError)
-      );
+      )
+      ;
   }
 
   addWordModified(word: IWord) {
@@ -43,7 +44,7 @@ export class WordService {
       );
   }
 
-  getWord(id: string): Observable<Word> {
+  getWord(id: number): Observable<Word> {
     return this.http.get<Word>(this.wordUrl + '/' + id, )
       .pipe(
         catchError(this.handleError)

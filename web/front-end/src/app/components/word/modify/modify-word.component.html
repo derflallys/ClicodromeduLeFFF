@@ -1,17 +1,20 @@
-<div class="container px-lg-5">
+<div class="container px-lg-5" *ngIf="word">
   <div class="row  mx-lg-n5">
-    <h1 style="margin-left: 400px;">Modifier </h1>
+    <h1 style="margin-left: 400px;">Modifier {{word.value}} </h1>
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+      Erreur lors de la modification
+    </div>
   </div>
   <form (ngSubmit)="onSubmit()" [formGroup]="updateWord">
-    <div class="col py-3 px-lg-5 border bg-light">
+    <div class="col py-3 px-lg-5 border bg-light" >
       <div class="form-group">
-        <label for="lemme">Lemme : </label>
+        <label for="value">Mot : </label>
         <input type="text" class="form-control"
-               id="lemme" required formControlName="lemme" [value]="word.value" >
+               id="value" required formControlName="value" [value]="word.value" >
       </div>
       <div class="form-group">
         <label for="categorie">Categorie</label>
-        <select class="form-control" id="categorie"  formControlName="category" [value]="word.category.name"  required>
+        <select class="form-control" id="categorie"  formControlName="category"  required>
           <option *ngFor="let category of categories" [value]="category.id" >{{category.name}}</option>
         </select>
       </div>
@@ -31,7 +34,7 @@
 
     <div class="fa-pull-right ">
 
-      <button class="btn btn-outline-success" type="submit" id="button-addon2">Modifier</button>
+      <button class="btn btn-outline-success" type="submit" [disabled]="updateWord.invalid" id="button-addon2">Modifier</button>
       <button   type="reset" class="btn btn-outline-danger"  id="btn-addon2">Reset</button>
     </div>
   </form>

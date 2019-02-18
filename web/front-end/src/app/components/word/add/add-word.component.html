@@ -2,14 +2,14 @@
     <div class="row  mx-lg-n5">
         <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
         <div class="alert alert-danger" role="alert" *ngIf="error">
-         Erreur lor de l'ajout
+         Erreur lors de l'ajout
         </div>
     </div>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="addWord">
         <div class="col py-3 px-lg-5 border bg-light">
             <div class="form-group">
-                <label for="lemme">Lemme : </label>
+                <label for="lemme">Mot : </label>
                 <input type="text" class="form-control"
                        id="lemme" required formControlName="lemme" >
             </div>

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Word} from '../../../models/Word';
-import { Injectable } from '@angular/core';
-import {Observable, throwError} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tags} from '../../../models/Tags';
 import {Category} from '../../../models/Category';
 
 
@@ -22,16 +20,20 @@ export class ModifyWordComponent  implements OnInit {
   updateWord: FormGroup;
   categories: Category[];
   words: Observable<string>[];
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private service: WordService ) { }
+  error = false;
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private service: WordService, private router: Router) { }
   genres = ['Feminin' , 'Masculin'];
   nombres = ['Pluriel' , 'Singulier'];
 
   onSubmit() {
     if (this.updateWord.invalid) {
+      console.log('Submit');
       return;
     }
-    const lemme = this.updateWord.controls.lemme.value;
-    const category = this.updateWord.controls.category.value;
+    const lemme = this.updateWord.controls.value.value;
+    const cat = this.updateWord.controls.category.value;
+    const category: Category = this.categories.filter(obj => {
+      return obj.id === Number(cat); })[0];
     let genre;
     if (this.updateWord.controls.genre.value === 'Masculin') {
       genre = 1;
@@ -45,19 +47,27 @@ export class ModifyWordComponent  implements OnInit {
       nombre = 0;
     }
     this.newword = new  Word(null, lemme, genre, nombre, category);
-    this.service.updateWord(this.newword, this.word.id).subscribe();
+    console.log(JSON.stringify(this.newword));
+    this.service.updateWord(this.newword, this.word.id).subscribe(
+      response => { if (response.status === 200) {
+        this.router.navigate(['/list', this.word.value]);
+      } else {
+        this.error = true;
+      }}
+    );
 
   }
   ngOnInit() {
     this.updateWord = this.formBuilder.group({
-      lemme: ['', Validators.required],
+      value: ['', Validators.required],
       category: ['', Validators.required],
       genre: ['', Validators.required],
       nombre: ['', Validators.required],
     });
-    this.service.getWord(this.route.snapshot.paramMap.get('id')).subscribe(
-      word => {
-      this.word = word;
+    const id = this.route.snapshot.paramMap.get('id');
+    this.service.getWord(Number(id)).subscribe(
+      w => {
+      this.word = w;
     });
 
     this.service.getCategories().subscribe(
