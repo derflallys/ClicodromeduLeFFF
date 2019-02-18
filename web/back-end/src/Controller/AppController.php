@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 use App\Entity\Word;
 
-class AppController {
+class AppController extends AbstractController {
 
     /**
      * @Route("/", name="homepage")
@@ -26,13 +25,13 @@ class AppController {
     /**
      * @Route("/list/word/{word}", name="searchWord")
      */
-    public function search(EntityManagerInterface $entityManager, $word) {
+    public function search($word) {
         $response = new Response();
 
         if(!empty($word)) {
-            $searchResult = $entityManager->getRepository(Word::class)->searchWord($word);
+            $searchResult = $this->getDoctrine()->getRepository(Word::class)->searchWord($word);
         } else {
-            $searchResult = $entityManager->getRepository(Word::class)->findAll();
+            $searchResult = $this->getDoctrine()->getRepository(Word::class)->findAll();
         }
         $response->setContent(json_encode(['status' => 1, "searchResult" => $searchResult]));
 
@@ -52,8 +51,8 @@ class AppController {
     /**
      * @Route("/get/word/{idWord}", name="getWord")
      */
-    public function getWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+    public function getWord($idWord) {
+        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if($word != null) {
             $response->setContent(json_encode(['status' => 1, 'word' => $word->toJSON()]));
@@ -68,19 +67,18 @@ class AppController {
     /**
      * @Route("/add/word", name="addWord")
      */
-    public function addWord(EntityManagerInterface $entityManager, Request $request) {
+    public function addWord(Request $request) {
         $response = new Response();
-        $parametersAsArray = [];
-        if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
-        }
+        $content = $request->getContent();
+        $parametersAsArray = json_decode($content, true);
         try {
+            $category = $this->getDoctrine()->getRepository(Category::class)->find($parametersAsArray['word']['category']);
             $word = new Word();
-            $word->setCategory($parametersAsArray['word']['category']);
+            $word->setCategory($category);
             $word->setValue($parametersAsArray['word']['lemme']);
 
-            $entityManager->persist($word);
-            $entityManager->flush();
+            $this->getDoctrine()->persist($word);
+            $this->getDoctrine()->flush();
             $response->setContent(json_encode(['code' => 1, "word" => $word->toJSON()]));
         } catch (Exception $e) {
             $response->setContent(json_encode(['code' => 0, "msg" => $e->getMessage()]));
@@ -92,17 +90,20 @@ class AppController {
     /**
      * @Route("/update/word/{idWord}", name="editWord")
      */
-    public function editWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+    public function editWord($idWord,  Request $request) {
+        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
+        $content = $request->getContent();
+        $parametersAsArray = json_decode($content, true);
         if($word != null) {
             try {
+                $category = $this->getDoctrine()->getRepository(Category::class)->find($parametersAsArray['word']['category']);
                 $word = new Word();
-                $word->setCategory(1);
-                $word->setValue(1);
+                $word->setCategory($category);
+                $word->setValue($parametersAsArray['word']['lemme']);
 
-                $entityManager->persist($word);
-                $entityManager->flush();
+                $this->getDoctrine()->persist($word);
+                $this->getDoctrine()->flush();
                 $response->setContent(json_encode(['code' => 1, "word" => $word->toJSON()]));
             } catch (Exception $e) {
                 $response->setContent(json_encode(['code' => 0, "msg" => $e->getMessage()]));
@@ -118,8 +119,8 @@ class AppController {
     /**
      * @Route("/delete/word/{idWord}", name="deleteWord")
      */
-    public function deleteWord(EntityManagerInterface $entityManager, $idWord) {
-        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+    public function deleteWord($idWord) {
+        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if($word != null) {
             $wordDeleteValue = $word->getValue();
@@ -135,9 +136,9 @@ class AppController {
     /**
      * @Route("/report/word/{idWord}", name="reportWord")
      */
-    public function reportWord(EntityManagerInterface $entityManager, $idWord)
+    public function reportWord($idWord)
     {
-        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if ($word != null) {
             $response->setContent(json_encode(['status' => 1, 'msg' => 'Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès']));
@@ -151,8 +152,8 @@ class AppController {
     /**
      * @Route("/get/category", name="getCategory")
      */
-    public function getCategory(EntityManagerInterface $entityManager) {
-        $categotiesList = $entityManager->getRepository(Category::class)->findAll();
+    public function getCategory() {
+        $categotiesList = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $categories = [];
         $response = new Response();
         if(!empty($categotiesList)) {
