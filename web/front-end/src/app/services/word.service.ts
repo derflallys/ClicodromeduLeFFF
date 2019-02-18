@@ -5,6 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Word} from '../models/Word';
 import {environment} from '../../environments/environment';
 import {IWord} from '../models/IWord';
+import {Category} from '../models/Category';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -28,29 +29,30 @@ export class WordService {
       catchError(this.handleError)
     );
   }
-  updateWord(word: Word) {
-    return this.http.put<Word>(this.updateWordUrl + '/' + word, httpOptions )
+  updateWord(word: IWord, id: number): Observable<Response> {
+    return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions )
+      .pipe(
+        catchError(this.handleError)
+      )
+      ;
+  }
+
+  addWordModified(word: IWord) {
+    return this.http.post<Response>(this.addWordUrl, word, httpOptions )
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  addWordModified(word: any) {
-    return this.http.post<any>(this.addWordUrl, word, httpOptions )
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  getWord(id: string) {
+  getWord(id: number): Observable<Word> {
     return this.http.get<Word>(this.wordUrl + '/' + id, )
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getcategories() {
-    return this.http.get<any>(this.categoryUrl )
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.categoryUrl )
       .pipe(
         catchError(this.handleError)
       );

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use App\Entity\Category;
 use App\Entity\Word;
 
@@ -40,9 +41,9 @@ class AppController extends AbstractController {
             array_push($res, $search->toJSON());
         }
         if(count($res) > 0) {
-            $response->setContent(json_encode(['status' => 1, "nbResult" => count($res), "searchResult" => $res]));
+            $response->setContent(json_encode( $res));
         } else {
-            $response->setContent(json_encode(['status' => 0, "nbResult" => count($res), 'msg' => 'Aucun mot ne correspond à la recherche.' ]));
+            $response->setContent(json_encode( 'Aucun mot ne correspond à la recherche.' ));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -55,10 +56,10 @@ class AppController extends AbstractController {
         $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if($word != null) {
-            $response->setContent(json_encode(['status' => 1, 'word' => $word->toJSON()]));
+            $response->setContent(json_encode( $word->toJSON()));
         }
         else {
-            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+            $response->setContent(json_encode( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -79,19 +80,27 @@ class AppController extends AbstractController {
 
             $this->getDoctrine()->persist($word);
             $this->getDoctrine()->flush();
-            $response->setContent(json_encode(['code' => 1, "word" => $word->toJSON()]));
+            $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
+
         } catch (Exception $e) {
-            $response->setContent(json_encode(['code' => 0, "msg" => $e->getMessage()]));
+            $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/update/word/{idWord}", name="editWord")
+     * @Route("/update/word/{idWord}", name="editWord",methods={"PUT","PATCH"})
+     * @param EntityManagerInterface $entityManager
+     * @param $idWord
+     * @param Request $request
+     * @return Response
      */
-    public function editWord($idWord,  Request $request) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+    public function editWord(EntityManagerInterface $entityManager, $idWord,Request $request) {
+        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+        $data =   json_decode($request->getContent(), true);
+        $request->request->replace($data);
+       var_dump($data);
         $response = new Response();
         $content = $request->getContent();
         $parametersAsArray = json_decode($content, true);
@@ -104,13 +113,13 @@ class AppController extends AbstractController {
 
                 $this->getDoctrine()->persist($word);
                 $this->getDoctrine()->flush();
-                $response->setContent(json_encode(['code' => 1, "word" => $word->toJSON()]));
+                $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
             } catch (Exception $e) {
-                $response->setContent(json_encode(['code' => 0, "msg" => $e->getMessage()]));
+                $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
             }
         }
         else {
-            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -124,10 +133,10 @@ class AppController extends AbstractController {
         $response = new Response();
         if($word != null) {
             $wordDeleteValue = $word->getValue();
-            $response->setContent(json_encode(['status' => 1, 'msg' => 'Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès']));
+            $response->setContent(json_encode('Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès'));
         }
         else {
-            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -141,9 +150,9 @@ class AppController extends AbstractController {
         $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if ($word != null) {
-            $response->setContent(json_encode(['status' => 1, 'msg' => 'Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès']));
+            $response->setContent(json_encode('Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès'));
         } else {
-            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'']));
+            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -160,9 +169,9 @@ class AppController extends AbstractController {
             foreach ($categotiesList as $cat) {
                 array_push($categories, $cat->toJSON());
             }
-            $response->setContent(json_encode(['status' => 1 , 'categories' => $categories]));
+            $response->setContent(json_encode(  $categories));
         } else {
-            $response->setContent(json_encode(['status' => 0, 'msg' => 'Aucune catégories enregistrées.']));
+            $response->setContent(json_encode( 'Aucune catégories enregistrées.'));
         }
 
         $response->headers->set('Content-Type', 'application/json');

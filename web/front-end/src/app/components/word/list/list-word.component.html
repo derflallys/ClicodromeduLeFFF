@@ -1,4 +1,4 @@
-<app-search></app-search>
+
 <div class="container">
   <div class="row justify-content-center">
     <h3  class="text-danger" *ngIf="!words">Ce mot n'existe pas dans le leFFF</h3>
@@ -8,7 +8,7 @@
           <h5 class="mb-1"><a href="" routerLink="/show/{{word.id}}">{{word.value}}</a></h5>
           <small>{{word.category.name}}</small>
 
-          <button class="btn btn-outline-primary"  routerLink="/modify/{{word.id}}" type="submit" id="button-addon2">Modifier</button>
+          <a  href="" class="btn btn-outline-primary"  routerLink="/modify/{{word.id}}" >Modifier</a>
         </div>
       </a>
 

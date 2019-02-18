@@ -1,6 +1,9 @@
+import {Category} from './Category';
+
 export interface IWord {
-  lemme: string;
+  id: number;
+  value: string;
   genre: number;
   nombre: number;
-  category: number;
+  category: Category;
 }
