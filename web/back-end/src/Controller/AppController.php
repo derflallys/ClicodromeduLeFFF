@@ -96,8 +96,8 @@ class AppController extends AbstractController {
      * @param Request $request
      * @return Response
      */
-    public function editWord(EntityManagerInterface $entityManager, $idWord,Request $request) {
-        $word = $entityManager->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+    public function editWord( $idWord,Request $request) {
+        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $data =   json_decode($request->getContent(), true);
         $request->request->replace($data);
        var_dump($data);
