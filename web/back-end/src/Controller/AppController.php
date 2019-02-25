@@ -72,14 +72,18 @@ class AppController extends AbstractController {
         $response = new Response();
         $content = $request->getContent();
         $parametersAsArray = json_decode($content, true);
+        var_dump($parametersAsArray);
         try {
-            $category = $this->getDoctrine()->getRepository(Category::class)->find($parametersAsArray['word']['category']);
+
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['word']['category']);
+            if (!$category)
+                throw new Exception('No category found for id '.$parametersAsArray['word']['category']['id']);
             $word = new Word();
             $word->setCategory($category);
-            $word->setValue($parametersAsArray['word']['lemme']);
-
-            $this->getDoctrine()->persist($word);
-            $this->getDoctrine()->flush();
+            $word->setValue($parametersAsArray['word']['value']);
+            $em  = $this->getDoctrine()->getManager();
+            $em->persist($word);
+            $em->flush();
             $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
 
         } catch (Exception $e) {
@@ -109,10 +113,10 @@ class AppController extends AbstractController {
                 $category = $this->getDoctrine()->getRepository(Category::class)->find($parametersAsArray['word']['category']);
                 $word = new Word();
                 $word->setCategory($category);
-                $word->setValue($parametersAsArray['word']['lemme']);
-
-                $this->getDoctrine()->persist($word);
-                $this->getDoctrine()->flush();
+                $word->setValue($parametersAsArray['word']['value']);
+                $em  = $this->getDoctrine()->getManager();
+                $em->persist($word);
+                $em->flush();
                 $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
             } catch (Exception $e) {
                 $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
