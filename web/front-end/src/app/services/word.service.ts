@@ -29,7 +29,7 @@ export class WordService {
       catchError(this.handleError)
     );
   }
-  updateWord(word: IWord, id: number): Observable<Response> {
+  updateWord(word: IWord, id: number) {
     return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions )
       .pipe(
         catchError(this.handleError)
