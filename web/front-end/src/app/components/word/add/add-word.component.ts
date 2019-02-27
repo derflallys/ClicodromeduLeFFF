@@ -27,6 +27,7 @@ export class AddWordComponent  implements OnInit {
   onSubmit() {
     console.log('submit');
     if (this.addWord.invalid) {
+      this.error = true;
       return;
     }
     console.log(this.addWord.controls.lemme.value);
@@ -57,7 +58,7 @@ export class AddWordComponent  implements OnInit {
       tags: this.tags
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
-    this.service.addWordModified(this.wordTags).subscribe(response => { if (response.status === 200) {
+    this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
       this.route.navigate(['/list', this.word.value]);
     } else {
       this.error = true;

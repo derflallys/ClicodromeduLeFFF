@@ -25,7 +25,6 @@ export class WordService {
 
   getListWords(word: string): Observable<any> {
     return this.http.get<any>(this.searchWordUrl + '/' + word).pipe(
-      tap(data => console.log('All: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
@@ -38,7 +37,7 @@ export class WordService {
   }
 
   addWordModified(word: IWord) {
-    return this.http.post<Response>(this.addWordUrl, word, httpOptions )
+    return this.http.post<Response>(this.addWordUrl, word, httpOptions  )
       .pipe(
         catchError(this.handleError)
       );

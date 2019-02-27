@@ -72,7 +72,6 @@ class AppController extends AbstractController {
         $response = new Response();
         $content = $request->getContent();
         $parametersAsArray = json_decode($content, true);
-        var_dump($parametersAsArray);
         try {
 
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['word']['category']);
@@ -84,7 +83,8 @@ class AppController extends AbstractController {
             $em  = $this->getDoctrine()->getManager();
             $em->persist($word);
             $em->flush();
-            $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
+            $response->setStatusCode(200);
+            $response->setContent(json_encode ( $word->toJSON()));
 
         } catch (Exception $e) {
             $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
@@ -104,16 +104,16 @@ class AppController extends AbstractController {
         $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $data =   json_decode($request->getContent(), true);
         $request->request->replace($data);
-       var_dump($data);
         $response = new Response();
-        $content = $request->getContent();
-        $parametersAsArray = json_decode($content, true);
         if($word != null) {
             try {
-                $category = $this->getDoctrine()->getRepository(Category::class)->find($parametersAsArray['word']['category']);
-                $word = new Word();
+                $category =  $this->getDoctrine()
+                    ->getRepository(Category::class)
+                    ->findOneBy(array('id' =>$data['category']['id']));
+                if(!$category)
+                    throw new Exception("category  ".$data['category']['name']." does not exist");
                 $word->setCategory($category);
-                $word->setValue($parametersAsArray['word']['value']);
+                $word->setValue($data['value']);
                 $em  = $this->getDoctrine()->getManager();
                 $em->persist($word);
                 $em->flush();
