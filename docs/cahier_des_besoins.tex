@@ -127,7 +127,7 @@ Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functi
 \begin{itemize}  
   \item \textbf{Les visiteurs} : Ils ne peuvent que rechercher, consulter les mots du lexique, signaler des erreurs sur un mot ou exporter le lexique.
   \item \textbf{Les éditeurs} : Ce type d'utilisateur peut, en plus d'avoir les mêmes droits que les visiteurs, modifier (le mot ou ses attributs) un mot du lexique. Ces actions ne peuvent être effectué qu'en étant connecté (système d'authentification) sur le site.
-  \item \textbf{Les modérateurs} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui ont un accès à la liste des utilisateurs ayant un compte sur le site.
+  \item \textbf{Éditeur Expert} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui peuvent ajouter des catégories.
   \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, c'est eux qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
 \end{itemize}
  
@@ -139,7 +139,31 @@ Pour l'implémenter, nous allons définir un algorithme qui permet de découper 
 
  \subsubsection{Génération des formes fléchies}
 \textbf{Priorité : 1} \\
-Le compilateur nous permet de générer les formes fléchies d'un mot donné en entrée. Nous somme toujours à l'étude du comportement de se compilateur pour qu'il arrive à effectuer son rôle correctement.
+Le compilateur nous permet de générer les formes fléchies d'un mot donné en entrée. 
+Notre client nous a proposé PFM ( paradigm function morphology), selon cette approche , l'association d'un mot fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot.
+
+
+      Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
+\begin{itemize}
+    \item n : l’ordre de priorité pour l’application des règles
+    \item X : la racine du lexème.
+    \item C : la classe du lexème (sa catégorie).
+    \item t : règles à appliquer
+    \item f(X) : la forme flexionnelle
+\end{itemize}
+
+Exemple de règles pour les adjectifs : \\
+\textbf{1, racine,{f} -> racine + "ne"} \\
+\textbf{2, racine, {p}-> racine + "s"}
+
+Exemple d'application : \\
+PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
+                 = 2(Sien, {f,p} )(\textbf{ Sienne}) \\
+                 =\textbf{ Siennes }
+
+Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
+
+Pour mettre en place les régles PFM ,nous avons choisi de les coder en PHP sous formes de fonctions .
 
 \subsubsection{Rechercher un mot}
  \textbf{Priorité : 2}
