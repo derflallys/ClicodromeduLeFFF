@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function writeInFile($category, $line) {
     if(isset($category) && !empty($category) ) {
@@ -16,18 +16,18 @@ function help() {
     echo "Aguments:\n";
     echo "\t<fichier> \t Fichier encodé en UTF-8 (Nous nous dégageons de toute responsabilité en cas d'erreur d'encodage). \n\n";
     echo "Le fichier doit respecter un format précis présenté ci-contre:\n";
-    echo "\tmot 'tabulation' nombre 'tabulation' categorie [pred='infos_du_leme', infos_complémentaires]\n";
+    echo "\tmot 'tabulation' nombre 'tabulation' categorie [pred='infos_du_lemme', infos_complémentaires]\n";
     echo "\t\t[obligatoire] : 'mot' \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
     echo "\t\t[facultatif]  : 'nombre' \n";
     echo "\t\t[obligatoire] : 'tabulation'\n";
     echo "\t\t[obligatoire] : 'categorie' : code de la catégorie du mot (ex: verbe=v, adjectif=adj, nom commun=nc, ect...)\n";
     echo "\t\t[obligatoire] : '['\n";
-    echo "\t\t[facultatif]  : 'pred='leme_du_mot_SEPARATEUR_<tags>'  : \n";
-    echo "\t\t\t[facultatif]  : 'leme_du_mot' : \n";
+    echo "\t\t[facultatif]  : 'pred='lemme_du_mot_SEPARATEUR_<tags>'  : \n";
+    echo "\t\t\t[facultatif]  : 'lemme_du_mot' : \n";
     echo "\t\t\t[facultatif]  : '_SEPARATEUR_' : séparateur composé de 5 underscores et d'un chiffre. (ex: _____1).\n";
     echo "\t\t\t[facultatif]  : '<tags>' : informations sur les emploi du mot comme les sujet par exemple (ex: <suj:(sn),objde:(de-sn|de-sinf),obja:(à-sinf)>).\n";
-    echo "\t\t[facultatif]  : 'infos_complémentaires : précédé d'une virgule lorsque qu'un \"pred='infos_du_leme'\" est renseigné, diverses informations comme la catégorie, le genre ect... (ex: ,cat=nc,@m)\n";
+    echo "\t\t[facultatif]  : 'infos_complémentaires : précédé d'une virgule lorsque qu'un \"pred='infos_du_lemme'\" est renseigné, diverses informations comme la catégorie, le genre ect... (ex: ,cat=nc,@m)\n";
     echo "\t\t[obligatoire] : ']'\n";
     echo "Options:\n";
     echo "\t-h \t\t Manuel d'utilisation\n";
@@ -37,8 +37,22 @@ function help() {
     echo "\tabaissables		adj	[pred='abaissable_____1<suj:(sn),obl:(de-sn|de-sinf|de-scompl|à-sn|à-sinf|à-scompl)>',cat=adj,@p]\n";
 }
 
+function insertCategory($cat) {
+    return "INSERT INTO `category` (`code`, `name`) VALUES ('" . $cat . "', '". $cat ."');\n";    
+}
+
+function insertWord($word, $cat) {
+    return "INSERT INTO `word` (`value`, `category_id`) VALUES ('" . addslashes($word) .
+     "', (SELECT `id` FROM `category` WHERE `code` = '". $cat .  "') );\n";
+}
+
+function insertTags($tag, $word) {
+    return "INSERT INTO tags ('valueTag', 'obja', 'objde', 'obj', 'obl', 'IdWord') VALUES (" 
+    . "', (SELECT 'IdWord' FROM word WHERE 'ValueWord' = '". $word .  "') );\n"; 
+}
+
 /**
- * Objectif : Récupérer les mots et leurs nature pour lese enregistrer en base
+ * Objectif : Récupérer les mots et leurs nature pour les enregistrer en base
  * Ne pas prendre en compte les formes fléchies
  */
 $allLetters = "#[a-zA-ZàâäçéèêëîïôöùûüÿÀÂÄÇÉÈÊËÎÏÔÖÙÛÜŸ_]#";
@@ -49,24 +63,26 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
     }
     else {
         $handle = fopen($argv[1], "r");
-        $fp = fopen('result.txt', 'w');
-
+        $fp = fopen('result.sql', 'w');
         if ($handle) {
             $categoryList = [];
+            $categoryToImport = [];
+            $tagsToImport = [];
+            $wordToImport = [];
             while (($line = fgets($handle)) !== false) {
                 $write = false;
-                
+
                 if($line[0] != '#') { // On ne prends pas en compte les commentaires
                     $split = explode("\t", $line);
-                    
+
                     //Detection du mot
                     $word = trim($split[0]);
 
                     //Catégories de mots
                     $category = trim($split[2]);
                     $number =  trim($split[1]);
-                
-                    if (!in_array($category, $categoryList)) { 
+
+                    if (!in_array($category, $categoryList)) {
                         array_push($categoryList, $category);
                     }
 
@@ -110,20 +126,20 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                             $splitting = explode("',", $dataWord);
                             if(isset($splitting[1])) {
                                 $otherData = trim(explode("]", $splitting[1])[0]);
-                            } 
+                            }
                             else {
                                 $otherData = false;
                             }
                         }
-                    } 
+                    }
                     else {
                         $pred = false;
                         $tags = false;
                         $otherData = false;
                     }
-                
+
                     /**
-                     * TRAITEMENT DU FICHIER 
+                     * TRAITEMENT DU FICHIER
                      */
                     if($pred == false) { // Aucune prédiciton
                         $write = true;
@@ -134,7 +150,7 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     else if ($category == "np") { //Nom propres
                         $write = true;
                     }
-                    else if ($category == "poncts") { 
+                    else if ($category == "poncts") {
                         $write = true;
                     }
                     else if ($category == "ponctw") {
@@ -142,14 +158,22 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                     }
                     else if ($category == "epsilon") {
                         $write = true;
-                    } 
-                    else if ($word == $pred) {
+                    }
+                    else if ($word == $pred) { //Si le mot = lemme
                         $write = true;
                     }
 
                     /** WRITE HERE */
                     if($write) {
-                        fwrite($fp, $line);
+                        if (!in_array($category, $categoryToImport)) { 
+                            fwrite($fp, insertCategory($category));
+                            array_push($categoryToImport, $category);
+                        }
+                        fwrite($fp, insertWord($word, $category));
+                        if($tags != false) {
+                            //fwrite($fp, insertTags($tags));
+                        }
+
                         /*fwrite($fp, "MOT = " . $word . "\n");
                         fwrite($fp, "CAT = " . $category . "\n");
                         fwrite($fp, "PRED = " . $pred . "\n");
@@ -157,21 +181,22 @@ if(isset($argv[1]) && !empty($argv[1]) ) {
                         fwrite($fp, "OTHER = " . $otherData . "\n");
                         fwrite($fp, "DATA = " . $dataWord . "\n\n");*/
                     }
-                    
+
                     //Séparation de toutes les catégories de mots
                     //writeInFile($category, $line);
                 }
             }
+
             fclose($handle);
             fclose($fp);
             //var_dump($categoryList); //Liste des différentes catégories de mots
 
-            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.txt'.";
+            echo "Parsing effectué avec succès ! Le résultat est consultable dans le fichier 'result.txt'.\n";
         } else {
-            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.";
+            echo "Erreur à l'ouverture du fichier '".$argv[1] . "'.\n";
         }
     }
-} 
+}
 else {
     help();
 }

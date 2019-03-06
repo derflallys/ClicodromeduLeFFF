@@ -1,0 +1,65 @@
+<div class="container px-lg-5">
+    <div class="row  mx-lg-n5">
+        <h1 style="margin-left: 400px;">Ajouter un nouveau mot </h1>
+        <div class="alert alert-danger" role="alert" *ngIf="error">
+         Erreur lors de l'ajout
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="addWord">
+        <div class="col py-3 px-lg-5 border bg-light">
+            <div class="form-group">
+                <label for="lemme">Mot : </label>
+                <input type="text" class="form-control"
+                       id="lemme" required formControlName="lemme" >
+            </div>
+            <div class="form-group">
+                <label for="categorie">Categorie</label>
+                <select class="form-control" id="categorie"  formControlName="category"  required>
+                    <option *ngFor="let category of categories" [value]="category.id" >{{category.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="genre">Le genre :</label>
+                <select class="form-control" id="genre"  formControlName="genre" required>
+                    <option *ngFor="let genre of genres" [value]="genre" >{{genre}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Le nombre :</label>
+                <select class="form-control" id="nombre" formControlName="nombre" required>
+                    <option *ngFor="let nombre of nombres" [value]="nombre" >{{nombre}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col py-3 px-lg-5 border bg-light">
+            <div class="form-group row" >
+                <h4 style="text-align: center">Optionnel Tag :</h4>
+                <div class="w-100"></div>
+                <div class="col">
+                    <label for="Obja">Objà :</label>
+                    <input type="text" class="form-control"  id="Obja" formControlName="obja"  >
+                </div>
+                <div class="col">
+                    <label for="Objde">Objde :</label>
+                    <input type="text" class="form-control"  id="Objde" formControlName="objde"  >
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <label for="Obj">Obj :</label>
+                    <input type="text" class="form-control"   id="Obj" formControlName="obj"  >
+                </div>
+                <div class="col">
+                    <label for="Obl">Obl :</label>
+                    <input type="text" class="form-control"  id="Obl" formControlName="obl"  >
+                </div>
+            </div>
+        </div>
+        <div class="fa-pull-right ">
+
+            <button class="btn btn-outline-success" type="submit" id="button-addon2">Ajouter</button>
+            <button   type="reset" class="btn btn-outline-danger"  id="btn-addon2">Reset</button>
+        </div>
+    </form>
+
+</div>

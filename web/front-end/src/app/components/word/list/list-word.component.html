@@ -1,0 +1,18 @@
+
+<div class="container">
+  <div class="row justify-content-center">
+    <h3  class="text-danger" *ngIf="!words">Ce mot n'existe pas dans le leFFF</h3>
+    <div class="list-group" *ngIf="words.length">
+      <a href="#" class="list-group-item list-group-item-action " *ngFor="let word of words">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1"><a href="" routerLink="/show/{{word.id}}">{{word.value}}</a></h5>
+          <small>{{word.category.name}}</small>
+
+          <a  href="" class="btn btn-outline-primary"  routerLink="/modify/{{word.id}}" >Modifier</a>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
