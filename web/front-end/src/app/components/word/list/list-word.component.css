@@ -1,0 +1,29 @@
+.numberOfResults {
+    color: #777;
+}
+
+.noResult {
+    font-size: 24px;
+}
+
+.content {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.linkWord {
+    color: #1a0dab;
+}
+
+.linkWord:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.centerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 100px;
+}

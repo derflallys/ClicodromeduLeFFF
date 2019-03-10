@@ -1,18 +1,45 @@
-
-<div class="container">
-  <div class="row justify-content-center">
-    <h3  class="text-danger" *ngIf="!words">Ce mot n'existe pas dans le leFFF</h3>
-    <div class="list-group" *ngIf="words.length">
-      <a href="#" class="list-group-item list-group-item-action " *ngFor="let word of words">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1"><a href="" routerLink="/show/{{word.id}}">{{word.value}}</a></h5>
-          <small>{{word.category.name}}</small>
-
-          <a  href="" class="btn btn-outline-primary"  routerLink="/modify/{{word.id}}" >Modifier</a>
-        </div>
-      </a>
-
-    </div>
-  </div>
+<app-search (inputChanges)="changeInputSearch($event)" [searchInput]="this.searchInput"></app-search>
+<div class="centerDiv" *ngIf="loading.status">
+    <mat-progress-spinner
+            [color]="loading.color"
+            [mode]="loading.mode"
+            [value]="loading.value">
+    </mat-progress-spinner>
 </div>
+
+<div *ngIf="!loading.status">
+    <div *ngIf="words.length <= 0" class="content">
+        <p class="numberOfResults">Aucun résultat ne correspond.</p>
+        <br/>
+        <br/>
+        <p class="noResult">Désolé, aucun résultat ne correspond à la recherche <b>{{searchInput}}</b>.</p>
+    </div>
+    <div *ngIf="words.length > 0" class="content">
+        <p class="numberOfResults">{{words.length}} résultats ({{queryTime}} secondes)</p>
+        <div class="result-list">
+            <mat-table [dataSource]="this.words" class="mat-elevation-z8">
+                <ng-container matColumnDef="word">
+                    <mat-header-cell *matHeaderCellDef> Mot </mat-header-cell>
+                    <mat-cell class="linkWord" *matCellDef="let element" routerLink="/show/{{element.id}}">{{element.value}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef> Catégorie </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.category.name}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <button mat-raised-button color="warn" routerLink="/modify/{{element.id}}">Modifier</button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+</div>
+
 

@@ -34,8 +34,6 @@ class AppController extends AbstractController {
         } else {
             $searchResult = $this->getDoctrine()->getRepository(Word::class)->findAll();
         }
-        $response->setContent(json_encode(['status' => 1, "searchResult" => $searchResult]));
-
         $res = [];
         foreach ($searchResult as $search) {
             array_push($res, $search->toJSON());
@@ -43,7 +41,8 @@ class AppController extends AbstractController {
         if(count($res) > 0) {
             $response->setContent(json_encode( $res));
         } else {
-            $response->setContent(json_encode( 'Aucun mot ne correspond à la recherche.' ));
+            $response->setStatusCode(Response::HTTP_NO_CONTENT);
+            $response->setContent(json_encode([]));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -56,17 +55,19 @@ class AppController extends AbstractController {
         $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if($word != null) {
-            $response->setContent(json_encode( $word->toJSON()));
+            $response->setContent(json_encode($word->toJSON()));
         }
         else {
-            $response->setContent(json_encode( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
+            //$response->setStatusCode(Response::HTTP_NOT_FOUND);
+            //$response->setContent(json_encode( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
+            $response->setContent(null);
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/add/word", name="addWord")
+     * @Route("/add/word", name="addWord", methods={"POST"})
      */
     public function addWord(Request $request) {
         $response = new Response();
@@ -83,19 +84,19 @@ class AppController extends AbstractController {
             $em  = $this->getDoctrine()->getManager();
             $em->persist($word);
             $em->flush();
-            $response->setStatusCode(200);
-            $response->setContent(json_encode ( $word->toJSON()));
+            $response->setStatusCode(Response::HTTP_OK);
+            $response->setContent(json_encode ($word->toJSON()));
 
         } catch (Exception $e) {
-            $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent(json_encode([$e->getMessage()]));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/update/word/{idWord}", name="editWord",methods={"PUT","PATCH"})
-     * @param EntityManagerInterface $entityManager
+     * @Route("/update/word/{idWord}", name="editWord", methods={"PUT","PATCH"})
      * @param $idWord
      * @param Request $request
      * @return Response
@@ -117,13 +118,16 @@ class AppController extends AbstractController {
                 $em  = $this->getDoctrine()->getManager();
                 $em->persist($word);
                 $em->flush();
-                $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([$word->toJSON()]));
             } catch (Exception $e) {
-                $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent(json_encode([$e->getMessage()]));
             }
         }
         else {
-            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->setContent(json_encode( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -137,9 +141,11 @@ class AppController extends AbstractController {
         $response = new Response();
         if($word != null) {
             $wordDeleteValue = $word->getValue();
+            $response->setStatusCode(Response::HTTP_OK);
             $response->setContent(json_encode('Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès'));
         }
         else {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
@@ -154,8 +160,10 @@ class AppController extends AbstractController {
         $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
         if ($word != null) {
+            $response->setStatusCode(Response::HTTP_OK);
             $response->setContent(json_encode('Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès'));
         } else {
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
         }
         $response->headers->set('Content-Type', 'application/json');
@@ -173,8 +181,10 @@ class AppController extends AbstractController {
             foreach ($categotiesList as $cat) {
                 array_push($categories, $cat->toJSON());
             }
+            $response->setStatusCode(Response::HTTP_OK);
             $response->setContent(json_encode(  $categories));
         } else {
+            $response->setStatusCode(Response::HTTP_NO_CONTENT);
             $response->setContent(json_encode( 'Aucune catégories enregistrées.'));
         }
 
