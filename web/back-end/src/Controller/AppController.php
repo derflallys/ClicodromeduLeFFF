@@ -12,17 +12,6 @@ use App\Entity\Category;
 use App\Entity\Word;
 
 class AppController extends AbstractController {
-
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function index() {
-        $response = new Response();
-        $response->setContent(json_encode(['code' => 1, "value" => "Homepage"]));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
     /**
      * @Route("/list/word/{word}", name="searchWord")
      */

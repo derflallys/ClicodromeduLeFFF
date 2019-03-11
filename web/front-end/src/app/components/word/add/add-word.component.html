@@ -11,19 +11,16 @@
     <div class="content">
         <h1>Ajout d'un nouveau mot</h1>
 
-        <!--
         <div class="alert alert-danger" role="alert" *ngIf="error">
-            Erreur lors de l'ajout
+            Une erreur est survenue.
         </div>
-        -->
-
         <form (ngSubmit)="onSubmit()" [formGroup]="addWord">
             <mat-form-field>
-                <input matInput placeholder="Lemme">
+                <input matInput placeholder="Lemme" formControlName="lemme">
             </mat-form-field>
 
             <mat-form-field>
-                    <mat-select placeholder="Catégorie" [(value)]="selected">
+                    <mat-select placeholder="Catégorie" formControlName="category" [(value)]="selected">
                         <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
                     </mat-select>
             </mat-form-field>
@@ -32,11 +29,11 @@
                 <h3>Tags du mot (clé=valeur)</h3>
                 <div class="inline" *ngFor="let tag of tagsAdded">
                     <mat-form-field>
-                        <input matInput placeholder="Clé">
+                        <input matInput placeholder="Clé" formControlName="tagKey_">
                     </mat-form-field>
                     <mat-icon class="icon">arrow_right_alt</mat-icon>
                     <mat-form-field>
-                        <input matInput placeholder="Valeur">
+                        <input matInput placeholder="Valeur" formControlName="tagValue_">
                     </mat-form-field>
                 </div>
                 <button mat-raised-button color="primary" type="button" (click)="addTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>

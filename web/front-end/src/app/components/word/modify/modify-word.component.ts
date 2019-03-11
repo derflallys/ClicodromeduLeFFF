@@ -46,7 +46,7 @@ export class ModifyWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }
-    this.newword = new  Word(null, lemme, genre, nombre, category);
+    this.newword = new  Word(null, lemme, /*genre, nombre,*/ category, []);
     console.log(JSON.stringify(this.newword));
     this.service.updateWord(this.newword, this.word.id).subscribe(
       response => { if (response.status === 200) {
