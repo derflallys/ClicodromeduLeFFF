@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Word} from '../../../models/Word';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
-import {Tags} from '../../../models/Tags';
+import {Tag} from '../../../models/Tag';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
-
-
 
 @Component({
   selector: 'app-add-word',
@@ -17,11 +15,21 @@ export class AddWordComponent  implements OnInit {
   addWord: FormGroup;
   word: Word  ;
   categories: Category[];
-  tags: Tags;
+  //tags: Tags;
   error = false;
+
+  searchInput: String;
+  loading = {
+    status: false,
+    color: 'primary',
+    mode: 'indeterminate',
+    value: 50
+  };
+  tagsAdded: Tag[];
+
   constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
-  genres = ['Feminin' , 'Masculin'];
-  nombres = ['Pluriel' , 'Singulier'];
+/*  genres = ['Feminin' , 'Masculin'];
+  nombres = ['Pluriel' , 'Singulier'];*/
   wordTags;
 
   onSubmit() {
@@ -38,7 +46,7 @@ export class AddWordComponent  implements OnInit {
     const category: Category = this.categories.filter(obj => {
       return obj.id === Number(cat); })[0];
     console.log(category);
-    let genre;
+/*    let genre;
     if (this.addWord.controls.genre.value === 'Masculin') {
       genre = 1;
     } else {
@@ -46,16 +54,16 @@ export class AddWordComponent  implements OnInit {
     }
     let nombre;
     if (this.addWord.controls.nombre.value === 'Pluriel') {
-     nombre = 1;
+      nombre = 1;
     } else {
       nombre = 0;
-    }
-    this.word = new  Word(null, lemme, genre, nombre, category);
-    this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value,
-      this.addWord.controls.obj.value, this.addWord.controls.obl.value);
+    }*/
+    this.word = new  Word(null, lemme,/* genre, nombre,*/ category, this.tagsAdded);
+    //this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
     this.wordTags = {
       word: this.word,
-      tags: this.tags
+      //tags: this.tags
+      //tags: this.tagsAdded
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
     this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
@@ -63,9 +71,9 @@ export class AddWordComponent  implements OnInit {
     } else {
       this.error = true;
     }});
-   /* } else {
-      this.service.addWordModified(this.word);
-    }*/
+    /* } else {
+       this.service.addWordModified(this.word);
+     }*/
 
     console.log(JSON.stringify(this.wordTags));
   }
@@ -74,18 +82,25 @@ export class AddWordComponent  implements OnInit {
     this.addWord = this.formBuilder.group({
       lemme: ['', Validators.required],
       category: ['', Validators.required],
-      genre: ['', Validators.required],
-      nombre: ['', Validators.required],
+/*      genre: [''],
+      nombre: [''],
       obl: [''],
       obj: [''],
       obja: [''],
-      objde: ['']
+      objde: ['']*/
     });
+    this.tagsAdded = [];
+    this.tagsAdded.push(null);
+    this.loading.status = true;
     this.service.getCategories().subscribe(
-      categories => {
-        this.categories = categories;
-      },
+        categories => {
+          this.categories = categories;
+          this.loading.status = false;
+        },
     );
   }
 
+  addTag() {
+    this.tagsAdded.push(null);
+  }
 }

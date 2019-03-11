@@ -1,21 +1,30 @@
-<div class="container px-lg-5">
-  <p class="row  mx-lg-n5">
+<div class="centerDiv" *ngIf="loading.status">
+  <mat-progress-spinner
+          [color]="loading.color"
+          [mode]="loading.mode"
+          [value]="loading.value">
+  </mat-progress-spinner>
+</div>
 
-    <h1 style="margin-left: 400px;">Consulter un mot </h1>
-  <div  style="width: 1000px;margin-left: 100px">
-    <form>
-      <div class="form-group">
-        <input type="text" class="form-control" id="mot" placeholder="manger" style="width:700px;">
-        <button type="submit" class="btn btn-success" style=" margin-left: 710px;margin-top: -67px;">Ajouter un mot</button >
+<div *ngIf="!loading.status">
+  <app-search [searchInput]="this.searchInput"></app-search>
+  <div class="content">
+    <p *ngIf="word == null" class="error">Une erreur est survenue.</p>
+    <div *ngIf="word != null;">
+      <h1>Formes flechies du mot : {{word.value}} ({{word.category.name}})</h1>
+      <div class="actions">
+        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Signaler ce mot</button>
+        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Modifier le mot</button>
+        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Supprimer le mot</button>
       </div>
-    </form>
-  </div>
-  <div style="margin-right:550px;">
-    <button type="submit" class="btn btn-success" style="margin-top: -50px;margin-left:100px " >Faire un signalement</button >
-    <button type="submit" class="btn btn-success" style="margin-left:20px;margin-top: -50px;">Supprimer le mot</button >
-  </div>
-  <div style="width:800px;height:500px; border-style: inset;box-shadow: 6px 6px 6px black;;margin-left: 100px">
-    <h1 >Formes flechis </h1>
-    En cours !!
+      <div class="formeFlechies">
+        <ul>En cours !!
+          <li>Forme 1</li>
+          <li>Forme 2</li>
+          <li>Forme 3</li>
+          <li><div class="."></div></li>
+        </ul>
+      </div>
     </div>
   </div>
+</div>
