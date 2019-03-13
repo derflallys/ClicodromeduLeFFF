@@ -131,7 +131,7 @@ Puis installer les migrations d'architecture de la base de données avec la comm
 Si vous souhaitez seulement tester l'application avec des données de tests, nous avons créé un jeu de données permettant de tester les différentes fonctionnalités de l'application web.
 Pour installer ces données, il vous suffit de lancer la commande depuis le dossier `web/back-end` :
 
-    $   php bin/console doctrine:fixtures:load
+    $ php bin/console doctrine:fixtures:load
     
 Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
 Cette opération permet d'alléger considérablement le volume de données à enregistrer. (passage d'environ 500 000 entrées à 110 000 entrées environ.)
