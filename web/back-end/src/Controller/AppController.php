@@ -42,7 +42,7 @@ class AppController extends AbstractController {
     }
 
     /**
-     * @Route("/get/word/{idWord}", name="getWord", , methods={"GET"})
+     * @Route("/get/word/{idWord}", name="getWord", methods={"GET"})
      */
     public function getWord($idWord) {
         $response = new Response();
@@ -139,7 +139,7 @@ class AppController extends AbstractController {
     }
 
     /**
-     * @Route("/delete/word/{idWord}", name="deleteWord", methods={DELETE})
+     * @Route("/delete/word/{idWord}", name="deleteWord", methods={"DELETE"})
      */
     public function deleteWord($idWord) {
         $response = new Response();
@@ -164,7 +164,7 @@ class AppController extends AbstractController {
     /**
      * @Route("/report/word/{idWord}", name="reportWord")
      */
-    public function reportWord($idWord)
+    /*public function reportWord($idWord)
     {
         $response = new Response();
         try {
@@ -181,10 +181,10 @@ class AppController extends AbstractController {
             $response->setContent($e->getMessage());
         }
         return $response;
-    }
+    }*/
 
     /**
-     * @Route("/get/category", name="getCategory")
+     * @Route("/get/category", name="getCategory", methods={"GET"})
      */
     public function getCategory() {
         $response = new Response();
