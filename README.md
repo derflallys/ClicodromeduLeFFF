@@ -128,15 +128,20 @@ Puis installer les migrations d'architecture de la base de données avec la comm
 <a name="import"></a>
 ### **Importation d'un lexique en base de données**
 
-Afin d'importer le lexique en base de données, on cherche à "filtrer" le LeFFF afin de ne pas enregistrer les formes fléchies.
+Si vous souhaitez seulement tester l'application avec des données de tests, nous avons créé un jeu de données permettant de tester les différentes fonctionnalités de l'application web.
+Pour installer ces données, il vous suffit de lancer la commande depuis le dossier `web/back-end` :
+
+    $   php bin/console doctrine:fixtures:load
+    
+Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
 Cette opération permet d'alléger considérablement le volume de données à enregistrer. (passage d'environ 500 000 entrées à 110 000 entrées environ.)
 
 Dans le dossier [compiler/](compiler/), vous trouverez à votre disposition 2 scripts permettant de faire le filtrage du LeFFF qui leurs est passé en paramètre.
 Pour plus de détails sur le fonctionnement des scripts, vous pouvez consulter [le manuel d'utilisation des scripts](compiler/README.md).  
 Les 2 scripts génèrent un fichier `resultat.sql` permettant de remplir la base.  
-Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les système UNIX vous pouvez exécuter la commande :  
+Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les systèmes UNIX, vous pouvez exécuter la commande :  
 
-    $ mysql -u username -p password database_name < /path/to/compiler/result.sql 
+    $ mysql -u <username> -p --database=<database_name> < /path/to/compiler/result.sql
 
 ***Félicitations, les données sont bien présentes dans la base de données !***
 
