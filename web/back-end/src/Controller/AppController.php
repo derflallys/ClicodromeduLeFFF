@@ -28,7 +28,7 @@ class AppController extends AbstractController {
             array_push($res, $search->toJSON());
         }
         if(count($res) > 0) {
-            $response->setContent(json_encode( $res));
+            $response->setContent(json_encode($res));
         } else {
             $response->setStatusCode(Response::HTTP_NO_CONTENT);
             $response->setContent(json_encode([]));

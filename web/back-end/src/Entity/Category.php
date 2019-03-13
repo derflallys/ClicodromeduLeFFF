@@ -29,7 +29,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PFMRules", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="PFMRule", mappedBy="category")
      */
     private $rules;
 
@@ -76,14 +76,14 @@ class Category
 
 
     /**
-     * @return Collection|PFMRules[]
+     * @return Collection|PFMRule[]
      */
     public function getRules(): Collection
     {
         return $this->rules;
     }
 
-    public function addRule(PFMRules $rule): self
+    public function addRule(PFMRule $rule): self
     {
         if (!$this->rules->contains($rule)) {
             $this->rules[] = $rule;
@@ -93,7 +93,7 @@ class Category
         return $this;
     }
 
-    public function removeRule(PFMRules $rule): self
+    public function removeRule(PFMRule $rule): self
     {
         if ($this->rules->contains($rule)) {
             $this->rules->removeElement($rule);

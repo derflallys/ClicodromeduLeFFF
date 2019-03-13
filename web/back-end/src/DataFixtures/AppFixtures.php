@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\PFMRules;
+use App\Entity\PFMRule;
 use App\Entity\TagCategory;
 use App\Entity\TagWord;
 use App\Entity\Word;
@@ -444,7 +444,7 @@ class AppFixtures extends Fixture
             }
 
             foreach ($item['rules'] as $PFMdata) {
-                $rule = new PFMRules();
+                $rule = new PFMRule();
                 $rule->setCategory($category);
                 $rule->setApplicationLevel($PFMdata['level']);
                 $rule->setRule($PFMdata['label']);

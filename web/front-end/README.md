@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://angular.io" target="_blank">
-        <img src="https://angular.io/assets/images/logos/angular/angular.svg" style="width: 200px;">
+        <img src="https://angular.io/assets/images/logos/angular/angular.svg" width="200">
     </a>
 </p>
 
@@ -48,6 +48,7 @@ Le dossier `src` est le dossier où l'oin implémente notre code. En voici une p
 - `src/main.ts` : Le point d'entrée principal de l'application.
 
 Les autres fichiers du dossier dont des fichiers de configurations auxquels on n'apportera pas de modifications.
+Toute notre implémentation est présente dans le dossier `src/app`, le reste est généré par le framework.
 
 
 # Dependances

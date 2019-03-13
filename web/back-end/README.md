@@ -28,6 +28,8 @@ Un projet symfony est composé de plusieurs dossiers :
 - `.env` : Fichier contenant la configuration de l'environnement d'exécution de notre code
 - `composer.json` : Fichier listant les dépendances du projet ainsi que d'autres métadonnées
 
+Toute notre implémentation est présente dans le dossier `src/`, le reste est généré par le framework.
+
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `composer.json`).  
 La partie "require-dev" correspond aux dépendances nécéssaires en développement mais non utilisé en production.

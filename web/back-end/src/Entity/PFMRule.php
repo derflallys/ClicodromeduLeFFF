@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PFMRulesRepository")
  */
-class PFMRules
+class PFMRule
 {
     /**
      * @ORM\Id()
