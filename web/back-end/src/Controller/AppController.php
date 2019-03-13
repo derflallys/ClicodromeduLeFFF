@@ -12,137 +12,152 @@ use App\Entity\Category;
 use App\Entity\Word;
 
 class AppController extends AbstractController {
-
     /**
-     * @Route("/", name="homepage")
-     */
-    public function index() {
-        $response = new Response();
-        $response->setContent(json_encode(['code' => 1, "value" => "Homepage"]));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-    /**
-     * @Route("/list/word/{word}", name="searchWord")
+     * @Route("/list/word/{word}", name="searchWord", methods={"GET"})
      */
     public function search($word) {
         $response = new Response();
-
-        if(!empty($word)) {
-            $searchResult = $this->getDoctrine()->getRepository(Word::class)->searchWord($word);
-        } else {
-            $searchResult = $this->getDoctrine()->getRepository(Word::class)->findAll();
+        try {
+            if (!empty($word)) {
+                $searchResult = $this->getDoctrine()->getRepository(Word::class)->searchWord($word);
+            } else {
+                $searchResult = $this->getDoctrine()->getRepository(Word::class)->findAll();
+            }
+            $res = [];
+            foreach ($searchResult as $search) {
+                array_push($res, $search->toJSON());
+            }
+            if (count($res) > 0) {
+                $response->setContent(json_encode($res));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
+            }
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
         }
-        $response->setContent(json_encode(['status' => 1, "searchResult" => $searchResult]));
-
-        $res = [];
-        foreach ($searchResult as $search) {
-            array_push($res, $search->toJSON());
-        }
-        if(count($res) > 0) {
-            $response->setContent(json_encode( $res));
-        } else {
-            $response->setContent(json_encode( 'Aucun mot ne correspond à la recherche.' ));
-        }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/get/word/{idWord}", name="getWord")
+     * @Route("/get/word/{idWord}", name="getWord", , methods={"GET"})
      */
     public function getWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
-        if($word != null) {
-            $response->setContent(json_encode( $word->toJSON()));
+        try {
+            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+            if($word != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($word->toJSON()));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+            }
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
         }
-        else {
-            $response->setContent(json_encode( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
-        }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/add/word", name="addWord")
+     * @Route("/add/word", name="addWord", methods={"POST"})
      */
     public function addWord(Request $request) {
         $response = new Response();
-        $content = $request->getContent();
-        $parametersAsArray = json_decode($content, true);
         try {
-
+            $content = $request->getContent();
+            $parametersAsArray = json_decode($content, true);
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['word']['category']);
-            if (!$category)
-                throw new Exception('No category found for id '.$parametersAsArray['word']['category']['id']);
-            $word = new Word();
-            $word->setCategory($category);
-            $word->setValue($parametersAsArray['word']['value']);
-            $em  = $this->getDoctrine()->getManager();
-            $em->persist($word);
-            $em->flush();
-            $response->setStatusCode(200);
-            $response->setContent(json_encode ( $word->toJSON()));
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('No category found for id '. $parametersAsArray['word']['category']['id']);
+            }
+            else {
+                $word = new Word();
+                $word->setCategory($category);
+                $word->setValue($parametersAsArray['word']['value']);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($word);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($word->toJSON()));
+            }
 
         } catch (Exception $e) {
-            $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
         }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/update/word/{idWord}", name="editWord",methods={"PUT","PATCH"})
-     * @param EntityManagerInterface $entityManager
+     * @Route("/update/word/{idWord}", name="editWord", methods={"PUT","PATCH"})
      * @param $idWord
      * @param Request $request
      * @return Response
      */
     public function editWord( $idWord,Request $request) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
-        $data =   json_decode($request->getContent(), true);
-        $request->request->replace($data);
         $response = new Response();
-        if($word != null) {
-            try {
+        try {
+            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+            $data =   json_decode($request->getContent(), true);
+            $request->request->replace($data);
+            if($word != null) {
                 $category =  $this->getDoctrine()
                     ->getRepository(Category::class)
                     ->findOneBy(array('id' =>$data['category']['id']));
-                if(!$category)
-                    throw new Exception("category  ".$data['category']['name']." does not exist");
-                $word->setCategory($category);
-                $word->setValue($data['value']);
-                $em  = $this->getDoctrine()->getManager();
-                $em->persist($word);
-                $em->flush();
-                $response->setContent(json_encode(['status' => 200, "word" => $word->toJSON()]));
-            } catch (Exception $e) {
-                $response->setContent(json_encode(['status' => 500, "msg" => $e->getMessage()]));
+                if(!$category) {
+                    $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                    $response->setContent("category  ".$data['category']['name']." does not exist");
+                }
+                else {
+                    $word->setCategory($category);
+                    $word->setValue($data['value']);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($word);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode([$word->toJSON()]));
+                }
             }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
         }
-        else {
-            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
-        }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     /**
-     * @Route("/delete/word/{idWord}", name="deleteWord")
+     * @Route("/delete/word/{idWord}", name="deleteWord", methods={DELETE})
      */
     public function deleteWord($idWord) {
-        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
-        if($word != null) {
-            $wordDeleteValue = $word->getValue();
-            $response->setContent(json_encode('Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès'));
+        try {
+            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+            if($word != null) {
+                $wordDeleteValue = $word->getValue();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent('Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès');
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
         }
-        else {
-            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
-        }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -151,14 +166,20 @@ class AppController extends AbstractController {
      */
     public function reportWord($idWord)
     {
-        $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
         $response = new Response();
-        if ($word != null) {
-            $response->setContent(json_encode('Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès'));
-        } else {
-            $response->setContent(json_encode('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\''));
+        try {
+            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+            if ($word != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent('Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès');
+            } else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
         }
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -166,19 +187,25 @@ class AppController extends AbstractController {
      * @Route("/get/category", name="getCategory")
      */
     public function getCategory() {
-        $categotiesList = $this->getDoctrine()->getRepository(Category::class)->findAll();
-        $categories = [];
         $response = new Response();
-        if(!empty($categotiesList)) {
-            foreach ($categotiesList as $cat) {
-                array_push($categories, $cat->toJSON());
+        try {
+            $categotiesList = $this->getDoctrine()->getRepository(Category::class)->findAll();
+            $categories = [];
+            if(!empty($categotiesList)) {
+                foreach ($categotiesList as $cat) {
+                    array_push($categories, $cat->toJSON());
+                }
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode(  $categories));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
             }
-            $response->setContent(json_encode(  $categories));
-        } else {
-            $response->setContent(json_encode( 'Aucune catégories enregistrées.'));
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
         }
-
-        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 }

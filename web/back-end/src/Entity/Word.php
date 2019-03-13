@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +30,15 @@ class Word
     private $category;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\NounType", mappedBy="word", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TagWord", mappedBy="word")
      */
-    private $grammar;
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -61,18 +69,32 @@ class Word
         return $this;
     }
 
-    public function getGrammar(): ?NounType
+    /**
+     * @return Collection|TagWord[]
+     */
+    public function getTags(): Collection
     {
-        return $this->grammar;
+        return $this->tags;
     }
 
-    public function setGrammar(NounType $grammar): self
+    public function addTag(TagWord $tag): self
     {
-        $this->grammar = $grammar;
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->setWord($this);
+        }
 
-        // set the owning side of the relation if necessary
-        if ($this !== $grammar->getWord()) {
-            $grammar->setWord($this);
+        return $this;
+    }
+
+    public function removeTag(TagWord $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            // set the owning side to null (unless already changed)
+            if ($tag->getWord() === $this) {
+                $tag->setWord(null);
+            }
         }
 
         return $this;

@@ -1,7 +1,40 @@
-body {
-  padding-top: 50px;
+header {
+  background: #fff;
 }
-bla
-{
-  box-shadow: 6px 6px 6px black;
+
+.toolbar {
+  border-bottom: 1px solid rgba(198, 198, 198, 0.6);
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+.app-name {
+  font-size : 24px;
+}
+
+header img {
+  width: auto;
+  height: 45px;
+}
+
+.item {
+  padding: 0 14px;
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  min-height: calc(100vh - 170px);
+}
+
+footer {
+  background: #fff;
+  text-align: center;
+  border-top: 1px solid rgba(198, 198, 198, 0.6);
+  padding: 15px;
+  height: 100px;
+  margin-top: 25px;
 }
