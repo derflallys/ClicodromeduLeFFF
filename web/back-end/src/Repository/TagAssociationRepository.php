@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\TagWord;
+use App\Entity\TagAssociation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method TagWord|null find($id, $lockMode = null, $lockVersion = null)
- * @method TagWord|null findOneBy(array $criteria, array $orderBy = null)
- * @method TagWord[]    findAll()
- * @method TagWord[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TagAssociation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TagAssociation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TagAssociation[]    findAll()
+ * @method TagAssociation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TagWordRepository extends ServiceEntityRepository
+class TagAssociationRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, TagWord::class);
+        parent::__construct($registry, TagAssociation::class);
     }
 
     // /**
-    //  * @return TagWord[] Returns an array of TagWord objects
+    //  * @return TagAssociation[] Returns an array of TagAssociation objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TagWordRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TagWord
+    public function findOneBySomeField($value): ?TagAssociation
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

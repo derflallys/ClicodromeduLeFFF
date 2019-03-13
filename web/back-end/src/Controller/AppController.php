@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\PFM_Interpretor;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +52,9 @@ class AppController extends AbstractController {
             if($word != null) {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($word->toJSON()));
+                $interpretor = new PFM_Interpretor();
+                $inflectedForms = $interpretor->generateInflectedForm($word);
+                $response->setContent(json_encode(["word" => $word->toJSON(), "inflectedForms" => $inflectedForms]));
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
@@ -196,7 +199,7 @@ class AppController extends AbstractController {
                     array_push($categories, $cat->toJSON());
                 }
                 $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent(json_encode(  $categories));
+                $response->setContent(json_encode($categories));
             } else {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->setContent(json_encode([]));

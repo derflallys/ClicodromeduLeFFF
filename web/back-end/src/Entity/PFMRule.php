@@ -22,15 +22,25 @@ class PFMRule
     private $applicationLevel;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $rule;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="rules")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tagWord;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tagCategory;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $result;
 
     public function getId(): ?int
     {
@@ -49,18 +59,6 @@ class PFMRule
         return $this;
     }
 
-    public function getRule(): ?string
-    {
-        return $this->rule;
-    }
-
-    public function setRule(string $rule): self
-    {
-        $this->rule = $rule;
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -69,6 +67,42 @@ class PFMRule
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getTagWord(): ?string
+    {
+        return $this->tagWord;
+    }
+
+    public function setTagWord(?string $tagWord): self
+    {
+        $this->tagWord = $tagWord;
+
+        return $this;
+    }
+
+    public function getTagCategory(): ?string
+    {
+        return $this->tagCategory;
+    }
+
+    public function setTagCategory(?string $tagCategory): self
+    {
+        $this->tagCategory = $tagCategory;
+
+        return $this;
+    }
+
+    public function getResult(): ?string
+    {
+        return $this->result;
+    }
+
+    public function setResult(string $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }

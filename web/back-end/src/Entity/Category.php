@@ -34,14 +34,16 @@ class Category
     private $rules;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TagCategory", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\TagAssociation", mappedBy="category")
      */
-    private $tags;
+    private $tagsAssociations;
+
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->rules = new ArrayCollection();
+        $this->tagsAssociations = new ArrayCollection();
     }
 
 
@@ -106,41 +108,41 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection|TagCategory[]
-     */
-    public function getTags(): Collection
-    {
-        return $this->tags;
-    }
-
-    public function addTag(TagCategory $tag): self
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-            $tag->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTag(TagCategory $tag): self
-    {
-        if ($this->tags->contains($tag)) {
-            $this->tags->removeElement($tag);
-            // set the owning side to null (unless already changed)
-            if ($tag->getCategory() === $this) {
-                $tag->setCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function toJSON() {
         $json['id'] = $this->getId();
         $json['code'] = $this->getCode();
         $json['name'] = $this->getName();
         return $json;
+    }
+
+    /**
+     * @return Collection|TagAssociation[]
+     */
+    public function getTagsAssociations(): Collection
+    {
+        return $this->tagsAssociations;
+    }
+
+    public function addTagsAssociation(TagAssociation $tagsAssociation): self
+    {
+        if (!$this->tagsAssociations->contains($tagsAssociation)) {
+            $this->tagsAssociations[] = $tagsAssociation;
+            $tagsAssociation->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTagsAssociation(TagAssociation $tagsAssociation): self
+    {
+        if ($this->tagsAssociations->contains($tagsAssociation)) {
+            $this->tagsAssociations->removeElement($tagsAssociation);
+            // set the owning side to null (unless already changed)
+            if ($tagsAssociation->getCategory() === $this) {
+                $tagsAssociation->setCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

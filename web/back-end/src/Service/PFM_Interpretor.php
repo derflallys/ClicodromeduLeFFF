@@ -7,8 +7,10 @@ use App\Entity\Word;
 
 class PFM_Interpretor {
 
-    public function generateInflectedForm(Word $word, PFMRule $rule) {
-        $split = explode("=>", $rule->getRule());
+    public function generateInflectedForm(Word $word) {
+        $rule = $word->getCategory()->getRules();
+        $result =null;
+       /* $split = explode("=>", $rule->getRule());
         $desiredResult = $split[1];
         $prefix = explode("+", $desiredResult)[0];
         $rootWord = explode("+", $desiredResult)[1];
@@ -22,7 +24,7 @@ class PFM_Interpretor {
         }
         else {
             $result = $word->getValue();
-        }
+        }*/
         return $result;
     }
 }
