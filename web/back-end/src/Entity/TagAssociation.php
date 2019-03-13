@@ -19,7 +19,7 @@ class TagAssociation
     /**
      * @ORM\Column(type="text")
      */
-    private $combinattion;
+    private $combination;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="tagsAssociations")
@@ -32,14 +32,14 @@ class TagAssociation
         return $this->id;
     }
 
-    public function getCombinattion(): ?string
+    public function getCombination(): ?string
     {
-        return $this->combinattion;
+        return $this->combination;
     }
 
-    public function setCombinattion(string $combinattion): self
+    public function setCombination(string $combination): self
     {
-        $this->combinattion = $combinattion;
+        $this->combination = $combination;
 
         return $this;
     }
@@ -54,5 +54,10 @@ class TagAssociation
         $this->category = $category;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->combination;
     }
 }
