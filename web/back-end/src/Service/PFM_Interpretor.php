@@ -48,7 +48,7 @@ class PFM_Interpretor {
 
                 //Si il y a plus d'une règle à appliquer
                 if(count($ruleToApply) > 1) {
-                    //foreach ($ruleToApply as $rule) {
+
                     //Tri des règles dans leur ordre d'application (croissant)
                     usort($ruleToApply, function(PFMRule $a, PFMRule $b) {
                         if($a->getApplicationLevel() == $b->getApplicationLevel()){ return 0 ; }
@@ -56,8 +56,31 @@ class PFM_Interpretor {
                     });
 
                     //Même niveau d'application -> on choisit la plus spécifique
-                    //TODO: Garder la règle la plus spécifique
-                    //}
+                    $newRulesTab = [];
+                    //Regroupement des règles du même niveau d'application
+                    foreach ($ruleToApply as $rule) {
+                        if(!isset($newRulesTab[$rule->getApplicationLevel()])) {
+                            $newRulesTab[$rule->getApplicationLevel()] = [];
+                        }
+                        array_push($newRulesTab[$rule->getApplicationLevel()], $rule);
+                    }
+                    $ruleToApply = [];
+                    //Pour chaque niveau d'application, si il y a plus d'une règles, on choisi la plus spécifique
+                    foreach ($newRulesTab as $sortedRule) {
+                        if(count($sortedRule)> 1) {
+                            $selectedRule = $sortedRule[0];
+                            for($i=1; $i < count($sortedRule); $i++) {
+                                if (count(explode(";", $sortedRule[$i]->getTagCategory())) >
+                                    count(explode(";", $selectedRule->getTagCategory()))) {
+                                    $selectedRule = $sortedRule[$i];
+                                }
+                            }
+                            array_push($ruleToApply, $selectedRule);
+                        }
+                        else {
+                            array_push($ruleToApply, $sortedRule[0]);
+                        }
+                    }
                 }
 
                 $newForm = "";
