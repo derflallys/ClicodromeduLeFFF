@@ -445,7 +445,7 @@ class AppFixtures extends Fixture
                     [
                         'level' => 4,
                         'tagWord' => ['xaridan'],
-                        'tagCategory' => ['evid', '3sg'],
+                        'tagCategory' => ['evind', '3sg'],
                         'result' => "{word}ast"
                     ]
                 ],
