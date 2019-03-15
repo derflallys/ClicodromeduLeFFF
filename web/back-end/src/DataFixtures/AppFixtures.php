@@ -4,17 +4,18 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\PFMRule;
+use App\Entity\TagAssociation;
 use App\Entity\TagCategory;
 use App\Entity\TagWord;
 use App\Entity\Word;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Finder\Finder;
 
 class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
-    {
-        $categories = [
+    public function getData() {
+        $data = [
             [
                 'code' => 'adj',
                 'label' => 'adjectif',
@@ -25,15 +26,11 @@ class AppFixtures extends Fixture
                     ],
                     [
                         'value' => 'abortif',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'abouti',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'classe',
@@ -41,47 +38,30 @@ class AppFixtures extends Fixture
                     ],
                     [
                         'value' => 'clément',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'coaxial',
-                        'tags' => [
-                            'masculin'
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'drapé',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'embêtant',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'empressé',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ],
                     [
                         'value' => 'international',
-                        'tags' => [
-                            'masculin',
-                        ]
+                        'tags' => []
                     ]
                 ],
-                'rules' => [
-                    /*[
-                        'level' => '',
-                        'label' => ''
-                    ],*/
-                ],
+                'rules' => [],
                 'tags' => []
             ],
             [
@@ -127,7 +107,7 @@ class AppFixtures extends Fixture
                     [
                         'value' => 'à priori',
                         'tags' => []
-                    ],
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
@@ -175,7 +155,7 @@ class AppFixtures extends Fixture
                     [
                         'value' => 'vraiment pas',
                         'tags' => []
-                    ],
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
@@ -188,72 +168,72 @@ class AppFixtures extends Fixture
                         'value' => 'abondement',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'bleuet',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'cardinal',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'cardiopathie',
                         'tags' => [
                             'feminin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'cerceaux',
                         'tags' => [
                             'masculin',
-                            'pluriel',
+                            'pluriel'
                         ]
                     ],
                     [
                         'value' => 'danger',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'délivreur',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'flambeau',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'impact',
                         'tags' => [
                             'masculin',
-                            'singulier',
+                            'singulier'
                         ]
                     ],
                     [
                         'value' => 'pension',
                         'tags' => [
                             'feminin',
-                            'singulier',
+                            'singulier'
                         ]
-                    ],
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
@@ -305,7 +285,7 @@ class AppFixtures extends Fixture
                     [
                         'value' => 'Thiezac',
                         'tags' => []
-                    ],
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
@@ -341,7 +321,7 @@ class AppFixtures extends Fixture
                     [
                         'value' => 'en absence de',
                         'tags' => []
-                    ],
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
@@ -351,76 +331,135 @@ class AppFixtures extends Fixture
                 'label' => 'verbe',
                 'words' => [
                     [
-                      'value' => 'couper',
-                        'tags' => [
-                            'groupe1',
-                        ]
+                        'value' => 'couper',
+                        'tags' => ['groupe1']
                     ],
                     [
                         'value' => 'crier',
-                        'tags' => [
-                            'groupe1',
-                        ]
+                        'tags' => ['groupe1']
                     ],
                     [
                         'value' => 'dégainer',
-                        'tags' => [
-                            'groupe1',
-                        ]
+                        'tags' => ['groupe1']
                     ],
                     [
                         'value' => 'abolir',
-                        'tags' => [
-                            'groupe2',
-                        ]
+                        'tags' => ['groupe2']
                     ],
                     [
                         'value' => 'bâtir',
-                        'tags' => [
-                            'groupe2',
-                        ]
+                        'tags' => ['groupe2']
                     ],
                     [
                         'value' => 'applaudir',
-                        'tags' => [
-                            'groupe2',
-                        ]
+                        'tags' => ['groupe2']
                     ],
                     [
                         'value' => 'ouvrir',
-                        'tags' => [
-                            'groupe3',
-                        ]
+                        'tags' => ['groupe3']
                     ],
                     [
                         'value' => 'pouvoir',
-                        'tags' => [
-                            'groupe3',
-                        ]
+                        'tags' => ['groupe3']
                     ],
                     [
                         'value' => 'vaincre',
-                        'tags' => [
-                            'groupe3',
-                        ]
+                        'tags' => ['groupe3']
                     ],
                     [
                         'value' => 'vouloir',
-                        'tags' => [
-                            'groupe3',
-                        ]
+                        'tags' => ['groupe3']
                     ],
                     [
                         'value' => 'mordre',
-                        'tags' => [
-                            'groupe3',
-                        ]
-                    ],
+                        'tags' => ['groupe3']
+                    ]
                 ],
                 'rules' => [],
                 'tags' => []
             ],
+            [
+                'code' => 'persian',
+                'label' => 'mots perses',
+                'words' => [
+                    [
+                        'value' => 'xaridan',
+                        'tags' => []
+                    ]
+                ],
+                'rules' => [
+                    [
+                        'level' => 0,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => [],
+                        'result' => "xar",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ["pst"],
+                        'result' => "xarid",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ["ind", "ipfv"],
+                        'result' => "mi{word}",
+                    ],
+                    [
+                        'level' => 2,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['neg'],
+                        'result' => "na{word}",
+                    ],
+                    [
+                        'level' => 2,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['ind', 'ipfv', 'neg'],
+                        'result' => "ne{word}",
+                    ],
+                    [
+                        'level' => 3,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['evind'],
+                        'result' => "{word}e",
+                    ],
+                    [
+                        'level' => 4,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['1sg'],
+                        'result' => "{word}am",
+                    ],
+                    [
+                        'level' => 4,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['2sg'],
+                        'result' => "{word}i",
+                    ],
+                    [
+                        'level' => 4,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['prs', '3sg'],
+                        'result' => "{word}ad",
+                    ],
+                    [
+                        'level' => 4,
+                        'tagWord' => ['xaridan'],
+                        'tagCategory' => ['evid', '3sg'],
+                        'result' => "{word}ast"
+                    ]
+                ],
+                'tags' => [
+                    ['ind', 'pst', 'evdir', 'ipfv', 'neg', '3sg'],
+                    ['ind', 'pst', 'pfv', 'evind', 'nonprf', 'neg', '3sg'],
+                ]
+            ]
         ];
+        return $data;
+    }
+    public function load(ObjectManager $manager)
+    {
+        $categories = $this->getData();
 
         foreach ($categories as $item) {
             $category = new Category();
@@ -432,29 +471,23 @@ class AppFixtures extends Fixture
                 $word = new Word();
                 $word->setValue($wordData['value']);
                 $word->setCategory($category);
+                $word->setTags(implode(";", $wordData['tags']));
                 $manager->persist($word);
-
-                foreach ($wordData['tags'] as $tag) {
-                    $tagWord = new TagWord();
-                    $tagWord->setKeyTag(null);
-                    $tagWord->setValueTag($tag);
-                    $tagWord->setWord($word);
-                    $manager->persist($tagWord);
-                }
             }
 
             foreach ($item['rules'] as $PFMdata) {
                 $rule = new PFMRule();
                 $rule->setCategory($category);
                 $rule->setApplicationLevel($PFMdata['level']);
-                $rule->setRule($PFMdata['label']);
+                $rule->setTagWord(implode(";", $PFMdata['tagWord']));
+                $rule->setTagCategory(implode(";", $PFMdata['tagCategory']));
+                $rule->setResult($PFMdata['result']);
                 $manager->persist($rule);
             }
 
             foreach ($item['tags'] as $tagC) {
-                $tagCat = new TagCategory();
-                $tagCat->setKeyTag(null);
-                $tagCat->setValueTag($tagC);
+                $tagCat = new TagAssociation();
+                $tagCat->setCombination(implode(";", $tagC));
                 $tagCat->setCategory($category);
                 $manager->persist($tagCat);
             }

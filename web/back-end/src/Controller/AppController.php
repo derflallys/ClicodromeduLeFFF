@@ -5,14 +5,31 @@ namespace App\Controller;
 use App\Service\PFM_Interpretor;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use App\Entity\Category;
 use App\Entity\Word;
 
 class AppController extends AbstractController {
+
+    /**
+     * @Route("/", name="test")
+     */
+    public function test() {
+        $content = trim(file_get_contents(__DIR__ . "/data.txt"), "\xEF\xBB\xBF");
+        utf8_encode($content);
+        $categories = json_decode( $content, true );
+
+        var_dump($categories);
+
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setContent($content);
+        return $response;
+    }
+
     /**
      * @Route("/list/word/{word}", name="searchWord", methods={"GET"})
      */
@@ -29,7 +46,7 @@ class AppController extends AbstractController {
                 array_push($res, $search->toJSON());
             }
             if (count($res) > 0) {
-                $response->setContent(json_encode($res));
+                $response->setContent(json_encode($res, JSON_UNESCAPED_UNICODE));
             } else {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->setContent(json_encode([]));
@@ -54,7 +71,7 @@ class AppController extends AbstractController {
                 $response->headers->set('Content-Type', 'application/json');
                 $interpretor = new PFM_Interpretor();
                 $inflectedForms = $interpretor->generateInflectedForm($word);
-                $response->setContent(json_encode(["word" => $word->toJSON(), "inflectedForms" => $inflectedForms]));
+                $response->setContent(json_encode(["word" => $word->toJSON(), "inflectedForms" => $inflectedForms], JSON_UNESCAPED_UNICODE));
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
@@ -89,7 +106,7 @@ class AppController extends AbstractController {
                 $em->flush();
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($word->toJSON()));
+                $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
             }
 
         } catch (Exception $e) {
@@ -127,7 +144,7 @@ class AppController extends AbstractController {
                     $em->flush();
                     $response->setStatusCode(Response::HTTP_OK);
                     $response->headers->set('Content-Type', 'application/json');
-                    $response->setContent(json_encode([$word->toJSON()]));
+                    $response->setContent(json_encode([$word->toJSON()], JSON_UNESCAPED_UNICODE));
                 }
             }
             else {
@@ -199,7 +216,7 @@ class AppController extends AbstractController {
                     array_push($categories, $cat->toJSON());
                 }
                 $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent(json_encode($categories));
+                $response->setContent(json_encode($categories, JSON_UNESCAPED_UNICODE));
             } else {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->setContent(json_encode([]));

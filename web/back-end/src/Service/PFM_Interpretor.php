@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\PFMRule;
 use App\Entity\Word;
+use Exception;
 
 class PFM_Interpretor {
 
@@ -15,7 +16,7 @@ class PFM_Interpretor {
         $tagsWord = explode(";", $word->getTags());
         $tagsCombinations = $word->getCategory()->getTagsAssociations();
 
-        /*** Filtrages des règles selon la correspondances avec les tags du mot */
+        /*** Filtrages des règles selon la correspondances avec les tags du mot + Récupération des règles définissant le radical du mot*/
         $usefulRules = [];
         foreach ($rules as $rule) {
             // Est-ce qu'un tag du mot est renseigné dans la règles ?
@@ -24,6 +25,11 @@ class PFM_Interpretor {
                     array_push($usefulRules, $rule);
                     break;
                 }
+            }
+
+            //Est ce que le mot en lui-même est un tag de la règle
+            if(in_array($word->getValue(), explode(";", $rule->getTagWord()))) {
+                array_push($usefulRules, $rule);
             }
         }
 
@@ -37,8 +43,8 @@ class PFM_Interpretor {
             $ruleToApply = [];
 
             foreach ($usefulRules as $r) {
-                //Si TOUS les tags de la combinaisons sont renseignés dans la règle
-                if(!array_diff(explode(";", $tags), explode(";", $r->getTagCategory()))) {
+                //Si TOUS les tags de la règle sont renseignés dans la combinaisons OU aucun tag n'est rensigné dans la règle
+                if(!array_diff(explode(";", $r->getTagCategory()), explode(";", $tags)) || empty($r->getTagCategory()) ) {
                     array_push($ruleToApply, $r);
                 }
             }
@@ -70,9 +76,14 @@ class PFM_Interpretor {
                         if(count($sortedRule)> 1) {
                             $selectedRule = $sortedRule[0];
                             for($i=1; $i < count($sortedRule); $i++) {
-                                if (count(explode(";", $sortedRule[$i]->getTagCategory())) >
-                                    count(explode(";", $selectedRule->getTagCategory()))) {
+                                $nbTagI = count(explode(";", $sortedRule[$i]->getTagCategory()));
+                                $nbTagSelect = count(explode(";", $selectedRule->getTagCategory()));
+                                if ($nbTagI > $nbTagSelect) {
                                     $selectedRule = $sortedRule[$i];
+                                } else if($sortedRule[$i]->getTagCategory() != "" && $selectedRule->getTagCategory() == "" ) {
+                                    $selectedRule = $sortedRule[$i];
+                                } else {
+                                    throw new Exception("Error : Conflict beetween 2 rules with the same number of tags.");
                                 }
                             }
                             array_push($ruleToApply, $selectedRule);
@@ -83,10 +94,19 @@ class PFM_Interpretor {
                     }
                 }
 
-                $newForm = "";
+                //Application de la/les règle(s)
+                $newForm = null;
                 foreach ($ruleToApply as $rule) {
-                    //TODO: Application de la/les règle(s)
-                    $newForm .= $rule->getApplicationLevel();
+                    if(strpos($rule->getResult(), "{word}") !== false || strpos($rule->getResult(), "{radical}") !== false) {
+                        if(strpos($rule->getResult(), "{word}") !== false) {
+                            $newForm = str_replace("{word}", $newForm, $rule->getResult());
+                        }
+                        else {
+                            $newForm = str_replace("{radical}", $newForm, $rule->getResult());
+                        }
+                    } else {
+                        $newForm = $rule->getResult();
+                    }
                 }
                 array_push($result, $newForm);
             }

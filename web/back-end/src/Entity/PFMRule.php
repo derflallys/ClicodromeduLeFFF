@@ -106,4 +106,9 @@ class PFMRule
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return "{" . $this->getApplicationLevel() . "},{" . $this->getTagWord() . "},{" . $this->getTagCategory() . "}=>" . $this->getResult();
+    }
 }
