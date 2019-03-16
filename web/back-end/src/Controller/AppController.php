@@ -13,23 +13,6 @@ use App\Entity\Category;
 use App\Entity\Word;
 
 class AppController extends AbstractController {
-
-    /**
-     * @Route("/", name="test")
-     */
-    public function test() {
-        $content = trim(file_get_contents(__DIR__ . "/data.txt"), "\xEF\xBB\xBF");
-        utf8_encode($content);
-        $categories = json_decode( $content, true );
-
-        var_dump($categories);
-
-        $response = new Response();
-        $response->headers->set('Content-Type', 'application/json');
-        $response->setContent($content);
-        return $response;
-    }
-
     /**
      * @Route("/list/word/{word}", name="searchWord", methods={"GET"})
      */
@@ -180,28 +163,6 @@ class AppController extends AbstractController {
         }
         return $response;
     }
-
-    /**
-     * @Route("/report/word/{idWord}", name="reportWord")
-     */
-    /*public function reportWord($idWord)
-    {
-        $response = new Response();
-        try {
-            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
-            if ($word != null) {
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent('Signalemennt du mot \'' . $word->getValue() . '\' effectué avec succès');
-            } else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
-            }
-        } catch (Exception $e) {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($e->getMessage());
-        }
-        return $response;
-    }*/
 
     /**
      * @Route("/get/category", name="getCategory", methods={"GET"})
