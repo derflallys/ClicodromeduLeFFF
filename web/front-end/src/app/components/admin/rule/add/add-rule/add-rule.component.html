@@ -1,0 +1,25 @@
+<div class="content">
+  <h1>Ajout d'une nouvelle règle</h1>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    Une erreur est survenue.
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="addrule">
+
+    <mat-form-field>
+      <input matInput placeholder="Regle" formControlName="regle">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Categorie" formControlName="categorie">
+
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Niveau" formControlName="niveau">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Radical" formControlName="radical">
+    </mat-form-field>
+    <button mat-raised-button color="warn" type="submit">Enregistrer la régle</button>
+  </form>
+</div>
+
