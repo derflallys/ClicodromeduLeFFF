@@ -1,6 +1,13 @@
+<div class="centerDiv" *ngIf="loading.status">
+    <mat-progress-spinner
+            [color]="loading.color"
+            [mode]="loading.mode"
+            [value]="loading.value">
+    </mat-progress-spinner>
+</div>
 <div *ngIf="!loading.status">
   <div class="content">
-    <h1>Ajout une combinaison de règles</h1>
+    <h1>Ajouter une combinaison de règles</h1>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="addCombinaison">
 
@@ -19,7 +26,7 @@
             <input matInput placeholder="Valeur" formControlName="RuleValue_">
           </mat-form-field>
         </div>
-        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter un règle</button>
+        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter une règle</button>
       </div>
 
       <button mat-raised-button color="warn" type="submit">Enregistrer la combinaison</button>
