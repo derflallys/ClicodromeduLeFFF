@@ -45,13 +45,9 @@ const appRoutes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full',
   },
-<<<<<<< HEAD
-  { path: '**', component: PageNotFoundComponent }
-
-=======
+  { path: '**', component: PageNotFoundComponent },
   { path: 'combin', component : CombinaisonComponent},
   { path: '**', component: PageNotFoundComponent },
->>>>>>> 05ef5d1f8311329a0b3e8e12cd796d2e43359ad4
 ];
 
 @NgModule({
@@ -66,12 +62,8 @@ const appRoutes: Routes = [
     ModifyWordComponent,
     ConsultationComponent,
     AddWordComponent,
-<<<<<<< HEAD
-    AddRuleComponent
-=======
-    CombinaisonComponent
->>>>>>> 05ef5d1f8311329a0b3e8e12cd796d2e43359ad4
-  ],
+    AddRuleComponent,
+    CombinaisonComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
