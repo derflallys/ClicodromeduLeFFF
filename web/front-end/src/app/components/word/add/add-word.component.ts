@@ -58,12 +58,9 @@ export class AddWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }*/
-    this.word = new  Word(null, lemme,/* genre, nombre,*/ category, this.tagsAdded);
-    //this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
+    this.word = new  Word(null, lemme, category, this.tagsAdded);
     this.wordTags = {
       word: this.word,
-      //tags: this.tags
-      //tags: this.tagsAdded
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
     this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
