@@ -23,7 +23,7 @@ export class WordService {
   private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
-  getListWords(word: String): Observable<any> {
+  getListWords(word: string): Observable<any> {
     return this.http.get<any>(this.searchWordUrl + '/' + word).pipe(
         catchError(this.handleError)
     );
