@@ -28,6 +28,7 @@ import {
   MatProgressSpinnerModule,
   MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule
 } from '@angular/material';
+import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 
 
@@ -39,10 +40,12 @@ const appRoutes: Routes = [
   { path: 'modify/:id', component: ModifyWordComponent },
   { path: 'show/:id', component: ConsultationComponent },
   { path: 'add', component: AddWordComponent  },
+  { path: 'addrule', component: AddRuleComponent  },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full',
   },
+  { path: '**', component: PageNotFoundComponent },
   { path: 'combin', component : CombinaisonComponent},
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -59,8 +62,8 @@ const appRoutes: Routes = [
     ModifyWordComponent,
     ConsultationComponent,
     AddWordComponent,
-    CombinaisonComponent
-  ],
+    AddRuleComponent,
+    CombinaisonComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
