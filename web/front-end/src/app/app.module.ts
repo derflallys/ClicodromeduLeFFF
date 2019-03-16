@@ -12,11 +12,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AddWordComponent} from './components/word/add/add-word.component';
-import {ModifyWordComponent} from './components/word/modify/modify-word.component';
+import {ModifyWordComponent} from './components/word/add/modify/modify-word.component';
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
+import { CombinaisonComponent } from './components/admin/combinaison/combinaison.component';
 
-//Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatToolbarModule,
@@ -31,6 +31,8 @@ import {
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 
+
+
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
@@ -43,8 +45,13 @@ const appRoutes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full',
   },
+<<<<<<< HEAD
   { path: '**', component: PageNotFoundComponent }
 
+=======
+  { path: 'combin', component : CombinaisonComponent},
+  { path: '**', component: PageNotFoundComponent },
+>>>>>>> 05ef5d1f8311329a0b3e8e12cd796d2e43359ad4
 ];
 
 @NgModule({
@@ -59,7 +66,11 @@ const appRoutes: Routes = [
     ModifyWordComponent,
     ConsultationComponent,
     AddWordComponent,
+<<<<<<< HEAD
     AddRuleComponent
+=======
+    CombinaisonComponent
+>>>>>>> 05ef5d1f8311329a0b3e8e12cd796d2e43359ad4
   ],
   imports: [
     BrowserModule,

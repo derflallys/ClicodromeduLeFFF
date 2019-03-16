@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Word} from '../../../models/Word';
+import {Word} from '../../../../models/Word';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Route, Router} from '@angular/router';
-import {WordService} from '../../../services/word.service';
+import {WordService} from '../../../../services/word.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Category} from '../../../models/Category';
+import {Category} from '../../../../models/Category';
 
 
 
