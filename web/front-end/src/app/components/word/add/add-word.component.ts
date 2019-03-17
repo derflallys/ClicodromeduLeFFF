@@ -3,8 +3,9 @@ import {Word} from '../../../models/Word';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Tag} from '../../../models/Tag';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
+import {validate} from "codelyzer/walkerFactory/walkerFn";
 
 @Component({
   selector: 'app-add-word',
@@ -15,79 +16,67 @@ export class AddWordComponent  implements OnInit {
   addWord: FormGroup;
   word: Word  ;
   categories: Category[];
-  //tags: Tags;
   error = false;
 
-  searchInput: String;
+  searchInput: string;
   loading = {
     status: false,
     color: 'primary',
     mode: 'indeterminate',
     value: 50
   };
-  tagsAdded: Tag[];
+  tags: [];
 
   constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
-/*  genres = ['Feminin' , 'Masculin'];
-  nombres = ['Pluriel' , 'Singulier'];*/
   wordTags;
+  tagstoString(tags): string {
+    let textTags = '';
+    for (let i = 0; i < tags.length-1 ; i++) {
+      textTags = textTags.concat(tags[i].value, ';');
+    }
+    textTags = textTags.concat(tags[tags.length - 1].value);
+
+    return textTags;
+  }
 
   onSubmit() {
-    console.log('submit');
+    console.log(this.addWord.value.tags);
     if (this.addWord.invalid) {
       this.error = true;
       return;
     }
-    console.log(this.addWord.controls.lemme.value);
+    const tags = this.tagstoString(this.addWord.value.tags);
+    console.log(tags);
     const lemme = this.addWord.controls.lemme.value;
     const cat = this.addWord.controls.category.value;
-    console.log(this.categories);
-    console.log(cat);
     const category: Category = this.categories.filter(obj => {
       return obj.id === Number(cat); })[0];
-    console.log(category);
-/*    let genre;
-    if (this.addWord.controls.genre.value === 'Masculin') {
-      genre = 1;
-    } else {
-      genre = 0;
-    }
-    let nombre;
-    if (this.addWord.controls.nombre.value === 'Pluriel') {
-      nombre = 1;
-    } else {
-      nombre = 0;
-    }*/
-    this.word = new  Word(null, lemme, category, this.tagsAdded);
-    this.wordTags = {
-      word: this.word,
-    };
-    // if (Object.keys(this.wordTags.tags).length === 0 ) {
+
+    this.word = new  Word(null, lemme, category, tags);
     this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
       this.route.navigate(['/list', this.word.value]);
     } else {
       this.error = true;
     }});
-    /* } else {
-       this.service.addWordModified(this.word);
-     }*/
 
-    console.log(JSON.stringify(this.wordTags));
+
+    console.log(JSON.stringify(this.word));
+  }
+  createTag() {
+    return this.formBuilder.group({
+        value: ['']
+    });
+  }
+  addTagField() {
+    (this.addWord.controls['tags'] as FormArray).push(this.createTag());
   }
 
   ngOnInit() {
     this.addWord = this.formBuilder.group({
       lemme: ['', Validators.required],
       category: ['', Validators.required],
-/*      genre: [''],
-      nombre: [''],
-      obl: [''],
-      obj: [''],
-      obja: [''],
-      objde: ['']*/
+      tags : this.formBuilder.array([this.createTag()])
     });
-    this.tagsAdded = [];
-    this.tagsAdded.push(null);
     this.loading.status = true;
     this.service.getCategories().subscribe(
         categories => {
@@ -97,7 +86,5 @@ export class AddWordComponent  implements OnInit {
     );
   }
 
-  addTag() {
-    this.tagsAdded.push(null);
-  }
+
 }

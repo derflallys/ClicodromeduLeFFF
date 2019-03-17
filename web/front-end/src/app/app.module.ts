@@ -34,6 +34,10 @@ import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.
 
 
 const appRoutes: Routes = [
+  { path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'list/:word', component: ListWordComponent },
@@ -41,13 +45,8 @@ const appRoutes: Routes = [
   { path: 'show/:id', component: ConsultationComponent },
   { path: 'add', component: AddWordComponent  },
   { path: 'addrule', component: AddRuleComponent  },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
   { path: '**', component: PageNotFoundComponent },
-  { path: 'combin', component : CombinaisonComponent},
-  { path: '**', component: PageNotFoundComponent },
+  { path: 'combin', component : CombinaisonComponent}
 ];
 
 @NgModule({

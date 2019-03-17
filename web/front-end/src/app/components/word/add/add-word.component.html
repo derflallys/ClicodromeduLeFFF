@@ -26,17 +26,13 @@
             </mat-form-field>
 
             <div class="tags">
-                <h3>Tags du mot (clé=valeur)</h3>
-                <div class="inline" *ngFor="let tag of tagsAdded">
-                    <mat-form-field>
-                        <input matInput placeholder="Clé" formControlName="tagKey_">
-                    </mat-form-field>
-                    <mat-icon class="icon">arrow_right_alt</mat-icon>
-                    <mat-form-field>
-                        <input matInput placeholder="Valeur" formControlName="tagValue_">
+                <h3>Tags du mot</h3>
+                <div class="inline" formArrayName="tags" *ngFor="let tag of addWord.controls['tags'].controls; let i = index">
+                    <mat-form-field  [formGroupName]="i">
+                        <input matInput placeholder="Valeur" formControlName="value">
                     </mat-form-field>
                 </div>
-                <button mat-raised-button color="primary" type="button" (click)="addTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>
+                <button mat-raised-button color="primary" type="button" (click)="addTagField()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>
             </div>
 
             <button mat-raised-button color="warn" type="submit">Enregistrer le mot</button>

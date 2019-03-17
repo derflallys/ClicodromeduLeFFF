@@ -1,9 +1,9 @@
 import {Category} from './Category';
+import {Tag} from './Tag';
 
 export interface IWord {
   id: number;
   value: string;
-  /*genre: number;
-  nombre: number;*/
   category: Category;
+  tags: string;
 }
