@@ -80,7 +80,7 @@ export class AddWordComponent  implements OnInit {
         config.horizontalPosition = 'center';
         config.duration = 5000;
 
-        this.service.addWordModified(this.wordTags).subscribe(
+        this.service.addWord(this.wordTags).subscribe(
             response => {
                 console.log(response);
                 this.saveRequest = false;

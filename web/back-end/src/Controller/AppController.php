@@ -76,15 +76,16 @@ class AppController extends AbstractController {
         try {
             $content = $request->getContent();
             $parametersAsArray = json_decode($content, true);
-            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['word']['category']);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
             if (!$category) {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $parametersAsArray['word']['category']['id']);
+                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
             }
             else {
                 $word = new Word();
                 $word->setCategory($category);
-                $word->setValue($parametersAsArray['word']['value']);
+                $word->setValue($parametersAsArray['value']);
+                $word->setTags($parametersAsArray['tags']);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($word);
                 $em->flush();
