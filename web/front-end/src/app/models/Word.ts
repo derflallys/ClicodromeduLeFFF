@@ -1,11 +1,14 @@
+import {IWord} from './IWord';
 import {Category} from './Category';
+import {Tag} from './Tag';
 
-export class Word {
+export class Word implements IWord {
     id: number;
     value: string;
     category: Category;
     tags: string;
     inflectedForms: string[];
+
 
     constructor(id: number = null, value: string, category: Category, tags: string, inflectedForms: string[]) {
         this.id = null;
@@ -14,4 +17,5 @@ export class Word {
         this.tags = tags;
         this.inflectedForms = inflectedForms;
     }
+
 }

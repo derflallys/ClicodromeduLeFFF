@@ -2,21 +2,20 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {RouterModule, Routes} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
-import {HomeComponent} from './components/home/home.component';
 import {SearchComponent} from './components/word/search/search.component';
 import {UploadLefffComponent} from './components/admin/upload-lefff/upload-lefff.component';
 import {AdminHomeComponent} from './components/admin/admin-home/admin-home.component';
+import {RouterModule, Routes} from '@angular/router';
+import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
+import {HomeComponent} from './components/home/home.component';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 import {AddWordComponent} from './components/word/add/add-word.component';
 import {ModifyWordComponent} from './components/word/add/modify/modify-word.component';
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
-import {SnackbarComponent} from './components/snackbar/snackbar.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -33,11 +32,16 @@ import {
   MatSelectModule,
   MatInputModule,
   MatListModule,
+  MatSnackBarModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 const appRoutes: Routes = [
+  { path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
   { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'list/:word', component: ListWordComponent },
@@ -45,12 +49,8 @@ const appRoutes: Routes = [
   { path: 'show/:id', component: ConsultationComponent },
   { path: 'add', component: AddWordComponent  },
   { path: 'addrule', component: AddRuleComponent  },
-  { path: 'combin', component : CombinaisonComponent},
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
   { path: '**', component: PageNotFoundComponent },
+  { path: 'combin', component : CombinaisonComponent}
 ];
 
 @NgModule({
@@ -67,7 +67,7 @@ const appRoutes: Routes = [
     AddWordComponent,
     AddRuleComponent,
     CombinaisonComponent,
-    SnackbarComponent],
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -90,7 +90,8 @@ const appRoutes: Routes = [
     MatOptionModule,
     MatSelectModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

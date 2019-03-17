@@ -11,33 +11,39 @@
     <div class="content">
         <h1>Ajout d'un nouveau mot</h1>
         <div class="error" *ngIf="error">
-            Le formulaire contient une erreur.
+            Le formulaire contient une ou plusieurs erreurs.
         </div>
         <form (ngSubmit)="onSubmit()" [formGroup]="addWord">
             <mat-form-field>
                 <input matInput placeholder="Lemme" formControlName="lemme">
             </mat-form-field>
             <mat-form-field>
-                <mat-select [(value)]="selectedCategory">
+                <mat-select placeholder="Catégorie" formControlName="category" [(value)]="selectedCategory">
                     <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
 
             <div class="tags">
-                <h3>Tags du mot (clé=valeur)</h3>
-                <div class="inline" *ngFor="let tag of tagsAdded">
-                    <mat-form-field>
-                        <input matInput placeholder="Clé">
-                    </mat-form-field>
-                    <mat-icon class="icon">arrow_right_alt</mat-icon>
-                    <mat-form-field>
-                        <input matInput placeholder="Valeur">
+                <h3>Tags du mot</h3>
+                <div formArrayName="tags" *ngFor="let tag of addWord.controls['tags'].controls; let i = index">
+                    <mat-form-field  [formGroupName]="i">
+                        <input matInput placeholder="Valeur" formControlName="value">
                     </mat-form-field>
                 </div>
-                <button mat-raised-button color="primary" type="button" (click)="addTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>
+                <button mat-raised-button color="primary" type="button" (click)="addTagField()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>
             </div>
 
-            <button mat-raised-button color="warn" type="submit">Enregistrer le mot</button>
+            <div class="validation">
+                <button mat-raised-button color="warn" type="submit">Enregistrer le mot</button>
+                <div *ngIf="saveRequest" class="spinner">
+                    <mat-progress-spinner
+                            [color]="loading.color"
+                            [mode]="loading.mode"
+                            [value]="loading.value"
+                            [diameter]="50">
+                    </mat-progress-spinner>
+                </div>
+            </div>
         </form>
     </div>
 </div>

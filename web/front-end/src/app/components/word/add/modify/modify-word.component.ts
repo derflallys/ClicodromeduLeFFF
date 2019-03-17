@@ -67,8 +67,8 @@ export class ModifyWordComponent  implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.service.getWord(Number(id)).subscribe(
       w => {
-      this.word = w;
-    });
+        this.word = w;
+      });
 
     this.service.getCategories().subscribe(
       categories => {
