@@ -27,7 +27,6 @@ export class AddWordComponent  implements OnInit {
         value: 50
     };
     tags: [];
-    wordTags;
     selectedCategory;
     saveRequest = false;
 
@@ -80,7 +79,7 @@ export class AddWordComponent  implements OnInit {
         config.horizontalPosition = 'center';
         config.duration = 5000;
 
-        this.service.addWord(this.wordTags).subscribe(
+        this.service.addWord(this.word).subscribe(
             response => {
                 console.log(response);
                 this.saveRequest = false;
