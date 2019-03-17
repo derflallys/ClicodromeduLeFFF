@@ -10,10 +10,12 @@
   <div class="search-bar"><app-search [searchInput]="this.searchInput"></app-search></div>
 
   <div class="content">
-    <p *ngIf="word == null" class="error">Une erreur est survenue.</p>
+    <div *ngIf="word == null" class="error">Une erreur est survenue.</div>
     <div *ngIf="word != null;">
       <h1>Formes flechies du mot : {{word.value}} ({{word.category.name}})</h1>
-      <p *ngIf="word.tags != ''" class="tags"><i>Tags du mot : {{word.tags}}</i></p>
+      <p *ngIf="word.tags != ''" class="tags">
+        <i>Tags du mot : {{tagsSplit}}</i>
+      </p>
       <p *ngIf="word.tags == ''" class="tags"><i>Aucun tag n'est rensigné pour ce mot.</i></p>
 
       <div class="actions">

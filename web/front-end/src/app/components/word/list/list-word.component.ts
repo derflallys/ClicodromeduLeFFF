@@ -42,11 +42,15 @@ export class ListWordComponent implements OnInit {
         this.words.splice(0, this.words.length);
         this.service.getListWords(this.searchInput).subscribe(
             w => {
-                if(w !== null) {
+                if (w !== null) {
                     this.words = w;
                 } else {
                     this.words = [];
                 }
+                this.queryTime = ((new Date().getTime() - queryStartFrom) / 1000).toString();
+                this.loading.status = false;
+            }, error => {
+                this.words = [];
                 this.queryTime = ((new Date().getTime() - queryStartFrom) / 1000).toString();
                 this.loading.status = false;
             }

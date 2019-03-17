@@ -23,32 +23,18 @@ export class WordService {
   constructor(private http: HttpClient) { }
 
   getListWords(word: string): Observable<any> {
-    return this.http.get<any>(this.searchWordUrl + '/' + word).pipe(
-        catchError(this.handleError)
-    );
+    return this.http.get<any>(this.searchWordUrl + '/' + word);
   }
   updateWord(word: Word, id: number) {
-    return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions )
-        .pipe(
-            catchError(this.handleError)
-        )
-        ;
+    return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions);
   }
 
   addWordModified(word: Word) {
-    return this.http.post<Response>(this.addWordUrl, word, httpOptions  )
-        .pipe(
-            catchError(this.handleError)
-        );
+    return this.http.post<Response>(this.addWordUrl, word, httpOptions);
   }
 
   getWord(id): Observable<Word> {
-    return this.http.get<Word>(this.wordUrl + '/' + id)
-        .pipe(
-            catchError((error: HttpErrorResponse) => {
-              return [];
-            })
-        );
+    return this.http.get<Word>(this.wordUrl + '/' + id);
   }
 
   getCategories(): Observable<Category[]> {

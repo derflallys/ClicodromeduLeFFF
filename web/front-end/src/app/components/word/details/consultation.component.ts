@@ -11,6 +11,7 @@ import {Word} from '../../../models/Word';
 export class ConsultationComponent implements OnInit {
     word: Word;
     searchInput: string;
+    tagsSplit: string;
 
     loading = {
         status: false,
@@ -26,7 +27,11 @@ export class ConsultationComponent implements OnInit {
         this.service.getWord(this.route.snapshot.paramMap.get('id')).subscribe(
             w => {
                 this.word = w;
+                this.tagsSplit = w.tags.replace(/;/g, ' / ');
                 this.loading.status = false;
+            }, error => {
+                this.loading.status = false;
+                this.word = null;
             }
         );
     }
