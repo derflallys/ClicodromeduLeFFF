@@ -18,7 +18,7 @@ export class ListWordComponent implements OnInit {
     displayedColumns: string[] = ['word', 'category', 'actions'];
     loading = {
         status: false,
-        color: 'primary',
+        color: 'accent',
         mode: 'indeterminate',
         value: 50
     };

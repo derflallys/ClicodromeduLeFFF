@@ -1,65 +1,43 @@
-<div class="content">
-  <header>
-<!--    <mat-toolbar class="toolbar" color="light">
-      <mat-toolbar-row>
-        <img alt="leFFF Logo" routerLink="/home" src="assets/img/lefff_brand.jpg">
-        <span class="spacer"></span>
-        <div class="item-list">
-          <div *ngIf="login">
-            <a *ngIf="admin"
-               class="item"
-               mat-flat-button
-               color=""
-               matTooltip="Accès à l'administration"
-               routerLink="/admin">
-              <mat-icon class="icon">settings</mat-icon> <span class="item-label">Administration</span>
-            </a>
-            <a class="item"
-               mat-flat-button
-               color=""
-               matTooltip="Ajouter un mot au lexique"
-               routerLink="/add">
-              <mat-icon class="icon">add</mat-icon> <span class="item-label">Ajouter un mot</span>
-            </a>
-            <a class="item"
-               mat-flat-button
-               color=""
-               matTooltip="Se deconnecter de votre compte"
-               routerLink="/home">
-              <mat-icon class="icon">power_settings_new</mat-icon> <span class="item-label">Deconnexion</span>
-            </a>
-            <a class="item"
-               mat-flat-button
-               color=""
-               matTooltip="Mon compte"
-               routerLink="/home">
-              <mat-icon class="icon">account_circle</mat-icon> <span class="item-label">Mon compte</span>
-            </a>
-          </div>
-          <div *ngIf="!login">
-            <a class="item"
-               mat-flat-button
-               color=""
-               routerLink="/home">Connexion</a>
-            <a class="item"
-               mat-flat-button
-               color=""
-               routerLink="/home">Inscription</a>
-          </div>
-        </div>
-      </mat-toolbar-row>
-    </mat-toolbar>-->
-  </header>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
+<div class="app">
+  <mat-toolbar color="primary">
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <a class="logo" routerLink="/">
+      <img alt="leFFF Logo" routerLink="/home" src="assets/img/lefff_brand.jpg">
+    </a>
+    <span class="spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <a mat-button matTooltip="Ajouter un mot au lexique" routerLink="/admin"><mat-icon class="icon">settings</mat-icon> Administration</a>
+      <a mat-button matTooltip="Accès à l'administration" routerLink="/add"><mat-icon class="icon">add</mat-icon> Ajouter un mot</a>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+      <div fxLayout="column">
+        <a mat-button routerLink="/admin"><mat-icon class="icon">settings</mat-icon> Administration</a>
+        <a mat-button routerLink="/add"><mat-icon class="icon">add</mat-icon> Ajouter un mot</a>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill>
+      <div class="content">
+        <main>
+          <router-outlet></router-outlet>
+        </main>
+        <footer>
+          <p>
+            Projet universitaire - Université de Bordeaux</p>
+          <p>
+            Fatima Ezzahra BAKIR &#9672; Oumayma JELLITE &#9672; Guillaume NEDELEC &#9672; Alfred Aboubacar SYLLA
+          </p>
+        </footer>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
 
-<footer>
-  <p>
-    Projet universitaire - Université de Bordeaux</p>
-  <p>
-    Fatima Ezzahra BAKIR &#9672; Oumayma JELLITE &#9672; Guillaume NEDELEC &#9672; Alfred Aboubacar SYLLA
-  </p>
-</footer>
 

@@ -16,7 +16,7 @@ import {ModifyWordComponent} from './components/word/modify/modify-word.componen
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 
-//Angular Material
+// Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatToolbarModule,
@@ -26,7 +26,11 @@ import {
   MatTooltipModule,
   MatTableModule,
   MatProgressSpinnerModule,
-  MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule
+  MatFormFieldModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatInputModule,
+  MatListModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -79,7 +83,8 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatOptionModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

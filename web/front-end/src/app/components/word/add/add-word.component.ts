@@ -23,7 +23,7 @@ export class AddWordComponent  implements OnInit {
   searchInput: String;
   loading = {
     status: false,
-    color: 'primary',
+    color: 'accent',
     mode: 'indeterminate',
     value: 50
   };
