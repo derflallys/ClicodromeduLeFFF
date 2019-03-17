@@ -53,7 +53,7 @@ export class AddWordComponent  implements OnInit {
       return obj.id === Number(cat); })[0];
 
     this.word = new  Word(null, lemme, category, tags);
-    this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
+    this.service.addWord(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
       this.route.navigate(['/list', this.word.value]);
     } else {
       this.error = true;

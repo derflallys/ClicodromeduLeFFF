@@ -5,6 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Word} from '../models/Word';
 import {environment} from '../../environments/environment';
 import {Category} from '../models/Category';
+import {IWord} from '../models/IWord';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,7 +30,7 @@ export class WordService {
     return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions);
   }
 
-  addWordModified(word: Word) {
+  addWord(word: IWord) {
     return this.http.post<Response>(this.addWordUrl, word, httpOptions);
   }
 
