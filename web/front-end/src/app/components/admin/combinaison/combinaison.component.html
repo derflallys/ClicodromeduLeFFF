@@ -1,0 +1,38 @@
+<div class="centerDiv" *ngIf="loading.status">
+    <mat-progress-spinner
+            [color]="loading.color"
+            [mode]="loading.mode"
+            [value]="loading.value">
+    </mat-progress-spinner>
+</div>
+<div *ngIf="!loading.status">
+  <div class="content">
+    <h1>Ajouter une combinaison de règles</h1>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="addCombinaison">
+
+
+      <mat-form-field>
+        <mat-select placeholder="Catégorie" formControlName="category" [(value)]="selected">
+          <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="rules">
+        <h3>Règle  </h3>
+        <div class="inline" *ngFor="let combinaison of CombinAdded">
+          <mat-icon class="icon">arrow_right_alt</mat-icon>
+          <mat-form-field>
+            <input matInput placeholder="Valeur" formControlName="RuleValue_">
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter une règle</button>
+      </div>
+
+      <button mat-raised-button color="warn" type="submit">Enregistrer la combinaison</button>
+
+
+    </form>
+
+  </div>
+</div>

@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Word} from '../../../models/Word';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
-/*
-import {Tag} from '../../../models/Tag';
-*/
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
 
@@ -17,10 +14,10 @@ export class AddWordComponent  implements OnInit {
   addWord: FormGroup;
   word: Word  ;
   categories: Category[];
-  //tags: Tags;
+  // tags: Tags;
   error = false;
 
-  searchInput: String;
+  searchInput: string;
   loading = {
     status: false,
     color: 'accent',
@@ -35,7 +32,7 @@ export class AddWordComponent  implements OnInit {
   wordTags;
 
   onSubmit() {
-    /*console.log('submit');
+    console.log('submit');
     if (this.addWord.invalid) {
       this.error = true;
       return;
@@ -48,24 +45,10 @@ export class AddWordComponent  implements OnInit {
     const category: Category = this.categories.filter(obj => {
       return obj.id === Number(cat); })[0];
     console.log(category);
-/!*    let genre;
-    if (this.addWord.controls.genre.value === 'Masculin') {
-      genre = 1;
-    } else {
-      genre = 0;
-    }
-    let nombre;
-    if (this.addWord.controls.nombre.value === 'Pluriel') {
-      nombre = 1;
-    } else {
-      nombre = 0;
-    }*!/
-    this.word = new  Word(null, lemme,/!* genre, nombre,*!/ category, this.tagsAdded);
-    //this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
+
+    this.word = new Word(null, lemme, category, this.tagsAdded.join(';'), []);
     this.wordTags = {
       word: this.word,
-      //tags: this.tags
-      //tags: this.tagsAdded
     };
     // if (Object.keys(this.wordTags.tags).length === 0 ) {
     this.service.addWordModified(this.wordTags).subscribe(response => {console.log(response) ; if (response.status === 200) {
@@ -73,23 +56,17 @@ export class AddWordComponent  implements OnInit {
     } else {
       this.error = true;
     }});
-    /!* } else {
+    /* } else {
        this.service.addWordModified(this.word);
-     }*!/
+     }*/
 
-    console.log(JSON.stringify(this.wordTags));*/
+    console.log(JSON.stringify(this.wordTags));
   }
 
   ngOnInit() {
     this.addWord = this.formBuilder.group({
       lemme: ['', Validators.required],
       category: ['', Validators.required],
-/*      genre: [''],
-      nombre: [''],
-      obl: [''],
-      obj: [''],
-      obja: [''],
-      objde: ['']*/
     });
     this.tagsAdded = [];
     this.tagsAdded.push(null);
