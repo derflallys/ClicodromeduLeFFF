@@ -14,25 +14,46 @@ export class AddWordComponent  implements OnInit {
   addWord: FormGroup;
   word: Word  ;
   categories: Category[];
-  // tags: Tags;
+  errorRequest = false;
   error = false;
-
   searchInput: string;
   loading = {
     status: false,
-    color: 'accent',
+    color: 'primary',
     mode: 'indeterminate',
     value: 50
   };
   tagsAdded: string[];
-
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
-/*  genres = ['Feminin' , 'Masculin'];
-  nombres = ['Pluriel' , 'Singulier'];*/
   wordTags;
+  selectedCategory;
+
+
+  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) {}
+  ngOnInit() {
+    this.addWord = this.formBuilder.group({
+      lemme: ['', Validators.required],
+      category: ['', Validators.required],
+    });
+    this.tagsAdded = [];
+    this.tagsAdded.push(null);
+    this.loading.status = true;
+    this.service.getCategories().subscribe(
+        categories => {
+          this.categories = categories;
+          this.loading.status = false;
+          if (this.categories.length === 0) {
+            this.errorRequest = true;
+          } else {
+            this.selectedCategory = this.categories[0].id;
+          }
+        }, error => {
+          this.loading.status = false;
+          this.errorRequest = true;
+        }
+    );
+  }
 
   onSubmit() {
-    console.log('submit');
     if (this.addWord.invalid) {
       this.error = true;
       return;
@@ -63,21 +84,6 @@ export class AddWordComponent  implements OnInit {
     console.log(JSON.stringify(this.wordTags));
   }
 
-  ngOnInit() {
-    this.addWord = this.formBuilder.group({
-      lemme: ['', Validators.required],
-      category: ['', Validators.required],
-    });
-    this.tagsAdded = [];
-    this.tagsAdded.push(null);
-    this.loading.status = true;
-    this.service.getCategories().subscribe(
-        categories => {
-          this.categories = categories;
-          this.loading.status = false;
-        },
-    );
-  }
 
   addTag() {
     this.tagsAdded.push(null);

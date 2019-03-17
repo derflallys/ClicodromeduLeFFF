@@ -11,7 +11,6 @@
 .mat-toolbar{
   padding: 10px 10px 10px 25px;
   height: 60px;
-  margin-bottom: 15px;
   border-bottom: 1px solid rgba(198, 198, 198, 0.6);
 }
 
@@ -35,6 +34,7 @@ a {
 }
 
 .content {
+  margin-top: 15px;
   min-height: 100%;
 }
 

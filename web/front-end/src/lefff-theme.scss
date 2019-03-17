@@ -1,8 +1,8 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
-$lefff-app-primary: mat-palette($mat-grey, 50, 300, 900);
-$lefff-app-accent:  mat-palette($mat-light-blue, 800, 700, 900);
+$lefff-app-primary: mat-palette($mat-light-blue, 800, 700, 900);
+$lefff-app-accent:  mat-palette($mat-grey, 50, 300, 900);
 $lefff-app-warn:    mat-palette($mat-red, A700, 600, 900);
 $lefff-app-theme: mat-light-theme($lefff-app-primary, $lefff-app-accent, $lefff-app-warn);
 @include angular-material-theme($lefff-app-theme);

@@ -15,7 +15,7 @@ export class ConsultationComponent implements OnInit {
 
     loading = {
         status: false,
-        color: 'accent',
+        color: 'primary',
         mode: 'indeterminate',
         value: 50
     };

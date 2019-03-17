@@ -16,6 +16,7 @@ import {ModifyWordComponent} from './components/word/add/modify/modify-word.comp
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
+import {SnackbarComponent} from './components/snackbar/snackbar.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -35,9 +36,6 @@ import {
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
-
-
-
 
 const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
@@ -68,7 +66,8 @@ const appRoutes: Routes = [
     ConsultationComponent,
     AddWordComponent,
     AddRuleComponent,
-    CombinaisonComponent],
+    CombinaisonComponent,
+    SnackbarComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

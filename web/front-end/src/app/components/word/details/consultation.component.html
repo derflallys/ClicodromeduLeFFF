@@ -1,3 +1,4 @@
+<div class="search-bar"><app-search [searchInput]="this.searchInput"></app-search></div>
 <div class="centerDiv" *ngIf="loading.status">
   <mat-progress-spinner
           [color]="loading.color"
@@ -7,8 +8,6 @@
 </div>
 
 <div *ngIf="!loading.status">
-  <div class="search-bar"><app-search [searchInput]="this.searchInput"></app-search></div>
-
   <div class="content">
     <div *ngIf="word == null" class="error">Une erreur est survenue.</div>
     <div *ngIf="word != null;">
@@ -19,7 +18,7 @@
       <p *ngIf="word.tags == ''" class="tags"><i>Aucun tag n'est rensigné pour ce mot.</i></p>
 
       <div class="actions">
-        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Modifier le mot</button>
+        <button mat-raised-button color="primary" routerLink="/modify/{{word.id}}">Modifier le mot</button>
         <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Supprimer le mot</button>
       </div>
       <div class="formeFlechies">

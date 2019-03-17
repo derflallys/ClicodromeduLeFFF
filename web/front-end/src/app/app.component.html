@@ -1,5 +1,5 @@
 <div class="app">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="accent">
     <div fxShow="true" fxHide.gt-sm="true">
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
@@ -17,7 +17,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container fxFlexFill>
-    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+    <mat-sidenav color="accent" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
       <div fxLayout="column">
         <a mat-button routerLink="/admin"><mat-icon class="icon">settings</mat-icon> Administration</a>
         <a mat-button routerLink="/add"><mat-icon class="icon">add</mat-icon> Ajouter un mot</a>
