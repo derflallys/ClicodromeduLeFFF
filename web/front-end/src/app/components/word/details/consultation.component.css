@@ -1,3 +1,23 @@
+.search-bar {
+    margin-right: 60px;
+    margin-left: 50px;
+}
+
+.error {
+    border-radius: 5px;
+    color: #D8000C;
+    background-color: #FFD2D2;
+    padding: 25px;
+}
+
+.tags {
+    color: #777;
+}
+
+.noResult {
+    font-size: 24px;
+}
+
 .centerDiv {
     display: flex;
     align-items: center;

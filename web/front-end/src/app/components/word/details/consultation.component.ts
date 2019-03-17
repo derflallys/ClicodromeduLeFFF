@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {WordService} from "../../../services/word.service";
+import {ActivatedRoute} from '@angular/router';
+import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
 
 @Component({
@@ -10,10 +10,12 @@ import {Word} from '../../../models/Word';
 })
 export class ConsultationComponent implements OnInit {
     word: Word;
-    searchInput: String;
+    searchInput: string;
+    tagsSplit: string;
+
     loading = {
         status: false,
-        color: 'primary',
+        color: 'accent',
         mode: 'indeterminate',
         value: 50
     };
@@ -25,7 +27,11 @@ export class ConsultationComponent implements OnInit {
         this.service.getWord(this.route.snapshot.paramMap.get('id')).subscribe(
             w => {
                 this.word = w;
+                this.tagsSplit = w.tags.replace(/;/g, ' / ');
                 this.loading.status = false;
+            }, error => {
+                this.loading.status = false;
+                this.word = null;
             }
         );
     }

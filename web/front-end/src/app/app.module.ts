@@ -15,8 +15,9 @@ import {AddWordComponent} from './components/word/add/add-word.component';
 import {ModifyWordComponent} from './components/word/add/modify/modify-word.component';
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
-import { CombinaisonComponent } from './components/admin/combinaison/combinaison.component';
+import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
 
+// Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
   MatToolbarModule,
@@ -26,8 +27,13 @@ import {
   MatTooltipModule,
   MatTableModule,
   MatProgressSpinnerModule,
-  MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule
+  MatFormFieldModule,
+  MatOptionModule,
+  MatSelectModule,
+  MatInputModule,
+  MatListModule,
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 
@@ -72,6 +78,7 @@ const appRoutes: Routes = [
         appRoutes,
         { enableTracing: true } // <-- debugging purposes only
     ),
+    FlexLayoutModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
@@ -83,7 +90,8 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatOptionModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

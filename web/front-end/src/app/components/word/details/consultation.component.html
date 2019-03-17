@@ -7,23 +7,30 @@
 </div>
 
 <div *ngIf="!loading.status">
-  <app-search [searchInput]="this.searchInput"></app-search>
+  <div class="search-bar"><app-search [searchInput]="this.searchInput"></app-search></div>
+
   <div class="content">
-    <p *ngIf="word == null" class="error">Une erreur est survenue.</p>
+    <div *ngIf="word == null" class="error">Une erreur est survenue.</div>
     <div *ngIf="word != null;">
       <h1>Formes flechies du mot : {{word.value}} ({{word.category.name}})</h1>
+      <p *ngIf="word.tags != ''" class="tags">
+        <i>Tags du mot : {{tagsSplit}}</i>
+      </p>
+      <p *ngIf="word.tags == ''" class="tags"><i>Aucun tag n'est rensigné pour ce mot.</i></p>
+
       <div class="actions">
-        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Signaler ce mot</button>
         <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Modifier le mot</button>
         <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Supprimer le mot</button>
       </div>
       <div class="formeFlechies">
-        <ul>En cours !!
-          <li>Forme 1</li>
-          <li>Forme 2</li>
-          <li>Forme 3</li>
-          <li><div class="."></div></li>
-        </ul>
+        <div *ngIf="word.inflectedForms.length > 0">
+          <ul>
+            <li *ngFor="let form of word.inflectedForms">{{form}}</li>
+          </ul>
+        </div>
+        <div *ngIf="word.inflectedForms.length <= 0">
+          <p class="noResult">Aucune forme fléchie n'a été trouvée pour ce mot.</p>
+        </div>
       </div>
     </div>
   </div>

@@ -26,7 +26,7 @@ export class ModifyWordComponent  implements OnInit {
   nombres = ['Pluriel' , 'Singulier'];
 
   onSubmit() {
-    if (this.updateWord.invalid) {
+    /*if (this.updateWord.invalid) {
       console.log('Submit');
       return;
     }
@@ -46,7 +46,7 @@ export class ModifyWordComponent  implements OnInit {
     } else {
       nombre = 0;
     }
-    this.newword = new  Word(null, lemme, /*genre, nombre,*/ category, []);
+    this.newword = new  Word(null, lemme, /!*genre, nombre,*!/ category, []);
     console.log(JSON.stringify(this.newword));
     this.service.updateWord(this.newword, this.word.id).subscribe(
       response => { if (response.status === 200) {
@@ -55,7 +55,7 @@ export class ModifyWordComponent  implements OnInit {
         this.error = true;
       }}
     );
-
+*/
   }
   ngOnInit() {
     this.updateWord = this.formBuilder.group({

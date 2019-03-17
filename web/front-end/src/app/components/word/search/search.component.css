@@ -1,17 +1,27 @@
-form {
-    margin-right: 50px;
-    margin-left: 50px;
+.input-border {
+    text-align: center !important;
+    height: 45px;
+    border-radius: 20px;
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid #ced4da;
+    line-height: 45px;
 }
 
 input {
-    height: 50px;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: none;
+    height: 100%;
+    background-color: transparent;
+    width: 97%;
+    border: 0;
+    font-size: 16px;
 }
 
-input:hover {
+.input-border:hover {
     box-shadow: 0 1px 6px 0 rgba(32,33,36,0.28);
+}
+
+input:focus{
+    outline: none;
 }
 
 button {

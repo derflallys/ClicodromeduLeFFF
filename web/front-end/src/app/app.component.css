@@ -1,25 +1,33 @@
-header {
-  background: #fff;
+.app {
+  height: 100%;
 }
 
-.toolbar {
-  border-bottom: 1px solid rgba(198, 198, 198, 0.6);
-  margin-bottom: 20px;
-  background-color: #fff;
-}
-
-.app-name {
-  font-size : 24px;
-}
-
-header img {
+.logo img {
+  margin-top: 8px;
   width: auto;
-  height: 45px;
+  height: 35px;
 }
 
-.item {
-  padding: 0 14px;
+.mat-toolbar{
+  padding: 10px 10px 10px 25px;
+  height: 60px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(198, 198, 198, 0.6);
+}
+
+.mat-sidenav-container {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+div {
+  overflow: inherit;
+}
+
+a {
   text-decoration: none;
+  font-size: 100%;
+  white-space: normal;
 }
 
 .spacer {
@@ -27,7 +35,11 @@ header img {
 }
 
 .content {
-  min-height: calc(100vh - 170px);
+  min-height: 100%;
+}
+
+main {
+  min-height:  calc(100vh - 300px);
 }
 
 footer {

@@ -18,7 +18,7 @@ export class ListWordComponent implements OnInit {
     displayedColumns: string[] = ['word', 'category', 'actions'];
     loading = {
         status: false,
-        color: 'primary',
+        color: 'accent',
         mode: 'indeterminate',
         value: 50
     };
@@ -37,16 +37,20 @@ export class ListWordComponent implements OnInit {
     }
 
     searchWords(): void {
-        let queryStartFrom = new Date().getTime();
+        const queryStartFrom = new Date().getTime();
         this.loading.status = true;
         this.words.splice(0, this.words.length);
         this.service.getListWords(this.searchInput).subscribe(
             w => {
-                if(w !== null) {
+                if (w !== null) {
                     this.words = w;
                 } else {
                     this.words = [];
                 }
+                this.queryTime = ((new Date().getTime() - queryStartFrom) / 1000).toString();
+                this.loading.status = false;
+            }, error => {
+                this.words = [];
                 this.queryTime = ((new Date().getTime() - queryStartFrom) / 1000).toString();
                 this.loading.status = false;
             }

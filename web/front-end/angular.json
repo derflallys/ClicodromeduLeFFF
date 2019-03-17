@@ -24,10 +24,10 @@
               "src/assets/img/lefff.jpg"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/lefff-theme.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
             ],
             "es5BrowserSupport": true
           },

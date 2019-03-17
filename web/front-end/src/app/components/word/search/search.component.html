@@ -1,14 +1,12 @@
 <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
-  <input type="text"
-         class="form-control"
-         required
-         [(ngModel)]="searchInput"
-         placeholder="Rechercher dans le lexique..."
-         name="word"
-         #word="ngModel">
-<!--
-  <button mat-flat-button type="submit"><mat-icon class="icon">search</mat-icon></button>
--->
+  <div class="input-border">
+    <input type="text"
+           required
+           [(ngModel)]="searchInput"
+           placeholder="Rechercher dans le lexique..."
+           name="word"
+           #word="ngModel">
+  </div>
   <button mat-flat-button type="submit">Rechercher dans le lexique</button>
 </form>
 
