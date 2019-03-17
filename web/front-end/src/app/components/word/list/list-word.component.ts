@@ -12,8 +12,8 @@ import {Word} from '../../../models/Word';
 })
 export class ListWordComponent implements OnInit {
     words: Word[] = [];
-    queryTime: String;
-    searchInput: String;
+    queryTime: string;
+    searchInput: string;
 
     displayedColumns: string[] = ['word', 'category', 'actions'];
     loading = {
@@ -28,16 +28,16 @@ export class ListWordComponent implements OnInit {
 
     ngOnInit(): void {
         this.searchInput = this.route.snapshot.paramMap.get('word').toString();
-        this.searchWords()
+        this.searchWords();
     }
 
-    changeInputSearch(input: String) {
+    changeInputSearch(input: string) {
         this.searchInput = input;
-        this.searchWords()
+        this.searchWords();
     }
 
     searchWords(): void {
-        let queryStartFrom = new Date().getTime();
+        const queryStartFrom = new Date().getTime();
         this.loading.status = true;
         this.words.splice(0, this.words.length);
         this.service.getListWords(this.searchInput).subscribe(

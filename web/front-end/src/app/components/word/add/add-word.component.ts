@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Word} from '../../../models/Word';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
+/*
 import {Tag} from '../../../models/Tag';
+*/
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
 
@@ -25,7 +27,7 @@ export class AddWordComponent  implements OnInit {
     mode: 'indeterminate',
     value: 50
   };
-  tagsAdded: Tag[];
+  tagsAdded: string[];
 
   constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
 /*  genres = ['Feminin' , 'Masculin'];
@@ -33,7 +35,7 @@ export class AddWordComponent  implements OnInit {
   wordTags;
 
   onSubmit() {
-    console.log('submit');
+    /*console.log('submit');
     if (this.addWord.invalid) {
       this.error = true;
       return;
@@ -46,7 +48,7 @@ export class AddWordComponent  implements OnInit {
     const category: Category = this.categories.filter(obj => {
       return obj.id === Number(cat); })[0];
     console.log(category);
-/*    let genre;
+/!*    let genre;
     if (this.addWord.controls.genre.value === 'Masculin') {
       genre = 1;
     } else {
@@ -57,8 +59,8 @@ export class AddWordComponent  implements OnInit {
       nombre = 1;
     } else {
       nombre = 0;
-    }*/
-    this.word = new  Word(null, lemme,/* genre, nombre,*/ category, this.tagsAdded);
+    }*!/
+    this.word = new  Word(null, lemme,/!* genre, nombre,*!/ category, this.tagsAdded);
     //this.tags = new Tags(this.addWord.controls.obja.value, this.addWord.controls.objde.value, this.addWord.controls.obj.value, this.addWord.controls.obl.value);
     this.wordTags = {
       word: this.word,
@@ -71,11 +73,11 @@ export class AddWordComponent  implements OnInit {
     } else {
       this.error = true;
     }});
-    /* } else {
+    /!* } else {
        this.service.addWordModified(this.word);
-     }*/
+     }*!/
 
-    console.log(JSON.stringify(this.wordTags));
+    console.log(JSON.stringify(this.wordTags));*/
   }
 
   ngOnInit() {

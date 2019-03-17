@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {WordService} from "../../../services/word.service";
+import {ActivatedRoute} from '@angular/router';
+import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
 
 @Component({
@@ -10,7 +10,8 @@ import {Word} from '../../../models/Word';
 })
 export class ConsultationComponent implements OnInit {
     word: Word;
-    searchInput: String;
+    searchInput: string;
+
     loading = {
         status: false,
         color: 'primary',

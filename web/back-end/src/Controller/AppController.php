@@ -54,7 +54,8 @@ class AppController extends AbstractController {
                 $response->headers->set('Content-Type', 'application/json');
                 $interpretor = new PFM_Interpretor();
                 $inflectedForms = $interpretor->generateInflectedForm($word);
-                $response->setContent(json_encode(["word" => $word->toJSON(), "inflectedForms" => $inflectedForms], JSON_UNESCAPED_UNICODE));
+                $word->setInflectedForms($inflectedForms);
+                $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);

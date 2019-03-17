@@ -27,7 +27,7 @@ header img {
 }
 
 .content {
-  min-height: calc(100vh - 170px);
+  min-height: calc(100vh - 200px);
 }
 
 footer {

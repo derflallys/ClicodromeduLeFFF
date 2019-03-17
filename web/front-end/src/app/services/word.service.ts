@@ -4,7 +4,6 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Word} from '../models/Word';
 import {environment} from '../../environments/environment';
-import {IWord} from '../models/IWord';
 import {Category} from '../models/Category';
 
 const httpOptions = {
@@ -23,12 +22,12 @@ export class WordService {
   private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
-  getListWords(word: String): Observable<any> {
+  getListWords(word: string): Observable<any> {
     return this.http.get<any>(this.searchWordUrl + '/' + word).pipe(
         catchError(this.handleError)
     );
   }
-  updateWord(word: IWord, id: number) {
+  updateWord(word: Word, id: number) {
     return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions )
         .pipe(
             catchError(this.handleError)
@@ -36,7 +35,7 @@ export class WordService {
         ;
   }
 
-  addWordModified(word: IWord) {
+  addWordModified(word: Word) {
     return this.http.post<Response>(this.addWordUrl, word, httpOptions  )
         .pipe(
             catchError(this.handleError)

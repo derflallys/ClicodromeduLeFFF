@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {ListWordComponent} from "../list/list-word.component";
 
 @Component({
   selector: 'app-search',
@@ -8,12 +7,12 @@ import {ListWordComponent} from "../list/list-word.component";
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  @Input() searchInput = "" ;
+  @Input() searchInput = '' ;
   @Input() buttonInside = false;
   @Output() inputChanges = new EventEmitter<any>();
 
   onSubmit() {
-    if(this.searchInput.trim() != "") {
+    if (this.searchInput.trim() !== '') {
       console.log('INPUT SEARCH : ' + this.searchInput.trim());
       this.router.navigate(['/list', this.searchInput.trim()]);
       this.inputChanges.emit(this.searchInput.trim());

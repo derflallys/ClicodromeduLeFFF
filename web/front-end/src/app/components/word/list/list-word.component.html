@@ -1,4 +1,4 @@
-<app-search (inputChanges)="changeInputSearch($event)" [searchInput]="this.searchInput"></app-search>
+<div class="search-bar"><app-search (inputChanges)="changeInputSearch($event)" [searchInput]="this.searchInput"></app-search></div>
 <div class="centerDiv" *ngIf="loading.status">
     <mat-progress-spinner
             [color]="loading.color"

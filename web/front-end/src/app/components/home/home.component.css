@@ -1,8 +1,26 @@
-.container {
-    margin-top: 180px;
+.content {
+    text-align: center !important;
+    padding-top: 10%;
+    transition: 0.9s;
+}
+
+@media (min-width: 1250px) {
+    .content {
+        padding-right: 250px;
+        padding-left: 250px;
+    }
+}
+
+@media (max-width: 1249px) {
+    .content {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
 }
 
 img {
+    width: 100%;
+    max-width: 485px;
     margin-bottom: 25px;
 }
 

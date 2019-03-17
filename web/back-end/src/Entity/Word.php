@@ -34,9 +34,11 @@ class Word
      */
     private $tags;
 
+    private $inflectedForms;
+
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
+        $this->inflectedForms = new ArrayCollection();
     }
 
 
@@ -69,14 +71,6 @@ class Word
         return $this;
     }
 
-    public function toJSON() {
-        $json['id'] = $this->id;
-        $json['value'] = $this->value;
-        $json['category'] = $this->category->toJSON();
-        $json['tags'] = $this->tags;
-        return $json;
-    }
-
     public function getTags(): ?string
     {
         return $this->tags;
@@ -87,5 +81,41 @@ class Word
         $this->tags = $tags;
 
         return $this;
+    }
+
+    public function getInflectedForms(): Collection
+    {
+        return $this->inflectedForms;
+    }
+
+    public function addInflectedForm(string $form): self
+    {
+        if (!$this->inflectedForms->contains($form)) {
+            $this->inflectedForms[] = $form;
+        }
+        return $this;
+    }
+
+    public function removeInflectedForm(string $form): self
+    {
+        if ($this->inflectedForms->contains($form)) {
+            $this->inflectedForms->removeElement($form);
+        }
+        return $this;
+    }
+
+    public function setInflectedForms($forms): self
+    {
+        $this->inflectedForms = $forms;
+        return $this;
+    }
+
+    public function toJSON() {
+        $json['id'] = $this->id;
+        $json['value'] = $this->value;
+        $json['category'] = $this->category->toJSON();
+        $json['tags'] = $this->tags;
+        $json['inflectedForms'] = $this->inflectedForms;
+        return $json;
     }
 }

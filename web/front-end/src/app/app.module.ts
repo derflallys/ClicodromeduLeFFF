@@ -28,6 +28,7 @@ import {
   MatProgressSpinnerModule,
   MatFormFieldModule, MatOptionModule, MatSelectModule, MatInputModule
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 const appRoutes: Routes = [
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
         appRoutes,
         { enableTracing: true } // <-- debugging purposes only
     ),
+    FlexLayoutModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,

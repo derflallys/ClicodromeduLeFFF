@@ -1,3 +1,16 @@
+.search-bar {
+    margin-right: 60px;
+    margin-left: 50px;
+}
+
+.tags {
+    color: #777;
+}
+
+.noResult {
+    font-size: 24px;
+}
+
 .centerDiv {
     display: flex;
     align-items: center;
