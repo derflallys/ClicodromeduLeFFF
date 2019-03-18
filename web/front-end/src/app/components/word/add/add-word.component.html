@@ -9,7 +9,7 @@
 <div *ngIf="!loading.status && errorRequest" class="error">Une erreur est survenue.</div>
 <div *ngIf="!loading.status && !errorRequest">
     <div class="content">
-        <h1>Ajout d'un nouveau mot</h1>
+        <h1>{{title}}</h1>
         <div class="error" *ngIf="error">
             Le formulaire contient une ou plusieurs erreurs.
         </div>
@@ -24,7 +24,7 @@
             </mat-form-field>
 
             <div class="tags">
-                <h3>Tags du mot</h3>
+                <h3>Tags du mot (optionnel)</h3>
                 <div formArrayName="tags" *ngFor="let tag of addWord.controls['tags'].controls; let i = index">
                     <mat-form-field  [formGroupName]="i">
                         <input matInput placeholder="Valeur" formControlName="value">
@@ -34,7 +34,7 @@
             </div>
 
             <div class="validation">
-                <button mat-raised-button color="warn" type="submit">Enregistrer le mot</button>
+                <button mat-raised-button color="warn" type="submit"><mat-icon class="icon">save</mat-icon> Enregistrer le mot</button>
                 <div *ngIf="saveRequest" class="spinner">
                     <mat-progress-spinner
                             [color]="loading.color"

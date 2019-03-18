@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-
 import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
 

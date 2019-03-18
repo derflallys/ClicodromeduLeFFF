@@ -16,6 +16,7 @@ import {ModifyWordComponent} from './components/word/add/modify/modify-word.comp
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
+import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -35,22 +36,21 @@ import {
   MatSnackBarModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 
 const appRoutes: Routes = [
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full',
   },
-  { path: 'admin', component: AdminHomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'list/:word', component: ListWordComponent },
+  { path: 'add', component: AddWordComponent },
   { path: 'modify/:id', component: ModifyWordComponent },
   { path: 'show/:id', component: ConsultationComponent },
-  { path: 'add', component: AddWordComponent  },
-  { path: 'addrule', component: AddRuleComponent  },
+  { path: 'admin', component: AdminHomeComponent },
+  { path: 'addrule', component: AddRuleComponent },
+  { path: 'combin', component : CombinaisonComponent },
   { path: '**', component: PageNotFoundComponent },
-  { path: 'combin', component : CombinaisonComponent}
 ];
 
 @NgModule({
@@ -96,4 +96,4 @@ const appRoutes: Routes = [
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -20,6 +20,7 @@ export class WordService {
   private addWordUrl = environment.BACK_END_URL + '/add/word';
   private updateWordUrl = environment.BACK_END_URL + '/update/word';
   private wordUrl = environment.BACK_END_URL + '/get/word';
+  private wordWithoutFormsUrl = environment.BACK_END_URL + '/get/wordWithoutForms';
   private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
@@ -38,11 +39,13 @@ export class WordService {
     return this.http.get<Word>(this.wordUrl + '/' + id);
   }
 
+  getWordWithoutInflectedForms(id): Observable<Word> {
+    return this.http.get<Word>(this.wordWithoutFormsUrl + '/' + id);
+  }
+
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoryUrl);
   }
-
-
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

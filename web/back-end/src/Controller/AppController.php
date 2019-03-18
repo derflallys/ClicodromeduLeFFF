@@ -69,6 +69,29 @@ class AppController extends AbstractController {
     }
 
     /**
+     * @Route("/get/wordWithoutForms/{idWord}", name="getWordWithoutForms", methods={"GET"})
+     */
+    public function getWordWithoutForms($idWord) {
+        $response = new Response();
+        try {
+            $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
+            if($word != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+            }
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @Route("/add/word", name="addWord", methods={"POST"})
      */
     public function addWord(Request $request) {
@@ -111,8 +134,8 @@ class AppController extends AbstractController {
         $response = new Response();
         try {
             $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
-            $data =   json_decode($request->getContent(), true);
-            $request->request->replace($data);
+            $data = json_decode($request->getContent(), true);
+            //$request->request->replace($data);
             if($word != null) {
                 $category =  $this->getDoctrine()
                     ->getRepository(Category::class)
@@ -124,12 +147,14 @@ class AppController extends AbstractController {
                 else {
                     $word->setCategory($category);
                     $word->setValue($data['value']);
+                    $word->setTags($data['tags']);
+
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($word);
                     $em->flush();
                     $response->setStatusCode(Response::HTTP_OK);
                     $response->headers->set('Content-Type', 'application/json');
-                    $response->setContent(json_encode([$word->toJSON()], JSON_UNESCAPED_UNICODE));
+                    $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
                 }
             }
             else {
