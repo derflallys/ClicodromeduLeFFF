@@ -19,7 +19,7 @@
 
       <div class="actions">
         <button mat-raised-button color="primary" routerLink="/modify/{{word.id}}">Modifier le mot</button>
-        <button mat-raised-button color="warn" routerLink="/modify/{{word.id}}">Supprimer le mot</button>
+        <button mat-raised-button color="warn" (click)="deleteWord()">Supprimer le mot</button>
       </div>
       <div class="formeFlechies">
         <div *ngIf="word.inflectedForms.length > 0">

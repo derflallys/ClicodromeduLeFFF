@@ -17,6 +17,7 @@ import {ConsultationComponent} from './components/word/details/consultation.comp
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
+import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -34,6 +35,7 @@ import {
   MatInputModule,
   MatListModule,
   MatSnackBarModule,
+  MatDialogModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -67,6 +69,7 @@ const appRoutes: Routes = [
     AddWordComponent,
     AddRuleComponent,
     CombinaisonComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,9 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
+    MatDialogModule
   ],
+  entryComponents: [ DeleteDialogComponent ],
   providers: [],
   bootstrap: [AppComponent]
 })

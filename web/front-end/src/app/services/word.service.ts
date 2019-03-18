@@ -22,6 +22,7 @@ export class WordService {
   private wordUrl = environment.BACK_END_URL + '/get/word';
   private wordWithoutFormsUrl = environment.BACK_END_URL + '/get/wordWithoutForms';
   private categoryUrl = environment.BACK_END_URL + '/get/category';
+  private deleteWordUrl = environment.BACK_END_URL + '/delete/word';
   constructor(private http: HttpClient) { }
 
   getListWords(word: string): Observable<any> {
@@ -45,6 +46,10 @@ export class WordService {
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoryUrl);
+  }
+
+  deleteWord(id: number) {
+    return this.http.delete<Response>(this.deleteWordUrl + '/' + id);
   }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';

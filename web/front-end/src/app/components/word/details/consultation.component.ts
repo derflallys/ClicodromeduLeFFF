@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
+import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
 
 @Component({
     selector: 'app-consultation',
@@ -20,11 +22,17 @@ export class ConsultationComponent implements OnInit {
         value: 50
     };
 
-    constructor(private route: ActivatedRoute, private service: WordService ) {}
+    constructor(
+        private router: ActivatedRoute,
+        private service: WordService,
+        public dialog: MatDialog,
+        private route: Router,
+        public snackBar: MatSnackBar
+    ) {}
 
     ngOnInit() {
         this.loading.status = true;
-        this.service.getWord(this.route.snapshot.paramMap.get('id')).subscribe(
+        this.service.getWord(this.router.snapshot.paramMap.get('id')).subscribe(
             w => {
                 this.word = w;
                 this.tagsSplit = w.tags.replace(/;/g, ' / ');
@@ -35,5 +43,34 @@ export class ConsultationComponent implements OnInit {
             }
         );
     }
+    deleteWord() {
+        const dialogConfig = new MatDialogConfig();
 
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            title: 'Suppression du mot "' + this.word.value + '"',
+            content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
+        };
+
+        const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                const config = new MatSnackBarConfig();
+                config.verticalPosition = 'bottom';
+                config.horizontalPosition = 'center';
+                config.duration = 5000;
+                this.snackBar.open('⌛ Suppression en cours...', 'Fermer', config);
+                this.service.deleteWord(this.word.id).subscribe(
+                    res => {
+                        this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
+                        this.route.navigate(['/home', ]);
+                    }, error => {
+                        this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
+                    }
+                );
+            }
+        });
+    }
 }

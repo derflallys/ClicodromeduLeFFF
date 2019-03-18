@@ -86,6 +86,7 @@ export class AddWordComponent  implements OnInit {
         if (this.modification) {
             const wordModified = new Word(this.word.id, lemme, category, tags, []);
             this.word = wordModified;
+            this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
             this.service.updateWord(this.word, this.word.id).subscribe(
                 response => {
                     console.log(response);
@@ -99,6 +100,7 @@ export class AddWordComponent  implements OnInit {
             );
         } else {
             this.word = new Word(null, lemme, category, tags, []);
+            this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
             this.service.addWord(this.word).subscribe(
                 response => {
                     console.log(response);

@@ -176,9 +176,11 @@ class AppController extends AbstractController {
         try {
             $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
             if($word != null) {
-                $wordDeleteValue = $word->getValue();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($word);
+                $entityManager->flush();
                 $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent('Suppression du mot \'' . $wordDeleteValue . '\' effectuée avec succès');
+                $response->setContent(null);
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
