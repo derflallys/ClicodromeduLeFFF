@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\TagAssociation;
+use App\Repository\TagAssociationRepository;
 use App\Service\PFM_Interpretor;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -215,6 +217,36 @@ class AppController extends AbstractController {
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+    /**
+     * @Route("/get/combinaison/{idCategory}", name="getCombinaison", methods={"GET"})
+     */
+    public function getCombinaison($idCategory) {
+        $response = new Response();
+        try {
+
+            $category =  $this->getDoctrine()
+                ->getRepository(Category::class)
+                ->findOneBy(array('id' =>$idCategory));
+            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findByCategory($category->getId());
+            if($combinaison != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $combine = [];
+                foreach ($combinaison as $combi){
+                    array_push($combine,$combi->toJSON());
+                }
+                $response->setContent(json_encode($combine, JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant \'' . $idCategory . '\'');
+            }
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
         }
         return $response;
     }

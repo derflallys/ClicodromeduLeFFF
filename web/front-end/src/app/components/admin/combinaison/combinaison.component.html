@@ -9,29 +9,45 @@
   <div class="content">
     <h1>Ajouter une combinaison de règles</h1>
 
-    <form (ngSubmit)="onSubmit()" [formGroup]="addCombinaison">
+    <form (ngSubmit)="onSubmit()" [formGroup]="addCombi">
 
 
       <mat-form-field>
-        <mat-select placeholder="Catégorie" formControlName="category" [(value)]="selected">
-          <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+        <mat-select placeholder="Catégorie" formControlName="category"   >
+          <mat-option *ngFor="let category of categories" (click)="onSelectCategory(category.id) " [value]="category.id">{{category.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <div class="rules">
-        <h3>Règle  </h3>
-        <div class="inline" *ngFor="let combinaison of CombinAdded">
-          <mat-icon class="icon">arrow_right_alt</mat-icon>
-          <mat-form-field>
-            <input matInput placeholder="Valeur" formControlName="RuleValue_">
-          </mat-form-field>
+      <div *ngIf="rules.length >0" class="content">
+        <div class="result-list">
+          <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="rule">
+              <mat-header-cell *matHeaderCellDef> Rule </mat-header-cell>
+              <mat-cell class="linkWord" *matCellDef=" let element">{{element.combinaison}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let element">&nbsp;
+                <button mat-raised-button color="warn" (click)="deleteCombinaison(element.combinaison, element.id)"><mat-icon>delete</mat-icon></button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
         </div>
-        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter une règle</button>
       </div>
 
+      <div class="rules">
+        <h3>Règle  </h3>
+        <div formArrayName="rules" *ngFor="let tag of addCombi.controls['rules'].controls; let i = index">
+          <mat-form-field  [formGroupName]="i">
+            <input matInput placeholder="Valeur" formControlName="value">
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter une regle </button>
+      </div>
       <button mat-raised-button color="warn" type="submit">Enregistrer la combinaison</button>
-
-
     </form>
 
   </div>

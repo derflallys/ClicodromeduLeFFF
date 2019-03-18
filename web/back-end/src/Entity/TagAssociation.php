@@ -60,4 +60,10 @@ class TagAssociation
     {
         return $this->combination;
     }
+    public function toJSON() {
+        $json['id'] = $this->id;
+        $json['combinaison'] = $this->combination;
+        $json['category'] = $this->category->toJSON();
+        return $json;
+    }
 }
