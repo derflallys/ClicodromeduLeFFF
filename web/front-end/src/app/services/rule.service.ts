@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
+import {Regle} from '../models/Regle';
+import {environment} from '../../environments/environment';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    // 'Authorization': 'my-auth-token'
   })
 };
-
 @Injectable({
   providedIn: 'root'
 })
+export class RuleService {
 
-export class UploadLefffService {
-  lefffUrl = 'UrlAPIVERSLESERVEUR';
-  constructor(private httpClient: HttpClient) { }
+  private addRegleUrl = environment.BACK_END_URL + '/add/addrule';
+  constructor(private http: HttpClient) { }
 
-  postFile(lefff: any) {
-    return this.httpClient.post(this.lefffUrl, lefff, httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+  addRegle(regle: Regle) {
+    return this.http.post<Response>(this.addRegleUrl, regle, httpOptions  )
+        .pipe(
+            catchError(this.handleError)
+        );
   }
 
   private handleError(err: HttpErrorResponse) {

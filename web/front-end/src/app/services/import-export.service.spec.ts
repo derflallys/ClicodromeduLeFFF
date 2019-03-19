@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UploadLefffService } from './upload-lefff.service';
+import { ImportExportService } from './import-export.service';
 
-describe('UploadLefffService', () => {
+describe('ImportExportService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UploadLefffService = TestBed.get(UploadLefffService);
+    const service: ImportExportService = TestBed.get(ImportExportService);
     expect(service).toBeTruthy();
   });
 });

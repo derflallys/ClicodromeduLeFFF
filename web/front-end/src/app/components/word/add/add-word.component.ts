@@ -5,6 +5,7 @@ import {WordService} from '../../../services/word.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {CategoryService} from "../../../services/category.service";
 
 @Component({
     selector: 'app-add-word',
@@ -24,7 +25,6 @@ export class AddWordComponent  implements OnInit {
         mode: 'indeterminate',
         value: 50
     };
-    tags: [];
     selectedCategory;
     saveRequest = false;
     /* variable for modification */
@@ -34,7 +34,8 @@ export class AddWordComponent  implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private router: ActivatedRoute,
-        private service: WordService,
+        private wordService: WordService,
+        private categoryService: CategoryService,
         private route: Router,
         public snackBar: MatSnackBar
     ) {}
@@ -45,7 +46,7 @@ export class AddWordComponent  implements OnInit {
             tags : this.formBuilder.array([this.createTag()])
         });
         this.loading.status = true;
-        this.service.getCategories().subscribe(
+        this.categoryService.getCategories().subscribe(
             categories => {
                 this.categories = categories;
                 if (this.categories.length === 0) {
@@ -87,7 +88,7 @@ export class AddWordComponent  implements OnInit {
             const wordModified = new Word(this.word.id, lemme, category, tags, []);
             this.word = wordModified;
             this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
-            this.service.updateWord(this.word, this.word.id).subscribe(
+            this.wordService.updateWord(this.word, this.word.id).subscribe(
                 response => {
                     console.log(response);
                     this.saveRequest = false;
@@ -101,7 +102,7 @@ export class AddWordComponent  implements OnInit {
         } else {
             this.word = new Word(null, lemme, category, tags, []);
             this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
-            this.service.addWord(this.word).subscribe(
+            this.wordService.addWord(this.word).subscribe(
                 response => {
                     console.log(response);
                     this.saveRequest = false;
@@ -133,8 +134,8 @@ export class AddWordComponent  implements OnInit {
 
     createTag() {
         return this.formBuilder.group({
-            value: ['']
-        });
+        value: ['']
+      });
     }
     addTagField() {
         (this.addWord.controls['tags'] as FormArray).push(this.createTag());
@@ -153,7 +154,7 @@ export class AddWordComponent  implements OnInit {
     }
 
     loadExistingData() {
-        this.service.getWordWithoutInflectedForms(this.wordId).subscribe(
+        this.wordService.getWordWithoutInflectedForms(this.wordId).subscribe(
             w => {
                 this.word = w;
                 this.title = 'Modification du mot : ' + w.value;

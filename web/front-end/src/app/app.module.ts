@@ -20,6 +20,7 @@ import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.
 import { AddCategoryComponent } from './components/admin/category/add-category/add-category.component';
 
 import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
+import { ImportExportComponent } from './components/import-export/import-export.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -37,7 +38,9 @@ import {
   MatInputModule,
   MatListModule,
   MatSnackBarModule,
-  MatDialogModule
+  MatTabsModule,
+  MatDialogModule,
+  MatGridListModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -54,7 +57,11 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
+<<<<<<< HEAD
   { path: 'category', component :  AddCategoryComponent },
+=======
+  { path: 'import-export', component : ImportExportComponent },
+>>>>>>> 1a4cb2b6006b9b6fefe6667dc5ade49e43a82dd5
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -73,7 +80,11 @@ const appRoutes: Routes = [
     AddRuleComponent,
     CombinaisonComponent,
     DeleteDialogComponent,
+<<<<<<< HEAD
     AddCategoryComponent,
+=======
+    ImportExportComponent,
+>>>>>>> 1a4cb2b6006b9b6fefe6667dc5ade49e43a82dd5
   ],
   imports: [
     BrowserModule,
@@ -99,7 +110,10 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatGridListModule
   ],
   entryComponents: [ DeleteDialogComponent ],
   providers: [],
