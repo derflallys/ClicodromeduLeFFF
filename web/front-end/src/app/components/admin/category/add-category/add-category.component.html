@@ -1,0 +1,20 @@
+
+<div class="content">
+  <h1>Ajout d'une nouvelle catégorie</h1>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    Une erreur est survenue.
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="addcategory">
+
+    <mat-form-field>
+      <input matInput placeholder="Code" formControlName="code">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+
+    <button mat-raised-button color="warn" type="submit">Enregistrer la catégorie</button>
+  </form>
+</div>
+
