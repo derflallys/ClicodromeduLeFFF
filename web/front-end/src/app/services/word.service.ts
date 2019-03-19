@@ -21,6 +21,7 @@ export class WordService {
   private wordUrl = environment.BACK_END_URL + '/get/word';
   private wordWithoutFormsUrl = environment.BACK_END_URL + '/get/wordWithoutForms';
   private deleteWordUrl = environment.BACK_END_URL + '/delete/word';
+  private deleteCombinaisonUrl = environment.BACK_END_URL + '/delete/combinaison';
   private getCombinaisonUrl = environment.BACK_END_URL + '/get/combinaison';
   private addCombinUrl = environment.BACK_END_URL + '/add/combinaison';
   constructor(private http: HttpClient) { }
@@ -54,6 +55,11 @@ export class WordService {
   deleteWord(id: number) {
     return this.http.delete<Response>(this.deleteWordUrl + '/' + id);
   }
+
+  deleteCombinaison(id: number) {
+    return this.http.delete<Response>(this.deleteCombinaisonUrl + '/' + id);
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {
