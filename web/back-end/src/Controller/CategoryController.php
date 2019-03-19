@@ -35,4 +35,54 @@ class CategoryController extends AbstractController {
         }
         return $response;
     }
+
+    /**
+     * @Route("/add/category", name="addCategory", methods={"POST"})
+     */
+    public function addCategory(Request $request) {
+        $response = new Response();
+        try {
+            $content = $request->getContent();
+            $parametersAsArray = json_decode($content, true);
+            $category = new Category();
+            $category->setCode($parametersAsArray['code']);
+            $category->setName($parametersAsArray['name']);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($category);
+            $em->flush();
+            $response->setStatusCode(Response::HTTP_OK);
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/delete/category/{idCategory}", name="deleteCategory", methods={"DELETE"})
+     */
+    public function deleteCategory($idCategory) {
+        $response = new Response();
+        try {
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+            if($category != null) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($category);
+                $entityManager->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(null);
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idCategory . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
 }

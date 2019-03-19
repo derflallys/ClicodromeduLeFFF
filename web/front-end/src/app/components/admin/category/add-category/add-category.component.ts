@@ -3,6 +3,7 @@ import {Category} from '../../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../../../../services/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
 
 @Component({
   selector: 'app-add-category',
@@ -10,43 +11,58 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
-  addcategory: FormGroup;
+  addCategory: FormGroup;
   category: Category;
-  code: string;
-  name: string;
-  id: number;
   error = false;
-
-  searchInput: string;
   loading = {
     status: false,
     color: 'primary',
     mode: 'indeterminate',
     value: 50
   };
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: CategoryService, private route: Router) { }
+  saveRequest = false;
+  constructor(
+    private formBuilder: FormBuilder,
+    private service: CategoryService,
+    private route: Router,
+    public snackBar: MatSnackBar
+  ) { }
 
   onSubmit() {
     console.log('submit');
-    if (this.addcategory.invalid) {
+    if (this.addCategory.invalid) {
       this.error = true;
       return;
     }
-    console.log(this.addcategory.controls.regle.value);
-    const code = this.addcategory.controls.code.value;
+    const code = this.addCategory.controls.code.value;
     console.log(code);
-    const name = this.addcategory.controls.name.value;
+    const name = this.addCategory.controls.name.value;
     console.log(name);
-    this.category = new Category();
+    this.saveRequest = true;
+    const config = new MatSnackBarConfig();
+    config.verticalPosition = 'bottom';
+    config.horizontalPosition = 'center';
+    config.duration = 5000;
+    this.category = new Category(null, code, name);
+    this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+    this.service.addCategory(this.category).subscribe(
+      response => {
+        this.saveRequest = false;
+        this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+        this.route.navigate(['/listCategories']);
+      } , error => {
+      this.error = true;
+      this.saveRequest = false;
+    });
+    console.log(JSON.stringify(this.category));
   }
 
   ngOnInit() {
-    this.addcategory = this.formBuilder.group({
+    this.addCategory = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
 
     });
-    this.loading.status = true;
   }
 
 }

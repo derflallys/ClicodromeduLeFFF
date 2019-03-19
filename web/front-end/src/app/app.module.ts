@@ -44,6 +44,8 @@ import {
   MatMenuModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
+import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -59,6 +61,8 @@ const appRoutes: Routes = [
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
   { path: 'category', component :  AddCategoryComponent },
+  { path: 'modify/category/:id', component :  ModifyCategoryComponent },
+  { path: 'listCategories', component :  ListCategoryComponent },
   { path: 'import-export', component : ImportExportComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -79,7 +83,9 @@ const appRoutes: Routes = [
     CombinaisonComponent,
     DeleteDialogComponent,
     AddCategoryComponent,
-    ImportExportComponent
+    ImportExportComponent,
+    ListCategoryComponent,
+    ModifyCategoryComponent
   ],
   imports: [
     BrowserModule,

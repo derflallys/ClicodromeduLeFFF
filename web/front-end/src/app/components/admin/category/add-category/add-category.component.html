@@ -4,7 +4,7 @@
   <div class="alert alert-danger" role="alert" *ngIf="error">
     Une erreur est survenue.
   </div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="addcategory">
+  <form (ngSubmit)="onSubmit()" [formGroup]="addCategory">
 
     <mat-form-field>
       <input matInput placeholder="Code" formControlName="code">
