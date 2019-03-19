@@ -11,10 +11,15 @@
     </a>
     <span class="spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
-      <a mat-button matTooltip="Ajouter un mot au lexique" routerLink="/admin"><mat-icon class="icon">settings</mat-icon> Administration</a>
-      <a mat-button matTooltip="Accès à l'administration" routerLink="/add"><mat-icon class="icon">add</mat-icon> Ajouter un mot</a>
+      <a mat-button matTooltip="Ajouter un mot au lexique" [matMenuTriggerFor]="admin"  ><mat-icon class="icon">settings</mat-icon> Administration</a>
+      <a mat-button matTooltip="Accès à l'administration"  routerLink="/add" ><mat-icon class="icon">add</mat-icon> Ajouter un mot</a>
       <a mat-button matTooltip="Importer/Exporter le lexique" routerLink="/import-export"><mat-icon class="icon">import_export</mat-icon> Import / Export</a>
     </div>
+    <mat-menu #admin="matMenu">
+      <button mat-menu-item routerLink="/category" >Ajouter une Categorie</button>
+      <button mat-menu-item routerLink="/addrule" >Ajouter une Régle</button>
+      <button mat-menu-item routerLink="/combin" >Ajouter une Combinaison de regle </button>
+    </mat-menu>
   </mat-toolbar>
 
   <mat-sidenav-container fxFlexFill>

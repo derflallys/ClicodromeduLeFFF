@@ -40,7 +40,8 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatDialogModule,
-  MatGridListModule
+  MatGridListModule,
+  MatMenuModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -57,11 +58,8 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
-<<<<<<< HEAD
   { path: 'category', component :  AddCategoryComponent },
-=======
   { path: 'import-export', component : ImportExportComponent },
->>>>>>> 1a4cb2b6006b9b6fefe6667dc5ade49e43a82dd5
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -80,11 +78,8 @@ const appRoutes: Routes = [
     AddRuleComponent,
     CombinaisonComponent,
     DeleteDialogComponent,
-<<<<<<< HEAD
     AddCategoryComponent,
-=======
-    ImportExportComponent,
->>>>>>> 1a4cb2b6006b9b6fefe6667dc5ade49e43a82dd5
+    ImportExportComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +108,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatTabsModule,
     MatDialogModule,
-    MatGridListModule
+    MatGridListModule,
+    MatMenuModule
   ],
   entryComponents: [ DeleteDialogComponent ],
   providers: [],
