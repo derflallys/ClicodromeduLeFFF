@@ -127,6 +127,38 @@ class AppController extends AbstractController {
     }
 
     /**
+     * @Route("/add/combinaison", name="addCombinaison", methods={"POST"})
+     */
+    public function addCombinaison(Request $request) {
+        $response = new Response();
+        try {
+            $content = $request->getContent();
+            $parametersAsArray = json_decode($content, true);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
+            }
+            else {
+                $tagAss = new TagAssociation();
+                $tagAss->setCategory($category);
+                $tagAss->setCombination($parametersAsArray['combinaison']);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($tagAss);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($tagAss->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @Route("/update/word/{idWord}", name="editWord", methods={"PUT","PATCH"})
      * @param $idWord
      * @param Request $request
@@ -230,6 +262,10 @@ class AppController extends AbstractController {
             $category =  $this->getDoctrine()
                 ->getRepository(Category::class)
                 ->findOneBy(array('id' =>$idCategory));
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('No category found for id '.$idCategory);
+            }
             $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findByCategory($category->getId());
             if($combinaison != null) {
                 $response->setStatusCode(Response::HTTP_OK);
