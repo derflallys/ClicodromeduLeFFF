@@ -4,7 +4,8 @@ import {Combinaison} from '../../../models/Combinaison';
 import {Category} from '../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RulesService} from '../../../services/rules.service' ;
-import {Word} from "../../../models/Word";
+import {CategoryService} from '../../../services/category.service';
+
 @Component({
   selector: 'app-combinaison',
   templateUrl: './combinaison.component.html',
@@ -17,7 +18,13 @@ export class CombinaisonComponent implements OnInit {
   CombinAdded: {rule: string}[];
   error = false;
   CombinRules;
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: RulesService, private route: Router) { }
+  constructor(
+      private formBuilder: FormBuilder,
+      private router: ActivatedRoute,
+      private ruleService: RulesService,
+      private categoryService: CategoryService,
+      private route: Router
+  ) {}
   loading = {
     status: false,
     color: 'primary',
@@ -45,7 +52,7 @@ export class CombinaisonComponent implements OnInit {
         combinaison: this.combinaison,
       };
 
-    this.service.addCombinaison(this.CombinRules).subscribe(response => {console.log(response) ; if (response.status === 200) {
+    this.ruleService.addCombinaison(this.CombinRules).subscribe(response => {console.log(response) ; if (response.status === 200) {
           this.route.navigate([this.combinaison.combinaison]);
       } else {
           this.error = true;
@@ -60,7 +67,7 @@ export class CombinaisonComponent implements OnInit {
       this.CombinAdded = [];
       this.CombinAdded.push(null);
       this.loading.status = true;
-      this.service.getCategories().subscribe(
+      this.categoryService.getCategories().subscribe(
           categories => {
               this.categories = categories;
               this.loading.status = false;

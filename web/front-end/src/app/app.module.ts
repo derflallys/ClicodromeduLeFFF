@@ -18,6 +18,7 @@ import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
 import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
+import { ImportExportComponent } from './components/import-export/import-export.component';
 
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -35,7 +36,7 @@ import {
   MatInputModule,
   MatListModule,
   MatSnackBarModule,
-  MatDialogModule
+  MatDialogModule, MatTabsModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
+  { path: 'import-export', component : ImportExportComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -70,6 +72,7 @@ const appRoutes: Routes = [
     AddRuleComponent,
     CombinaisonComponent,
     DeleteDialogComponent,
+    ImportExportComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
   ],
   entryComponents: [ DeleteDialogComponent ],
   providers: [],

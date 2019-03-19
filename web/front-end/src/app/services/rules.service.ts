@@ -4,7 +4,6 @@ import {environment} from '../../environments/environment';
 import {catchError} from 'rxjs/operators';
 import {Combinaison} from '../models/Combinaison';
 import {Observable, throwError} from 'rxjs';
-import {Category} from "../models/Category";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,12 +19,6 @@ export class RulesService {
   constructor(private http: HttpClient) { }
   addCombinaison(combinaison: Combinaison) {
     return this.http.post<Response>(this.addCombinUrl, combinaison, httpOptions  )
-        .pipe(
-            catchError(this.handleError)
-        );
-  }
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoryUrl )
         .pipe(
             catchError(this.handleError)
         );
