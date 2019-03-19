@@ -228,6 +228,31 @@ class AppController extends AbstractController {
     }
 
     /**
+     * @Route("/delete/combinaison/{idCombinaison}", name="deleteCombinaison", methods={"DELETE"})
+     */
+    public function deleteCombinaison($idCombinaison) {
+        $response = new Response();
+        try {
+            $tagAssoc = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
+            if($tagAssoc != null) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($tagAssoc);
+                $entityManager->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(null);
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @Route("/get/category", name="getCategory", methods={"GET"})
      */
     public function getCategory() {
