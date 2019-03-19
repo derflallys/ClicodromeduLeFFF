@@ -17,6 +17,8 @@ import {ConsultationComponent} from './components/word/details/consultation.comp
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
 import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
+import { AddCategoryComponent } from './components/admin/category/add-category/add-category.component';
+
 import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
 
 // Angular Material
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
+  { path: 'category', component :  AddCategoryComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 
@@ -70,6 +73,7 @@ const appRoutes: Routes = [
     AddRuleComponent,
     CombinaisonComponent,
     DeleteDialogComponent,
+    AddCategoryComponent,
   ],
   imports: [
     BrowserModule,
