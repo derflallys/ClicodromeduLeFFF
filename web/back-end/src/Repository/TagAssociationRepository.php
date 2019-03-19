@@ -19,22 +19,18 @@ class TagAssociationRepository extends ServiceEntityRepository
         parent::__construct($registry, TagAssociation::class);
     }
 
-    // /**
-    //  * @return TagAssociation[] Returns an array of TagAssociation objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByCategory($id)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('t.category','category')
+            ->andWhere('category.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?TagAssociation

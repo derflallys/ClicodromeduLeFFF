@@ -25,7 +25,6 @@ export class AddWordComponent  implements OnInit {
         mode: 'indeterminate',
         value: 50
     };
-    tags: [];
     selectedCategory;
     saveRequest = false;
     /* variable for modification */
@@ -135,8 +134,8 @@ export class AddWordComponent  implements OnInit {
 
     createTag() {
         return this.formBuilder.group({
-            value: ['']
-        });
+        value: ['']
+      });
     }
     addTagField() {
         (this.addWord.controls['tags'] as FormArray).push(this.createTag());

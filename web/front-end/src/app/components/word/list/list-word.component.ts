@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
-import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
 import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
 
 

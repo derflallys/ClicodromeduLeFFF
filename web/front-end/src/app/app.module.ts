@@ -36,7 +36,9 @@ import {
   MatInputModule,
   MatListModule,
   MatSnackBarModule,
-  MatDialogModule, MatTabsModule
+  MatTabsModule,
+  MatDialogModule,
+  MatGridListModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -100,6 +102,8 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     MatDialogModule,
     MatTabsModule,
+    MatDialogModule,
+    MatGridListModule
   ],
   entryComponents: [ DeleteDialogComponent ],
   providers: [],
