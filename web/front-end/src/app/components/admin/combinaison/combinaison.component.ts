@@ -5,7 +5,8 @@ import {Category} from '../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Word} from '../../../models/Word';
 import {WordService} from '../../../services/word.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
+import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
 @Component({
   selector: 'app-combinaison',
   templateUrl: './combinaison.component.html',
@@ -29,7 +30,14 @@ export class CombinaisonComponent implements OnInit {
     mode: 'indeterminate',
     value: 50
   };
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: WordService, private route: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: ActivatedRoute,
+    private service: WordService,
+    private route: Router,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
+  ) { }
   ngOnInit() {
     this.addCombi = this.formBuilder.group({
       category: ['', Validators.required],
@@ -105,6 +113,41 @@ export class CombinaisonComponent implements OnInit {
       textrules = textrules.slice(0, textrules.length - 1);
     }
     return textrules;
+  }
+
+  deleteCombinaison(combinaison: string, idCombinaison: number) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Suppression du combinaison "' + combinaison + '"',
+      content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
+    };
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'bottom';
+        config.horizontalPosition = 'center';
+        config.duration = 5000;
+        this.snackBar.open('⌛ Suppression en cours...', 'Fermer', config);
+        console.log(idCombinaison);
+        this.service.deleteCombinaison(idCombinaison).subscribe(
+          res => {
+            this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
+            this.combinaisons.splice(
+              this.combinaisons.findIndex(
+                item => (item.id === idCombinaison && item.combinaison === combinaison)),
+              1);
+          }, error => {
+            this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
+          }
+        );
+      }
+    });
   }
 
 
