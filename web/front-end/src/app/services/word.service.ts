@@ -4,7 +4,6 @@ import {Observable, throwError} from 'rxjs';
 import {Word} from '../models/Word';
 import {environment} from '../../environments/environment';
 import {IWord} from '../models/IWord';
-import {Combinaison} from "../models/Combinaison";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,9 +20,6 @@ export class WordService {
   private wordUrl = environment.BACK_END_URL + '/get/word';
   private wordWithoutFormsUrl = environment.BACK_END_URL + '/get/wordWithoutForms';
   private deleteWordUrl = environment.BACK_END_URL + '/delete/word';
-  private deleteCombinaisonUrl = environment.BACK_END_URL + '/delete/combinaison';
-  private getCombinaisonUrl = environment.BACK_END_URL + '/get/combinaison';
-  private addCombinUrl = environment.BACK_END_URL + '/add/combinaison';
   constructor(private http: HttpClient) { }
 
   getListWords(word: string): Observable<any> {
@@ -32,32 +28,17 @@ export class WordService {
   updateWord(word: Word, id: number) {
     return this.http.put<Response>(this.updateWordUrl + '/' + id, word, httpOptions);
   }
-
   addWord(word: IWord) {
     return this.http.post<Response>(this.addWordUrl, word, httpOptions);
-  }
-
-  getCombinaison(id): Observable<Combinaison[]> {
-    return this.http.get<Combinaison[]>(this.getCombinaisonUrl + '/' + id);
-  }
-
-  addCombinaison( combinaison: Combinaison) {
-    return this.http.post<Response>(this.addCombinUrl, combinaison, httpOptions  );
   }
   getWord(id): Observable<Word> {
     return this.http.get<Word>(this.wordUrl + '/' + id);
   }
-
   getWordWithoutInflectedForms(id): Observable<Word> {
     return this.http.get<Word>(this.wordWithoutFormsUrl + '/' + id);
   }
-
   deleteWord(id: number) {
     return this.http.delete<Response>(this.deleteWordUrl + '/' + id);
-  }
-
-  deleteCombinaison(id: number) {
-    return this.http.delete<Response>(this.deleteCombinaisonUrl + '/' + id);
   }
 
   private handleError(err: HttpErrorResponse) {

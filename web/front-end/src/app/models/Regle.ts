@@ -7,7 +7,7 @@ export class Regle {
 
 
     constructor(id: number = null, value: string,  category: string, niveau: string, radical: string ) {
-        this.id = null;
+        this.id = id;
         this.value = value;
         this.category = category;
         this.niveau = niveau;

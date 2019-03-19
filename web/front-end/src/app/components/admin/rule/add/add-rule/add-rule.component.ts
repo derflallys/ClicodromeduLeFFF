@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Regle} from '../../../../../models/Regle';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RegleService} from '../../../../../services/regle.service';
+import {RuleService} from '../../../../../services/rule.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -24,7 +24,7 @@ export class AddRuleComponent implements OnInit {
         mode: 'indeterminate',
         value: 50
     };
-    constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: RegleService, private route: Router) { }
+    constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: RuleService, private route: Router) { }
 
    onSubmit() {
         console.log('submit');

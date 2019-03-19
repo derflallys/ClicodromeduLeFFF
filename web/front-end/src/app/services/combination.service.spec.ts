@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RegleService } from './regle.service';
+import { CombinationService } from './combination.service';
 
-describe('RegleService', () => {
+describe('CombinationService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: RegleService = TestBed.get(RegleService);
+    const service: CombinationService = TestBed.get(CombinationService);
     expect(service).toBeTruthy();
   });
 });

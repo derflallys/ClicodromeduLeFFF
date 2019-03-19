@@ -13,15 +13,20 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class RulesService {
+export class CombinationService {
+  private getCombinaisonUrl = environment.BACK_END_URL + '/get/combinaison';
   private addCombinUrl = environment.BACK_END_URL + '/add/combinaison';
-  private categoryUrl = environment.BACK_END_URL + '/get/category';
+  private deleteCombinaisonUrl = environment.BACK_END_URL + '/delete/combinaison';
   constructor(private http: HttpClient) { }
-  addCombinaison(combinaison: Combinaison) {
-    return this.http.post<Response>(this.addCombinUrl, combinaison, httpOptions  )
-        .pipe(
-            catchError(this.handleError)
-        );
+  getCombinaison(id): Observable<Combinaison[]> {
+    return this.http.get<Combinaison[]>(this.getCombinaisonUrl + '/' + id);
+  }
+
+  addCombinaison( combinaison: Combinaison) {
+    return this.http.post<Response>(this.addCombinUrl, combinaison, httpOptions  );
+  }
+  deleteCombinaison(id: number) {
+    return this.http.delete<Response>(this.deleteCombinaisonUrl + '/' + id);
   }
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';

@@ -13,10 +13,9 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class RegleService {
+export class RuleService {
 
   private addRegleUrl = environment.BACK_END_URL + '/add/addrule';
-  private categoryUrl = environment.BACK_END_URL + '/get/category';
   constructor(private http: HttpClient) { }
 
   addRegle(regle: Regle) {

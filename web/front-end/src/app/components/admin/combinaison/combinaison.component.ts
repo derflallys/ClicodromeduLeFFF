@@ -3,10 +3,11 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Combinaison} from '../../../models/Combinaison';
 import {Category} from '../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Word} from '../../../models/Word';
-import {WordService} from '../../../services/word.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
+import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
+import {CombinationService} from '../../../services/combination.service';
 import {CategoryService} from '../../../services/category.service';
+
 @Component({
     selector: 'app-combinaison',
     templateUrl: './combinaison.component.html',
@@ -33,10 +34,12 @@ export class CombinaisonComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private router: ActivatedRoute,
-        private wordService: WordService,
+        private combinationService: CombinationService,
         private categoryService: CategoryService,
-        private route: Router
-    ) {}
+        private route: Router,
+        public dialog: MatDialog,
+        public snackBar: MatSnackBar
+    ) { }
     ngOnInit() {
         this.addCombi = this.formBuilder.group({
             category: ['', Validators.required],
@@ -54,7 +57,7 @@ export class CombinaisonComponent implements OnInit {
         console.log('onSelect');
         this.rules = [];
         this.categorySelected = $id;
-        this.wordService.getCombinaison(this.categorySelected).subscribe(
+        this.combinationService.getCombinaison(this.categorySelected).subscribe(
             combin => {
                 console.log(combin);
                 this.combinaisons = combin;
@@ -86,8 +89,8 @@ export class CombinaisonComponent implements OnInit {
             return obj.id === Number(cat);
         })[0];
         this.saveRequest = true;
-        const tagCategory = new  Combinaison(null, category, rules );
-        this.wordService.addCombinaison(tagCategory).subscribe(response => {console.log(response) ; if (response.status === 200) {
+        const tagCategory = new  Combinaison(null, category, rules);
+        this.combinationService.addCombinaison(tagCategory).subscribe(response => {console.log(response) ; if (response.status === 200) {
             this.route.navigate(['/home']);
         } else {
             this.error = true;
@@ -114,5 +117,38 @@ export class CombinaisonComponent implements OnInit {
         return textrules;
     }
 
+    deleteCombinaison(combinaison: string, idCombinaison: number) {
+        const dialogConfig = new MatDialogConfig();
 
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.data = {
+            title: 'Suppression du combinaison "' + combinaison + '"',
+            content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
+        };
+
+        const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                const config = new MatSnackBarConfig();
+                config.verticalPosition = 'bottom';
+                config.horizontalPosition = 'center';
+                config.duration = 5000;
+                this.snackBar.open('⌛ Suppression en cours...', 'Fermer', config);
+                console.log(idCombinaison);
+                this.combinationService.deleteCombinaison(idCombinaison).subscribe(
+                    res => {
+                        this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
+                        this.combinaisons.splice(
+                            this.combinaisons.findIndex(
+                                item => (item.id === idCombinaison && item.combinaison === combinaison)),
+                            1);
+                    }, error => {
+                        this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
+                    }
+                );
+            }
+        });
+    }
 }
