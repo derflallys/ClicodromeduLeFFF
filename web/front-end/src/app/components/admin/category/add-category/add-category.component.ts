@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Category} from '../../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RegleService} from '../../../../services/regle.service';
+import {CategoryService} from '../../../../services/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -24,7 +24,7 @@ export class AddCategoryComponent implements OnInit {
     mode: 'indeterminate',
     value: 50
   };
-  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: RegleService, private route: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: CategoryService, private route: Router) { }
 
   onSubmit() {
     console.log('submit');
