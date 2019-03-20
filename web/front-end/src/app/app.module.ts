@@ -47,6 +47,7 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
 import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
+import { ModifyCombinComponent } from './components/admin/combinaison/modify-combin/modify-combin.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
+  { path: 'combin/:id', component : ModifyCombinComponent },
   { path: 'category', component :  AddCategoryComponent },
   { path: 'modify/category/:id', component :  ModifyCategoryComponent },
   { path: 'listCategories', component :  ListCategoryComponent },
@@ -91,7 +93,7 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatMenuModule,
     MatProgressBarModule
-  ]
+  ],
 })
 export class MaterialModule {}
 
@@ -113,7 +115,8 @@ export class MaterialModule {}
     AddCategoryComponent,
     ImportExportComponent,
     ListCategoryComponent,
-    ModifyCategoryComponent
+    ModifyCategoryComponent,
+    ModifyCombinComponent
   ],
   imports: [
     BrowserModule,
