@@ -18,6 +18,7 @@ export class CombinaisonComponent implements OnInit {
     categories: Category[];
     combinaisons: Combinaison[];
     categorySelected: null;
+    categoryNameSelected =  '';
     rules = [] ;
     queryTime: string;
     errorRequest = false;
@@ -61,12 +62,13 @@ export class CombinaisonComponent implements OnInit {
         console.log('onSelect');
         this.rules = [];
         this.categorySelected = $id;
+        this.categoryNameSelected = this.categories.filter(obj => {
+        return obj.id === Number(this.categorySelected);
+      })[0].name;
         this.combinationService.getCombinaison(this.categorySelected).subscribe(
             combin => {
-                console.log(combin);
                 this.combinaisons = combin;
                 this.combinaisons.forEach((r) => {
-                    console.log(r.combinaison);
                     this.rules.push(r);
                 });
             },
@@ -98,12 +100,24 @@ export class CombinaisonComponent implements OnInit {
             return obj.id === Number(cat);
         })[0];
         this.saveRequest = true;
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'bottom';
+        config.horizontalPosition = 'center';
+        config.duration = 5000;
         const tagCategory = new  Combinaison(null, category, rules);
-        this.combinationService.addCombinaison(tagCategory).subscribe(response => {console.log(response) ; if (response.status === 200) {
-            this.route.navigate(['/home']);
-        } else {
+        this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+
+        this.combinationService.addCombinaison(tagCategory).subscribe(
+          response => {
+              this.onSelectCategory(this.categorySelected);
+              this.saveRequest = false;
+              this.error = true;
+          },
+          error => {
             this.error = true;
-        }});
+            this.saveRequest = false;
+          }
+          );
 
         console.log(JSON.stringify(tagCategory));
 

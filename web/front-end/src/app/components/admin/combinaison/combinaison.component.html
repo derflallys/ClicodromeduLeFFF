@@ -30,9 +30,10 @@
       <button mat-raised-button color="warn" type="submit">Enregistrer la combinaison</button>
     </form>
     <div *ngIf="rules.length <=0 && categorySelected ">
-      <h3>  Liste de categorie vide ! </h3>
+      <h3>  La liste des combinaisons de régle de la categorie {{categoryNameSelected}} sont vide ! </h3>
     </div>
     <div *ngIf="rules.length >0" class="content">
+        <h3> Liste des combinaisons de régle de la categorie {{categoryNameSelected}} </h3>
       <div class="result-list">
         <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="rule">
