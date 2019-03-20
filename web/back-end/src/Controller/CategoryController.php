@@ -11,9 +11,9 @@ use App\Entity\Category;
 
 class CategoryController extends AbstractController {
     /**
-     * @Route("/get/category", name="getCategory", methods={"GET"})
+     * @Route("/get/categories", name="getCategories", methods={"GET"})
      */
-    public function getCategory() {
+    public function getCategories() {
         $response = new Response();
         try {
             $categotiesList = $this->getDoctrine()->getRepository(Category::class)->findAll();
@@ -77,7 +77,64 @@ class CategoryController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant \'' . $idCategory . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/get/category/{idCategory}", name="getCategory", methods={"GET"})
+     */
+    public function getCategory($idCategory) {
+        $response = new Response();
+        try {
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+            if($category != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune categorie ne correspond à l\'identifiant \'' . $idCategory . '\'');
+            }
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/update/category/{idCategory}", name="editCategory", methods={"PUT","PATCH"})
+     * @param $idCategory
+     * @param Request $request
+     * @return Response
+     */
+    public function editWord( $idCategory,Request $request) {
+        $response = new Response();
+        try {
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+            $data = json_decode($request->getContent(), true);
+            //$request->request->replace($data);
+            if($category != null) {
+                $category->setCode($data['code']);
+                $category->setName($data['name']);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($category);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idCategory . '\'');
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

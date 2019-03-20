@@ -67,7 +67,7 @@ export class ListCategoryComponent implements OnInit {
         this.service.deleteCategory(categoryId).subscribe(
           res => {
             this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
-            // this.categories.splice(this.categories.findIndex(item => (item.id === categoryId && item.name === name)), 1);
+            this.categories.splice(this.categories.findIndex(item => (item.id === categoryId && item.name === name)), 1);
             this.refreshTable();
           }, error => {
             this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
