@@ -51,6 +51,10 @@ export class CombinaisonComponent implements OnInit {
                 this.categories = categories;
                 this.loading.status = false;
             },
+          error => {
+              console.log(error);
+              this.categories  = [];
+          }
         );
     }
     onSelectCategory($id) {
@@ -66,9 +70,15 @@ export class CombinaisonComponent implements OnInit {
                     this.rules.push(r);
                 });
             },
+          error => {
+            console.log(error);
+            this.rules  = [];
+          }
         );
-        this.dataSource = new MatTableDataSource(this.rules);
-        console.log(this.combinaisons);
+        this.refreshTable();
+    }
+    refreshTable() {
+      this.dataSource = new MatTableDataSource(this.rules);
     }
     createTag() {
         return this.formBuilder.group({
@@ -84,7 +94,6 @@ export class CombinaisonComponent implements OnInit {
         const rules = this.rulesToString(this.addCombi.value.rules);
         const cat = this.addCombi.controls.category.value;
         console.log(this.categories);
-        console.log(cat);
         const category: Category = this.categories.filter(obj => {
             return obj.id === Number(cat);
         })[0];
@@ -119,7 +128,7 @@ export class CombinaisonComponent implements OnInit {
 
     deleteCombinaison(combinaison: string, idCombinaison: number) {
         const dialogConfig = new MatDialogConfig();
-
+        console.log(idCombinaison);
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.data = {
@@ -136,7 +145,6 @@ export class CombinaisonComponent implements OnInit {
                 config.horizontalPosition = 'center';
                 config.duration = 5000;
                 this.snackBar.open('⌛ Suppression en cours...', 'Fermer', config);
-                console.log(idCombinaison);
                 this.combinationService.deleteCombinaison(idCombinaison).subscribe(
                     res => {
                         this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
@@ -144,6 +152,8 @@ export class CombinaisonComponent implements OnInit {
                             this.combinaisons.findIndex(
                                 item => (item.id === idCombinaison && item.combinaison === combinaison)),
                             1);
+                        this.rules =  this.combinaisons;
+                        this.refreshTable();
                     }, error => {
                         this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
                     }
