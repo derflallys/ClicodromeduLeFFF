@@ -4,29 +4,38 @@
       <div class="mat-elevation-z4 tab-content">
         <div class="info">
           <div class="info-title"><mat-icon>info</mat-icon>&nbsp;&nbsp;Info</div><br>
-          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie
-          depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
-          Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié.
-          Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications
-          de mise en page de texte, comme Aldus PageMaker.
+
         </div>
         <app-upload-lefff></app-upload-lefff>
+        <mat-progress-bar *ngIf="requestImport" mode="indeterminate"></mat-progress-bar>
       </div>
     </mat-tab>
     <mat-tab label="Export">
       <div class="mat-elevation-z4 tab-content">
         <div class="info">
           <div class="info-title"><mat-icon>info</mat-icon>&nbsp;&nbsp;Info</div><br>
-          Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie
-          depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.
-          Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié.
-          Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications
-          de mise en page de texte, comme Aldus PageMaker.
+          L'export du lexique permettra d'extraire tous les mots enregistrés en base de données dans l'ordre alphabétique.
+          Les formes fléchies de chaque mot seront générées et presentées dans l'export à la suite du mot correspondant en respectant le format ci-contre :
+          <pre>
+            &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+            &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+            &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+            &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+            &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+            ...
+          </pre>
+          <b>&lt;mot&gt;</b> : le mot de la base <br>
+          <b>&lt;code-categorie&gt;</b> : le code de la catégorie du mot (ex: "adj" est le code de "adjectif")<br>
+          <b>&lt;categorie-name&gt;</b> : le nom complet de la catégorie<br>
+          <b>&lt;mot-tags&gt;</b> : les tags renseignés sur le mot<br>
+          <b>&lt;forme-fléchie-générée&gt;</b> : une forme fléchie du mot présentés précédemment<br>
+          <b>f["forme fléchie"]</b> : "f" correspond au code de la forme fléchies<br>
+          <b>lemme="&lt;mot&gt;"</b> : avec <b>&lt;mot&gt;</b> correspondant au lemme de base de la forme fléchie<br>
+          <b>&lt;tags-combination&gt;</b> : l'association de tags ayant permis de générer la forme fléchie<br>
         </div>
         <div class="actions">
-          <button mat-raised-button color="primary" (click)="doExport()">Export JSON</button>
-          <button mat-raised-button color="primary" (click)="doExport()">Export TXT</button>
-          <button mat-raised-button color="primary" (click)="doExport()">Export XML</button>
+          <button mat-raised-button color="primary" (click)="doExport()">Export</button>
+          <mat-progress-bar *ngIf="requestExport" mode="indeterminate"></mat-progress-bar>
         </div>
       </div>
     </mat-tab>

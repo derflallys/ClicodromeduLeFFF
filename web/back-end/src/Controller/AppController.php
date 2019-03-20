@@ -12,57 +12,35 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AppController extends AbstractController {
     /**
-     * @Route("/export/{type}", name="exportLefff", methods={"GET"})
+     * @Route("/export", name="exportLefff", methods={"GET"})
      */
-    public function exportLefff($type) {
+    public function exportLefff() {
         $response = new Response();
         try {
             $service = new ExportService();
-            $success = false;
             $folderPath = __DIR__.'/';
-            $exportFile = "export-result.";
-            $extension = "";
-            $fileContent = "";
-            $contentType = "";
-            switch ($type) {
-                case 'json':
-                    $success = true;
-                    $contentType = "application/json";
-                    $extension = "json";
-                    $fileContent = $service->exportJSON();
-                    break;
-                case 'xml':
-                    $success = true;
-                    $contentType = "application/xml";
-                    $extension = "xml";
-                    $fileContent = $service->exportXML();
-                    break;
-                default:
-                    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-                    $response->setContent("Invalid export format type.");
-                    break;
+            $exportFile = "export-result.txt";
+            $fileContent = $service->export();
 
-            }
-            if ($success) {
-                /* RENVOI DU FICHIER EXISTANT */
-                /*$response = new BinaryFileResponse($folderPath.$exportFile.$extension);
-                $response->headers->set('Content-Type', $contentType);
+            /* RENVOI DU FICHIER EXISTANT */
+            /*$response = new BinaryFileResponse($folderPath.$exportFile);
+            $response->headers->set('Content-Type', 'text/plain');
 
-                $response->setContentDisposition(
-                    ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                    $exportFile.$extension
-                );
-                $response->deleteFileAfterSend();*/
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $exportFile
+            );
+            $response->deleteFileAfterSend();*/
 
-                // CREATION DU FICHIER A LA VOLEE
-                $response->setContent($fileContent);
-                $disposition = $response->headers->makeDisposition(
-                    ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                    $exportFile.$extension
-                );
-                $response->headers->set('Content-Disposition', $disposition);
-                $response->headers->set('Content-Type', $contentType);
-            }
+            // CREATION DU FICHIER A LA VOLEE
+            $response->setContent($fileContent);
+            $disposition = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $exportFile
+            );
+            $response->headers->set('Content-Disposition', $disposition);
+            $response->headers->set('Content-Type', 'text/plain');
+
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());

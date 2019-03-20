@@ -13,3 +13,27 @@ html, body {
   background-color: #FFD2D2;
   padding: 25px;
 }
+
+.mat-progress-bar-background {
+  fill: #c5cae9
+}
+
+.mat-progress-bar-buffer {
+  background-color: #c5cae9
+}
+
+.mat-progress-bar-fill::after {
+  background-color: #0277bd
+}
+
+.mat-progress-bar.mat-primary .mat-progress-bar-background {
+  fill: #c5cae9
+}
+
+.mat-progress-bar.mat-primary .mat-progress-bar-buffer {
+  background-color: #c5cae9
+}
+
+.mat-progress-bar.mat-primary .mat-progress-bar-fill::after {
+  background-color: #0277bd
+}

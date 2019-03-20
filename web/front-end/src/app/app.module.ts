@@ -10,9 +10,8 @@ import {PageNotFoundComponent} from './components/page-not-found/page-not-found.
 import {HomeComponent} from './components/home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
 import {AddWordComponent} from './components/word/add/add-word.component';
-import {ModifyWordComponent} from './components/word/add/modify/modify-word.component';
+import {ModifyWordComponent} from './components/word/modify/modify-word.component';
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
@@ -41,7 +40,9 @@ import {
   MatTabsModule,
   MatDialogModule,
   MatGridListModule,
-  MatMenuModule
+  MatMenuModule,
+  MatProgressBarModule,
+  MatAutocompleteModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -62,6 +63,33 @@ const appRoutes: Routes = [
   { path: 'import-export', component : ImportExportComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
+
+@NgModule({
+  exports: [
+    // Material
+    MatToolbarModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatInputModule,
+    MatListModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatProgressBarModule
+  ]
+})
+export class MaterialModule {}
 
 @NgModule({
   declarations: [
@@ -92,24 +120,7 @@ const appRoutes: Routes = [
     ),
     FlexLayoutModule,
     BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatInputModule,
-    MatListModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatDialogModule,
-    MatGridListModule,
-    MatMenuModule
+    MaterialModule,
   ],
   entryComponents: [ DeleteDialogComponent ],
   providers: [],
