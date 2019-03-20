@@ -5,7 +5,7 @@ import {WordService} from '../../../services/word.service';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Category} from '../../../models/Category';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {CategoryService} from "../../../services/category.service";
+import {CategoryService} from '../../../services/category.service';
 
 @Component({
     selector: 'app-add-word',
