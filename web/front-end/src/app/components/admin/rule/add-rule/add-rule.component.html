@@ -1,0 +1,49 @@
+
+  <div class="content">
+  <h1>Ajout d'une nouvelle règle</h1>
+  <div class="alert alert-danger" role="alert" *ngIf="error">
+    Une erreur est survenue.
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="addRule">
+
+    <mat-form-field>
+      <input matInput placeholder="Tag du Mot" formControlName="tagMot">
+    </mat-form-field>
+    <mat-label>Résultat Régle</mat-label>
+
+    <table class="result-full-width" cellspacing="0">
+      <tr>
+        <td><mat-form-field class="result-full-width">
+          <input matInput placeholder="Prefixe" formControlName="prefixe">
+        </mat-form-field></td>
+        <td><mat-form-field class="result-full-width">
+          <input matInput placeholder="Mot" [disabled]="true" >
+        </mat-form-field></td>
+        <td><mat-form-field class="result-full-width">
+          <input matInput placeholder="Suffixe" formControlName="suffixe">
+        </mat-form-field></td>
+      </tr>
+    </table>
+    <mat-form-field>
+      <input matInput placeholder="Niveau" formControlName="niveau">
+    </mat-form-field>
+    <mat-label>Combinaison de Regle Categorie</mat-label>
+    <table class="result-full-width" cellspacing="0">
+      <tr>
+        <td formArrayName="rules" *ngFor="let tag of addRule.controls['rules'].controls; let i = index">
+          <mat-form-field class="result-full-width" [formGroupName]="i">
+            <input matInput placeholder="Regle" formControlName="value">
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <button mat-raised-button color="primary" type="button" (click)="addRules()">
+          <mat-icon class="icon">add</mat-icon> Ajouter une regle
+        </button>
+      </tr>
+    </table>
+
+    <button mat-raised-button color="warn" type="submit">Enregistrer la régle</button>
+  </form>
+</div>
+

@@ -15,7 +15,7 @@ import {ModifyWordComponent} from './components/word/modify/modify-word.componen
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
-import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
+import { AddRuleComponent } from './components/admin/rule/add-rule/add-rule.component';
 import { AddCategoryComponent } from './components/admin/category/add-category/add-category.component';
 
 import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
