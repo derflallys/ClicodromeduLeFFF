@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {SearchComponent} from './components/word/search/search.component';
-import {UploadLefffComponent} from './components/admin/upload-lefff/upload-lefff.component';
 import {AdminHomeComponent} from './components/admin/admin-home/admin-home.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
@@ -102,7 +101,6 @@ export class MaterialModule {}
   declarations: [
     AppComponent,
     SearchComponent,
-    UploadLefffComponent,
     AdminHomeComponent,
     HomeComponent,
     PageNotFoundComponent,

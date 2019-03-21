@@ -22,4 +22,23 @@ class ExportService {
             throw new Error($e);
         }
     }
+
+    public function filteringContent($fileContent) {
+        $result = explode("\r\n\r\n", $fileContent)[1];
+        $result = explode("\r\n------WebKitFormBoundary", $result)[0];
+        return $result;
+    }
+
+    public function importCustom($fileContent) {
+
+    }
+
+    public function importTxt($fileContent) {
+
+    }
+
+    public function importMlex($fileContent) {
+
+    }
+
 }

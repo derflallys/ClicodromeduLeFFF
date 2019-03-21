@@ -25,15 +25,6 @@ class AppController extends AbstractController {
                 $exportFile = "export-result.txt";
                 $fileContent = $service->export($allWords);
 
-                /* RENVOI DU FICHIER EXISTANT */
-                /*$folderPath = __DIR__ . '/';
-                $response = new BinaryFileResponse($folderPath . $exportFile);
-                $response->setContentDisposition(
-                    ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                    $exportFile
-                );
-                $response->deleteFileAfterSend();*/
-
                 // CREATION DU FICHIER A LA VOLEE
                  $response->setContent($fileContent);
                  $disposition = $response->headers->makeDisposition(
@@ -55,13 +46,44 @@ class AppController extends AbstractController {
     }
 
     /**
-     * @Route("/import", name="importLefff", methods={"POST"})
+     * @Route("/import/{type}", name="importLefff", methods={"POST"})
      */
-    public function importLefff(Request $request) {
+    public function importLefff($type, Request $request) {
         $response = new Response();
         try {
-            $response->setStatusCode(Response::HTTP_OK);
-            $response->setContent(null);
+            $service = new ExportService();
+            $fileContent = $request->getContent();
+            $tmp = explode("Content-Type: ", $fileContent)[1];
+            $contentType = explode("\r\n\r\n", $tmp)[0];
+            if ($contentType != "text/plain" || $contentType == "application/octet-stream") {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Invalid Content-type. Required 'text/plain'.");
+                return $response;
+            }
+            $success = false;
+            $fileContent = $service->filteringContent($fileContent);
+            switch ($type) {
+                case "custom":
+                    $service->importCustom($fileContent);
+                    $success = true;
+                    break;
+                case "txt":
+                    $service->importTxt($fileContent);
+                    $success = true;
+                    break;
+                case "mlex":
+                    $service->importMlex($fileContent);
+                    $success = true;
+                    break;
+                default:
+                    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                    $response->setContent("Invalid type of import.");
+                    break;
+            }
+            if($success) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(null);
+            }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());
