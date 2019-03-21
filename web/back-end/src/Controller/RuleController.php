@@ -72,6 +72,29 @@ class RuleController extends AbstractController {
     }
 
     /**
+     * @Route("/get/rule/{idrule}", name="getRule", methods={"GET"})
+     */
+    public function getRule($idrule) {
+        $response = new Response();
+        try {
+            $rule = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idrule]);
+
+            if($rule != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
+            }
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @Route("/get/rulesByCategory/{idCategory}", name="getRulesByCategory", methods={"GET"})
      */
     public function getRulesByCategory( $idCategory) {
@@ -128,12 +151,12 @@ class RuleController extends AbstractController {
     }
 
     /**
-     * @Route("/update/rule/{idRule}", name="editRule", methods={"PUT","PATCH"})
+     * @Route("/modify/rule/{idRule}", name="editRule", methods={"PUT","PATCH"})
      * @param $idRule
      * @param Request $request
      * @return Response
      */
-    public function editWord( $idRule,Request $request) {
+    public function editRule( $idRule,Request $request) {
         $response = new Response();
         try {
             $rule = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idRule]);
