@@ -20,6 +20,8 @@ export class RuleService {
   private getRulesUrl = environment.BACK_END_URL + '/get/rules';
   private getRuleUrl = environment.BACK_END_URL + '/get/rule';
   private getRulesCategoryUrl = environment.BACK_END_URL + '/get/rulesByCategory';
+  private deleteRuleUrl = environment.BACK_END_URL + '/delete/rule';
+  private updateRuleUrl = environment.BACK_END_URL + '/update/rule';
   constructor(private http: HttpClient) { }
 
   addRegle(regle: Rule) {
@@ -33,6 +35,13 @@ export class RuleService {
   }
   getRule(ruleId: number) {
     this.http.get<Rule>(this.getRuleUrl + '/' + ruleId);
+  }
+  deleteRule(ruleId: number) {
+    return this.http.delete<Response>(this.deleteRuleUrl + '/' + ruleId);
+  }
+
+  updateRule(rule: Rule, id: number) {
+    return this.http.put<Response>(this.updateRuleUrl + '/' + id, rule, httpOptions);
   }
 
   private handleError(err: HttpErrorResponse) {
