@@ -19,6 +19,17 @@ class PFMRuleRepository extends ServiceEntityRepository
         parent::__construct($registry, PFMRule::class);
     }
 
+    public function findByCategory($id)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.category','category')
+            ->andWhere('category.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return PFMRules[] Returns an array of PFMRules objects
     //  */

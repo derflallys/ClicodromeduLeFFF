@@ -44,4 +44,61 @@ class RuleController extends AbstractController {
         }
         return $response;
     }
+
+    /**
+     * @Route("/get/rules", name="getRules", methods={"GET"})
+     */
+    public function getRules() {
+        $response = new Response();
+        try {
+            $rulesList = $this->getDoctrine()->getRepository(PFMRule::class)->findAll();
+            $rules = [];
+            if(!empty($rulesList)) {
+                foreach ($rulesList as $rule) {
+                    array_push($rules, $rule->toJSON());
+                }
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode($rules, JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
+            }
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/get/rulesByCategory/{idCategory}", name="getRulesByCategory", methods={"GET"})
+     */
+    public function getRulesByCategory( $idCategory) {
+        $response = new Response();
+        try {
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('No category found for id '. $idCategory);
+            }
+            $rulesList = $this->getDoctrine()->getRepository(PFMRule::class)->findByCategory($category->getId());
+            $rules = [];
+            if(!empty($rulesList)) {
+                foreach ($rulesList as $rule) {
+                    array_push($rules, $rule->toJSON());
+                }
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode($rules, JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
+            }
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
 }
