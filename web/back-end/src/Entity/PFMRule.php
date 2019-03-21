@@ -111,4 +111,14 @@ class PFMRule
     {
         return "{" . $this->getApplicationLevel() . "},{" . $this->getTagWord() . "},{" . $this->getTagCategory() . "}=>" . $this->getResult();
     }
+
+    public function toJSON() {
+        $json['id'] = $this->id;
+        $json['niveau'] = $this->applicationLevel;
+        $json['category'] = $this->category->toJSON();
+        $json['tagWord'] = $this->tagWord;
+        $json['result'] = $this->result;
+        $json['tagCategory'] = $this->tagCategory;
+        return $json;
+    }
 }

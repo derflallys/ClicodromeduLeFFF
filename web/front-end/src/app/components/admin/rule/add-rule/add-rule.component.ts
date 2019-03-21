@@ -4,7 +4,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RuleService} from '../../../../services/rule.service';
-import {Regle} from '../../../../models/Regle';
+import {Rule} from '../../../../models/Rule';
+import {CategoryService} from '../../../../services/category.service';
+import {Category} from '../../../../models/Category';
+import {MatDialog, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 
 @Component({
   selector: 'app-add-rule',
@@ -14,10 +17,9 @@ import {Regle} from '../../../../models/Regle';
 export class AddRuleComponent implements OnInit {
 
     addRule: FormGroup;
-    regle: Regle;
-    categories: string;
-    radical: string;
+    categories: Category[];
     error = false;
+    saveRequest = false;
 
     searchInput: string;
     loading = {
@@ -26,25 +28,54 @@ export class AddRuleComponent implements OnInit {
         mode: 'indeterminate',
         value: 50
     };
-    constructor(private formBuilder: FormBuilder, private router: ActivatedRoute, private service: RuleService, private route: Router) { }
+    constructor(private formBuilder: FormBuilder,
+                private router: ActivatedRoute,
+                private ruleService: RuleService,
+                private route: Router,
+                private categoryService: CategoryService,
+                public dialog: MatDialog,
+                public snackBar: MatSnackBar) { }
 
    onSubmit() {
-        console.log('submit');
         if (this.addRule.invalid) {
             this.error = true;
             return;
         }
-        console.log(this.addRule.controls.regle.value);
-        const regle = this.addRule.controls.regle.value;
-        const category = this.addRule.controls.category.value;
-        console.log(category);
+        const rules = this.rulesToString(this.addRule.value.rules);
+        const tagMot = this.addRule.controls.tagMot.value;
+        const prefixe = this.addRule.controls.prefixe.value;
+        const suffixe = this.addRule.controls.suffixe.value;
+        const cat = this.addRule.controls.category.value;
         const niveau = this.addRule.controls.niveau.value;
-        console.log(niveau);
-        const radical = this.addRule.controls.radical.value;
-        console.log(radical);
-
-        this.regle = new  Regle(null, regle, category, niveau, radical);
-    }
+        let result = '';
+        result = result.concat(prefixe, '{word}');
+        result = result.concat(suffixe);
+        console.log(result);
+        const category: Category = this.categories.filter(obj => {
+           return obj.id === Number(cat);
+         })[0];
+        this.saveRequest = true;
+        const config = new MatSnackBarConfig();
+        config.verticalPosition = 'bottom';
+        config.horizontalPosition = 'center';
+        config.duration = 5000;
+        const rule = new  Rule(null, tagMot, rules, category, niveau, result);
+        this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+        this.ruleService.addRegle(rule).subscribe(
+          res => {
+            this.saveRequest = false;
+            this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+            this.error = true;
+            this.route.navigate(['/listRules']);
+          },
+          error => {
+            console.log(error);
+            this.error = true;
+            this.saveRequest = false;
+          }
+        );
+        console.log(JSON.stringify(rule));
+   }
 
     ngOnInit() {
         this.addRule = this.formBuilder.group({
@@ -52,17 +83,38 @@ export class AddRuleComponent implements OnInit {
             niveau: ['', Validators.required],
             prefixe: [''],
             suffixe: [''],
+            category: [''],
             rules : this.formBuilder.array([this.createTag()]),
 
         });
+        this.loading.status = true;
+        this.categoryService.getCategories().subscribe(
+            cat => {
+              this.categories = cat;
+              this.loading.status = false;
+            }
+          );
     }
-
+  rulesToString(rules): string {
+    let textrules = '';
+    let empty = true;
+    rules.forEach((tag) => {
+      if (tag.value !== '') {
+        textrules = textrules.concat(tag.value, ';');
+        empty = false;
+      }
+    });
+    if (!empty) {
+      textrules = textrules.slice(0, textrules.length - 1);
+    }
+    return textrules;
+  }
   createTag() {
     return this.formBuilder.group({
       value: ['']
     });
   }
   addRules() {
-    (this.addRule.controls['rules'] as FormArray).push(this.createTag());
+    (this.addRule.controls.rules as FormArray).push(this.createTag());
   }
 }
