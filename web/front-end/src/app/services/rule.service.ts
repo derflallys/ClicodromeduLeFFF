@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {Regle} from '../models/Regle';
+import {Rule} from '../models/Rule';
 import {environment} from '../../environments/environment';
 
 const httpOptions = {
@@ -15,14 +15,11 @@ const httpOptions = {
 })
 export class RuleService {
 
-  private addRegleUrl = environment.BACK_END_URL + '/add/addrule';
+  private addRegleUrl = environment.BACK_END_URL + '/add/rule';
   constructor(private http: HttpClient) { }
 
-  addRegle(regle: Regle) {
-    return this.http.post<Response>(this.addRegleUrl, regle, httpOptions  )
-        .pipe(
-            catchError(this.handleError)
-        );
+  addRegle(regle: Rule) {
+    return this.http.post<Response>(this.addRegleUrl, regle, httpOptions  );
   }
 
   private handleError(err: HttpErrorResponse) {

@@ -47,6 +47,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
 import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
 import { ModifyCombinComponent } from './components/admin/combinaison/modify-combin/modify-combin.component';
+import { ListRuleComponent } from './components/admin/rule/list-rule/list-rule.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
   { path: 'category', component :  AddCategoryComponent },
   { path: 'modify/category/:id', component :  ModifyCategoryComponent },
   { path: 'listCategories', component :  ListCategoryComponent },
+  { path: 'listRules', component :  ListRuleComponent },
   { path: 'import-export', component : ImportExportComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -115,7 +117,8 @@ export class MaterialModule {}
     ImportExportComponent,
     ListCategoryComponent,
     ModifyCategoryComponent,
-    ModifyCombinComponent
+    ModifyCombinComponent,
+    ListRuleComponent
   ],
   imports: [
     BrowserModule,

@@ -110,7 +110,8 @@ export class CombinaisonComponent implements OnInit {
         this.combinationService.addCombinaison(tagCategory).subscribe(
           response => {
               this.onSelectCategory(this.categorySelected);
-              this.saveRequest = false;
+            this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+            this.saveRequest = false;
               this.error = true;
           },
           error => {
