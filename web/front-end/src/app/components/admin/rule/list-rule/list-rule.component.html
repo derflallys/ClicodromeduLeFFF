@@ -1,3 +1,108 @@
-<p>
-  list-rule works!
-</p>
+<div class="centerDiv" *ngIf="loading.status">
+  <mat-progress-spinner
+    [color]="loading.color"
+    [mode]="loading.mode"
+    [value]="loading.value">
+  </mat-progress-spinner>
+</div>
+<div class="content" >
+  <h3> Selectionner une categorie pour lister ces régles  </h3>
+  <mat-form-field>
+    <mat-select placeholder="Catégorie"  >
+      <mat-option *ngFor="let category of categories"  (click)="onSelectCategory(category.id)" [value]="category.id">{{category.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div fxLayout="row" >
+    <div fxflexalign="end">
+      <button mat-flat-button color="primary" fxflexalign="end"  (click)="allTab()">Afficher la Liste entiere</button>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="!loading.status">
+  <div *ngIf="allRules.length > 0 && !tableWithCategory" class="content">
+    <h3> Liste de tous les régles  </h3>
+    <p class="numberOfResults">{{allRules.length}} résultats ({{queryTime}} secondes)</p>
+    <div class="result-list">
+      <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="TagMot">
+          <mat-header-cell *matHeaderCellDef> Tag Mot </mat-header-cell>
+          <mat-cell  *matCellDef="let element">{{element.tagWord}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Categorie">
+          <mat-header-cell *matHeaderCellDef> Categorie </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.category.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Resultat">
+          <mat-header-cell *matHeaderCellDef> Resultat </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.result}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Niveau">
+          <mat-header-cell *matHeaderCellDef> Niveau </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.niveau}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Régle">
+          <mat-header-cell *matHeaderCellDef> Régle </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.tagCategory}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-raised-button color="primary" routerLink="/modify/rule/{{element.id}}"><mat-icon>edit</mat-icon></button>
+
+            <button mat-raised-button color="warn" (click)="deleteRule(element.category.id, element.id)"><mat-icon>delete</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!loading.status">
+  <div *ngIf="rulesByCategory.length > 0 && tableWithCategory" class="content">
+    <p class="numberOfResults">{{rulesByCategory.length}} résultats ({{queryTime}} secondes)</p>
+    <div class="result-list">
+      <mat-table [dataSource]="dataSourceCat" class="mat-elevation-z8">
+        <ng-container matColumnDef="TagMot">
+          <mat-header-cell *matHeaderCellDef> Tag Mot </mat-header-cell>
+          <mat-cell  *matCellDef="let element">{{element.tagWord}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Categorie">
+          <mat-header-cell *matHeaderCellDef> Categorie </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.category.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Resultat">
+          <mat-header-cell *matHeaderCellDef> Resultat </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.result}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Niveau">
+          <mat-header-cell *matHeaderCellDef> Niveau </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.niveau}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Régle">
+          <mat-header-cell *matHeaderCellDef> Régle </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.tagCategory}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-raised-button color="primary" routerLink="/modify/rule/{{element.id}}"><mat-icon>edit</mat-icon></button>
+            &nbsp;
+            <button mat-raised-button color="warn" (click)="deleteRule(element.category.id, element.id)"><mat-icon>delete</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+
+
