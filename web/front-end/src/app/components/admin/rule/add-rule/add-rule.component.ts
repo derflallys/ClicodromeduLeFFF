@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Regle} from '../../../../../models/Regle';
+
 import {ActivatedRoute, Router} from '@angular/router';
-import {RuleService} from '../../../../../services/rule.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {RuleService} from '../../../../services/rule.service';
+import {Regle} from '../../../../models/Regle';
 
 @Component({
   selector: 'app-add-rule',
@@ -11,7 +13,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class AddRuleComponent implements OnInit {
 
-    addrule: FormGroup;
+    addRule: FormGroup;
     regle: Regle;
     categories: string;
     radical: string;
@@ -28,29 +30,39 @@ export class AddRuleComponent implements OnInit {
 
    onSubmit() {
         console.log('submit');
-        if (this.addrule.invalid) {
+        if (this.addRule.invalid) {
             this.error = true;
             return;
         }
-        console.log(this.addrule.controls.regle.value);
-        const regle = this.addrule.controls.regle.value;
-        const category = this.addrule.controls.category.value;
+        console.log(this.addRule.controls.regle.value);
+        const regle = this.addRule.controls.regle.value;
+        const category = this.addRule.controls.category.value;
         console.log(category);
-        const niveau = this.addrule.controls.niveau.value;
+        const niveau = this.addRule.controls.niveau.value;
         console.log(niveau);
-        const radical = this.addrule.controls.radical.value;
+        const radical = this.addRule.controls.radical.value;
         console.log(radical);
 
         this.regle = new  Regle(null, regle, category, niveau, radical);
     }
 
     ngOnInit() {
-        this.addrule = this.formBuilder.group({
-            regle: ['', Validators.required],
-            category: ['', Validators.required],
+        this.addRule = this.formBuilder.group({
+            tagMot: ['', Validators.required],
             niveau: ['', Validators.required],
-            radical: ['', Validators.required],
+            prefixe: [''],
+            suffixe: [''],
+            rules : this.formBuilder.array([this.createTag()]),
+
         });
-        this.loading.status = true;
     }
+
+  createTag() {
+    return this.formBuilder.group({
+      value: ['']
+    });
+  }
+  addRules() {
+    (this.addRule.controls['rules'] as FormArray).push(this.createTag());
+  }
 }

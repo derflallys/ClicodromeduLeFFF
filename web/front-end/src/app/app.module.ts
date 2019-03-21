@@ -15,7 +15,7 @@ import {ModifyWordComponent} from './components/word/modify/modify-word.componen
 import {ConsultationComponent} from './components/word/details/consultation.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
 import {CombinaisonComponent} from './components/admin/combinaison/combinaison.component';
-import { AddRuleComponent } from './components/admin/rule/add/add-rule/add-rule.component';
+import { AddRuleComponent } from './components/admin/rule/add-rule/add-rule.component';
 import { AddCategoryComponent } from './components/admin/category/add-category/add-category.component';
 
 import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
@@ -47,6 +47,7 @@ import {
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
 import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
+import { ModifyCombinComponent } from './components/admin/combinaison/modify-combin/modify-combin.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
   { path: 'admin', component: AdminHomeComponent },
   { path: 'addrule', component: AddRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
+  { path: 'combin/:id', component : ModifyCombinComponent },
   { path: 'category', component :  AddCategoryComponent },
   { path: 'modify/category/:id', component :  ModifyCategoryComponent },
   { path: 'listCategories', component :  ListCategoryComponent },
@@ -114,7 +116,8 @@ export class MaterialModule {}
     AddCategoryComponent,
     ImportExportComponent,
     ListCategoryComponent,
-    ModifyCategoryComponent
+    ModifyCategoryComponent,
+    ModifyCombinComponent
   ],
   imports: [
     BrowserModule,

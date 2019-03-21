@@ -4,6 +4,7 @@ import {environment} from '../../environments/environment';
 import {catchError} from 'rxjs/operators';
 import {Combinaison} from '../models/Combinaison';
 import {Observable, throwError} from 'rxjs';
+import {Category} from "../models/Category";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,6 +18,7 @@ export class CombinationService {
   private getCombinaisonUrl = environment.BACK_END_URL + '/get/combinaison';
   private addCombinUrl = environment.BACK_END_URL + '/add/combinaison';
   private deleteCombinaisonUrl = environment.BACK_END_URL + '/delete/combinaison';
+  private updateCombinaisonUrl = environment.BACK_END_URL + '/update/combinaison';
   constructor(private http: HttpClient) { }
   getCombinaison(id): Observable<Combinaison[]> {
     return this.http.get<Combinaison[]>(this.getCombinaisonUrl + '/' + id);
@@ -28,14 +30,8 @@ export class CombinationService {
   deleteCombinaison(id: number) {
     return this.http.delete<Response>(this.deleteCombinaisonUrl + '/' + id);
   }
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = '';
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = `An  error occured: ${err.error.message}`;
-    } else {
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(errorMessage);
+  updateCategory(combinaison: Combinaison, id: number) {
+    return this.http.put<Response>(this.updateCombinaisonUrl + '/' + id, combinaison, httpOptions);
   }
+
 }
