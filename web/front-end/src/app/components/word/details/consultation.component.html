@@ -23,9 +23,12 @@
       </div>
       <div class="formeFlechies">
         <div *ngIf="word.inflectedForms.length > 0">
-          <ul>
-            <li *ngFor="let form of word.inflectedForms">{{form}}</li>
-          </ul>
+          <mat-list>
+            <mat-list-item *ngFor="let form of word.inflectedForms">
+              <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+              <h4 mat-line>{{form}}</h4>
+            </mat-list-item>
+          </mat-list>
         </div>
         <div *ngIf="word.inflectedForms.length <= 0">
           <p class="noResult">Aucune forme fléchie n'a été trouvée pour ce mot.</p>

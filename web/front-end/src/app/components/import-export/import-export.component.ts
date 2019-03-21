@@ -14,6 +14,11 @@ export class ImportExportComponent implements OnInit {
     errorImport = false;
     errorExport = false;
     panelOpenState = 0;
+
+    fileToUploadCustom: File = null;
+    fileToUploadTxt: File = null;
+    fileToUploadMlex: File = null;
+
     constructor(private importExportService: ImportExportService, public snackBar: MatSnackBar) {}
 
     ngOnInit() {}
@@ -26,7 +31,7 @@ export class ImportExportComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
-        this.importExportService.importSyntaxCustom().subscribe(
+        this.importExportService.importSyntaxCustom(this.fileToUploadCustom).subscribe(
             response => {
                 this.requestImport = false;
                 this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
@@ -43,7 +48,7 @@ export class ImportExportComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
-        this.importExportService.importSyntaxTxt().subscribe(
+        this.importExportService.importSyntaxTxt(this.fileToUploadTxt).subscribe(
             response => {
                 this.requestImport = false;
                 this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
@@ -60,7 +65,7 @@ export class ImportExportComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
-        this.importExportService.importSyntaxMlex().subscribe(
+        this.importExportService.importSyntaxMlex(this.fileToUploadMlex).subscribe(
             response => {
                 this.requestImport = false;
                 this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
@@ -71,7 +76,6 @@ export class ImportExportComponent implements OnInit {
             }
         );
     }
-
     doExport() {
         this.requestExport = true;
         const config = new MatSnackBarConfig();
@@ -102,5 +106,26 @@ export class ImportExportComponent implements OnInit {
                     this.snackBar.open('❌ L\'export à échoué.', 'Fermer', config);
                 }
             });
+    }
+
+    handleFileInput(selectedImport: number, files: FileList) {
+        switch (selectedImport) {
+            case 0:
+                this.fileToUploadCustom = files.item(0);
+                this.fileToUploadTxt = null;
+                this.fileToUploadMlex = null;
+                break;
+            case 1:
+                this.fileToUploadTxt = files.item(0);
+                this.fileToUploadCustom = null;
+                this.fileToUploadMlex = null;
+                break;
+            case 2:
+                this.fileToUploadMlex = files.item(0);
+                this.fileToUploadTxt = null;
+                this.fileToUploadCustom = null;
+                break;
+
+        }
     }
 }

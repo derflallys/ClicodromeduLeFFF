@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
+    'Content-Type':  'text/plain',
   })
 };
 
@@ -19,17 +19,20 @@ export class ImportExportService {
   private exportUrl = environment.BACK_END_URL + '/export';
 
   constructor(private http: HttpClient) {}
-  sendFileToImport(file: any) {
-    return this.http.post<Response>(this.importUrlCustom, file, httpOptions);
+  importSyntaxCustom(fileToUpload: File) {
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.http.post(this.importUrlCustom, formData, {headers: {'Content-Type':  fileToUpload.type} });
   }
-  importSyntaxCustom() {
-    return this.http.get<Response>(this.importUrlCustom);
+  importSyntaxTxt(fileToUpload: File) {
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.http.post(this.importUrlTxt, formData, {headers: {'Content-Type':  fileToUpload.type} });
   }
-  importSyntaxTxt() {
-    return this.http.get<Response>(this.importUrlTxt);
-  }
-  importSyntaxMlex() {
-    return this.http.get<Response>(this.importUrlMlex);
+  importSyntaxMlex(fileToUpload: File) {
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.http.post(this.importUrlMlex, formData, {headers: {'Content-Type':  fileToUpload.type} });
   }
   doExport() {
     return this.http.get(this.exportUrl, {
