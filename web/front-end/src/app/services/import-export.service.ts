@@ -8,21 +8,35 @@ const httpOptions = {
     'Content-Type':  'application/json',
   })
 };
-const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportExportService {
-  private importUrl = environment.BACK_END_URL + '/import';
+  private importUrlCustom = environment.BACK_END_URL + '/import/custom';
+  private importUrlTxt = environment.BACK_END_URL + '/import/txt';
+  private importUrlMlex = environment.BACK_END_URL + '/import/mlex';
   private exportUrl = environment.BACK_END_URL + '/export';
 
   constructor(private http: HttpClient) {}
   sendFileToImport(file: any) {
-    return this.http.post<Response>(this.importUrl, file, httpOptions);
+    return this.http.post<Response>(this.importUrlCustom, file, httpOptions);
+  }
+  importSyntaxCustom() {
+    return this.http.get<Response>(this.importUrlCustom);
+  }
+  importSyntaxTxt() {
+    return this.http.get<Response>(this.importUrlTxt);
+  }
+  importSyntaxMlex() {
+    return this.http.get<Response>(this.importUrlMlex);
   }
   doExport() {
-    return this.http.get(this.exportUrl, { headers, responseType: 'text'});
+    return this.http.get(this.exportUrl, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+      }, responseType: 'blob'
+    });
   }
 }

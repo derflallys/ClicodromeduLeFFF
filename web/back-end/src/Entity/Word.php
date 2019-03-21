@@ -118,4 +118,9 @@ class Word
         $json['inflectedForms'] = $this->inflectedForms;
         return $json;
     }
+
+    public function __toString()
+    {
+        return $this->getValue();
+    }
 }

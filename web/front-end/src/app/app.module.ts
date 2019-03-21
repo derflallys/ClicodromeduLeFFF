@@ -42,7 +42,7 @@ import {
   MatGridListModule,
   MatMenuModule,
   MatProgressBarModule,
-  MatAutocompleteModule,
+  MatAutocompleteModule, MatExpansionModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
@@ -90,7 +90,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatGridListModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule {}

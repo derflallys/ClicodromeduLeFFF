@@ -8,7 +8,7 @@ use Exception;
 
 class PFM_Interpretor {
 
-    public function generateInflectedForm(Word $word) {
+    public function generateInflectedForm(Word $word, $getTags = false) {
         $result = [];
 
         /*** Récupération des règles / tags du mot / combianaison de Tags de la catégorie */
@@ -108,7 +108,13 @@ class PFM_Interpretor {
                         $newForm = $rule->getResult();
                     }
                 }
-                array_push($result, $newForm);
+                if(!$getTags) {
+                    array_push($result, $newForm);
+                } else {
+                    $newData["value"] = $newForm;
+                    $newData["tags"] = $tags;
+                    array_push($result, $newData);
+                }
             }
         }
 

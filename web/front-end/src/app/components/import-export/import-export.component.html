@@ -4,10 +4,96 @@
       <div class="mat-elevation-z4 tab-content">
         <div class="info">
           <div class="info-title"><mat-icon>info</mat-icon>&nbsp;&nbsp;Info</div><br>
-
+          L'import du lexique prend en charge deux syntaxes de fichiers différentes présentées ci-contre :
         </div>
-        <app-upload-lefff></app-upload-lefff>
-        <mat-progress-bar *ngIf="requestImport" mode="indeterminate"></mat-progress-bar>
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="panelOpenState === 0" (opened)="setPanel(0)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Syntaxe 1 (.txt)</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+              Cette syntaxe correspond à celle respéctée par notre fonctionnalité d'export :
+              <pre>
+                  &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+                  &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+                  &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+                  &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+                  &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
+                  ...
+                </pre>
+              <b>⚠️Attention chaque espacement doit être une tabulation. Elles sont au nombre de 3. ⚠️</b> <br>
+              <b>&lt;mot&gt;</b> : le mot de la base <br>
+              <b>&lt;code-categorie&gt;</b> : le code de la catégorie du mot (ex: "adj" est le code de "adjectif")<br>
+              <b>&lt;categorie-name&gt;</b> : le nom complet de la catégorie<br>
+              <b>&lt;mot-tags&gt;</b> : les tags renseignés sur le mot. Chaque tag est séparé par un ";"<br>
+              <b>&lt;forme-fléchie-générée&gt;</b> : une forme fléchie du mot présentés précédemment<br>
+              <b>f["forme fléchie"]</b> : "f" correspond au code de la forme fléchies<br>
+              <b>lemme="&lt;mot&gt;"</b> : avec <b>&lt;mot&gt;</b> correspondant au lemme de base de la forme fléchie<br>
+              <b>&lt;tags-combination&gt;</b> : l'association de tags ayant permis de générer la forme fléchie. Chaque tag est séparé par un ";"<br>
+            </div>
+            <div class="actions">
+              <app-upload-lefff></app-upload-lefff>
+              <button mat-raised-button color="primary" (click)="doImportSyntaxCustom()">Lancer l'import</button>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="panelOpenState === 1" (opened)="setPanel(1)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Syntaxe 2 (.txt)</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+              Cette syntaxe correspond à la syntaxe du Lefff consultable <a target="_blank" href="http://www.labri.fr/perso/clement/lefff/telechargement.html">sur ce lien.</a>
+              <br>
+              <p><b>⚠️Attention Ce format ne contient pas toutes les informations nécéssaires au bon fonctionnement de l'application.
+                En effet cet import permet d'ajouter les mots en base de données ainsi que leur catégories. <br>
+                Néamoins les associations de tags de chaque catégories utilisé par les règles PFM pour générer les formes fléchies ne sont pas présentes.
+                Il vous faudra donc passer par l'administration pour les ajouter vous mêmes. <br>
+                Les tags concernant les mots existent mais restent très peu enrichis. (ex: pas de tag pour indiquer le groupe des verbes ect...)
+              </b></p>
+
+              Le format est le suivant :
+              <pre>
+                  &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+                  ...
+              </pre>
+            </div>
+            <div class="actions">
+              <app-upload-lefff></app-upload-lefff>
+              <button mat-raised-button color="primary" (click)="doImportSyntaxTxt()">Lancer l'import</button>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="panelOpenState === 2" (opened)="setPanel(2)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Syntaxe 3 (.mlex)</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+            <div>
+              Cette syntaxe correspond à la syntaxe du Lefff consultable <a target="_blank" href="http://www.labri.fr/perso/clement/lefff/telechargement.html">sur ce lien.</a>
+              <br>
+              <p><b>⚠️Attention Ce format ne contient pas toutes les informations nécéssaires au bon fonctionnement de l'application.
+                En effet cet import permet d'ajouter les mots en base de données ainsi que leur catégories. <br>
+                Néamoins les associations de tags de chaque catégories utilisé par les règles PFM pour générer les formes fléchies ne sont pas présentes.
+                Il vous faudra donc passer par l'administration pour les ajouter vous mêmes. <br>
+                Les tags concernant les mots existent mais restent très peu enrichis. (ex: pas de tag pour indiquer le groupe des verbes ect...)
+              </b></p>
+
+              Le format est le suivant :
+              <pre>
+                  &lt;mot&gt; &lt;code-categorie&gt;["&lt;categorie-name&gt;"] lemme="&lt;mot&gt;" &#123;&lt;mot-tags&gt;&#125;
+                  ...
+              </pre>
+            </div>
+            <div class="actions">
+              <app-upload-lefff></app-upload-lefff>
+              <button mat-raised-button color="primary" (click)="doImportSyntaxMLex()">Lancer l'import</button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div *ngIf="requestImport">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <p><i>Importation en cours. Cela peut prendre quelques minutes...</i></p>
+        </div>
       </div>
     </mat-tab>
     <mat-tab label="Export">
@@ -24,14 +110,15 @@
             &lt;forme-fléchie-générée&gt; f["forme fléchie"] lemme="&lt;mot&gt;" &#123;&lt;tags-combination&gt;&#125;
             ...
           </pre>
+          <b>⚠️Attention chaque espacement est en réalité une tabulation ⚠️</b> <br>
           <b>&lt;mot&gt;</b> : le mot de la base <br>
           <b>&lt;code-categorie&gt;</b> : le code de la catégorie du mot (ex: "adj" est le code de "adjectif")<br>
           <b>&lt;categorie-name&gt;</b> : le nom complet de la catégorie<br>
-          <b>&lt;mot-tags&gt;</b> : les tags renseignés sur le mot<br>
+          <b>&lt;mot-tags&gt;</b> : les tags renseignés sur le mot. Chaque tag est séparé par un ";"<br>
           <b>&lt;forme-fléchie-générée&gt;</b> : une forme fléchie du mot présentés précédemment<br>
           <b>f["forme fléchie"]</b> : "f" correspond au code de la forme fléchies<br>
           <b>lemme="&lt;mot&gt;"</b> : avec <b>&lt;mot&gt;</b> correspondant au lemme de base de la forme fléchie<br>
-          <b>&lt;tags-combination&gt;</b> : l'association de tags ayant permis de générer la forme fléchie<br>
+          <b>&lt;tags-combination&gt;</b> : l'association de tags ayant permis de générer la forme fléchie. Chaque tag est séparé par un ";"<br>
         </div>
         <div class="actions">
           <button mat-raised-button color="primary" (click)="doExport()">Export</button>
