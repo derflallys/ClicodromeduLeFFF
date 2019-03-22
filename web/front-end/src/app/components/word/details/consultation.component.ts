@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
-import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
+import {InfosDialogComponent} from '../../utils/infos-dialog.component';
 
 @Component({
     selector: 'app-consultation',
@@ -53,7 +53,7 @@ export class ConsultationComponent implements OnInit {
             content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
         };
 
-        const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(InfosDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === true) {

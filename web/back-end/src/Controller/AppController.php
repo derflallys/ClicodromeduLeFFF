@@ -55,24 +55,26 @@ class AppController extends AbstractController {
             $fileContent = $request->getContent();
             $tmp = explode("Content-Type: ", $fileContent)[1];
             $contentType = explode("\r\n\r\n", $tmp)[0];
-            if ($contentType != "text/plain" || $contentType == "application/octet-stream") {
+            if ($contentType != "text/plain" && $contentType != "application/octet-stream") {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
                 $response->setContent("Invalid Content-type. Required 'text/plain'.");
                 return $response;
             }
             $success = false;
+            set_time_limit(0);
             $fileContent = $service->filteringContent($fileContent);
+            $service->truncateDatabase($this->getDoctrine());
             switch ($type) {
                 case "custom":
-                    $service->importCustom($fileContent);
+                    $service->importCustom($this->getDoctrine(), $fileContent);
                     $success = true;
                     break;
                 case "txt":
-                    $service->importTxt($fileContent);
+                    $service->importTxt($this->getDoctrine(), $fileContent);
                     $success = true;
                     break;
                 case "mlex":
-                    $service->importMlex($fileContent);
+                    $service->importMlex($this->getDoctrine(), $fileContent);
                     $success = true;
                     break;
                 default:

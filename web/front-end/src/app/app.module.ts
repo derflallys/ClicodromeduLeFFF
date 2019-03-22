@@ -17,7 +17,7 @@ import {CombinaisonComponent} from './components/admin/combinaison/combinaison.c
 import { AddRuleComponent } from './components/admin/rule/add-rule/add-rule.component';
 import { AddCategoryComponent } from './components/admin/category/add-category/add-category.component';
 
-import {DeleteDialogComponent} from './components/utils/delete-dialog.component';
+import {InfosDialogComponent} from './components/utils/infos-dialog.component';
 import { ImportExportComponent } from './components/import-export/import-export.component';
 
 // Angular Material
@@ -112,7 +112,7 @@ export class MaterialModule {}
     AddWordComponent,
     AddRuleComponent,
     CombinaisonComponent,
-    DeleteDialogComponent,
+    InfosDialogComponent,
     AddCategoryComponent,
     ImportExportComponent,
     ListCategoryComponent,
@@ -133,7 +133,7 @@ export class MaterialModule {}
     BrowserAnimationsModule,
     MaterialModule,
   ],
-  entryComponents: [ DeleteDialogComponent ],
+  entryComponents: [ InfosDialogComponent ],
   providers: [],
   bootstrap: [AppComponent]
 })

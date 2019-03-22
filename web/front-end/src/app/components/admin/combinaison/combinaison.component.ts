@@ -4,7 +4,7 @@ import {Combinaison} from '../../../models/Combinaison';
 import {Category} from '../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
-import {DeleteDialogComponent} from '../../utils/delete-dialog.component';
+import {InfosDialogComponent} from '../../utils/infos-dialog.component';
 import {CombinationService} from '../../../services/combination.service';
 import {CategoryService} from '../../../services/category.service';
 
@@ -151,7 +151,7 @@ export class CombinaisonComponent implements OnInit {
             content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
         };
 
-        const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(InfosDialogComponent, dialogConfig);
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === true) {

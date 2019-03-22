@@ -22,17 +22,17 @@ export class ImportExportService {
   importSyntaxCustom(fileToUpload: File) {
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.http.post(this.importUrlCustom, formData, {headers: {'Content-Type':  fileToUpload.type} });
+    return this.http.post(this.importUrlCustom, formData, {headers: {'Content-Type':  fileToUpload.type, 'Cache-Control': 'no-cache'} });
   }
   importSyntaxTxt(fileToUpload: File) {
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.http.post(this.importUrlTxt, formData, {headers: {'Content-Type':  fileToUpload.type} });
+    return this.http.post(this.importUrlTxt, formData, {headers: {'Content-Type':  fileToUpload.type, 'Cache-Control': 'no-cache'} });
   }
   importSyntaxMlex(fileToUpload: File) {
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.http.post(this.importUrlMlex, formData, {headers: {'Content-Type':  fileToUpload.type} });
+    return this.http.post(this.importUrlMlex, formData, {headers: {'Content-Type':  fileToUpload.type, 'Cache-Control': 'no-cache'} });
   }
   doExport() {
     return this.http.get(this.exportUrl, {

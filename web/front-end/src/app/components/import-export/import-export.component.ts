@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ImportExportService} from '../../services/import-export.service';
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
+import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig} from '@angular/material';
 import {saveAs} from 'file-saver';
+import {InfosDialogComponent} from '../utils/infos-dialog.component';
 
 @Component({
     selector: 'app-import-export',
@@ -14,67 +15,35 @@ export class ImportExportComponent implements OnInit {
     errorImport = false;
     errorExport = false;
     panelOpenState = 0;
-
+    dialogConfig;
+    config;
     fileToUploadCustom: File = null;
     fileToUploadTxt: File = null;
     fileToUploadMlex: File = null;
 
-    constructor(private importExportService: ImportExportService, public snackBar: MatSnackBar) {}
+    constructor(private importExportService: ImportExportService, public snackBar: MatSnackBar, public dialog: MatDialog) {
+        this.dialogConfig = new MatDialogConfig();
+
+        this.dialogConfig.disableClose = true;
+        this.dialogConfig.autoFocus = true;
+        this.dialogConfig.data = {
+            title: 'Import d\'un nouveau lexique',
+            content: 'Cet import entrainera une purge complète des données de la base de données actuelles ' +
+                'pour y ajouter les nouvelles données.',
+            content2: 'Toute erreur pendant l\'ajout des nouvelles données interrompra l\'import. ' +
+                'Néanmoins la base aura quand même été purgée.',
+            content3: 'Êtes vous sûr de vouloir poursuivre l\'opération ?',
+        };
+
+        this.config = new MatSnackBarConfig();
+        this.config.verticalPosition = 'bottom';
+        this.config.horizontalPosition = 'center';
+        this.config.duration = 100000000;
+    }
 
     ngOnInit() {}
     setPanel(step: number) {
         this.panelOpenState = step;
-    }
-    doImportSyntaxCustom() {
-        this.requestImport = true;
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'bottom';
-        config.horizontalPosition = 'center';
-        config.duration = 5000;
-        this.importExportService.importSyntaxCustom(this.fileToUploadCustom).subscribe(
-            response => {
-                this.requestImport = false;
-                this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
-            }, error => {
-                this.requestImport = false;
-                this.errorImport = true;
-                this.snackBar.open('❌ L\'import à échoué.', 'Fermer', config);
-            }
-        );
-    }
-    doImportSyntaxTxt() {
-        this.requestImport = true;
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'bottom';
-        config.horizontalPosition = 'center';
-        config.duration = 5000;
-        this.importExportService.importSyntaxTxt(this.fileToUploadTxt).subscribe(
-            response => {
-                this.requestImport = false;
-                this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
-            }, error => {
-                this.requestImport = false;
-                this.errorImport = true;
-                this.snackBar.open('❌ L\'import à échoué.', 'Fermer', config);
-            }
-        );
-    }
-    doImportSyntaxMLex() {
-        this.requestImport = true;
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'bottom';
-        config.horizontalPosition = 'center';
-        config.duration = 5000;
-        this.importExportService.importSyntaxMlex(this.fileToUploadMlex).subscribe(
-            response => {
-                this.requestImport = false;
-                this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', config);
-            }, error => {
-                this.requestImport = false;
-                this.errorImport = true;
-                this.snackBar.open('❌ L\'import à échoué.', 'Fermer', config);
-            }
-        );
     }
     doExport() {
         this.requestExport = true;
@@ -107,7 +76,6 @@ export class ImportExportComponent implements OnInit {
                 }
             });
     }
-
     handleFileInput(selectedImport: number, files: FileList) {
         switch (selectedImport) {
             case 0:
@@ -127,5 +95,59 @@ export class ImportExportComponent implements OnInit {
                 break;
 
         }
+    }
+    doImportSyntaxCustom() {
+        const dialogRef = this.dialog.open(InfosDialogComponent, this.dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.requestImport = true;
+                this.importExportService.importSyntaxCustom(this.fileToUploadCustom).subscribe(
+                    response => {
+                        this.requestImport = false;
+                        this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', this.config);
+                    }, error => {
+                        this.requestImport = false;
+                        this.errorImport = true;
+                        this.snackBar.open('❌ L\'import à échoué.', 'Fermer', this.config);
+                    }
+                );
+            }
+        });
+    }
+    doImportSyntaxTxt() {
+        const dialogRef = this.dialog.open(InfosDialogComponent, this.dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.requestImport = true;
+                this.importExportService.importSyntaxTxt(this.fileToUploadTxt).subscribe(
+                    response => {
+                        this.requestImport = false;
+                        this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', this.config);
+                    }, error => {
+                        this.requestImport = false;
+                        this.errorImport = true;
+                        this.snackBar.open('❌ L\'import à échoué.', 'Fermer', this.config);
+                    }
+                );
+            }
+        });
+    }
+    doImportSyntaxMLex() {
+        const dialogRef = this.dialog.open(InfosDialogComponent, this.dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.requestImport = true;
+                this.importExportService.importSyntaxMlex(this.fileToUploadMlex).subscribe(
+                    response => {
+                        this.requestImport = false;
+                        this.snackBar.open('✅ Import effectué avec succès.', 'Fermer', this.config);
+                    }, error => {
+                        this.requestImport = false;
+                        this.errorImport = true;
+                        this.snackBar.open('❌ L\'import à échoué.', 'Fermer', this.config);
+                    }
+                );
+            }
+        });
     }
 }
