@@ -33,7 +33,6 @@ export class ListCategoryComponent implements OnInit {
     private router: ActivatedRoute,
     private service: CategoryService,
     public dialog: MatDialog,
-    private route: Router,
     public snackBar: MatSnackBar
   ) {
     this.dataSource.sort = this.sort;

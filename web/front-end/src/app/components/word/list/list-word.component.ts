@@ -7,7 +7,7 @@ import {
     MatDialogConfig,
     MatSnackBar,
     MatSnackBarConfig, MatSort,
-    MatTableDataSource, Sort
+    MatTableDataSource,
 } from '@angular/material';
 import {InfosDialogComponent} from '../../utils/infos-dialog.component';
 

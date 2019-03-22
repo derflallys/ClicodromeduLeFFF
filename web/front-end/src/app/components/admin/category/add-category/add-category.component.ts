@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Category} from '../../../../models/Category';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {CategoryService} from '../../../../services/category.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material';
