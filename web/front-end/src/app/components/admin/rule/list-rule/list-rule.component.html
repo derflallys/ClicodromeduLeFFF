@@ -5,20 +5,22 @@
     [value]="loading.value">
   </mat-progress-spinner>
 </div>
-<div class="content" >
+<div fxLayout="column" fxLayoutAlign="center center">
   <h3> Selectionner une categorie pour lister ces régles  </h3>
-  <mat-form-field>
-    <mat-select placeholder="Catégorie"  >
-      <mat-option *ngFor="let category of categories"  (click)="onSelectCategory(category.id)" [value]="category.id">{{category.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div fxLayout="row" >
-    <div fxflexalign="end">
-      <button mat-flat-button color="primary" fxflexalign="end"  (click)="allTab()">Afficher la Liste entiere</button>
-    </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxLayoutAlign="start space-between" >
+    <mat-form-field>
+      <mat-select placeholder="Catégorie"  >
+        <mat-option *ngFor="let category of categories"  (click)="onSelectCategory(category.id)" [value]="category.id">{{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div fxLayoutAlign=" end">
+    <button mat-flat-button color="primary" fxflexalign="end"  (click)="allTab()">Afficher la Liste entiere</button>
+  </div>
   </div>
 
-</div>
 
 <div *ngIf="!loading.status">
   <div *ngIf="allRules.length > 0 && !tableWithCategory" class="content">

@@ -23,6 +23,7 @@ export class AddRuleComponent implements OnInit {
     @Input() ruleId = null;
     update = false;
     rule: Rule;
+    categorySelected = null;
     title = 'Ajout d\'une nouvelle Régle';
 
     searchInput: string;
@@ -132,6 +133,7 @@ export class AddRuleComponent implements OnInit {
           category: [w.category.id],
           rules : this.formBuilder.array(this.setTagsArray(w.tagCategory))
         });
+        this.categorySelected = this.rule.category.id;
         this.loading.status = false;
         this.update = true;
       }, error => {

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Combinaison} from '../../../models/Combinaison';
-import {Category} from '../../../models/Category';
+import {Combinaison} from '../../../../models/Combinaison';
+import {Category} from '../../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
-import {InfosDialogComponent} from '../../utils/infos-dialog.component';
-import {CombinationService} from '../../../services/combination.service';
-import {CategoryService} from '../../../services/category.service';
+import {InfosDialogComponent} from '../../../utils/infos-dialog.component';
+import {CombinationService} from '../../../../services/combination.service';
+import {CategoryService} from '../../../../services/category.service';
 
 @Component({
     selector: 'app-combinaison',
@@ -17,15 +17,20 @@ export class CombinaisonComponent implements OnInit {
     addCombi: FormGroup;
     categories: Category[];
     combinaisons: Combinaison[];
+    combinaison: Combinaison;
     categorySelected: null;
     categoryNameSelected =  '';
     rules = [] ;
     queryTime: string;
     errorRequest = false;
+    update = false;
     displayedColumns: string[] = ['rule', 'actions'];
     dataSource = new MatTableDataSource();
     error = false;
     saveRequest = false;
+    title = 'Ajout d\'une nouvelle Combinaison de Régle';
+
+  @Input() combinaisonId = null;
     loading = {
         status: false,
         color: 'primary',
@@ -46,6 +51,9 @@ export class CombinaisonComponent implements OnInit {
             category: ['', Validators.required],
             rules : this.formBuilder.array([this.createTag()]),
         });
+        if (this.combinaisonId != null) {
+          this.loadData();
+        }
         this.loading.status = true;
         this.categoryService.getCategories().subscribe(
             categories => {
@@ -58,6 +66,36 @@ export class CombinaisonComponent implements OnInit {
           }
         );
     }
+
+  loadData() {
+    this.combinationService.getCombinaison(this.combinaisonId).subscribe(
+      w => {
+        this.combinaison = w;
+        this.title = 'Modification de la Combinaison : ';
+        this.addCombi = this.formBuilder.group({
+          category: [this.combinaison.category.id, Validators.required],
+          rules : this.formBuilder.array(this.setTagsArray(this.combinaison.combinaison))
+        });
+        this.loading.status = false;
+        this.update = true;
+      }, error => {
+        this.loading.status = false;
+        this.error = true;
+      }
+    );
+  }
+  setTagsArray(tags) {
+    const formGroup = [];
+    const tab = tags.split(';');
+    tab.forEach((tag) => {
+      formGroup.push(this.formBuilder.group(
+        {
+          value: [tag]
+        }
+      ));
+    });
+    return formGroup;
+  }
     onSelectCategory($id) {
         console.log('onSelect');
         this.rules = [];
@@ -65,7 +103,7 @@ export class CombinaisonComponent implements OnInit {
         this.categoryNameSelected = this.categories.filter(obj => {
         return obj.id === Number(this.categorySelected);
       })[0].name;
-        this.combinationService.getCombinaison(this.categorySelected).subscribe(
+        this.combinationService.getCombinaisonByCategory(this.categorySelected).subscribe(
             combin => {
                 this.combinaisons = combin;
                 this.combinaisons.forEach((r) => {
@@ -104,27 +142,46 @@ export class CombinaisonComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
-        const tagCategory = new  Combinaison(null, category, rules);
-        this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+        if (this.update) {
+          const tagCategory = new  Combinaison(this.combinaisonId, category, rules);
+          this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
 
-        this.combinationService.addCombinaison(tagCategory).subscribe(
-          response => {
+          this.combinationService.updateCombinaison(tagCategory,this.combinaisonId).subscribe(
+            response => {
+              this.categorySelected = cat ;
               this.onSelectCategory(this.categorySelected);
-            this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-            this.saveRequest = false;
+              this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
+              this.saveRequest = false;
+            },
+            error => {
               this.error = true;
-          },
-          error => {
-            this.error = true;
-            this.saveRequest = false;
-          }
+              this.saveRequest = false;
+            }
           );
+        } else {
+          const tagCategory = new  Combinaison(null, category, rules);
+          this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
 
-        console.log(JSON.stringify(tagCategory));
+          this.combinationService.addCombinaison(tagCategory).subscribe(
+            response => {
+              this.onSelectCategory(this.categorySelected);
+              this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+              this.saveRequest = false;
+            },
+            error => {
+              this.error = true;
+              this.saveRequest = false;
+            }
+          );
+          console.log(JSON.stringify(tagCategory));
+        }
+
+
+
 
     }
     addRule() {
-        (this.addCombi.controls['rules'] as FormArray).push(this.createTag());
+        (this.addCombi.controls.rules as FormArray).push(this.createTag());
     }
     rulesToString(rules): string {
         let textrules = '';
