@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../../../../services/category.service';
 import {RuleService} from '../../../../services/rule.service';
 import {Category} from '../../../../models/Category';
-import {DeleteDialogComponent} from "../../../utils/delete-dialog.component";
+import {InfosDialogComponent} from '../../../utils/infos-dialog.component';
 
 
 @Component({
@@ -103,7 +103,7 @@ export class ListRuleComponent implements OnInit {
       content: 'Êtes-vous sûr de vouloir supprimer cette Régle ? Cette action est irreversible.'
     };
 
-    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(InfosDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {

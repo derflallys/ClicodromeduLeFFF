@@ -93,23 +93,6 @@ export class AddRuleComponent implements OnInit {
               this.saveRequest = false;
             }
           );
-          const rule = new  Rule(null, tagMot, rules, category, niveau, result);
-          this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
-          this.ruleService.addRegle(rule).subscribe(
-            res => {
-              this.saveRequest = false;
-              this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-              this.error = true;
-              this.route.navigate(['/listRules']);
-            },
-            error => {
-              console.log(error);
-              this.error = true;
-              this.saveRequest = false;
-            }
-          );
-          console.log(JSON.stringify(rule));
-
         }
    }
 

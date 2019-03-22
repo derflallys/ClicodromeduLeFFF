@@ -10,7 +10,7 @@
       <input matInput placeholder="Tag du Mot" formControlName="tagMot">
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Catégorie" formControlName="category"   >
+      <mat-select placeholder="Catégorie" formControlName="category" [(value)]="ruleId"  >
         <mat-option *ngFor="let category of categories"  [value]="category.id">{{category.name}}</mat-option>
       </mat-select>
     </mat-form-field>
