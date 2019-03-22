@@ -7,13 +7,13 @@
 </div>
 <div *ngIf="!loading.status">
   <div class="content">
-    <h1>Ajouter une combinaison de règles</h1>
+    <div fxLayout="row" fxLayoutAlign="center center"> <h1>Ajouter une combinaison de règles</h1> </div>
 
     <form (ngSubmit)="onSubmit()" [formGroup]="addCombi">
 
 
       <mat-form-field>
-        <mat-select placeholder="Catégorie" formControlName="category"   >
+        <mat-select placeholder="Catégorie" formControlName="category"  [(value)]="categorySelected" >
           <mat-option *ngFor="let category of categories" (click)="onSelectCategory(category.id) " [value]="category.id">{{category.name}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -43,6 +43,8 @@
           <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
             <mat-cell *matCellDef="let element">&nbsp;
+              <button mat-raised-button color="primary" routerLink="/modify/combinaison/{{element.id}}"><mat-icon>edit</mat-icon></button>
+
               <button mat-raised-button color="warn" (click)="deleteCombinaison(element.combinaison, element.id)"><mat-icon>delete</mat-icon></button>
             </mat-cell>
           </ng-container>

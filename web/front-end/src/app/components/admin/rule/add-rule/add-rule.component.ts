@@ -23,6 +23,7 @@ export class AddRuleComponent implements OnInit {
     @Input() ruleId = null;
     update = false;
     rule: Rule;
+    categorySelected = null;
     title = 'Ajout d\'une nouvelle Régle';
 
     searchInput: string;
@@ -93,23 +94,6 @@ export class AddRuleComponent implements OnInit {
               this.saveRequest = false;
             }
           );
-          const rule2 = new  Rule(null, tagMot, rules, category, niveau, result);
-          this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
-          this.ruleService.addRegle(rule2).subscribe(
-            res => {
-              this.saveRequest = false;
-              this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-              this.error = true;
-              this.route.navigate(['/list/rules']);
-            },
-            error => {
-              console.log(error);
-              this.error = true;
-              this.saveRequest = false;
-            }
-          );
-          console.log(JSON.stringify(rule));
-
         }
    }
 
@@ -149,6 +133,7 @@ export class AddRuleComponent implements OnInit {
           category: [w.category.id],
           rules : this.formBuilder.array(this.setTagsArray(w.tagCategory))
         });
+        this.categorySelected = this.rule.category.id;
         this.loading.status = false;
         this.update = true;
       }, error => {

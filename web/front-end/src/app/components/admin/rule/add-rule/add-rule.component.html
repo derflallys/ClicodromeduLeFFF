@@ -1,6 +1,6 @@
 
   <div class="content">
-  <h1>Ajout d'une nouvelle règle</h1>
+    <div fxLayout="row" fxLayoutAlign="center center"><h1>Ajout d'une nouvelle règle</h1> </div>
   <div class="alert alert-danger" role="alert" *ngIf="error">
     Une erreur est survenue.
   </div>
@@ -10,7 +10,7 @@
       <input matInput placeholder="Tag du Mot" formControlName="tagMot">
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Catégorie" formControlName="category"   >
+      <mat-select placeholder="Catégorie" formControlName="category" [(value)]="categorySelected"  >
         <mat-option *ngFor="let category of categories"  [value]="category.id">{{category.name}}</mat-option>
       </mat-select>
     </mat-form-field>
