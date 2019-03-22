@@ -12,9 +12,9 @@ use App\Entity\TagAssociation;
 
 class TagCombinationController extends AbstractController {
     /**
-     * @Route("/get/combinaison/{idCategory}", name="getCombinaison", methods={"GET"})
+     * @Route("/get/combinaisons/{idCategory}", name="getCombinaisonByCategory", methods={"GET"})
      */
-    public function getCombinaison($idCategory) {
+    public function getCombinaisonByCategory($idCategory) {
         $response = new Response();
         try {
 
@@ -38,6 +38,30 @@ class TagCombinationController extends AbstractController {
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
                 $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant \'' . $idCategory . '\'');
+            }
+        } catch (Exception $exception) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($exception->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/get/combinaison/{idCombinaison}", name="getCombinaison", methods={"GET"})
+     */
+    public function getCombinaison($idCombinaison) {
+        $response = new Response();
+        try {
+            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
+            if($combinaison != null) {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+
+                $response->setContent(json_encode($combinaison->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
             }
         } catch (Exception $exception) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -94,6 +118,45 @@ class TagCombinationController extends AbstractController {
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
                 $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/update/combinaison/{idCombinaison}", name="editCombinaison", methods={"PUT","PATCH"})
+     * @param $idCombinaison
+     * @param Request $request
+     * @return Response
+     */
+    public function editCombinaison( $idCombinaison,Request $request) {
+        $response = new Response();
+        try {
+            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
+            $data = json_decode($request->getContent(), true);
+            //$request->request->replace($data);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $data['category']['id']]);
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('No category found for id '. $data['category']['id']);
+            }
+            if($combinaison != null) {
+                $combinaison->setCategory($category);
+                $combinaison->setCombination($data['combinaison']);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($combinaison);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($combinaison->toJSON(), JSON_UNESCAPED_UNICODE));
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
