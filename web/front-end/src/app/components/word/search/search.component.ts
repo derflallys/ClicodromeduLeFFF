@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
   onSubmit() {
     if (this.searchInput.trim() !== '') {
       console.log('INPUT SEARCH : ' + this.searchInput.trim());
-      this.router.navigate(['/list', this.searchInput.trim()]);
+      this.router.navigate(['/list/word', this.searchInput.trim()]);
       this.inputChanges.emit(this.searchInput.trim());
     }
   }

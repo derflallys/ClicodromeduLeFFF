@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {SearchComponent} from './components/word/search/search.component';
-import {AdminHomeComponent} from './components/admin/admin-home/admin-home.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
 import {HomeComponent} from './components/home/home.component';
@@ -45,7 +44,7 @@ import {
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ListCategoryComponent } from './components/admin/category/list-category/list-category.component';
-import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
+import { ModifyCategoryComponent } from './components/admin/category/modify-category/modify-category.component';
 import { ModifyCombinComponent } from './components/admin/combinaison/modify-combin/modify-combin.component';
 import { ListRuleComponent } from './components/admin/rule/list-rule/list-rule.component';
 import { ModifyRuleComponent } from './components/admin/rule/add-rule/modify-rule/modify-rule.component';
@@ -56,19 +55,18 @@ const appRoutes: Routes = [
     pathMatch: 'full',
   },
   { path: 'home', component: HomeComponent },
-  { path: 'list/:word', component: ListWordComponent },
-  { path: 'add', component: AddWordComponent },
-  { path: 'modify/:id', component: ModifyWordComponent },
-  { path: 'show/:id', component: ConsultationComponent },
-  { path: 'admin', component: AdminHomeComponent },
+  { path: 'list/word/:word', component: ListWordComponent },
+  { path: 'show/word/:id', component: ConsultationComponent },
+  { path: 'add/word', component: AddWordComponent },
+  { path: 'modify/word/:id', component: ModifyWordComponent },
+  { path: 'list/categories', component :  ListCategoryComponent },
+  { path: 'add/category', component :  AddCategoryComponent },
+  { path: 'modify/category/:id', component :  ModifyCategoryComponent },
+  { path: 'list/rules', component :  ListRuleComponent },
   { path: 'addrule', component: AddRuleComponent },
+  { path: 'modify/rule/:id', component :  ModifyRuleComponent },
   { path: 'combin', component : CombinaisonComponent },
   { path: 'combin/:id', component : ModifyCombinComponent },
-  { path: 'category', component :  AddCategoryComponent },
-  { path: 'modify/category/:id', component :  ModifyCategoryComponent },
-  { path: 'modify/rule/:id', component :  ModifyRuleComponent },
-  { path: 'listCategories', component :  ListCategoryComponent },
-  { path: 'listRules', component :  ListRuleComponent },
   { path: 'import-export', component : ImportExportComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -105,7 +103,6 @@ export class MaterialModule {}
   declarations: [
     AppComponent,
     SearchComponent,
-    AdminHomeComponent,
     HomeComponent,
     PageNotFoundComponent,
     ListWordComponent,

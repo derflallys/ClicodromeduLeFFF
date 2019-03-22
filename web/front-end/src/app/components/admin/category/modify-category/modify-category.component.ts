@@ -13,5 +13,4 @@ export class ModifyCategoryComponent implements OnInit {
   ngOnInit() {
     this.categoryId = this.router.snapshot.paramMap.get('id');
   }
-
 }

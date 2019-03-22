@@ -1,20 +1,37 @@
-
-<div class="content">
-  <h1>Ajout d'une nouvelle catégorie</h1>
-  <div class="alert alert-danger" role="alert" *ngIf="error">
-    Une erreur est survenue.
-  </div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="addCategory">
-
-    <mat-form-field>
-      <input matInput placeholder="Code" formControlName="code">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput placeholder="Name" formControlName="name">
-    </mat-form-field>
-
-    <button mat-raised-button color="warn" type="submit">Enregistrer la catégorie</button>
-  </form>
+<div class="centerDiv" *ngIf="loading.status">
+  <mat-progress-spinner
+          [color]="loading.color"
+          [mode]="loading.mode"
+          [value]="loading.value">
+  </mat-progress-spinner>
 </div>
+<div class="content">
+  <div *ngIf="!loading.status && errorRequest" class="error">Une erreur est survenue.</div>
+  <div *ngIf="!loading.status && !errorRequest">
+    <h1>{{title}}</h1>
+    <div class="error" *ngIf="error">
+      Le formulaire contient une ou plusieurs erreurs.
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="addCategory">
+      <mat-form-field>
+        <input matInput placeholder="Code" formControlName="code">
+      </mat-form-field>
 
+      <mat-form-field>
+        <input matInput placeholder="Nom" formControlName="name">
+      </mat-form-field>
+
+      <div class="validation">
+        <button mat-raised-button color="warn" type="submit"><mat-icon class="icon">save</mat-icon> Enregistrer la catégorie</button>
+        <div *ngIf="saveRequest" class="spinner">
+          <mat-progress-spinner
+                  [color]="loading.color"
+                  [mode]="loading.mode"
+                  [value]="loading.value"
+                  [diameter]="50">
+          </mat-progress-spinner>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

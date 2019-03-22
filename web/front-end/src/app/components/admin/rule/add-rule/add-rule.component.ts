@@ -70,7 +70,7 @@ export class AddRuleComponent implements OnInit {
             res => {
               this.saveRequest = false;
               this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
-              this.route.navigate(['/listRules']);
+              this.route.navigate(['/list/rules']);
             },
             error => {
               console.log(error);
@@ -85,7 +85,7 @@ export class AddRuleComponent implements OnInit {
             res => {
               this.saveRequest = false;
               this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-              this.route.navigate(['/listRules']);
+              this.route.navigate(['/list/rules']);
             },
             error => {
               console.log(error);
@@ -93,14 +93,14 @@ export class AddRuleComponent implements OnInit {
               this.saveRequest = false;
             }
           );
-          const rule = new  Rule(null, tagMot, rules, category, niveau, result);
+          const rule2 = new  Rule(null, tagMot, rules, category, niveau, result);
           this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
-          this.ruleService.addRegle(rule).subscribe(
+          this.ruleService.addRegle(rule2).subscribe(
             res => {
               this.saveRequest = false;
               this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
               this.error = true;
-              this.route.navigate(['/listRules']);
+              this.route.navigate(['/list/rules']);
             },
             error => {
               console.log(error);

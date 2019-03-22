@@ -93,7 +93,7 @@ export class AddWordComponent  implements OnInit {
                     console.log(response);
                     this.saveRequest = false;
                     this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
-                    this.route.navigate(['/show', this.word.id]);
+                    this.route.navigate(['/show/word', this.word.id]);
                 }, error => {
                     this.error = true;
                     this.saveRequest = false;
@@ -107,7 +107,7 @@ export class AddWordComponent  implements OnInit {
                     console.log(response);
                     this.saveRequest = false;
                     this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-                    this.route.navigate(['/list', this.word.value]);
+                    this.route.navigate(['/list/word', this.word.value]);
                 }, error => {
                     this.error = true;
                     this.saveRequest = false;

@@ -12,7 +12,6 @@ import {InfosDialogComponent} from '../../../utils/infos-dialog.component';
 })
 export class ListCategoryComponent implements OnInit {
   categories: Category[] ;
-  queryTime: string;
 
   displayedColumns: string[] = ['code', 'name', 'actions'];
   loading = {
@@ -21,7 +20,7 @@ export class ListCategoryComponent implements OnInit {
     mode: 'indeterminate',
     value: 50
   };
-
+  config;
   dataSource = new MatTableDataSource();
   constructor(
     private router: ActivatedRoute,
@@ -33,12 +32,19 @@ export class ListCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.loading.status = true;
+    this.config = new MatSnackBarConfig();
+    this.config.verticalPosition = 'bottom';
+    this.config.horizontalPosition = 'center';
+    this.config.duration = 5000;
     this.service.getCategories().subscribe(
       cat => {
         this.categories = cat;
         this.loading.status = false;
         this.refreshTable();
-      },
+      }, error => {
+          this.loading.status = false;
+          this.snackBar.open('❌ Une erreur s\'est produite lors du chargement des catégories !', 'Fermer', this.config);
+        }
     );
   }
   refreshTable() {
@@ -51,26 +57,24 @@ export class ListCategoryComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = {
-      title: 'Suppression du mot "' + name + '"',
-      content: 'Êtes-vous sûr de vouloir supprimer ce mot ? Cette action est irreversible.'
+      title: 'Suppression de la catégorie "' + name + '"',
+      content: 'Cette action est irreversible et entrainera la supression de tous les mots, ' +
+          'toutes les règles PFM, ainsi que les combinaisons de tags associés à cette catégorie.',
+      content3: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?'
     };
 
     const dialogRef = this.dialog.open(InfosDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        const config = new MatSnackBarConfig();
-        config.verticalPosition = 'bottom';
-        config.horizontalPosition = 'center';
-        config.duration = 5000;
-        this.snackBar.open('⌛ Suppression en cours...', 'Fermer', config);
+        this.snackBar.open('⌛ Suppression en cours...', 'Fermer', this.config);
         this.service.deleteCategory(categoryId).subscribe(
           res => {
-            this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
+            this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', this.config);
             this.categories.splice(this.categories.findIndex(item => (item.id === categoryId && item.name === name)), 1);
             this.refreshTable();
           }, error => {
-            this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', config);
+            this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', this.config);
           }
         );
       }

@@ -55,7 +55,7 @@ export class AddCategoryComponent implements OnInit {
           console.log(response);
           this.saveRequest = false;
           this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
-          this.route.navigate(['/listCategories']);
+          this.route.navigate(['/list/categories']);
         }, error => {
           this.error = true;
           this.saveRequest = false;
@@ -68,7 +68,7 @@ export class AddCategoryComponent implements OnInit {
         response => {
           this.saveRequest = false;
           this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-          this.route.navigate(['/listCategories']);
+          this.route.navigate(['/list/categories']);
         } , error => {
           this.error = true;
           this.saveRequest = false;
@@ -88,13 +88,14 @@ export class AddCategoryComponent implements OnInit {
   }
 
   loadData() {
+    this.loading.status = true;
     this.service.getCategory(this.categoryId).subscribe(
-      w => {
-        this.category = w;
-        this.title = 'Modification du mot : ' + w.name;
+      cat => {
+        this.category = cat;
+        this.title = 'Modification de la catégorie : ' + cat.name;
         this.addCategory = this.formBuilder.group({
-          code: [w.code, Validators.required],
-          name: [w.name, Validators.required],
+          code: [cat.code, Validators.required],
+          name: [cat.name, Validators.required],
         });
         this.loading.status = false;
         this.update = true;
