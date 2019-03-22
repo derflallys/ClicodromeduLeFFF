@@ -5,15 +5,15 @@
     [value]="loading.value">
   </mat-progress-spinner>
 </div>
-<div fxLayout="row" fxLayoutAlign="center center"><h3>Listes des catégories</h3> </div>
-<div *ngIf="!loading.status">
-  <div *ngIf="categories.length <= 0" class="content">
+<div *ngIf="!loading.status" class="content">
+    <h3>Listes des catégories</h3>
+    <div *ngIf="categories.length <= 0">
     <p class="numberOfResults">Aucun résultat ne correspond.</p>
     <br/>
     <br/>
     <p class="noResult">Désolé, aucune catégorie n'est enregistré en base de données.</p>
   </div>
-  <div *ngIf="categories.length > 0" class="content">
+  <div *ngIf="categories.length > 0">
     <p class="numberOfResults">{{categories.length}} résultats</p>
     <button mat-raised-button color="primary" routerLink="/add/category"><mat-icon>add</mat-icon> Ajouter une nouvelle catégorie</button>
     <hr>

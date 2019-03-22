@@ -16,11 +16,9 @@
       <a mat-button matTooltip="Importer/Exporter le lexique" routerLink="/import-export"><mat-icon class="icon">import_export</mat-icon> Import / Export</a>
     </div>
     <mat-menu #admin="matMenu">
-      <button mat-menu-item routerLink="/list/categories" >Lister les Categories</button>
-      <button mat-menu-item routerLink="/add/category" >Ajouter une Categorie</button>
-      <button mat-menu-item routerLink="/list/rules" >Lister les Rules</button>
-      <button mat-menu-item routerLink="/add/rule" >Ajouter une Régle</button>
-      <button mat-menu-item routerLink="/combin" >Ajouter une Combinaison de regle </button>
+      <button mat-menu-item routerLink="/list/categories" >Gérer les catégories</button>
+      <button mat-menu-item routerLink="/list/rules" >Gérer les règles PFM</button>
+      <button mat-menu-item routerLink="/combin" >Gérer les combinaisons de tags</button>
     </mat-menu>
   </mat-toolbar>
 
@@ -32,11 +30,9 @@
         <a mat-button [matMenuTriggerFor]="adminCollaspe"><mat-icon class="icon">settings</mat-icon> Administration</a>
       </div>
       <mat-menu #adminCollaspe="matMenu">
-        <button mat-menu-item routerLink="/list/categories" >Lister les Categories</button>
-        <button mat-menu-item routerLink="/add/category" >Ajouter une Categorie</button>
-        <button mat-menu-item routerLink="/list/rules" >Lister les Rules</button>
-        <button mat-menu-item routerLink="/add/rule" >Ajouter une Régle</button>
-        <button mat-menu-item routerLink="/combin" >Ajouter une Combinaison de regle </button>
+        <button mat-menu-item routerLink="/list/categories" >Gérer les catégories</button>
+        <button mat-menu-item routerLink="/list/rules" >Gérer les règles PFM</button>
+        <button mat-menu-item routerLink="/combin" >Gérer les combinaisons de tags</button>
       </mat-menu>
     </mat-sidenav>
     <mat-sidenav-content fxFlexFill>
