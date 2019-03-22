@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {PageNotFoundComponent} from './components/page-not-found/page-not-found.component';
 import {HomeComponent} from './components/home/home.component';
+
 // Word Components
 import {SearchComponent} from './components/word/search/search.component';
 import {ListWordComponent} from './components/word/list/list-word.component';
@@ -55,7 +56,9 @@ import {
   MatGridListModule,
   MatMenuModule,
   MatProgressBarModule,
-  MatAutocompleteModule, MatExpansionModule,
+  MatAutocompleteModule,
+  MatExpansionModule,
+  MatPaginatorModule, MatSortModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
@@ -110,7 +113,9 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatMenuModule,
     MatProgressBarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
 })
 export class MaterialModule {}

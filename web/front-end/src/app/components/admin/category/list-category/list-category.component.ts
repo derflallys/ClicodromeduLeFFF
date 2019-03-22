@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatSnackBar,
+  MatSnackBarConfig, MatSort,
+  MatTableDataSource, Sort
+} from '@angular/material';
 import {Category} from '../../../../models/Category';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../../../../services/category.service';
@@ -22,13 +28,16 @@ export class ListCategoryComponent implements OnInit {
   };
   config;
   dataSource = new MatTableDataSource();
+  @ViewChild(MatSort) sort: MatSort;
   constructor(
     private router: ActivatedRoute,
     private service: CategoryService,
     public dialog: MatDialog,
     private route: Router,
     public snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.dataSource.sort = this.sort;
+  }
 
   ngOnInit() {
     this.loading.status = true;
@@ -49,6 +58,29 @@ export class ListCategoryComponent implements OnInit {
   }
   refreshTable() {
     this.dataSource = new MatTableDataSource(this.categories);
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  sortData(sort: Sort) {
+    const data = this.categories.slice();
+    if (!sort.active || sort.direction === '') {
+      this.categories = data;
+      return;
+    }
+
+    this.categories = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return compare(a.name, b.name, isAsc);
+        case 'code': return compare(a.code, b.code, isAsc);
+        default: return 0;
+      }
+    });
+    this.refreshTable();
   }
 
   deleteCategory(name: string, categoryId: number) {
@@ -80,4 +112,8 @@ export class ListCategoryComponent implements OnInit {
       }
     });
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
