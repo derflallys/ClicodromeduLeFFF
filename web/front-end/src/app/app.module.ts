@@ -48,6 +48,7 @@ import { ListCategoryComponent } from './components/admin/category/list-category
 import { ModifyCategoryComponent } from './components/admin/category/add-category/modify-category/modify-category.component';
 import { ModifyCombinComponent } from './components/admin/combinaison/modify-combin/modify-combin.component';
 import { ListRuleComponent } from './components/admin/rule/list-rule/list-rule.component';
+import { ModifyRuleComponent } from './components/admin/rule/add-rule/modify-rule/modify-rule.component';
 
 const appRoutes: Routes = [
   { path: '',
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
   { path: 'combin/:id', component : ModifyCombinComponent },
   { path: 'category', component :  AddCategoryComponent },
   { path: 'modify/category/:id', component :  ModifyCategoryComponent },
+  { path: 'modify/rule/:id', component :  ModifyRuleComponent },
   { path: 'listCategories', component :  ListCategoryComponent },
   { path: 'listRules', component :  ListRuleComponent },
   { path: 'import-export', component : ImportExportComponent },
@@ -95,7 +97,7 @@ const appRoutes: Routes = [
     MatMenuModule,
     MatProgressBarModule,
     MatExpansionModule
-  ]
+  ],
 })
 export class MaterialModule {}
 
@@ -118,7 +120,8 @@ export class MaterialModule {}
     ListCategoryComponent,
     ModifyCategoryComponent,
     ModifyCombinComponent,
-    ListRuleComponent
+    ListRuleComponent,
+    ModifyRuleComponent
   ],
   imports: [
     BrowserModule,

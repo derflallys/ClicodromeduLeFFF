@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -20,6 +20,10 @@ export class AddRuleComponent implements OnInit {
     categories: Category[];
     error = false;
     saveRequest = false;
+    @Input() ruleId = null;
+    update = false;
+    rule: Rule;
+    title = 'Ajout d\'une nouvelle Régle';
 
     searchInput: string;
     loading = {
@@ -59,22 +63,54 @@ export class AddRuleComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
-        const rule = new  Rule(null, tagMot, rules, category, niveau, result);
-        this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
-        this.ruleService.addRegle(rule).subscribe(
-          res => {
-            this.saveRequest = false;
-            this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-            this.error = true;
-            this.route.navigate(['/listRules']);
-          },
-          error => {
-            console.log(error);
-            this.error = true;
-            this.saveRequest = false;
-          }
-        );
-        console.log(JSON.stringify(rule));
+        if (this.update) {
+          const rule = new  Rule(this.ruleId, tagMot, rules, category, niveau, result);
+          this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
+          this.ruleService.updateRule(rule, this.ruleId).subscribe(
+            res => {
+              this.saveRequest = false;
+              this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
+              this.route.navigate(['/listRules']);
+            },
+            error => {
+              console.log(error);
+              this.error = true;
+              this.saveRequest = false;
+            }
+          );
+        } else {
+          const rule = new  Rule(null, tagMot, rules, category, niveau, result);
+          this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+          this.ruleService.addRegle(rule).subscribe(
+            res => {
+              this.saveRequest = false;
+              this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+              this.route.navigate(['/listRules']);
+            },
+            error => {
+              console.log(error);
+              this.error = true;
+              this.saveRequest = false;
+            }
+          );
+          const rule = new  Rule(null, tagMot, rules, category, niveau, result);
+          this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
+          this.ruleService.addRegle(rule).subscribe(
+            res => {
+              this.saveRequest = false;
+              this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+              this.error = true;
+              this.route.navigate(['/listRules']);
+            },
+            error => {
+              console.log(error);
+              this.error = true;
+              this.saveRequest = false;
+            }
+          );
+          console.log(JSON.stringify(rule));
+
+        }
    }
 
     ngOnInit() {
@@ -87,6 +123,9 @@ export class AddRuleComponent implements OnInit {
             rules : this.formBuilder.array([this.createTag()]),
 
         });
+        if (this.ruleId != null) {
+          this.loadData();
+        }
         this.loading.status = true;
         this.categoryService.getCategories().subscribe(
             cat => {
@@ -95,6 +134,42 @@ export class AddRuleComponent implements OnInit {
             }
           );
     }
+
+  loadData() {
+    this.ruleService.getRule(this.ruleId).subscribe(
+      w => {
+        this.rule = w;
+        this.title = 'Modification de la régle : ';
+        const result = w.result.split('{word}');
+        this.addRule = this.formBuilder.group({
+          tagMot: [w.tagWord, Validators.required],
+          niveau: [w.niveau, Validators.required],
+          prefixe: [result[0]],
+          suffixe: [result[1]],
+          category: [w.category.id],
+          rules : this.formBuilder.array(this.setTagsArray(w.tagCategory))
+        });
+        this.loading.status = false;
+        this.update = true;
+      }, error => {
+        this.loading.status = false;
+        this.error = true;
+      }
+    );
+  }
+
+  setTagsArray(tags) {
+    const formGroup = [];
+    const tab = tags.split(';');
+    tab.forEach((tag) => {
+      formGroup.push(this.formBuilder.group(
+        {
+          value: [tag]
+        }
+      ));
+    });
+    return formGroup;
+  }
   rulesToString(rules): string {
     let textrules = '';
     let empty = true;
