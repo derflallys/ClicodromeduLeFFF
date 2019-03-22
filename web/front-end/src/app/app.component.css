@@ -8,6 +8,10 @@
   height: 35px;
 }
 
+.logo img:focus{
+  outline: none;
+}
+
 .mat-toolbar{
   padding: 10px 10px 10px 25px;
   height: 60px;

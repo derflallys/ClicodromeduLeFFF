@@ -3,7 +3,6 @@ import {Observable} from 'rxjs';
 import {Category} from '../models/Category';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Word} from "../models/Word";
 
 const httpOptions = {
   headers: new HttpHeaders({
