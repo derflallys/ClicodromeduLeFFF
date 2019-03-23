@@ -19,16 +19,23 @@ class PFM_Interpretor {
         /*** Filtrages des règles selon la correspondances avec les tags du mot + Récupération des règles définissant le radical du mot*/
         $usefulRules = [];
         foreach ($rules as $rule) {
+            $selected = false;
+            // Si aucun tag de mot n'est rensigné dans la règle on l'a prend
+            if ($rule->getTagWord() == "" || $rule->getTagWord() == null) {
+                $selected = true;
+            }
             // Est-ce qu'un tag du mot est renseigné dans la règles ?
             foreach ($tagsWord as $tag) {
                 if(in_array($tag, explode(";", $rule->getTagWord())) ) {
-                    array_push($usefulRules, $rule);
+                    $selected = true;
                     break;
                 }
             }
-
             //Est ce que le mot en lui-même est un tag de la règle
             if(in_array($word->getValue(), explode(";", $rule->getTagWord()))) {
+                $selected = true;
+            }
+            if($selected) {
                 array_push($usefulRules, $rule);
             }
         }

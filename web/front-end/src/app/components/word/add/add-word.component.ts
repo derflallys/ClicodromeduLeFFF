@@ -51,6 +51,7 @@ export class AddWordComponent  implements OnInit {
                 this.categories = categories;
                 if (this.categories.length === 0) {
                     this.errorRequest = true;
+                    this.loading.status = false;
                 } else {
                     if (this.wordId !== null) {
                         this.loadExistingData();

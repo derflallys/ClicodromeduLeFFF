@@ -10,7 +10,7 @@
   <div *ngIf="!loading.status && !errorRequest">
     <h1>{{title}}</h1>
     <div class="error" *ngIf="error">
-      Le formulaire contient une ou plusieurs erreurs.
+      Une erreur s'est produite.
     </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="addCategory">
       <mat-form-field>

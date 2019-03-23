@@ -1,54 +1,63 @@
-
+<div class="centerDiv" *ngIf="loading.status">
+  <mat-progress-spinner
+          [color]="loading.color"
+          [mode]="loading.mode"
+          [value]="loading.value">
+  </mat-progress-spinner>
+</div>
+<div *ngIf="!loading.status && errorRequest" class="error">Une erreur est survenue.</div>
+<div *ngIf="!loading.status && !errorRequest">
   <div class="content">
-    <div fxLayout="row" fxLayoutAlign="center center"><h1>Ajout d'une nouvelle règle</h1> </div>
-  <div class="alert alert-danger" role="alert" *ngIf="error">
-    Une erreur est survenue.
-  </div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="addRule">
+    <h1>{{title}}</h1>
+    <div class="error" *ngIf="error">
+      Une erreur s'est produite.
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="addRule">
+      <mat-form-field>
+        <mat-select placeholder="Catégorie" formControlName="category" [(value)]="categorySelected"  >
+          <mat-option *ngFor="let category of categories"  [value]="category.id">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="Tag du Mot" formControlName="tagMot">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Catégorie" formControlName="category" [(value)]="categorySelected"  >
-        <mat-option *ngFor="let category of categories"  [value]="category.id">{{category.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field>
+        <input type="number" matInput placeholder="Niveau d'application" formControlName="applicationLevel">
+      </mat-form-field>
 
-    <mat-label>Résultat Régle</mat-label>
-    <table class="result-full-width" cellspacing="0">
-      <tr>
-        <td><mat-form-field class="result-full-width">
-          <input matInput placeholder="Prefixe" formControlName="prefixe">
-        </mat-form-field></td>
-        <td><mat-form-field class="result-full-width">
-          <input matInput placeholder="Mot" [disabled]="true" >
-        </mat-form-field></td>
-        <td><mat-form-field class="result-full-width">
-          <input matInput placeholder="Suffixe" formControlName="suffixe">
-        </mat-form-field></td>
-      </tr>
-    </table>
-    <mat-form-field>
-      <input matInput placeholder="Niveau" formControlName="niveau">
-    </mat-form-field>
-    <mat-label>Combinaison de Regle Categorie</mat-label>
-    <table class="result-full-width" cellspacing="0">
-      <tr>
-        <td formArrayName="rules" *ngFor="let tag of addRule.controls['rules'].controls; let i = index">
-          <mat-form-field class="result-full-width" [formGroupName]="i">
-            <input matInput placeholder="Regle" formControlName="value">
+      <div class="tags">
+        <h3>Tags liés aux mot</h3>
+        <div formArrayName="wordTags" *ngFor="let tag of addRule.controls['wordTags'].controls; let i = index">
+          <mat-form-field  [formGroupName]="i">
+            <input matInput placeholder="valeur du tag" formControlName="valueTag">
           </mat-form-field>
-        </td>
-      </tr>
-      <tr>
-        <button mat-raised-button color="primary" type="button" (click)="addRules()">
-          <mat-icon class="icon">add</mat-icon> Ajouter une regle
-        </button>
-      </tr>
-    </table>
+        </div>
+        <button mat-raised-button color="primary" type="button" (click)="addWordTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag</button>
+      </div>
+      <div class="tags">
+        <h3>Tags d'application de la règle</h3>
+        <div formArrayName="combinationTags" *ngFor="let tag of addRule.controls['combinationTags'].controls; let j = index">
+          <mat-form-field class="result-full-width" [formGroupName]="j">
+            <input matInput placeholder="valeur tag" formControlName="valueCombination">
+          </mat-form-field>
+        </div>
+        <button mat-raised-button color="primary" type="button" (click)="addCombinationTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag dans l'association</button>
+      </div>
 
-    <button mat-raised-button color="warn" type="submit">Enregistrer la régle</button>
-  </form>
+      <div class="tags">
+        <h3>Résultat de la règle</h3>
+        <tr>
+          <td><mat-form-field class="result-full-width">
+            <input matInput placeholder="Préfixe" formControlName="prefix">
+          </mat-form-field></td>
+          <td><mat-form-field class="result-full-width">
+            <input matInput placeholder="Mot" [disabled]="true" >
+          </mat-form-field></td>
+          <td><mat-form-field class="result-full-width">
+            <input matInput placeholder="Suffixe" formControlName="suffix">
+          </mat-form-field></td>
+        </tr>
+      </div>
+      <button mat-raised-button color="warn" type="submit"><mat-icon class="icon">save</mat-icon> Enregistrer la règle</button>
+    </form>
+  </div>
 </div>
 
