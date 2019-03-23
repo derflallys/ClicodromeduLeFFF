@@ -22,7 +22,7 @@ export class ListWordComponent implements OnInit {
     queryTime: string;
     searchInput: string;
 
-    displayedColumns: string[] = ['word', 'category', 'actions'];
+    displayedColumns: string[] = ['word', 'category', 'tags', 'actions'];
     loading = {
         status: false,
         color: 'primary',

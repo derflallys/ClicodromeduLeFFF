@@ -95,6 +95,9 @@ export class AddWordComponent  implements OnInit {
                     this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
                     this.route.navigate(['/show/word', this.word.id]);
                 }, error => {
+                    if (error.status === 400) {
+                        this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+                    }
                     this.error = true;
                     this.saveRequest = false;
                 }
@@ -109,6 +112,9 @@ export class AddWordComponent  implements OnInit {
                     this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
                     this.route.navigate(['/list/word', this.word.value]);
                 }, error => {
+                    if (error.status === 400) {
+                        this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+                    }
                     this.error = true;
                     this.saveRequest = false;
                 }
