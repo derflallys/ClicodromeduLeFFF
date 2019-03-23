@@ -19,6 +19,19 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function findDoublons($code, $name)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.code = :code')
+            ->orWhere('c.name = :name')
+            ->setParameter('code', $code)
+            ->setParameter('name', $name)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */

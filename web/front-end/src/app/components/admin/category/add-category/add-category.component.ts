@@ -26,10 +26,10 @@ export class AddCategoryComponent implements OnInit {
   };
   saveRequest = false;
   constructor(
-    private formBuilder: FormBuilder,
-    private service: CategoryService,
-    private route: Router,
-    public snackBar: MatSnackBar
+      private formBuilder: FormBuilder,
+      private service: CategoryService,
+      private route: Router,
+      public snackBar: MatSnackBar
   ) { }
 
   onSubmit() {
@@ -51,28 +51,34 @@ export class AddCategoryComponent implements OnInit {
       this.category = new Category(this.categoryId, code, name);
       this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
       this.service.updateCategory(this.category, this.category.id).subscribe(
-        response => {
-          console.log(response);
-          this.saveRequest = false;
-          this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
-          this.route.navigate(['/list/categories']);
-        }, error => {
-          this.error = true;
-          this.saveRequest = false;
-        }
+          response => {
+            console.log(response);
+            this.saveRequest = false;
+            this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
+            this.route.navigate(['/list/categories']);
+          }, error => {
+            this.error = true;
+            this.saveRequest = false;
+            if (error.status === 400) {
+              this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+            }
+          }
       );
     } else {
       this.category = new Category(null, code, name);
       this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
       this.service.addCategory(this.category).subscribe(
-        response => {
-          this.saveRequest = false;
-          this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-          this.route.navigate(['/list/categories']);
-        } , error => {
-          this.error = true;
-          this.saveRequest = false;
-        });
+          response => {
+            this.saveRequest = false;
+            this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
+            this.route.navigate(['/list/categories']);
+          } , error => {
+            this.error = true;
+            this.saveRequest = false;
+            if (error.status === 400) {
+              this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+            }
+          });
     }
     console.log(JSON.stringify(this.category));
   }
@@ -90,19 +96,19 @@ export class AddCategoryComponent implements OnInit {
   loadData() {
     this.loading.status = true;
     this.service.getCategory(this.categoryId).subscribe(
-      cat => {
-        this.category = cat;
-        this.title = 'Modification de la catégorie : ' + cat.name;
-        this.addCategory = this.formBuilder.group({
-          code: [cat.code, Validators.required],
-          name: [cat.name, Validators.required],
-        });
-        this.loading.status = false;
-        this.update = true;
-      }, error => {
-        this.loading.status = false;
-        this.errorRequest = true;
-      }
+        cat => {
+          this.category = cat;
+          this.title = 'Modification de la catégorie : ' + cat.name;
+          this.addCategory = this.formBuilder.group({
+            code: [cat.code, Validators.required],
+            name: [cat.name, Validators.required],
+          });
+          this.loading.status = false;
+          this.update = true;
+        }, error => {
+          this.loading.status = false;
+          this.errorRequest = true;
+        }
     );
   }
 

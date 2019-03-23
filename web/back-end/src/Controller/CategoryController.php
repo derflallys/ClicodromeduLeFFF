@@ -70,15 +70,21 @@ class CategoryController extends AbstractController {
         try {
             $content = $request->getContent();
             $parametersAsArray = json_decode($content, true);
-            $category = new Category();
-            $category->setCode($parametersAsArray['code']);
-            $category->setName($parametersAsArray['name']);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($category);
-            $em->flush();
-            $response->setStatusCode(Response::HTTP_OK);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+            $category = $this->getDoctrine()->getRepository(Category::class)->findDoublons($parametersAsArray['code'], $parametersAsArray['name']);
+            if ($category == null) {
+                $category = new Category();
+                $category->setCode($parametersAsArray['code']);
+                $category->setName($parametersAsArray['name']);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($category);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Echec : le code ou le nom de la catégorie renseignée existe déjà.");
+            }
 
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -96,22 +102,27 @@ class CategoryController extends AbstractController {
     public function editWord( $idCategory,Request $request) {
         $response = new Response();
         try {
-            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
             $data = json_decode($request->getContent(), true);
-            if($category != null) {
-                $category->setCode($data['code']);
-                $category->setName($data['name']);
+            $existingCategory = $this->getDoctrine()->getRepository(Category::class)->findDoublons($data['code'], $data['name']);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+            if($existingCategory != null && $existingCategory[0]->getId() != $idCategory) {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Echec : le code ou le nom de la catégorie renseignée existe déjà.");
+            } else {
+                if ($category != null) {
+                    $category->setCode($data['code']);
+                    $category->setName($data['name']);
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($category);
-                $em->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
-            }
-            else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($category);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
+                } else {
+                    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                    $response->setContent('Aucune categorie  ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                }
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
