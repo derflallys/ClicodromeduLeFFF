@@ -38,3 +38,7 @@ form button[type='submit'] {
     width: 300px;
     background-color: #2e8622;
 }
+
+.add-category-button {
+    width: 300px;
+}
