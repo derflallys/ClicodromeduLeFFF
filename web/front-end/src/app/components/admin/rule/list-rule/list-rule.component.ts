@@ -122,7 +122,6 @@ export class ListRuleComponent implements OnInit {
                 this.ruleService.deleteRule(rule.id).subscribe(
                     res => {
                         this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', config);
-                        this.rules.splice(this.rules.findIndex(item => (item.id === rule.id)), 1);
                         this.allRules.splice(this.allRules.findIndex(item => (item.id === rule.id)), 1);
                         this.refreshTable();
                     }, error => {
