@@ -40,15 +40,4 @@ export class WordService {
   deleteWord(id: number) {
     return this.http.delete<Response>(this.deleteWordUrl + '/' + id);
   }
-
-  private handleError(err: HttpErrorResponse) {
-    let errorMessage = '';
-    if (err.error instanceof ErrorEvent) {
-      errorMessage = `An  error occured: ${err.error.message}`;
-    } else {
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(errorMessage);
-  }
 }

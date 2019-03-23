@@ -1,8 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WordService} from '../../../services/word.service';
 import {Word} from '../../../models/Word';
-import {MatDialog, MatDialogConfig, MatSnackBar, MatSnackBarConfig, MatTableDataSource} from '@angular/material';
+import {
+    MatDialog,
+    MatDialogConfig,
+    MatSnackBar,
+    MatSnackBarConfig, MatSort,
+    MatTableDataSource,
+} from '@angular/material';
 import {InfosDialogComponent} from '../../utils/infos-dialog.component';
 
 
@@ -16,7 +22,7 @@ export class ListWordComponent implements OnInit {
     queryTime: string;
     searchInput: string;
 
-    displayedColumns: string[] = ['word', 'category', 'actions'];
+    displayedColumns: string[] = ['word', 'category', 'tags', 'actions'];
     loading = {
         status: false,
         color: 'primary',
@@ -25,7 +31,7 @@ export class ListWordComponent implements OnInit {
     };
 
     dataSource = new MatTableDataSource();
-
+    @ViewChild(MatSort) sort: MatSort;
 
     constructor(
         private router: ActivatedRoute,
@@ -47,6 +53,11 @@ export class ListWordComponent implements OnInit {
     }
     refreshTable() {
         this.dataSource = new MatTableDataSource(this.words);
+        this.dataSource.sort = this.sort;
+    }
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     searchWords(): void {
@@ -103,4 +114,7 @@ export class ListWordComponent implements OnInit {
             }
         });
     }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

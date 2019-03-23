@@ -12,40 +12,6 @@ use App\Entity\Category;
 
 class RuleController extends AbstractController {
     /**
-     * @Route("/add/rule", name="addRule", methods={"POST"})
-     */
-    public function addRule(Request $request) {
-        $response = new Response();
-        try {
-
-            $content = $request->getContent();
-            $parametersAsArray = json_decode($content, true);
-            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
-            if (!$category) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
-            }
-            $rule = new PFMRule();
-            $rule->setApplicationLevel($parametersAsArray['niveau']);
-            $rule->setCategory($category);
-            $rule->setResult($parametersAsArray['result']);
-            $rule->setTagCategory($parametersAsArray['tagCategory']);
-            $rule->setTagWord($parametersAsArray['tagWord']);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($rule);
-            $em->flush();
-            $response->setStatusCode(Response::HTTP_OK);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
-
-        } catch (Exception $e) {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($e->getMessage());
-        }
-        return $response;
-    }
-
-    /**
      * @Route("/get/rules", name="getRules", methods={"GET"})
      */
     public function getRules() {
@@ -95,54 +61,32 @@ class RuleController extends AbstractController {
     }
 
     /**
-     * @Route("/get/rulesByCategory/{idCategory}", name="getRulesByCategory", methods={"GET"})
+     * @Route("/add/rule", name="addRule", methods={"POST"})
      */
-    public function getRulesByCategory( $idCategory) {
+    public function addRule(Request $request) {
         $response = new Response();
         try {
-            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $idCategory]);
+
+            $content = $request->getContent();
+            $parametersAsArray = json_decode($content, true);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
             if (!$category) {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $idCategory);
+                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
             }
-            $rulesList = $this->getDoctrine()->getRepository(PFMRule::class)->findByCategory($category->getId());
-            $rules = [];
-            if(!empty($rulesList)) {
-                foreach ($rulesList as $rule) {
-                    array_push($rules, $rule->toJSON());
-                }
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent(json_encode($rules, JSON_UNESCAPED_UNICODE));
-            } else {
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent(json_encode([]));
-            }
+            $rule = new PFMRule();
+            $rule->setApplicationLevel($parametersAsArray['niveau']);
+            $rule->setCategory($category);
+            $rule->setResult($parametersAsArray['result']);
+            $rule->setTagCategory($parametersAsArray['tagCategory']);
+            $rule->setTagWord($parametersAsArray['tagWord']);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($rule);
+            $em->flush();
+            $response->setStatusCode(Response::HTTP_OK);
             $response->headers->set('Content-Type', 'application/json');
-        } catch (Exception $e) {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($e->getMessage());
-        }
-        return $response;
-    }
+            $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
 
-    /**
-     * @Route("/delete/rule/{idRule}", name="deleteRule", methods={"DELETE"})
-     */
-    public function deleteRule($idRule) {
-        $response = new Response();
-        try {
-            $category = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idRule]);
-            if($category != null) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->remove($category);
-                $entityManager->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->setContent(null);
-            }
-            else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucune categorie ne correspond à l\'identifiant \'' . $idRule . '\'');
-            }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());
@@ -184,6 +128,31 @@ class RuleController extends AbstractController {
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
                 $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idRule . '\'');
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/delete/rule/{idRule}", name="deleteRule", methods={"DELETE"})
+     */
+    public function deleteRule($idRule) {
+        $response = new Response();
+        try {
+            $category = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idRule]);
+            if($category != null) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($category);
+                $entityManager->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(null);
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant \'' . $idRule . '\'');
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

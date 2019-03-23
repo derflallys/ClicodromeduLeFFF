@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'text/plain',
-  })
-};
 
 @Injectable({
   providedIn: 'root'

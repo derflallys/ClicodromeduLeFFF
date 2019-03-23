@@ -24,6 +24,17 @@
     margin-left: 20px;
 }
 
+.validation {
+    margin-top:25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.validation .spinner {
+    margin-left: 15px;
+}
+
 form {
     margin-top: 10px;
     display: flex;

@@ -99,23 +99,27 @@ class WordController extends AbstractController {
             $content = $request->getContent();
             $parametersAsArray = json_decode($content, true);
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
-            if (!$category) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
+            $existingWord = $this->getDoctrine()->getRepository(Word::class)->findOneBy(["value" => $parametersAsArray['value'], "tags" => $parametersAsArray['tags'], "category" => $parametersAsArray['category']['id']]);
+            if ($existingWord != null) {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Echec : Ce mot existe déjà avec les tags {" . $parametersAsArray['tags'] . "} dans la catégorie renseignée.");
+            } else {
+                if (!$category) {
+                    $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                    $response->setContent('No category found for id ' . $parametersAsArray['category']['id']);
+                } else {
+                    $word = new Word();
+                    $word->setCategory($category);
+                    $word->setValue($parametersAsArray['value']);
+                    $word->setTags($parametersAsArray['tags']);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($word);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
+                }
             }
-            else {
-                $word = new Word();
-                $word->setCategory($category);
-                $word->setValue($parametersAsArray['value']);
-                $word->setTags($parametersAsArray['tags']);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($word);
-                $em->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
-            }
-
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());
@@ -129,36 +133,39 @@ class WordController extends AbstractController {
      * @param Request $request
      * @return Response
      */
-    public function editWord( $idWord,Request $request) {
+    public function editWord($idWord, Request $request) {
         $response = new Response();
         try {
             $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
             $data = json_decode($request->getContent(), true);
-            //$request->request->replace($data);
-            if($word != null) {
-                $category =  $this->getDoctrine()
-                    ->getRepository(Category::class)
-                    ->findOneBy(array('id' =>$data['category']['id']));
-                if(!$category) {
-                    $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                    $response->setContent("category  ".$data['category']['name']." does not exist");
-                }
-                else {
-                    $word->setCategory($category);
-                    $word->setValue($data['value']);
-                    $word->setTags($data['tags']);
+            $existingWord = $this->getDoctrine()->getRepository(Word::class)->findOneBy(["value" => $data['value'], "tags" => $data['tags'], "category" => $data['category']['id']]);
+            if ($existingWord != null && $existingWord->getId() != $idWord) {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Echec : Ce mot existe déjà avec les tags {" . $data['tags'] . "} dans la catégorie renseignée.");
+            } else {
+                if ($word != null) {
+                    $category = $this->getDoctrine()
+                        ->getRepository(Category::class)
+                        ->findOneBy(array('id' => $data['category']['id']));
+                    if (!$category) {
+                        $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                        $response->setContent("category  " . $data['category']['name'] . " does not exist");
+                    } else {
+                        $word->setCategory($category);
+                        $word->setValue($data['value']);
+                        $word->setTags($data['tags']);
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($word);
-                    $em->flush();
-                    $response->setStatusCode(Response::HTTP_OK);
-                    $response->headers->set('Content-Type', 'application/json');
-                    $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
+                        $em = $this->getDoctrine()->getManager();
+                        $em->persist($word);
+                        $em->flush();
+                        $response->setStatusCode(Response::HTTP_OK);
+                        $response->headers->set('Content-Type', 'application/json');
+                        $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
+                    }
+                } else {
+                    $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                    $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
                 }
-            }
-            else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

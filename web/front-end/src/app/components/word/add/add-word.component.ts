@@ -93,8 +93,11 @@ export class AddWordComponent  implements OnInit {
                     console.log(response);
                     this.saveRequest = false;
                     this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
-                    this.route.navigate(['/show', this.word.id]);
+                    this.route.navigate(['/show/word', this.word.id]);
                 }, error => {
+                    if (error.status === 400) {
+                        this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+                    }
                     this.error = true;
                     this.saveRequest = false;
                 }
@@ -107,8 +110,11 @@ export class AddWordComponent  implements OnInit {
                     console.log(response);
                     this.saveRequest = false;
                     this.snackBar.open('✅ Ajout effectué avec succès !', 'Fermer', config);
-                    this.route.navigate(['/list', this.word.value]);
+                    this.route.navigate(['/list/word', this.word.value]);
                 }, error => {
+                    if (error.status === 400) {
+                        this.snackBar.open('❌ ' + error.error, 'Fermer', config);
+                    }
                     this.error = true;
                     this.saveRequest = false;
                 }
@@ -134,8 +140,8 @@ export class AddWordComponent  implements OnInit {
 
     createTag() {
         return this.formBuilder.group({
-        value: ['']
-      });
+            value: ['']
+        });
     }
     addTagField() {
         (this.addWord.controls['tags'] as FormArray).push(this.createTag());
