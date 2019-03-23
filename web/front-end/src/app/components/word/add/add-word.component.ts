@@ -140,8 +140,8 @@ export class AddWordComponent  implements OnInit {
 
     createTag() {
         return this.formBuilder.group({
-        value: ['']
-      });
+            value: ['']
+        });
     }
     addTagField() {
         (this.addWord.controls['tags'] as FormArray).push(this.createTag());

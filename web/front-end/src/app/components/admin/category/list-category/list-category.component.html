@@ -1,17 +1,18 @@
 <div class="centerDiv" *ngIf="loading.status">
   <mat-progress-spinner
-    [color]="loading.color"
-    [mode]="loading.mode"
-    [value]="loading.value">
+          [color]="loading.color"
+          [mode]="loading.mode"
+          [value]="loading.value">
   </mat-progress-spinner>
 </div>
 <div *ngIf="!loading.status" class="content">
-    <h3>Listes des catégories</h3>
-    <div *ngIf="categories.length <= 0">
+  <h3>Listes des catégories</h3>
+  <div *ngIf="categories.length <= 0">
     <p class="numberOfResults">Aucun résultat ne correspond.</p>
+    <button mat-raised-button color="primary" routerLink="/add/category"><mat-icon>add</mat-icon> Ajouter une nouvelle catégorie</button>
     <br/>
     <br/>
-    <p class="noResult">Désolé, aucune catégorie n'est enregistré en base de données.</p>
+    <p class="noResult">Désolé, aucune catégorie n'est enregistrée en base de données.</p>
   </div>
   <div *ngIf="categories.length > 0">
     <p class="numberOfResults">{{categories.length}} résultats</p>

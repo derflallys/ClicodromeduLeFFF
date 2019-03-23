@@ -126,12 +126,12 @@ export class AddRuleComponent implements OnInit {
         this.title = 'Modification de la régle : ';
         const result = w.result.split('{word}');
         this.addRule = this.formBuilder.group({
-          tagMot: [w.tagWord, Validators.required],
-          niveau: [w.niveau, Validators.required],
+          tagMot: [w.wordTags, Validators.required],
+          niveau: [w.applicationLevel, Validators.required],
           prefixe: [result[0]],
           suffixe: [result[1]],
           category: [w.category.id],
-          rules : this.formBuilder.array(this.setTagsArray(w.tagCategory))
+          rules : this.formBuilder.array(this.setTagsArray(w.categoryTags))
         });
         this.categorySelected = this.rule.category.id;
         this.loading.status = false;

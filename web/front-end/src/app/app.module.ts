@@ -29,7 +29,7 @@ import {ModifyCombinComponent} from './components/admin/combinaison/add/modify-c
 // Rules Components
 import {ListRuleComponent} from './components/admin/rule/list-rule/list-rule.component';
 import {AddRuleComponent} from './components/admin/rule/add-rule/add-rule.component';
-import {ModifyRuleComponent} from './components/admin/rule/add-rule/modify-rule/modify-rule.component';
+import {ModifyRuleComponent} from './components/admin/rule/modify-rule/modify-rule.component';
 
 // Others Components
 import {InfosDialogComponent} from './components/utils/infos-dialog.component';

@@ -114,11 +114,11 @@ class PFMRule
 
     public function toJSON() {
         $json['id'] = $this->id;
-        $json['niveau'] = $this->applicationLevel;
+        $json['wordTags'] = $this->tagWord;
+        $json['categoryTags'] = $this->tagCategory;
         $json['category'] = $this->category->toJSON();
-        $json['tagWord'] = $this->tagWord;
+        $json['applicationLevel'] = $this->applicationLevel;
         $json['result'] = $this->result;
-        $json['tagCategory'] = $this->tagCategory;
         return $json;
     }
 }

@@ -1,10 +1,13 @@
-
 .numberOfResults {
   color: #777;
 }
 
 .noResult {
   font-size: 24px;
+}
+
+.result-list {
+  margin-top: 15px;
 }
 
 .content {

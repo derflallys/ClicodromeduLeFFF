@@ -30,10 +30,10 @@ export class ListCategoryComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatSort) sort: MatSort;
   constructor(
-    private router: ActivatedRoute,
-    private service: CategoryService,
-    public dialog: MatDialog,
-    public snackBar: MatSnackBar
+      private router: ActivatedRoute,
+      private service: CategoryService,
+      public dialog: MatDialog,
+      public snackBar: MatSnackBar
   ) {
     this.dataSource.sort = this.sort;
   }
@@ -45,11 +45,11 @@ export class ListCategoryComponent implements OnInit {
     this.config.horizontalPosition = 'center';
     this.config.duration = 5000;
     this.service.getCategories().subscribe(
-      cat => {
-        this.categories = cat;
-        this.loading.status = false;
-        this.refreshTable();
-      }, error => {
+        cat => {
+          this.categories = cat;
+          this.loading.status = false;
+          this.refreshTable();
+        }, error => {
           this.loading.status = false;
           this.snackBar.open('❌ Une erreur s\'est produite lors du chargement des catégories !', 'Fermer', this.config);
         }
@@ -100,13 +100,13 @@ export class ListCategoryComponent implements OnInit {
       if (result === true) {
         this.snackBar.open('⌛ Suppression en cours...', 'Fermer', this.config);
         this.service.deleteCategory(categoryId).subscribe(
-          res => {
-            this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', this.config);
-            this.categories.splice(this.categories.findIndex(item => (item.id === categoryId && item.name === name)), 1);
-            this.refreshTable();
-          }, error => {
-            this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', this.config);
-          }
+            res => {
+              this.snackBar.open('✅ Suppression effectuée avec succès !', 'Fermer', this.config);
+              this.categories.splice(this.categories.findIndex(item => (item.id === categoryId && item.name === name)), 1);
+              this.refreshTable();
+            }, error => {
+              this.snackBar.open('❌ Une erreur s\'est produite lors de la suppression !', 'Fermer', this.config);
+            }
         );
       }
     });
