@@ -267,12 +267,40 @@ PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
 
 Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
 \subsubsection{Implémentation}
-Nous avons choisi d'implémenter l'interpréteur en PHP .
-Dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée de la base de données , ensuite on filtre les règles selon la correspondances avec les tages du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
-Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigne ensuite on fait un tri des règles dans leur ordre d'application .
+
+
+Nous avons choisi d'implémenter l'interpréteur en PHP.
+Cet interpréteur, nous permet de générer les formes fléchies d'un mot.
+En effet, Le rôle de l'interpréteur est important lors de la recherche d'un mot et l'exportation du lexique.
+Pour la recherche du mot l'utilisateur doit données en paramétre le mot, 
+dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée, ensuite on filtre les règles selon la correspondances avec les tags du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
+Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
 Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application , si le niveau est le même , la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres .
 
 
+\subsection{ Architectute du Site Web }
+\subsubsection{Schéma du site} 
+\begin{center}\includegraphics[width=150mm]{site.png}\end{center} 
+
+Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-dessus,
+Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
+avant d'accéder aux différents services proposé par le site.
+
+Cette interface permet aux utilisateurs de s'authentifier à l’aide d'un login et un Mot de passe, 
+et faire la redirection vers la page d'accueil (dans notre application la page d'accueil
+pour l'administrateur c'est le page de recherche d'un mot).
+
+La recherche d'un mot consiste à afficher toutes les formes fléchies qui lui correspond. Une fois ces formes sont affichées, 
+l'administrateur peut modifier le mot qu'il vient de rechercher.
+
+La page d'accueil contient également des boutons qui redirigent vers les différents interfaces d'ajout : 
+\begin{itemize}
+    \item   Ajouter règle
+    \item   Ajouter mot
+    \item   Ajouter combinaison
+    \item   Ajouter catégorie
+   \end{itemize}
+et elle redirige aussi aux  pages qui permet d'importer ou d'exporter le lexique.
 \section{Analyse du fonctionnement et tests}
 
 \section{Conclusion}
