@@ -58,7 +58,7 @@ class WordController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+                $response->setContent( 'Aucun mot ne correspond à l\'identifiant : ' . $idWord);
             }
         } catch (Exception $exception) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -81,7 +81,7 @@ class WordController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+                $response->setContent( 'Aucun mot ne correspond à l\'identifiant : ' . $idWord);
             }
         } catch (Exception $exception) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -106,7 +106,7 @@ class WordController extends AbstractController {
             } else {
                 if (!$category) {
                     $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                    $response->setContent('No category found for id ' . $parametersAsArray['category']['id']);
+                    $response->setContent('Aucune categorie ne correspond à l\'identifiant : ' . $parametersAsArray['category']['id']);
                 } else {
                     $word = new Word();
                     $word->setCategory($category);
@@ -149,7 +149,7 @@ class WordController extends AbstractController {
                         ->findOneBy(array('id' => $data['category']['id']));
                     if (!$category) {
                         $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                        $response->setContent("category  " . $data['category']['name'] . " does not exist");
+                        $response->setContent("La catégorie  " . $data['category']['name'] . " n'existe pas.");
                     } else {
                         $word->setCategory($category);
                         $word->setValue($data['value']);
@@ -164,7 +164,7 @@ class WordController extends AbstractController {
                     }
                 } else {
                     $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                    $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+                    $response->setContent('Aucun mot ne correspond à l\'identifiant : ' . $idWord);
                 }
             }
         } catch (Exception $e) {
@@ -190,7 +190,7 @@ class WordController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idWord . '\'');
+                $response->setContent('Aucun mot ne correspond à l\'identifiant : ' . $idWord);
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

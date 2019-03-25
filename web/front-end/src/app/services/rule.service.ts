@@ -34,7 +34,7 @@ export class RuleService {
     return this.http.delete<Response>(this.deleteRuleUrl + '/' + ruleId);
   }
 
-  updateRule(rule: Rule, id: number) {
-    return this.http.put<Response>(this.updateRuleUrl + '/' + id, rule, httpOptions);
+  updateRule(rule: Rule) {
+    return this.http.put<Response>(this.updateRuleUrl + '/' + rule.id, rule, httpOptions);
   }
 }

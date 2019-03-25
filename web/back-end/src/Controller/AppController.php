@@ -35,7 +35,7 @@ class AppController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent("No words register in database.");
+                $response->setContent("Aucun mot n'est enregistré en base de données.");
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);
@@ -79,7 +79,7 @@ class AppController extends AbstractController {
                     break;
                 default:
                     $response->setStatusCode(Response::HTTP_BAD_REQUEST);
-                    $response->setContent("Invalid type of import.");
+                    $response->setContent("Type d'import invalide.");
                     break;
             }
             if($success) {

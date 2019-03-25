@@ -122,8 +122,8 @@ export class AddRuleComponent implements OnInit {
         if (this.addRule.invalid) {
             return;
         }
-        const rules = this.rulesToString(this.addRule.value.combinationTags);
-        const tagMot = this.addRule.controls.wordTags.value;
+        const rules = this.combinationTagsToString(this.addRule.controls.combinationTags.value);
+        const tagMot = this.wordTagsToString(this.addRule.controls.wordTags.value);
         const cat = this.addRule.controls.category.value;
         const niveau = this.addRule.controls.applicationLevel.value;
         const category: Category = this.categories[this.categories.findIndex(
@@ -160,9 +160,9 @@ export class AddRuleComponent implements OnInit {
         config.horizontalPosition = 'center';
         config.duration = 5000;
         if (this.update) {
-            const rule = new  Rule(this.rule.id, tagMot, rules, category, niveau, result);
+            const rule = new Rule(this.rule.id, tagMot, rules, category, niveau, result);
             this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
-            this.ruleService.updateRule(rule, this.rule.id).subscribe(
+            this.ruleService.updateRule(rule).subscribe(
                 res => {
                     this.saveRequest = false;
                     this.snackBar.open('✅ Modification effectuée avec succès !', 'Fermer', config);
@@ -178,7 +178,7 @@ export class AddRuleComponent implements OnInit {
                 }
             );
         } else {
-            const rule = new  Rule(null, tagMot, rules, category, niveau, result);
+            const rule = new Rule(null, tagMot, rules, category, niveau, result);
             this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
             this.ruleService.addRegle(rule).subscribe(
                 res => {
@@ -217,12 +217,26 @@ export class AddRuleComponent implements OnInit {
         });
         return formGroup;
     }
-    rulesToString(rules): string {
+    combinationTagsToString(rules): string {
         let textrules = '';
         let empty = true;
         rules.forEach((tag) => {
-            if (tag.value !== '') {
-                textrules = textrules.concat(tag.value, ';');
+            if (tag.valueCombination !== '') {
+                textrules = textrules.concat(tag.valueCombination, ';');
+                empty = false;
+            }
+        });
+        if (!empty) {
+            textrules = textrules.slice(0, textrules.length - 1);
+        }
+        return textrules;
+    }
+    wordTagsToString(rules): string {
+        let textrules = '';
+        let empty = true;
+        rules.forEach((tag) => {
+            if (tag.valueTag !== '') {
+                textrules = textrules.concat(tag.valueTag, ';');
                 empty = false;
             }
         });

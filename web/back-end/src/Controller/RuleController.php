@@ -66,20 +66,19 @@ class RuleController extends AbstractController {
     public function addRule(Request $request) {
         $response = new Response();
         try {
-
             $content = $request->getContent();
             $parametersAsArray = json_decode($content, true);
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
             if (!$category) {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $parametersAsArray['category']['id']);
             }
             $rule = new PFMRule();
-            $rule->setApplicationLevel($parametersAsArray['niveau']);
+            $rule->setApplicationLevel($parametersAsArray['applicationLevel']);
             $rule->setCategory($category);
             $rule->setResult($parametersAsArray['result']);
-            $rule->setTagCategory($parametersAsArray['tagCategory']);
-            $rule->setTagWord($parametersAsArray['tagWord']);
+            $rule->setTagCategory($parametersAsArray['categoryTags']);
+            $rule->setTagWord($parametersAsArray['wordTags']);
             $em = $this->getDoctrine()->getManager();
             $em->persist($rule);
             $em->flush();
@@ -105,18 +104,17 @@ class RuleController extends AbstractController {
         try {
             $rule = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idRule]);
             $data = json_decode($request->getContent(), true);
-            //$request->request->replace($data);
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $data['category']['id']]);
             if (!$category) {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $data['category']['id']);
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $data['category']['id']);
             }
             if($rule != null) {
-                $rule->setApplicationLevel($data['niveau']);
+                $rule->setApplicationLevel($data['applicationLevel']);
                 $rule->setCategory($category);
                 $rule->setResult($data['result']);
-                $rule->setTagCategory($data['tagCategory']);
-                $rule->setTagWord($data['tagWord']);
+                $rule->setTagCategory($data['categoryTags']);
+                $rule->setTagWord($data['wordTags']);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($rule);
@@ -127,7 +125,7 @@ class RuleController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idRule . '\'');
+                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant ' . $idRule);
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -152,7 +150,7 @@ class RuleController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucune categorie ne correspond à l\'identifiant \'' . $idRule . '\'');
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : ' . $idRule);
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

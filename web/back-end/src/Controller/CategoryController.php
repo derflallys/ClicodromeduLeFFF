@@ -53,7 +53,7 @@ class CategoryController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune categorie ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                $response->setContent( 'Aucune categorie ne correspond à l\'identifiant : ' . $idCategory);
             }
         } catch (Exception $exception) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -121,7 +121,7 @@ class CategoryController extends AbstractController {
                     $response->setContent(json_encode($category->toJSON(), JSON_UNESCAPED_UNICODE));
                 } else {
                     $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                    $response->setContent('Aucune categorie  ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                    $response->setContent('Aucune categorie  ne correspond à l\'identifiant : ' . $idCategory);
                 }
             }
         } catch (Exception $e) {
@@ -165,7 +165,7 @@ class CategoryController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucune categorie ne correspond à l\'identifiant \'' . $idCategory . '\'');
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : ' . $idCategory);
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
