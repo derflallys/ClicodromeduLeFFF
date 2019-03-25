@@ -24,7 +24,8 @@ import {ModifyCategoryComponent} from './components/admin/category/modify-catego
 
 // Combination Components
 import {CombinaisonComponent} from './components/admin/combinaison/add/combinaison.component';
-import {ModifyCombinComponent} from './components/admin/combinaison/add/modify-combin/modify-combin.component';
+import {ModifyCombinComponent} from './components/admin/combinaison/modify-combin/modify-combin.component';
+import {ListCombinationComponent} from './components/admin/combinaison/list-combination/list-combination.component';
 
 // Rules Components
 import {ListRuleComponent} from './components/admin/rule/list-rule/list-rule.component';
@@ -38,65 +39,7 @@ import {ImportExportComponent} from './components/import-export/import-export.co
 // Angular Material
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatToolbarModule,
-  MatIconModule,
-  MatSidenavModule,
-  MatButtonModule,
-  MatTooltipModule,
-  MatTableModule,
-  MatProgressSpinnerModule,
-  MatFormFieldModule,
-  MatOptionModule,
-  MatSelectModule,
-  MatInputModule,
-  MatListModule,
-  MatSnackBarModule,
-  MatTabsModule,
-  MatDialogModule,
-  MatGridListModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatAutocompleteModule,
-  MatExpansionModule,
-  MatPaginatorModule,
-  MatSortModule,
-  MatCheckboxModule
-} from '@angular/material';
-import {FlexLayoutModule} from '@angular/flex-layout';
-
-const appRoutes: Routes = [
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
-  { path: 'home', component: HomeComponent },
-  { path: 'import-export', component : ImportExportComponent },
-  // Words
-  { path: 'list/word/:word', component: ListWordComponent },
-  { path: 'show/word/:id', component: ConsultationComponent },
-  { path: 'add/word', component: AddWordComponent },
-  { path: 'modify/word/:id', component: ModifyWordComponent },
-  // Catégories
-  { path: 'list/categories', component :  ListCategoryComponent },
-  { path: 'add/category', component :  AddCategoryComponent },
-  { path: 'modify/category/:id', component :  ModifyCategoryComponent },
-  // Rules
-  { path: 'list/rules', component :  ListRuleComponent },
-  { path: 'add/rule', component: AddRuleComponent },
-  { path: 'modify/rule/:id', component :  ModifyRuleComponent },
-  // Combination
-  { path: 'combin', component : CombinaisonComponent },
-  { path: 'modify/combinaison/:id', component : ModifyCombinComponent },
-  { path: 'category', component :  AddCategoryComponent },
-
-  { path: '**', component: PageNotFoundComponent },
-];
-
-@NgModule({
-  exports: [
-    // Material
     MatToolbarModule,
-    MatAutocompleteModule,
     MatIconModule,
     MatSidenavModule,
     MatButtonModule,
@@ -109,56 +52,115 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule,
     MatSnackBarModule,
-    MatDialogModule,
     MatTabsModule,
     MatDialogModule,
     MatGridListModule,
     MatMenuModule,
     MatProgressBarModule,
+    MatAutocompleteModule,
     MatExpansionModule,
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule
-  ],
+} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
+
+const appRoutes: Routes = [
+    { path: '',
+        redirectTo: '/home',
+        pathMatch: 'full',
+    },
+    { path: 'home', component: HomeComponent },
+    { path: 'import-export', component : ImportExportComponent },
+    // Words
+    { path: 'list/word/:word', component: ListWordComponent },
+    { path: 'show/word/:id', component: ConsultationComponent },
+    { path: 'add/word', component: AddWordComponent },
+    { path: 'modify/word/:id', component: ModifyWordComponent },
+    // Catégories
+    { path: 'list/categories', component :  ListCategoryComponent },
+    { path: 'add/category', component :  AddCategoryComponent },
+    { path: 'modify/category/:id', component :  ModifyCategoryComponent },
+    // Rules
+    { path: 'list/rules', component :  ListRuleComponent },
+    { path: 'add/rule', component: AddRuleComponent },
+    { path: 'modify/rule/:id', component :  ModifyRuleComponent },
+    // Combination
+    { path: 'list/combinations', component :  ListCombinationComponent },
+    { path: 'add/combination', component : CombinaisonComponent },
+    { path: 'modify/combination/:id', component : ModifyCombinComponent },
+
+    { path: '**', component: PageNotFoundComponent },
+];
+
+@NgModule({
+    exports: [
+        // Material
+        MatToolbarModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatInputModule,
+        MatListModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatTabsModule,
+        MatDialogModule,
+        MatGridListModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatExpansionModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatCheckboxModule
+    ],
 })
 export class MaterialModule {}
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SearchComponent,
-    HomeComponent,
-    PageNotFoundComponent,
-    ListWordComponent,
-    ModifyWordComponent,
-    ConsultationComponent,
-    AddWordComponent,
-    AddRuleComponent,
-    CombinaisonComponent,
-    InfosDialogComponent,
-    AddCategoryComponent,
-    ImportExportComponent,
-    ListCategoryComponent,
-    ModifyCategoryComponent,
-    ModifyCombinComponent,
-    ListRuleComponent,
-    ModifyRuleComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterModule.forRoot(
-        appRoutes,
-        { enableTracing: true } // <-- debugging purposes only
-    ),
-    FlexLayoutModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-  ],
-  entryComponents: [ InfosDialogComponent ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        SearchComponent,
+        HomeComponent,
+        PageNotFoundComponent,
+        ListWordComponent,
+        ModifyWordComponent,
+        ConsultationComponent,
+        AddWordComponent,
+        AddRuleComponent,
+        CombinaisonComponent,
+        InfosDialogComponent,
+        AddCategoryComponent,
+        ImportExportComponent,
+        ListCategoryComponent,
+        ModifyCategoryComponent,
+        ModifyCombinComponent,
+        ListRuleComponent,
+        ModifyRuleComponent,
+        ListCombinationComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule.forRoot(
+            appRoutes,
+            { enableTracing: true } // <-- debugging purposes only
+        ),
+        FlexLayoutModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+    ],
+    entryComponents: [ InfosDialogComponent ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

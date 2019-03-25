@@ -12,6 +12,32 @@ use App\Entity\TagAssociation;
 
 class TagCombinationController extends AbstractController {
     /**
+     * @Route("/get/combinationsALL", name="getAllCombination", methods={"GET"})
+     */
+    public function getCombinations() {
+        $response = new Response();
+        try {
+            $combinList = $this->getDoctrine()->getRepository(TagAssociation::class)->findAll();
+            $combinations = [];
+            if(!empty($combinList)) {
+                foreach ($combinList as $combin) {
+                    array_push($combinations, $combin->toJSON());
+                }
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode($combinations, JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->setContent(json_encode([]));
+            }
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+
+    /**
      * @Route("/get/combinaisons/{idCategory}", name="getCombinaisonByCategory", methods={"GET"})
      */
     public function getCombinaisonByCategory($idCategory) {
