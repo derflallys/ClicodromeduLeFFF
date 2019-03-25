@@ -73,19 +73,32 @@ class RuleController extends AbstractController {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $parametersAsArray['category']['id']);
             }
-            $rule = new PFMRule();
-            $rule->setApplicationLevel($parametersAsArray['applicationLevel']);
-            $rule->setCategory($category);
-            $rule->setResult($parametersAsArray['result']);
-            $rule->setTagCategory($parametersAsArray['categoryTags']);
-            $rule->setTagWord($parametersAsArray['wordTags']);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($rule);
-            $em->flush();
-            $response->setStatusCode(Response::HTTP_OK);
-            $response->headers->set('Content-Type', 'application/json');
-            $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
-
+            $existingRule = $this->getDoctrine()->getRepository(PFMRule::class)->findBy(
+                [
+                    "category" => $parametersAsArray['category'],
+                    "applicationLevel" => $parametersAsArray['applicationLevel'],
+                    "tagWord" => $parametersAsArray['wordTags'],
+                    "tagCategory" => $parametersAsArray['categoryTags'],
+                    "result" => $parametersAsArray['result'],
+                ]
+            );
+            if ($existingRule == null) {
+                $rule = new PFMRule();
+                $rule->setApplicationLevel($parametersAsArray['applicationLevel']);
+                $rule->setCategory($category);
+                $rule->setResult($parametersAsArray['result']);
+                $rule->setTagCategory($parametersAsArray['categoryTags']);
+                $rule->setTagWord($parametersAsArray['wordTags']);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($rule);
+                $em->flush();
+                $response->setStatusCode(Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
+            } else {
+                $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                $response->setContent("Echec : Une règle comprenant les mêmes paramètres existe déjà.");
+            }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
             $response->setContent($e->getMessage());
@@ -99,7 +112,7 @@ class RuleController extends AbstractController {
      * @param Request $request
      * @return Response
      */
-    public function editRule( $idRule,Request $request) {
+    public function editRule($idRule, Request $request) {
         $response = new Response();
         try {
             $rule = $this->getDoctrine()->getRepository(PFMRule::class)->findOneBy(['id' => $idRule]);
@@ -110,18 +123,32 @@ class RuleController extends AbstractController {
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $data['category']['id']);
             }
             if($rule != null) {
-                $rule->setApplicationLevel($data['applicationLevel']);
-                $rule->setCategory($category);
-                $rule->setResult($data['result']);
-                $rule->setTagCategory($data['categoryTags']);
-                $rule->setTagWord($data['wordTags']);
+                $existingRule = $this->getDoctrine()->getRepository(PFMRule::class)->findBy(
+                    [
+                        "category" => $data['category'],
+                        "applicationLevel" => $data['applicationLevel'],
+                        "tagWord" => $data['wordTags'],
+                        "tagCategory" => $data['categoryTags'],
+                        "result" => $data['result'],
+                    ]
+                );
+                if ($existingRule != null && $existingRule[0]->getId() != $idRule) {
+                    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                    $response->setContent("Echec : Une règle comprenant les mêmes paramètres existe déjà.");
+                } else {
+                    $rule->setApplicationLevel($data['applicationLevel']);
+                    $rule->setCategory($category);
+                    $rule->setResult($data['result']);
+                    $rule->setTagCategory($data['categoryTags']);
+                    $rule->setTagWord($data['wordTags']);
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($rule);
-                $em->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($rule);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode($rule->toJSON(), JSON_UNESCAPED_UNICODE));
+                }
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);

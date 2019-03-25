@@ -144,7 +144,7 @@ export class AddRuleComponent implements OnInit {
         } else {
             const prefixe = this.addRule.controls.prefix.value;
             const suffixe = this.addRule.controls.suffix.value;
-            if ( (prefixe === undefined || prefixe.trim() === '' ) && (prefixe === undefined || prefixe.trim() === '' )) {
+            if ( (prefixe === undefined || prefixe.trim() === '' ) && (suffixe === undefined || suffixe.trim() === '' )) {
                 this.error = true;
                 this.msgError = 'Un préfixe ou un suffixe doit être rensigné dans le résultat de la règle.';
                 return;

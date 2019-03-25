@@ -99,7 +99,7 @@ class CategoryController extends AbstractController {
      * @param Request $request
      * @return Response
      */
-    public function editWord( $idCategory,Request $request) {
+    public function editCategory( $idCategory,Request $request) {
         $response = new Response();
         try {
             $data = json_decode($request->getContent(), true);
