@@ -58,7 +58,9 @@ import {
   MatProgressBarModule,
   MatAutocompleteModule,
   MatExpansionModule,
-  MatPaginatorModule, MatSortModule
+  MatPaginatorModule,
+  MatSortModule,
+  MatCheckboxModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
@@ -115,7 +117,8 @@ const appRoutes: Routes = [
     MatProgressBarModule,
     MatExpansionModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatCheckboxModule
   ],
 })
 export class MaterialModule {}

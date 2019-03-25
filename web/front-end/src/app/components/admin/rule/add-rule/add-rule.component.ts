@@ -21,7 +21,11 @@ export class AddRuleComponent implements OnInit {
     error = false;
     saveRequest = false;
     errorRequest = false;
-
+    newRadicalChecked = false;
+    prefixResult = '';
+    suffixResult = '';
+    newRadical = '';
+    msgError = '';
     @Input() ruleId = null;
     update = false;
     rule: Rule;
@@ -47,10 +51,11 @@ export class AddRuleComponent implements OnInit {
             category: ['', Validators.required],
             prefix: [''],
             suffix: [''],
+            radical: [''],
             wordTags : this.formBuilder.array([this.createTag(0)]),
             applicationLevel: ['', Validators.required],
             combinationTags : this.formBuilder.array([this.createTag(1)]),
-
+            newRadicalChecked: false,
         });
         this.loading.status = true;
         this.categoryService.getCategories().subscribe(
@@ -78,14 +83,30 @@ export class AddRuleComponent implements OnInit {
             r => {
                 this.rule = new Rule(r.id, r.wordTags, r.categoryTags, r.category, r.applicationLevel, r.result);
                 this.title = 'Modification de la règle : ' + this.rule.getFormule();
-                const result = r.result.split('{word}');
+                const newRadical = !r.result.includes('{word}');
+                let existPrefix = '';
+                let existSuffix = '';
+                let existRadical = '';
+                if (newRadical) {
+                    this.newRadicalChecked = true;
+                    existRadical = r.result;
+                    this.newRadical = existRadical;
+                } else {
+                    this.newRadicalChecked = false;
+                    existPrefix = r.result.split('{word}')[0];
+                    existSuffix = r.result.split('{word}')[1];
+                    this.prefixResult = existPrefix;
+                    this.suffixResult = existSuffix;
+                }
                 this.addRule = this.formBuilder.group({
                     applicationLevel: [r.applicationLevel, Validators.required],
                     category: [r.category.id, Validators.required],
-                    prefix: [result[0]],
-                    suffix: [result[1]],
+                    prefix: [existPrefix],
+                    suffix: [existSuffix],
+                    radical: [existRadical],
                     wordTags: this.formBuilder.array(this.setTagsArray(r.wordTags, 0)),
-                    combinationTags : this.formBuilder.array(this.setTagsArray(r.categoryTags, 1))
+                    combinationTags : this.formBuilder.array(this.setTagsArray(r.categoryTags, 1)),
+                    newRadicalChecked: newRadical,
                 });
                 this.categorySelected = this.rule.category.id;
                 this.loading.status = false;
@@ -97,25 +118,42 @@ export class AddRuleComponent implements OnInit {
         );
     }
     onSubmit() {
+        this.error = false;
         if (this.addRule.invalid) {
-            this.error = true;
             return;
         }
         const rules = this.rulesToString(this.addRule.value.combinationTags);
         const tagMot = this.addRule.controls.wordTags.value;
-        const prefixe = this.addRule.controls.prefix.value;
-        const suffixe = this.addRule.controls.suffix.value;
         const cat = this.addRule.controls.category.value;
         const niveau = this.addRule.controls.applicationLevel.value;
-        let result = '';
-        result = result.concat(prefixe, '{word}');
-        result = result.concat(suffixe);
-        console.log(result);
         const category: Category = this.categories[this.categories.findIndex(
             obj => {
-            return obj.id == cat;
-        }
+                return obj.id === cat;
+            }
         )];
+        let result = '';
+        if (this.newRadicalChecked) {
+            const radical = this.addRule.controls.radical.value;
+            if ( radical === undefined || radical.trim() === '' ) {
+                this.error = true;
+                this.msgError = 'Un nouveau radical doit être rensigné dans le résultat de la règle.';
+                return;
+            } else {
+                result = radical.trim();
+            }
+        } else {
+            const prefixe = this.addRule.controls.prefix.value;
+            const suffixe = this.addRule.controls.suffix.value;
+            if ( (prefixe === undefined || prefixe.trim() === '' ) && (prefixe === undefined || prefixe.trim() === '' )) {
+                this.error = true;
+                this.msgError = 'Un préfixe ou un suffixe doit être rensigné dans le résultat de la règle.';
+                return;
+            } else {
+                result = result.concat(prefixe.trim(), '{word}');
+                result = result.concat(suffixe.trim());
+            }
+        }
+        console.log(result);
         this.saveRequest = true;
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'bottom';
@@ -135,6 +173,7 @@ export class AddRuleComponent implements OnInit {
                         this.snackBar.open('❌ ' + error.error, 'Fermer', config);
                     }
                     this.error = true;
+                    this.msgError = 'Une erreur s\'est produite.';
                     this.saveRequest = false;
                 }
             );
@@ -152,6 +191,7 @@ export class AddRuleComponent implements OnInit {
                         this.snackBar.open('❌ ' + error.error, 'Fermer', config);
                     }
                     this.error = true;
+                    this.msgError = 'Une erreur s\'est produite.';
                     this.saveRequest = false;
                 }
             );

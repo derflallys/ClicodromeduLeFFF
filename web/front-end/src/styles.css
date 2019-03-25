@@ -11,7 +11,7 @@ html, body {
   border-radius: 5px;
   color: #D8000C;
   background-color: #FFD2D2;
-  padding: 25px;
+  padding: 5px 25px 5px 25px;
 }
 
 .mat-progress-bar-background {
