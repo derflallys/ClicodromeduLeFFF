@@ -245,7 +245,9 @@ Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisa
 
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
-\begin{center}\includegraphics[width=150mm]{img/basefinal.png}\end{center}
+
+\includegraphics[width=150mm]{img/basefinal.PNG}
+
 Notre base de données est constitue de quatre table : 
 \begin{itemize}
 \item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
@@ -293,7 +295,8 @@ Pour l'application des règles on vérifie au début si la règle possède une c
 
 \subsection{ Architectute du Site Web }
 \subsubsection{Schéma du site} 
-\begin{center}\includegraphics[width=150mm]{site.png}\end{center} 
+
+\includegraphics[width=150mm]{img/site.PNG}
 
 Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-dessus,
 Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
@@ -314,10 +317,138 @@ La page d'accueil contient également des boutons qui redirigent vers les diffé
     \item   Ajouter catégorie
    \end{itemize}
 et elle redirige aussi aux  pages qui permet d'importer ou d'exporter le lexique.
+
+
+\subsubsection{Exemple de bon fonctionnement: Interfaces} 
+
+\begin{itemize}  
+  \item Rechercher Mot
+\end{itemize}
+Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vous voyez dans cette interface :
+
+
+\includegraphics[width=150mm]{img/Recherche.PNG}
+
+
+
+L’utilisateur (l’administrateur) peut gérer le mort en le modifiant ou le supprimer.
+
+
+\begin{itemize}  
+  \item Ajouter mot
+\end{itemize}
+
+L'administrateur a le droit d'ajouter des nouveaux mots  en accédant à l'interface suivante: 
+
+
+\includegraphics[width=150mm]{img/Ajoutermot.PNG}
+
+
+Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est ajouté, l'utilisateur peut cliquer sur les boutons "Modifier" ou "Supprimer" si il a commis une erreur comme le montre la figure suivante:
+
+
+\includegraphics[width=150mm]{img/AjoutEffectuer.PNG}
+
+
+\begin{itemize}  
+  \item Modifier Mot
+\end{itemize}
+L'interface suivante nous permet de modifier les mots en affichant des messages de réclamation : 
+
+\includegraphics[width=150mm]{img/ModificationMot.PNG}
+
+
+\includegraphics[width=150mm]{img/ModificationEffectuer.PNG}
+
+
+\begin{itemize}  
+  \item Supprimer Mot
+\end{itemize}
+Pour la suppression des mots, elle est possible comme il est montrer dans la figure suivante:
+
+\includegraphics[width=150mm]{img/SuppressionEffectuer.PNG}
+
+
+\begin{itemize}  
+  \item Ajouter Catégorie / Ajouter Régle 
+\end{itemize}
+
+Notre site web, permet aussi l'ajout des catégories et des règles comme il est montré dans les figures ci-dessous: 
+
+
+ \includegraphics[width=150mm]{img/AjouterCat.PNG}
+
+
+ \includegraphics[width=150mm]{img/AjouterReg1.PNG}
+ 
+ 
+ \includegraphics[width=150mm]{img/AjouterReg2.PNG}
+
+
+
+\begin{itemize}  
+  \item Listes des Catégories et des règles:
+\end{itemize}
+Les utilisateurs peuvent consulter la liste des règles et des catègories dans les pages correspondante comme les montres les figures ci-desous: 
+
+
+ \includegraphics[width=150mm]{img/GestionCat.PNG}
+
+
+ \includegraphics[width=150mm]{img/GestionReg.PNG}
+
+
+Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La consultation, la modification et la suppression.
+
+
+
+
+\begin{itemize}  
+  \item Exporter le lexique
+\end{itemize}
+Les utilisateurs peuvent aussi exporter le lexique en extrayant tous les mots enregistrés en base de données dans l'ordre alphabétique avec leurs formes fléchies générer par l'interpréteur :
+
+ \includegraphics[width=150mm]{img/ExportReussi.PNG}
+
+
+ \includegraphics[width=150mm]{img/ExportTxt.PNG}
+
+\begin{itemize}  
+  \item Importer le lexique
+\end{itemize}
+ON a ajouté une interface ou les utilisateurs peuvent importer les fichier sous format texte qui existent déjà. Pour cela on a définie 3 syntaxes différentes : 
+
+
+La  première correspond à celle respectée par notre fonctionnalité d'export.
+
+
+
+
+La deuxième  correspond à la syntaxe du Lefff consultable le site de Lionel CLEMENT.
+
+
+
+Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable sur le site de Benoît SAGOT..
+
 \section{Analyse du fonctionnement et tests}
 
 \section{Conclusion}
 
+Notre objectif de ce projet de programmation était de concevoir et d'implémenter un site Web pour la gestion des formes fléchies.
+Ce site Web est une évolution importante qui a permis de mettre fin à la majorité des problèmes et des insuffisances de la gestion des formes fléchies sur les documents format texte. 
+
+
+Après une profonde méditation, on a fait une présentation du contexte général du projet et ses aspects. C'est-à-dire comprendre le fonctionnement de la génération des formes fléchies, les lacunes ou insuffisances du système actuel et les besoin, pour faciliter le déroulement du site Web à la deuxième étape. 
+La dernière étape consiste la mise en œuvre pour adapté un système
+adéquat avec les différents outils et langages utilisés dans le développement de notre application.
+
+Ce projet nous a permis d'enrichir nos connaissances dans le monde de développement des site Web, mettre en pratique une partie des connaissances acquises lors de notre formation universitaire et de notre auto-formation dans des domaines très variés comme :  Symphonie, Angular ...
+ 
+
+En termes d'évolution, l'application « Le Clicodrome de LEFFF » pourra par la suite être finalisée et adaptée au client.
+En ajoutant les fonctionnalités qu'on a pas réussi à les implémenter faute de temps: Comme la gestion des utilisateurs.En effet, chaque utilisateur de notre système doit avoir des rôles bien spécifiques, aussi la gestion des historiques pour garder trace de chaque modification apportée au lexique.
+
+L'apport de ce travail a constitué une occasion pour nous immerger dans le monde professionnel et appréhender la réalité des métiers de développement, conception et de gestion des projets et apprendre à organiser des réunions professionnelles avec le client et l'équipe. En effet l'expérience acquise durant ces deux mois est précieuse pour nos futures carrières professionnelles.
 \section{Références}
 \bibliography{references}
 \bibliographystyle{plain}
