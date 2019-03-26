@@ -127,58 +127,79 @@ Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functi
   \item \textbf{Éditeur Expert} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui peuvent ajouter des catégories.
   \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, c'est eux qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
 \end{itemize}
- 
-\subsubsection{Importer le LeFFF dans une base de données relationnelle}
+ \subsubsection{Gestion du lexique LeFFF}
+\textbf{Importer le LeFFF dans une base de données relationnelle}
 \textbf{Priorité : 1} \\ 
 Cette fonctionnalité permet d'importer les données du lexique dans un format donné (.txt / .mlex) directement dans une base de données où l'architecture sera préalablement configuré.
 Cette fonctionnalité est nécessaire pour alimenter notre base de donnée puisque le leFFF comprend un très grand nombre de données (environ 500 000 lignes).
 Pour l'implémenter, nous allons définir un algorithme qui permet de découper le fichier d'entrée, de filtrer les mots a enregistré et d'effectuer des requêtes d'ajout dans notre base de données
-\subsubsection{Rechercher un mot}
- \textbf{Priorité : 2}
-\\ Nous allons mettre à la disposition de tous les utilisateurs un champ de saisie sur toutes les pages de l'application web leur permettant de rechercher un mot. A la manière d'un moteur de recherche classique, la liste des mots enregistrés dans notre base de données, correspondant plus ou moins à ce qui a été recherché apparaîtront sur la page. Il sera ensuite possible à l'utilisateur de consulter en détail un mot, de signaler une erreur, de le modifier ou le supprimer (Si les droits de l'utilisateur le lui permet). Si aucun mot ne correspond en base de données, un message d'avertissement apparaîtra sur l'interface.
-\begin{center}\includegraphics[width=150mm]{img/search_screen.png}\end{center}
 
-\subsubsection{Consulter un mot}
+ \textbf{ Exporter le Lefff}
+\textbf{Priorité : 3}  \\
+Tous les utilisateurs peuvent effectuer une exportation du lexique. Cette option sera disponible depuis notre application web. Cette opération nécessite l'utilisation du compilateur PFM pour générer les formes fléchis de tous les mots présents dans la base de données.
+Nous proposerons aussi une exportation du lexique sans les formes fléchies, qui sera bien plus rapide et légère.
+\subsubsection{Gestion du mot}
+\textbf{Rechercher un mot}
  \textbf{Priorité : 2}
-\\ Tous les utilisateurs du site web peuvent consulter un mot. Pour cela il suffit à l'utilisateur de rechercher un mot (voir la partie "Rechercher un mot") et de sélectionné le mot voulu. Ce mot sera ensuite envoyé à notre compilateur pour générer ses formes fléchies et les renvoyer à notre application afin d'avoir toutes les informations du mot affichées sur l'interface.
+\\ Nous avons mis à la disposition de tous les utilisateurs un champ de saisie sur toutes les pages de l'application web leur permettant de rechercher un mot. A la manière d'un moteur de recherche classique, la liste des mots enregistrés dans notre base de données, correspondant plus ou moins à ce qui a été recherché apparaîtront sur la page. Il sera ensuite possible à l'utilisateur de consulter en détail un mot, de signaler une erreur, de le modifier ou le supprimer (Si les droits de l'utilisateur le lui permet). Si aucun mot ne correspond en base de données, un message d'avertissement apparaîtra sur l'interface.
+
+
+\textbf{Consulter un mot}
+ \textbf{Priorité : 2}
+\\ Tous les utilisateurs du site web peuvent consulter un mot. Pour cela il suffit à l'utilisateur de rechercher un mot (voir la partie "Rechercher un mot") et de sélectionné le mot voulu. Ce mot sera ensuite envoyé à notre interpréteur pour générer ses formes fléchies et les renvoyer à notre application afin d'avoir toutes les informations du mot affichées sur l'interface.
 Si les droits de l'utilisateur le permet, les boutons d'ajout, de modification et de suppression apparaissent sur cet écran.
-\begin{center}\includegraphics[width=150mm]{img/consult_screen.png}\end{center}
 
-\subsubsection{Ajouter un mot}
+
+\textbf{Ajouter un mot}
  \textbf{Priorité : 2}
-\\ Cette fonctionnalité est réservé au utilisateurs authentifiés (les administrateur ,les éditeurs et les modérateurs). Un formulaire est proposé, où il est demandé d'ajouter le mot, son type (adjectifs, nom commun etc...), sa nature (féminin ou masculin), s'il est singulier ou pluriel. Les champs s'adaptent selon le type sélectionné. Par exemple, si le type "verbe" est sélectionné, alors des champs concernant le temps et la personne seront ajouté.
+\\ Cette fonctionnalité est réservé au utilisateurs authentifiés (les administrateur ,les éditeurs et les modérateurs). Un formulaire est proposé, où il est demandé d'ajouter le mot, ses catégories (adjectifs, nom commun etc...), et ses tags (par exemple groupe pour les verbes)
 Avant d'ajouter le mot en base, des vérifications seront effectués afin  de vérifier si le mot n'existe pas déjà en base, ou si le mot n'est pas une forme fléchies d'un mot en base de données.
-\begin{center}\includegraphics[width=150mm]{img/add_modif_screen.png}\end{center}
 
-\subsubsection{Supprimer un mot}
+
+\textbf{Supprimer un mot}
  \textbf{Priorité : 2} \\ 
  Les modérateurs et les administrateurs peuvent supprimer un mot de la base de données. Il suffit simplement de rechercher le mot et d'appuyer sur "Supprimer". Une notification sera envoyé aux administrateurs pour les informer de la suppression du mot. Le mot sera alors supprimé de la base de données.
 
-\subsubsection{Modifier un mot}
+\textbf{Modifier un mot}
  \textbf{Priorité : 2} \\ 
  La fonction de modification d'un mot ressemble à celle d'ajout (voir partie Ajouter un mot). Elle est accessible a tous les utilisateurs connectés. En effet le formulaire sera le même mais pré rempli avec les informations existante du mot. Il suffit à  l'utilisateur d'effectuer les modification qu'il souhaite et de les valider pour que les changements soient persisté en base de données.
 
-\subsubsection{Signaler un mot}
+\textbf{Signaler un mot}
  \textbf{Priorité : 2}
  \\ Les visiteurs simple et les éditeurs ont la possibilité de signaler des erreurs sur un mot. Ce mécanisme permet d'envoyer une notification aux administrateurs pour leur faire part d'informations sur un mot en particulier. 
+\subsubsection{Gestion des règles }
+\textbf{ajouter une règle } \textbf{Priorité : 1} \\ Nous avons mis en place un formulaire pour les utilisateurs ayant le droit de gérer les règles où il est demandé d'ajouter la catégorie , le niveau d'application de la règle (l'ordre de priorité),les tags liés aux mot et les tags d'application de la règle , on demande aussi a l'utilisateur s'il veut ajouter le radical du mot sur le quel on va appliquer la règle et enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
+Avant d'ajouter le mot en base, des vérifications seront effectués afin  de vérifier si le mot n'existe pas déjà en base.
 
+\textbf{modifier une règle } \textbf{Priorité : 1} \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . l'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise a jour  en base de données.
+
+
+\textbf{supprimer une règle } \textbf{Priorité : 1} \\ Pour la suppression et la modification nous avons mis en place une liste des règles . Il suffit de rechercher la règle et d'appuyer sur le bouton supprimer , la règle  sera alors supprimé de la base de données.
+
+\subsubsection{Gestion des combinaisons de règle }
+\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Nous avons proposé un formulaire où il est demandé d'ajouter la catégorie du mot et les combinaisons .Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
+
+
+\textbf{modifier et supprimer une combinaison } \textbf{Priorité : 1} \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
+
+
+\subsubsection{Gestion des catégories de règle }
+\textbf{ajouter une catégorie } \textbf{Priorité : 2}\\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernes peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
+
+\textbf{modifier et supprimer  une catégorie } \textbf{Priorité : 2}\\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
 \subsubsection{Contrôler les interactions }
  \textbf{Priorité : 2}
 \\ Tous les utilisateurs doivent s'authentifier pour pouvoir modifier où enrichir le LeFFF. Afin d'ajouter de la sécurité, nous avons décider de mettre constamment des message de validation pour être sur que l'utilisateur souhaite réellement effectuer une action et ne pas faire d'erreur.
 De plus un système de déconnexion automatique après une période d'inactivité (environ 10 minutes) sera mis en place en cas d'oubli de fermeture de session afin que personne ne puisse subtiliser la session.
 Enfin des logs seront implémentés afin de tracer les changements effectués en plus de l'historique.
 
-\subsubsection{Gérer les rôles:}
+\subsubsection{Gestion des rôles:}
  \textbf{Priorité : 3} \\
 Pour qu'un utilisateur puisse effectuer des tâches d'ajout, de modification ou de suppression de mot, il faut qu'un administrateur lui affecte ces droits (les rôle d'éditeur ou modérateur). A cet égard, on doit créer une interface où l'administrateur puisse faire cela.
 Sur cette interface, apparaîtra la liste des comptes utilisateurs, pour chaque utilisateur se trouvera des boutons  : \textbf{Supprimer} cet utilisateur ,\textbf{ Modifier} le rôle de cet utilisateur. 
 Sur la même interface on va mettre en place un bouton pour \textbf{Valider} l'inscription d'un nouvel utilisateur.
 \begin{center}\includegraphics[width=150mm]{img/user_screen.png}\end{center}
 
- \subsubsection{Exporter le Lefff}
-\textbf{Priorité : 3}  \\
-Tous les utilisateurs peuvent effectuer une exportation du lexique. Cette option sera disponible depuis notre application web. Cette opération nécessite l'utilisation du compilateur PFM pour générer les formes fléchis de tous les mots présents dans la base de données.
-Nous proposerons aussi une exportation du lexique sans les formes fléchies, qui sera bien plus rapide et légère.
 
 
 \subsubsection{Gestion de l'historique d'un mot}
@@ -229,7 +250,6 @@ Nous avons fait le choix d'adopter une design très simple et épurée afin que 
 Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
 \subsection{Contraintes}
-
 \subsection{Solutions proposées : les besoins réalisés}
 
 Après l'analyse des problèmes du système actuel, nous avons proposé la réalisation d'un site Web  adaptée aux besoins 
@@ -250,9 +270,6 @@ qui permettra d'améliorer le processus de travail et de gagner plus de temps en
 \item \textbf{Possibilité du filtrage} : lors de la recherche dans les listes.
 \item \textbf{Possibilité de la modification et suppression dans les listes.}
 \end{itemize}
-
-
-
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
 
@@ -333,8 +350,7 @@ Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'ut
 \subsection{ Architecture du Site Web }
 \subsubsection{Schéma du site} 
 
-\begin{center}\includegraphics[width=150mm]{img/site.PNG}
-\end{center}
+\includegraphics[width=150mm]{img/site.PNG}
 
 Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-dessus,
 Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
@@ -408,7 +424,7 @@ Pour la suppression des mots, elle est possible comme il est montrer dans la fig
 
 
 \begin{itemize}  
-  \item Ajouter Catégorie / Ajouter Règle 
+  \item Ajouter Catégorie / Ajouter Régle 
 \end{itemize}
 
 Notre site web, permet aussi l'ajout des catégories et des règles comme il est montré dans les figures ci-dessous: 
