@@ -279,8 +279,35 @@ dans un premier temps , on récupère les règles , les tags du mot et les combi
 Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
 Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application , si le niveau est le même , la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres .
 
+\subsection{Outils de développement}
 
-\subsection{ Architectute du Site Web }
+Ce projet est divisé en 3 parties :
+\begin{itemize}  
+  \item l'application web
+  \item l'interpréteur
+  \item la base de données
+\end{itemize}
+
+\textbf{Application web et L'intérpreteur : PHP avec le framework Symfony 4:}
+
+Nous avons choisi de développer le site Web et l'interpréteur en PHP car c'est un langage simple d'utilisation et que ce framework apporte beaucoup d'avantages en termes de sécurité (comme énoncé précédemment dans la partie 2.2.1) et de développement (configuration simple et rapide ect...) ainsi, qu'il offre des 
+
+\smallbreak
+
+\textbf{Base de données : MySQL:}
+
+
+Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et sa bonne compatibilité avec le framework Symfony utilisé pour le site web. 
+
+
+\textbf{Ces choix des outils ont des avantages énormes coté client:}
+
+\begin{itemize}  
+  \item solution client léger : Rien d'autre qu'un navigateur pour faire fonctionner l'application sur le poste de l'utilisateur.
+  \item MySQL est très rapide : Puisque notre base de données contient un lexique très lourd l'accès aux données à l'aide de MySQl devient un peu plus rapide.
+\end{itemize}
+
+\subsection{ Architecture du Site Web }
 \subsubsection{Schéma du site} 
 
 \includegraphics[width=150mm]{img/site.PNG}
@@ -416,6 +443,9 @@ La deuxième  correspond à la syntaxe du Lefff consultable le site de Lionel CL
 
 
 Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable sur le site de Benoît SAGOT..
+
+						
+
 
 \section{Analyse du fonctionnement et tests}
 
