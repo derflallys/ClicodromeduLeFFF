@@ -1,0 +1,136 @@
+***********************************************************************
+Pour générer les formes fléchies nous utilisons l'encodage suivant:
+
+les modes et les temps:
+				P : indicatif présent 
+                F : indicatif futur 
+                I : indicatif imparfait
+                J : indicatif passé-simple 				
+                C : conditionnel présent 				
+                Y : impératif présent 				
+                S : subjonctif présent 
+                T : subjonctif imparfait				
+                K : participe passé
+                G : participe présent				
+                W : infinitif présent 
+
+Le Genre et Le  Nombre:
+				1ps : 1 er personne du singulier 
+                2ps : 1 er personne du singulier 
+                3psm : 3 er personne du singulier masculin
+                3psf : 3 er personne du singulier feminin
+                1pp : 1 er personne du pluriel 
+                2pp : 1 er personne du singulier 
+                3ppm : 3 er personne du pluriel masculin
+                3ppf : 3 er personne du pluriel feminin
+				
+********************************************************************
+Pour le pfm on a : 
+Le Format de base des règles de réalisation
+    n,Xc, -> f(X) 
+- n représente le numéro du bloc dans lequel la règle s’applique.
+- X la racine du lexème.
+- C la classe du lexème (sa catégorie).
+- t les propriétés morphosyntaxiques du lexème.
+- f(X) la forme phonologique résultant de l’application de la règle.
+
+			
+Exemple de la régle du PFM qu'on va utiliser  (#) : 
+				s; xaridan; ∅ 􀀀! ϕ:xar
+				s; xaridan; fpstg 􀀀! ϕ:xarid
+				i; V; find, ipfvg 􀀀! ϕ:mi+ϕ
+				ii; V; fnegg 􀀀! ϕ:na+ϕ
+				ii; V; find, ipfv, negg 􀀀! ϕ:ne+ϕ
+				iii; V; fevindg 􀀀! ϕ:ϕ+e
+				iv; V; f1sgg 􀀀! ϕ:ϕ+am
+				iv; V; f2sgg 􀀀! ϕ:ϕ+i
+				iv; V; fprs,3sgg 􀀀! ϕ:ϕ+ad
+				iv; V; fevid,3sgg 􀀀! ϕ:ϕ+ast
+
+On donne tout d'abord  comme entrée:   s,verbe,{mode,temps,personne}
+
+********************************************************************	
+Cas des verbes du 2ème groupe :				
+Exemple: Choisir/Finir 
+En appliquant le régle : (#)
+On prend comme radical le string :  res= Fini ou Choisi  
+**********************************************************************
+Mode : Indicatif
+
+# Present
+s,verbe,{P,1ps}--->res+"s";
+s,verbe,{P,2ps}--->res+"s";
+s,verbe,{P,3psf || 3psm}--->res+"t";
+s,verbe,{P,1pp}--->res+"ss"+"ons";
+s,verbe,{P,2pp}--->res+"ss"+"ez";
+s,verbe,{P,3ppf || 3ppm}--->res+"ss"+"ent";
+
+# Imparfait
+s,verbe,{I,1ps}--->res+"ss"+"ais";
+s,verbe,{I,2ps}--->res+"ss"+"ais";
+s,verbe,{I,3psf || 3psm}--->res+"ss"+"ait";
+s,verbe,{I,1pp}--->res+"ss"+" ions";
+s,verbe,{I,2pp}--->res+"ss "+"iez";
+s,verbe,{I,3ppf || 3ppm}--->res+"ss"+"aient";
+
+#Passé simple 
+s,verbe,{J,1ps}--->res+" is";
+s,verbe,{J,2ps}--->res+" is";
+s,verbe,{J,3psf || 3psm}--->res+" it";
+s,verbe,{J,1pp}--->res+"îmes";
+s,verbe,{J,2pp}--->res+"îtes";
+s,verbe,{J,3ppf || 3ppm}--->res+"irent";
+
+#Futur Simple
+s,verbe,{F,1ps}--->verbe + "ai";
+s,verbe,{F,2ps}--->verbe + "as";
+s,verbe,{F,3psf || 3psm}--->verbe + "a";
+s,verbe,{F,1pp}--->verbe + "ons";
+s,verbe,{F,2pp}--->verbe + "ez";
+s,verbe,{F,3ppf || 3ppm}--->verbe + "ont";
+*********************************************************************
+Mode : Subjonctif
+
+#Présent
+s,verbe,{S,1ps}--->res+"ss"+"e";
+s,verbe,{S,2ps}--->res+"ss"+"es";
+s,verbe,{S,3psf || 3psm}--->res+"ss"+"e";
+s,verbe,{S,1pp}--->res+"ss"+"ions";
+s,verbe,{S,2pp}--->res+"ss "+"iez";
+s,verbe,{S,3ppf || 3ppm}--->res+"ss"+"ent";
+
+#Imparfait
+s,verbe,{T,1ps}--->res+"ss"+"e";
+s,verbe,{T,2ps}--->res+"ss"+"es";
+s,verbe,{T,3psf || 3psm}--->res+"t";
+s,verbe,{T,1pp}--->res+"ss"+" ions";
+s,verbe,{T,2pp}--->res+"ss "+"iez";
+s,verbe,{T,3ppf || 3ppm}--->res+"ss"+"ent";
+
+**********************************************************************
+Mode : Conditionnel
+
+#Présent 
+s,verbe,{C,1ps}--->verbe + "ais";
+s,verbe,{C,2ps}--->verbe + "ais";
+s,verbe,{C,3psf || 3psm}--->verbe + "ait";
+s,verbe,{C,1pp}--->verbe + "ions";
+s,verbe,{C,2pp}--->verbe + "iez";
+s,verbe,{C,3ppf || 3ppm}--->verbe + "aient";
+
+**********************************************************************
+Mode : Imperatif
+
+s,verbe,{Y,2ps}--->res + "s";
+s,verbe,{Y,1pp}--->res + "ssons";
+s,verbe,{Y,2pp}--->res + "ssez";
+********************************************************************
+Participe present :
+s,verbe,{G}--->res + "ssant";
+
+Participe passé :
+s,verbe,{K}--->res ;
+
+Infinitif :
+s,verbe,{W}--->verbe;
+

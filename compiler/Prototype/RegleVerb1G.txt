@@ -1,0 +1,112 @@
+Régles PFM pour les verbes du premier groupe :
+mode & temps => P : indicatif présent 
+                F : indicatif futur 
+                I : indicatif imparfait
+               // L : indicatif passé-composé
+                J : indicatif passé-simple 
+                C : conditionnel présent 
+                Y : impératif présent 
+                S : subjonctif présent 
+                T : subjonctif imparfait
+                K : participe passé
+                G : participe présent
+                W : infinitif présent 
+
+Genre & Nombre => 1ps : 1 er personne du singulier 
+                  2ps : 1 er personne du singulier 
+                  3psm : 3 er personne du singulier masculin(il)
+                  3psf : 3 er personne du singulier masculin(elle)
+                  1pp : 1 er personne du pluriel 
+                  2pp : 1 er personne du singulier 
+                  3ppm : 3 er personne du singulier masculin(il)
+                  3ppf : 3 er personne du singulier masculin(elle)
+
+String res="";
+s,verbe,{} --->res=radical du verbe;
+**************************************indicatif présent 
+s,verbe,{P,1ps}--->res+"e";
+s,verbe,{P,2ps}--->res+"es";
+s,verbe,{P,3psf || 3psm}--->res+"e";
+s,verbe,{P,1pp}--->res+"ont";
+s,verbe,{P,2pp}--->res+"ez";
+s,verbe,{P,3ppf || 3ppm}--->res+"ent";
+**************************************indicatif futur
+s,verbe,{F,1ps}--->res+"erai";
+s,verbe,{F,2ps}--->res+"eras";
+s,verbe,{F,3psf || 3psm}--->res+"era";
+s,verbe,{F,1pp}--->res+"erons";
+s,verbe,{F,2pp}--->res+"erez";
+s,verbe,{F,3ppf || 3ppm}--->res+"eront";
+**************************************indicatif imparfait
+s,verbe,{I,1ps}--->res+"ais";
+s,verbe,{I,2ps}--->res+"ais";
+s,verbe,{I,3psf || 3psm}--->res+"ait";
+s,verbe,{I,1pp}--->res+"ions";
+s,verbe,{I,2pp}--->res+"iez";
+s,verbe,{I,3ppf || 3ppm}--->res+"aient";
+
+///////////////////////**************************************indicatif passé composé avec auxiliaire être
+s,verbe,{L,1ps}--->"suis"+K;
+s,verbe,{L,2ps}--->"es"+K;
+s,verbe,{L,3psf }--->"est"+K+"e";
+s,verbe,{L,3psm }--->"est"+K;
+s,verbe,{L,1pp}--->"sommes"+K;
+s,verbe,{L,2pp}--->"êtes"+K;
+s,verbe,{L,3ppf }--->"sont"+K+"es";
+s,verbe,{L,3ppm}--->"sont"+K;
+**************************************indicatif passé composé avec auxiliaire avoir
+s,verbe,{L,1ps}--->"ai"+K;
+s,verbe,{L,2ps}--->"as"+K;
+s,verbe,{L,3psf }--->"a"+K;
+s,verbe,{L,3psm }--->"a"+K;
+s,verbe,{L,1pp}--->"avons"+K;
+s,verbe,{L,2pp}--->"avez"+K;
+s,verbe,{L,3ppf }--->"ont"+K;
+s,verbe,{L,3ppm}--->"ont"+K;
+///////////////////////////////////
+
+**************************************indicatif passé simple
+s,verbe,{J,1ps}--->res+"eai";
+s,verbe,{J,2ps}--->res+"eas";
+s,verbe,{J,3psf || 3psm}--->res+"ea";
+s,verbe,{J,1pp}--->res+"eâmes";
+s,verbe,{J,2pp}--->res+"eâtes";
+s,verbe,{J,3ppf || 3ppm}--->res+"èrent";
+**************************************Conditionnel présent
+s,verbe,{C,1ps}--->res+"erais";
+s,verbe,{C,2ps}--->res+"erais";
+s,verbe,{C,3psf || 3psm}--->res+"erait";
+s,verbe,{C,1pp}--->res+"erions";
+s,verbe,{C,2pp}--->res+"eriez";
+s,verbe,{C,3ppf || 3ppm}--->res+"eraient"
+**************************************impératif présent 
+s,verbe,{Y,2ps}--->res+"e";
+s,verbe,{Y,1pp}--->res+"ons";
+s,verbe,{Y,2pp}--->res+"ez";
+
+************************************** subjonctif présent 
+s,verbe,{S,1ps}--->"que je"+res+"e";
+s,verbe,{S,2ps}--->"que te"+res+"es";
+s,verbe,{S,3psf || 3psm}--->"qu'il"+res+"e";
+s,verbe,{S,1pp}--->"que nous"+res+"ions";
+s,verbe,{S,2pp}--->"que vous"+res+"iez";
+s,verbe,{S,3ppf || 3ppm}--->"qu'ils"+res+"ent"
+
+************************************** subjonctif imparfait
+s,verbe,{T,1ps}--->"que je"+res+"asse";
+s,verbe,{T,2ps}--->"que te"+res+"asses";
+s,verbe,{T,3psf || 3psm}--->"qu'il"+res+"ât";
+s,verbe,{T,1pp}--->"que nous"+res+"assions";
+s,verbe,{T,2pp}--->"que vous"+res+"assiez";
+s,verbe,{T,3ppf || 3ppm}--->"qu'ils"+res+"assent"
+************************************** participe passé
+S,verbe,{K} ---> res+"é";
+************************************** participe présent
+S,verbe,{G} --->res+"ant";
+
+
+
+
+
+
+
