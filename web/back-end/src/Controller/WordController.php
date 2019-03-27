@@ -11,9 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 use App\Entity\Word;
 
+/**
+ * Controleur relatif à la gestion des mots du lexique
+ * Class WordController
+ * @package App\Controller
+ */
 class WordController extends AbstractController {
+
     /**
+     * Retourne les mots de la base correspondant à la chaine de recherche passé en paramètre
      * @Route("/list/word/{word}", name="searchWord", methods={"GET"})
+     * @param $word
+     * @return Response
      */
     public function search($word) {
         $response = new Response();
@@ -42,7 +51,10 @@ class WordController extends AbstractController {
     }
 
     /**
+     * Retourne un mot dont l'identifiant est en paramètre (en générant ses formes fléchies)
      * @Route("/get/word/{idWord}", name="getWord", methods={"GET"})
+     * @param $idWord
+     * @return Response
      */
     public function getWord($idWord) {
         $response = new Response();
@@ -68,7 +80,10 @@ class WordController extends AbstractController {
     }
 
     /**
+     * Retourne un mot dont l'identifiant est en paramètre (SANS générer ses formes fléchies)
      * @Route("/get/wordWithoutForms/{idWord}", name="getWordWithoutForms", methods={"GET"})
+     * @param $idWord
+     * @return Response
      */
     public function getWordWithoutForms($idWord) {
         $response = new Response();
@@ -91,7 +106,10 @@ class WordController extends AbstractController {
     }
 
     /**
+     * Ajout d'un nouveau mot
      * @Route("/add/word", name="addWord", methods={"POST"})
+     * @param Request $request
+     * @return Response
      */
     public function addWord(Request $request) {
         $response = new Response();
@@ -100,6 +118,7 @@ class WordController extends AbstractController {
             $parametersAsArray = json_decode($content, true);
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
             $existingWord = $this->getDoctrine()->getRepository(Word::class)->findOneBy(["value" => $parametersAsArray['value'], "tags" => $parametersAsArray['tags'], "category" => $parametersAsArray['category']['id']]);
+            //Vérification des doublons
             if ($existingWord != null) {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
                 $response->setContent("Echec : Ce mot existe déjà avec les tags {" . $parametersAsArray['tags'] . "} dans la catégorie renseignée.");
@@ -128,6 +147,7 @@ class WordController extends AbstractController {
     }
 
     /**
+     * Modification d'un mot dont l'identifiant est passé en paramètre
      * @Route("/update/word/{idWord}", name="editWord", methods={"PUT","PATCH"})
      * @param $idWord
      * @param Request $request
@@ -139,6 +159,7 @@ class WordController extends AbstractController {
             $word = $this->getDoctrine()->getRepository(Word::class)->findOneBy(['id' => $idWord]);
             $data = json_decode($request->getContent(), true);
             $existingWord = $this->getDoctrine()->getRepository(Word::class)->findOneBy(["value" => $data['value'], "tags" => $data['tags'], "category" => $data['category']['id']]);
+            //Vérification des doublons
             if ($existingWord != null && $existingWord->getId() != $idWord) {
                 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
                 $response->setContent("Echec : Ce mot existe déjà avec les tags {" . $data['tags'] . "} dans la catégorie renseignée.");
@@ -175,7 +196,10 @@ class WordController extends AbstractController {
     }
 
     /**
+     * Suppression d'un mot dont l'identifiant est passé en paramètre
      * @Route("/delete/word/{idWord}", name="deleteWord", methods={"DELETE"})
+     * @param $idWord
+     * @return Response
      */
     public function deleteWord($idWord) {
         $response = new Response();

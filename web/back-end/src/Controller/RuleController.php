@@ -10,9 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 
+/**
+ * Controleur relatif à la gestion des règles PFM
+ * Class RuleController
+ * @package App\Controller
+ */
 class RuleController extends AbstractController {
+
     /**
+     * Retourne l'ensemble des règles enregistrées en base de données
      * @Route("/get/rules", name="getRules", methods={"GET"})
+     * @return Response
      */
     public function getRules() {
         $response = new Response();
@@ -20,6 +28,7 @@ class RuleController extends AbstractController {
             $rulesList = $this->getDoctrine()->getRepository(PFMRule::class)->findAll();
             $rules = [];
             if(!empty($rulesList)) {
+                //Formatage de la réponse en JSON
                 foreach ($rulesList as $rule) {
                     array_push($rules, $rule->toJSON());
                 }
@@ -38,7 +47,10 @@ class RuleController extends AbstractController {
     }
 
     /**
+     * Retourne la règle ciblée par l'identifiant en paramètre
      * @Route("/get/rule/{idrule}", name="getRule", methods={"GET"})
+     * @param $idrule
+     * @return Response
      */
     public function getRule($idrule) {
         $response = new Response();
@@ -61,7 +73,10 @@ class RuleController extends AbstractController {
     }
 
     /**
+     * Ajout d'une nouvelle règle
      * @Route("/add/rule", name="addRule", methods={"POST"})
+     * @param Request $request
+     * @return Response
      */
     public function addRule(Request $request) {
         $response = new Response();
@@ -73,6 +88,7 @@ class RuleController extends AbstractController {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $parametersAsArray['category']['id']);
             }
+            // Vérification des doublons
             $existingRule = $this->getDoctrine()->getRepository(PFMRule::class)->findBy(
                 [
                     "category" => $parametersAsArray['category'],
@@ -107,6 +123,7 @@ class RuleController extends AbstractController {
     }
 
     /**
+     * Modification d'une règle dont l'identifiant est passé en paramètre
      * @Route("/modify/rule/{idRule}", name="editRule", methods={"PUT","PATCH"})
      * @param $idRule
      * @param Request $request
@@ -123,6 +140,7 @@ class RuleController extends AbstractController {
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $data['category']['id']);
             }
             if($rule != null) {
+                // Vérification des doublons
                 $existingRule = $this->getDoctrine()->getRepository(PFMRule::class)->findBy(
                     [
                         "category" => $data['category'],
@@ -162,7 +180,10 @@ class RuleController extends AbstractController {
     }
 
     /**
+     * Suppression d'une règle passé en paramètre
      * @Route("/delete/rule/{idRule}", name="deleteRule", methods={"DELETE"})
+     * @param $idRule
+     * @return Response
      */
     public function deleteRule($idRule) {
         $response = new Response();

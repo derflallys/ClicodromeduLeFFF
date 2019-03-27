@@ -10,9 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Category;
 use App\Entity\TagAssociation;
 
+/**
+ * Controleur relatif à la gestion des associations de tags des catégories
+ * Class TagCombinationController
+ * @package App\Controller
+ */
 class TagCombinationController extends AbstractController {
+
     /**
+     * Retourne l'ensemble des associations enregistrées en base de données
      * @Route("/get/combinations", name="getAllCombinations", methods={"GET"})
+     * @return Response
      */
     public function getCombinations() {
         $response = new Response();
@@ -38,7 +46,10 @@ class TagCombinationController extends AbstractController {
     }
 
     /**
+     * Retourne une combinaison ciblé par l'identifiant passé en paramètre
      * @Route("/get/combination/{idCombination}", name="getCombination", methods={"GET"})
+     * @param $idCombination
+     * @return Response
      */
     public function getCombination($idCombination) {
         $response = new Response();
@@ -61,7 +72,10 @@ class TagCombinationController extends AbstractController {
     }
 
     /**
+     * Ajout d'une nouvelle association de tags
      * @Route("/add/combination", name="addCombination", methods={"POST"})
+     * @param Request $request
+     * @return Response
      */
     public function addCombination(Request $request) {
         $response = new Response();
@@ -74,6 +88,7 @@ class TagCombinationController extends AbstractController {
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $parametersAsArray['category']['id']);
             }
             else {
+                // Vérification des doublons
                 $existingCombination = $this->getDoctrine()->getRepository(TagAssociation::class)->findBy(
                     [
                         "category" => $parametersAsArray['category'],
@@ -104,6 +119,7 @@ class TagCombinationController extends AbstractController {
     }
 
     /**
+     * Modification d'une association dont l'identifiant est passé en paramètre
      * @Route("/update/combination/{idCombination}", name="editCombinaison", methods={"PUT","PATCH"})
      * @param $idCombination
      * @param Request $request
@@ -120,6 +136,7 @@ class TagCombinationController extends AbstractController {
                 $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $data['category']['id']);
             }
             if($combinaison != null) {
+                // Vérification des doublons
                 $existingCombination = $this->getDoctrine()->getRepository(TagAssociation::class)->findBy(
                     [
                         "category" => $data['category'],
@@ -151,8 +168,12 @@ class TagCombinationController extends AbstractController {
         }
         return $response;
     }
+
     /**
+     * Supprime une association de tags dont l'identifiant est passé en paramètre
      * @Route("/delete/combination/{idCombinaison}", name="deleteCombinaison", methods={"DELETE"})
+     * @param $idCombinaison
+     * @return Response
      */
     public function deleteCombination($idCombinaison) {
         $response = new Response();
