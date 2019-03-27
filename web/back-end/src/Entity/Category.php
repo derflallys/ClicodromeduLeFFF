@@ -41,7 +41,6 @@ class Category
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
         $this->rules = new ArrayCollection();
         $this->tagsAssociations = new ArrayCollection();
     }
