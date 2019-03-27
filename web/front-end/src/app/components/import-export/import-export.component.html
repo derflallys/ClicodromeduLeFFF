@@ -45,6 +45,7 @@
               <button mat-raised-button color="primary" (click)="doImportSyntaxCustom()" [disabled]="fileToUploadCustom === null">Lancer l'import</button>
             </div>
           </mat-expansion-panel>
+<!--
           <mat-expansion-panel [expanded]="panelOpenState === 1" (opened)="setPanel(1)">
             <mat-expansion-panel-header>
               <mat-panel-title>Syntaxe 2 (.txt)</mat-panel-title>
@@ -74,9 +75,10 @@
               <button mat-raised-button color="primary" (click)="doImportSyntaxTxt()" [disabled]="fileToUploadTxt === null">Lancer l'import</button>
             </div>
           </mat-expansion-panel>
+-->
           <mat-expansion-panel [expanded]="panelOpenState === 2" (opened)="setPanel(2)">
             <mat-expansion-panel-header>
-              <mat-panel-title>Syntaxe 3 (.mlex)</mat-panel-title>
+              <mat-panel-title>Syntaxe 2 (.mlex)</mat-panel-title>
               <mat-panel-description></mat-panel-description>
             </mat-expansion-panel-header>
             <div>

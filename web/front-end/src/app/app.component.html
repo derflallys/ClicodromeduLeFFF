@@ -16,9 +16,21 @@
       <a mat-button matTooltip="Importer/Exporter le lexique" routerLink="/import-export"><mat-icon class="icon">import_export</mat-icon> Import / Export</a>
     </div>
     <mat-menu #admin="matMenu">
-      <button mat-menu-item routerLink="/list/categories" >Gérer les catégories</button>
-      <button mat-menu-item routerLink="/list/rules" >Gérer les règles PFM</button>
-      <button mat-menu-item routerLink="/list/combinations" >Gérer les combinaisons de tags</button>
+      <button mat-menu-item [matMenuTriggerFor]="categories">Gérer les catégories</button>
+      <button mat-menu-item [matMenuTriggerFor]="rules">Gérer les règles PFM</button>
+      <button mat-menu-item [matMenuTriggerFor]="combinations">Gérer les combinaisons de tags</button>
+    </mat-menu>
+    <mat-menu #categories="matMenu">
+      <button mat-menu-item routerLink="/list/categories" >Liste des catégories</button>
+      <button mat-menu-item routerLink="/add/category" >Ajouter une catégorie</button>
+    </mat-menu>
+    <mat-menu #rules="matMenu">
+      <button mat-menu-item routerLink="/list/rules" >Liste des règles</button>
+      <button mat-menu-item routerLink="/add/rule" >Ajouter une règle</button>
+    </mat-menu>
+    <mat-menu #combinations="matMenu">
+      <button mat-menu-item routerLink="/list/combinations" >Liste des combinaisons</button>
+      <button mat-menu-item routerLink="/add/combination" >Ajouter une combinaison</button>
     </mat-menu>
   </mat-toolbar>
 
@@ -30,9 +42,21 @@
         <a mat-button [matMenuTriggerFor]="adminCollaspe"><mat-icon class="icon">settings</mat-icon> Administration</a>
       </div>
       <mat-menu #adminCollaspe="matMenu">
-        <button mat-menu-item routerLink="/list/categories" >Gérer les catégories</button>
-        <button mat-menu-item routerLink="/list/rules" >Gérer les règles PFM</button>
-        <button mat-menu-item routerLink="/list/combinations" >Gérer les combinaisons de tags</button>
+        <button mat-menu-item [matMenuTriggerFor]="categoriesCollaspe">Gérer les catégories</button>
+        <button mat-menu-item [matMenuTriggerFor]="rulesCollaspe">Gérer les règles PFM</button>
+        <button mat-menu-item [matMenuTriggerFor]="combinationsCollaspe">Gérer les combinaisons de tags</button>
+      </mat-menu>
+      <mat-menu #categoriesCollaspe="matMenu">
+        <button mat-menu-item routerLink="/list/categories" >Liste des catégories</button>
+        <button mat-menu-item routerLink="/add/category" >Ajouter une catégorie</button>
+      </mat-menu>
+      <mat-menu #rulesCollaspe="matMenu">
+        <button mat-menu-item routerLink="/list/rules" >Liste des règles</button>
+        <button mat-menu-item routerLink="/add/rule" >Ajouter une règle</button>
+      </mat-menu>
+      <mat-menu #combinationsCollaspe="matMenu">
+        <button mat-menu-item routerLink="/list/combinations" >Liste des combinaisons</button>
+        <button mat-menu-item routerLink="/add/combination" >Ajouter une combinaison</button>
       </mat-menu>
     </mat-sidenav>
     <mat-sidenav-content fxFlexFill>
