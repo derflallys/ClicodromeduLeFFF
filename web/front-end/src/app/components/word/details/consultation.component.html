@@ -26,7 +26,7 @@
           <mat-list>
             <mat-list-item *ngFor="let form of word.inflectedForms">
               <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
-              <h4 mat-line>{{form}}</h4>
+              <h4 mat-line>{{form.value}} - <span class="tags"><i>[{{form.tags}}]</i></span></h4>
             </mat-list-item>
           </mat-list>
         </div>

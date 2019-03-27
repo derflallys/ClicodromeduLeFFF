@@ -120,7 +120,7 @@ class PFM_Interpretor {
                     array_push($result, $newForm);
                 } else {
                     $newData["value"] = $newForm;
-                    $newData["tags"] = $tags;
+                    $newData["tags"] = $tags->getCombination();
                     array_push($result, $newData);
                 }
             }

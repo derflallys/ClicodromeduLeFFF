@@ -64,7 +64,7 @@ class WordController extends AbstractController {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 $interpretor = new PFM_Interpretor();
-                $inflectedForms = $interpretor->generateInflectedForm($word);
+                $inflectedForms = $interpretor->generateInflectedForm($word, true);
                 $word->setInflectedForms($inflectedForms);
                 $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
             }
