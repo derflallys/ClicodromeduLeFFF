@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{PdP - Le Clicodrome de LeFFF \\ Compte rendu du TD6}
+\author{}
+\date{Mercredi 27 Mars 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Contexte}
+Cette séance de TD avait pour but de faire un point sur l'avancement du projet au niveau du code et du mémoire.
+
+\section{Partie Code}
+\begin{itemize}
+    \item Forcer le niveau d'application 0 quand on redefini le radical
+    \item Parsers à mettre en tant que prototypes
+    \item Background de l'appli en blanc
+    \item Export oubli d'un retour à la ligne
+    \item Import -> Calcul des performances
+    \item Formes fléchies : afficher les tags qui la génère
+    \item Génération des formes fléchies : rendre le comportement des tagWord similaire à tagCategory
+\end{itemize}
+
+\section{Le mémoire}
+\begin{itemize}
+    \item Expliquer la dissociation entre tagWord et tagCategory dans la règle PFM -> changement du formalisme (le fait que ca nous permet d'optimiser nos algorithmes ect...)
+    \item Attention fautes d'orthographes / grammaire
+    \item Ne pas être trop flou (ex : "interpreteur" -> de quoi ? pour quoi ?...)
+    \item Les explications doivent être compréhensible de tous
+    \item Evitez les formulations "il faut savoir que" / "y'a des boutons qui font ca"
+    \item Montrer que notre implémentation est transposable à n'importe quel autre langage
+    \item Nom de famille pas en majuscule
+    \item Persister -> Enregistrer
+    \item Export : Expliquer pourquoi la catégorie forme fléchie et pas la catégorie du lemme
+    \item Sécurité : baiiser la priorité et séparer en plusieurs sous-besoins
+    \item Performances : facteur limitant -> temps de réponse de la BD (aucun controle dessus)
+    \item Performances : calculé la performance de l'application de règle pour une combinaison de tags
+    \item Ordre de priorité -> Niveau d'application de la règle
+    \item Confit de règle (règle qui prend a;b et une autre b;c -> Amélioration possible : renvoyer une erreur à l'utilisateur)
+    \item Citer références
+    \item Choix MySQL : Perf raisonnable ? Facile d'utilsiation, Demandé par le client
+    \item Dans la partie Architecture du site : ne parler que de ce qui a été implémenté !
+\end{itemize}
+
+\end{document}

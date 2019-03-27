@@ -131,6 +131,7 @@ Puis installer les migrations d'architecture de la base de données avec la comm
 Si vous souhaitez seulement tester l'application avec des données de tests, nous avons créé un jeu de données permettant de tester les différentes fonctionnalités de l'application web.
 Pour installer ces données, il vous suffit de lancer la commande depuis le dossier `web/back-end` :
 
+    // Nécéssite APP_ENV=dev dans le fichier .env
     $ php bin/console doctrine:fixtures:load
     
 Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
@@ -168,8 +169,8 @@ il faut installer les dépendances du projet à l'aide de la commande à éxécu
     
 Il suffit ensuite de lancer la commande permettant d'executer l'application à l'adresse : [http://localhost:8000](http://localhost:8000)
 
+    // Nécéssite APP_ENV=dev dans le fichier .env
     $ php bin/console server:run
-
 
 
 L'utilisateur n'a pas besoin de se rendre directement sur l'application du back-end (sur le port 8000).
