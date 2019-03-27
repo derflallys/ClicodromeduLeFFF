@@ -119,6 +119,9 @@ export class AddRuleComponent implements OnInit {
     }
     onSubmit() {
         this.error = false;
+        if (this.newRadicalChecked) {
+            this.addRule.controls.applicationLevel.setValue(0);
+        }
         if (this.addRule.invalid) {
             return;
         }
