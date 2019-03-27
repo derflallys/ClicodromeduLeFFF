@@ -8,6 +8,13 @@ use Exception;
 
 class PFM_Interpretor {
 
+    /**
+     * Génère les formes fléchies d'un mot passé en paramètre
+     * @param Word $word
+     * @param bool $getTags
+     * @return array
+     * @throws Exception
+     */
     public function generateInflectedForm(Word $word, $getTags = false) {
         $result = [];
 

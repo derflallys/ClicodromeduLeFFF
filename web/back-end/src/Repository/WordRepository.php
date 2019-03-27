@@ -19,6 +19,11 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
+    /**
+     * Rècupère tous les mots comprenant la chaine $word.
+     * @param $word
+     * @return mixed
+     */
     public function searchWord($word) {
         return $this->createQueryBuilder('w')
             ->andWhere('w.value LIKE :val')

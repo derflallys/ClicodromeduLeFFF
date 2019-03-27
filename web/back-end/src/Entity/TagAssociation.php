@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité représentant les associations de tags
+ * Ces tags sont utilisés par le service générant les formes fléchies pour sélectionner les règles PFM possèdant ces associations de tags
  * @ORM\Entity(repositoryClass="App\Repository\TagAssociationRepository")
  */
 class TagAssociation

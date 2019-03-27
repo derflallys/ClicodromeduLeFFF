@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité représentant la catégorie des mots du lexique
+ * Elle permet de classer les mots, ainsi que les règles et les associations de tags
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
 class Category

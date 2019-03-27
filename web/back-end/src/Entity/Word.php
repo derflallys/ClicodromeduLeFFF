@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité représentant les mots du lexique
  * @ORM\Entity(repositoryClass="App\Repository\WordRepository")
  */
 class Word
@@ -34,6 +35,10 @@ class Word
      */
     private $tags;
 
+    /**
+     * Ensemble des formes fléchies du mot (Non persisté en base de données)
+     * @var ArrayCollection
+     */
     private $inflectedForms;
 
     public function __construct()
@@ -41,7 +46,7 @@ class Word
         $this->inflectedForms = new ArrayCollection();
     }
 
-
+    /** Getters and Setters */
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +115,10 @@ class Word
         return $this;
     }
 
+    /**
+     * Retourne les données du mot sous forme de tableau
+     * @return mixed
+     */
     public function toJSON() {
         $json['id'] = $this->id;
         $json['value'] = $this->value;

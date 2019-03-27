@@ -19,6 +19,11 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    /** Selectionne les catégories ayant un code OU un nom égal à $code et $name
+     * @param $code
+     * @param $name
+     * @return mixed
+     */
     public function findDoublons($code, $name)
     {
         return $this->createQueryBuilder('c')

@@ -19,7 +19,10 @@ class TagAssociationRepository extends ServiceEntityRepository
         parent::__construct($registry, TagAssociation::class);
     }
 
-
+    /** Récupère les règles selon la catégory renseignée en paramètre
+     * @param $id
+     * @return mixed
+     */
     public function findByCategory($id)
     {
         return $this->createQueryBuilder('t')

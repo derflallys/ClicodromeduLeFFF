@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entité représentant les règles PFM
+ * Ces règles s'appliquent sur les mots afin de générer des formes fléchies
  * @ORM\Entity(repositoryClass="App\Repository\PFMRuleRepository")
  */
 class PFMRule

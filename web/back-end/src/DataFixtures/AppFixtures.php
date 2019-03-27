@@ -5,15 +5,28 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\PFMRule;
 use App\Entity\TagAssociation;
-use App\Entity\TagCategory;
-use App\Entity\TagWord;
 use App\Entity\Word;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Finder\Finder;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * Retourne le tableau des données d'exemple à enregistrer en base de données
+     * @return array
+     * Les données sont dans un tableau de la forme :
+     *
+     *      [    attributs de la catégorie
+     *          [tableau des mots de la catégorie]
+     *          [tableau des règles de la catégorie]
+     *          [tableau des associations de tags de la catégorie]
+     *      ]
+     *      [
+     *           catégorie suivante
+     *           ...
+     *      ]
+     *      ...
+     */
     public function getData() {
         $data = [
             [
@@ -375,8 +388,206 @@ class AppFixtures extends Fixture
                         'tags' => ['groupe3']
                     ]
                 ],
-                'rules' => [],
-                'tags' => []
+                'rules' => [
+                    [
+                        'level' => 0,
+                        'tagWord' => ['couper'],
+                        'tagCategory' => [],
+                        'result' => "coup",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['crier'],
+                        'tagCategory' => [],
+                        'result' => "cri",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['dégainer'],
+                        'tagCategory' => [],
+                        'result' => "dégain",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['abolir'],
+                        'tagCategory' => [],
+                        'result' => "abol",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['bâtir'],
+                        'tagCategory' => [],
+                        'result' => "bât",
+                    ],
+                    [
+                        'level' => 0,
+                        'tagWord' => ['applaudir'],
+                        'tagCategory' => [],
+                        'result' => "applaud",
+                    ],
+                    /**********************/
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "1ps"],
+                        'result' => "{word}e",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "2ps"],
+                        'result' => "{word}es",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "3ps"],
+                        'result' => "{word}e",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "1pp"],
+                        'result' => "{word}ons",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "2pp"],
+                        'result' => "{word}ez",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["present", "indicatif", "3pp"],
+                        'result' => "{word}ent",
+                    ],
+                    /******************/
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "1ps"],
+                        'result' => "{word}is",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "2ps"],
+                        'result' => "{word}is",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "3ps"],
+                        'result' => "{word}it",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "1pp"],
+                        'result' => "{word}issons",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "2pp"],
+                        'result' => "{word}issez",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["present", "indicatif", "3pp"],
+                        'result' => "{word}issent",
+                    ],
+                    /******************/
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "1ps"],
+                        'result' => "{word}ais",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "2ps"],
+                        'result' => "{word}ais",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "3ps"],
+                        'result' => "{word}ait",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "1pp"],
+                        'result' => "{word}ions",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "2pp"],
+                        'result' => "{word}iez",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe1'],
+                        'tagCategory' => ["imparfait", "3pp"],
+                        'result' => "{word}aient",
+                    ],
+                    /******************/
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "1ps"],
+                        'result' => "{word}issais",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "2ps"],
+                        'result' => "{word}issais",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "3ps"],
+                        'result' => "{word}issait",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "1pp"],
+                        'result' => "{word}issions",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "2pp"],
+                        'result' => "{word}issiez",
+                    ],
+                    [
+                        'level' => 1,
+                        'tagWord' => ['groupe2'],
+                        'tagCategory' => ["imparfait", "3pp"],
+                        'result' => "{word}issaient",
+                    ],
+                ],
+                'tags' => [
+                    ['present', 'indicatif', '1ps'],
+                    ['present', 'indicatif', '2ps'],
+                    ['present', 'indicatif', '3ps'],
+                    ['present', 'indicatif', '1pp'],
+                    ['present', 'indicatif', '2pp'],
+                    ['present', 'indicatif', '3pp'],
+                    ['imparfait', '1ps'],
+                    ['imparfait', '2ps'],
+                    ['imparfait', '3ps'],
+                    ['imparfait', '1pp'],
+                    ['imparfait', '2pp'],
+                    ['imparfait', '3pp'],
+                ]
             ],
             [
                 'code' => 'persian',
@@ -457,16 +668,23 @@ class AppFixtures extends Fixture
         ];
         return $data;
     }
+
+    /**
+     * Chargement des données en base
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $categories = $this->getData();
 
+        // Pour chaque catégorie...
         foreach ($categories as $item) {
             $category = new Category();
             $category->setCode($item['code']);
             $category->setName($item['label']);
             $manager->persist($category);
 
+            // ... On ajoute les mots de la catégorie...
             foreach ($item['words'] as $wordData) {
                 $word = new Word();
                 $word->setValue($wordData['value']);
@@ -475,6 +693,7 @@ class AppFixtures extends Fixture
                 $manager->persist($word);
             }
 
+            // ... Puis les règle de cette catégorie...
             foreach ($item['rules'] as $PFMdata) {
                 $rule = new PFMRule();
                 $rule->setCategory($category);
@@ -485,6 +704,7 @@ class AppFixtures extends Fixture
                 $manager->persist($rule);
             }
 
+            // ... et enfin les associations de tags
             foreach ($item['tags'] as $tagC) {
                 $tagCat = new TagAssociation();
                 $tagCat->setCombination(implode(";", $tagC));

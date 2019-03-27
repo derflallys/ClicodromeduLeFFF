@@ -19,6 +19,10 @@ class PFMRuleRepository extends ServiceEntityRepository
         parent::__construct($registry, PFMRule::class);
     }
 
+    /** Récupère les règles selon la catégory renseignée en paramètre
+     * @param $id
+     * @return mixed
+     */
     public function findByCategory($id)
     {
         return $this->createQueryBuilder('t')
