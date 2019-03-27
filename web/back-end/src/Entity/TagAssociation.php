@@ -62,7 +62,7 @@ class TagAssociation
     }
     public function toJSON() {
         $json['id'] = $this->id;
-        $json['combinaison'] = $this->combination;
+        $json['tagsAssociation'] = $this->combination;
         $json['category'] = $this->category->toJSON();
         return $json;
     }

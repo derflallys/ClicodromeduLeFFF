@@ -35,9 +35,8 @@ export class AddCategoryComponent implements OnInit {
     ) { }
 
     onSubmit() {
-        console.log('submit');
+        this.error = false;
         if (this.addCategory.invalid) {
-            this.error = true;
             return;
         }
         const code = this.addCategory.controls.code.value;

@@ -5,47 +5,48 @@
             [value]="loading.value">
     </mat-progress-spinner>
 </div>
-<div *ngIf="!loading.status">
+<div *ngIf="!loading.status && errorRequest" class="error">Une erreur est survenue.</div>
+<div *ngIf="!loading.status && !errorRequest">
   <div class="content">
-    <div fxLayout="row" fxLayoutAlign="center center"> <h1>Ajouter une combinaison de règles</h1> </div>
-
+    <h1>{{title}}</h1>
+    <div class="error" *ngIf="error">
+      <p>{{msgError}}</p>
+    </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="addCombi">
-
-
       <mat-form-field>
         <mat-select placeholder="Catégorie" formControlName="category"  [(value)]="categorySelected" >
-          <mat-option *ngFor="let category of categories" (click)="onSelectCategory(category.id) " [value]="category.id">{{category.name}}</mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <div class="rules">
-        <h3>Règle  </h3>
-        <div formArrayName="rules" *ngFor="let tag of addCombi.controls['rules'].controls; let i = index">
-          <mat-form-field  [formGroupName]="i">
-            <input matInput placeholder="Valeur" formControlName="value">
+      <h3>Association de tags</h3>
+      <div class="tags">
+        <div formArrayName="tagsAssociation" *ngFor="let tag of addCombi.controls['tagsAssociation'].controls; let i = index">
+          <mat-form-field class="result-full-width" [formGroupName]="i">
+            <input matInput placeholder="Valeur tag" formControlName="value">
           </mat-form-field>
         </div>
-        <button mat-raised-button color="primary" type="button" (click)="addRule()"><mat-icon class="icon">add</mat-icon> Ajouter une regle </button>
       </div>
-      <button mat-raised-button color="warn" type="submit">Enregistrer la combinaison</button>
+        <button mat-raised-button color="primary" type="button" (click)="addTag()"><mat-icon class="icon">add</mat-icon> Ajouter un tag </button>
+      <button mat-raised-button color="warn" type="submit"><mat-icon class="icon">save</mat-icon> Enregistrer la combinaison</button>
     </form>
-    <div *ngIf="rules.length <=0 && categorySelected ">
+    <!--<div *ngIf="rules.length <=0 && categorySelected ">
       <h3>  La liste des combinaisons de régle de la categorie {{categoryNameSelected}} sont vide ! </h3>
-    </div>
-    <div *ngIf="rules.length >0" class="content">
+    </div>-->
+    <!--<div *ngIf="rules.length >0" class="content">
         <h3> Liste des combinaisons de régle de la categorie {{categoryNameSelected}} </h3>
       <div class="result-list">
         <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="rule">
             <mat-header-cell *matHeaderCellDef> Rule </mat-header-cell>
-            <mat-cell class="linkWord" *matCellDef=" let element">{{element.combinaison}} </mat-cell>
+            <mat-cell class="linkWord" *matCellDef=" let element">{{element.tagsAssociation}} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
             <mat-cell *matCellDef="let element">&nbsp;
               <button mat-raised-button color="primary" routerLink="/modify/combinaison/{{element.id}}"><mat-icon>edit</mat-icon></button>
 
-              <button mat-raised-button color="warn" (click)="deleteCombinaison(element.combinaison, element.id)"><mat-icon>delete</mat-icon></button>
+              <button mat-raised-button color="warn" (click)="deleteCombinaison(element.tagsAssociation, element.id)"><mat-icon>delete</mat-icon></button>
             </mat-cell>
           </ng-container>
 
@@ -53,6 +54,6 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>

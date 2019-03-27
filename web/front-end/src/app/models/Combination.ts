@@ -1,13 +1,13 @@
 import {Category} from './Category';
 
-export class Combinaison {
+export class Combination {
     id: number;
     category: Category;
-    combinaison: string;
+    tagsAssociation: string;
 
     constructor(id: number = null, category: Category, combin: string) {
         this.id = id;
         this.category = category;
-        this.combinaison = combin;
+        this.tagsAssociation = combin;
     }
 }

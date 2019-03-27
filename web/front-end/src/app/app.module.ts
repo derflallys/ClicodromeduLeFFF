@@ -23,9 +23,9 @@ import {AddCategoryComponent} from './components/admin/category/add-category/add
 import {ModifyCategoryComponent} from './components/admin/category/modify-category/modify-category.component';
 
 // Combination Components
-import {CombinaisonComponent} from './components/admin/combinaison/add/combinaison.component';
-import {ModifyCombinComponent} from './components/admin/combinaison/modify-combin/modify-combin.component';
-import {ListCombinationComponent} from './components/admin/combinaison/list-combination/list-combination.component';
+import {ListCombinationComponent} from './components/admin/combination/list-combination/list-combination.component';
+import {AddCombinationComponent} from './components/admin/combination/add-combination/add-combination.component';
+import {ModifyCombinationComponent} from './components/admin/combination/modify-combination/modify-combination.component';
 
 // Rules Components
 import {ListRuleComponent} from './components/admin/rule/list-rule/list-rule.component';
@@ -87,8 +87,8 @@ const appRoutes: Routes = [
     { path: 'modify/rule/:id', component :  ModifyRuleComponent },
     // Combination
     { path: 'list/combinations', component :  ListCombinationComponent },
-    { path: 'add/combination', component : CombinaisonComponent },
-    { path: 'modify/combination/:id', component : ModifyCombinComponent },
+    { path: 'add/combination', component : AddCombinationComponent },
+    { path: 'modify/combination/:id', component : ModifyCombinationComponent },
 
     { path: '**', component: PageNotFoundComponent },
 ];
@@ -135,13 +135,13 @@ export class MaterialModule {}
         ConsultationComponent,
         AddWordComponent,
         AddRuleComponent,
-        CombinaisonComponent,
+        AddCombinationComponent,
         InfosDialogComponent,
         AddCategoryComponent,
         ImportExportComponent,
         ListCategoryComponent,
         ModifyCategoryComponent,
-        ModifyCombinComponent,
+        ModifyCombinationComponent,
         ListRuleComponent,
         ModifyRuleComponent,
         ListCombinationComponent

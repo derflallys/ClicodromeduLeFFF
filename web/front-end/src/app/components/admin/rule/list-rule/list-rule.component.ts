@@ -37,6 +37,7 @@ export class ListRuleComponent implements OnInit {
         mode: 'indeterminate',
         value: 50
     };
+    config;
     @ViewChild(MatSort) sort: MatSort;
     constructor(
         private router: ActivatedRoute,
@@ -46,6 +47,10 @@ export class ListRuleComponent implements OnInit {
         public snackBar: MatSnackBar
     ) {
         this.dataSource.sort = this.sort;
+        this.config = new MatSnackBarConfig();
+        this.config.verticalPosition = 'bottom';
+        this.config.horizontalPosition = 'center';
+        this.config.duration = 5000;
     }
 
     ngOnInit() {
@@ -58,7 +63,8 @@ export class ListRuleComponent implements OnInit {
                     this.loading.status = false;
                 }
             }, error => {
-                console.log('erreur');
+                this.loading.status = false;
+                this.snackBar.open('❌ Une erreur s\'est produite lors du chargement des catégories !', 'Fermer', this.config);
             }
         );
         this.ruleService.getAllRules().subscribe(
@@ -72,7 +78,8 @@ export class ListRuleComponent implements OnInit {
                 this.refreshTable();
             },
             error => {
-                console.log(error);
+                this.loading.status = false;
+                this.snackBar.open('❌ Une erreur s\'est produite lors du chargement des règles !', 'Fermer', this.config);
             }
         );
     }

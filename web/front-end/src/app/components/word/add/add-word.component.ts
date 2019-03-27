@@ -74,11 +74,11 @@ export class AddWordComponent  implements OnInit {
         console.log(tags);
         const lemme = this.addWord.controls.lemme.value;
         const cat = this.addWord.controls.category.value;
-        const category: Category = this.categories.filter(
+        const category: Category = this.categories[this.categories.findIndex(
             obj => {
-                return obj.id === Number(cat);
+                return obj.id === cat;
             }
-        )[0];
+        )];
         this.saveRequest = true;
         const config = new MatSnackBarConfig();
         config.verticalPosition = 'bottom';

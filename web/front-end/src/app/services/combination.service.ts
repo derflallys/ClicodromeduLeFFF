@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {catchError} from 'rxjs/operators';
-import {Combinaison} from '../models/Combinaison';
-import {Observable, throwError} from 'rxjs';
-import {Category} from "../models/Category";
+import {Combination} from '../models/Combination';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -15,31 +12,25 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class CombinationService {
-    private getAllUrl = environment.BACK_END_URL + '/get/combinaisons';
-    private getCombinaisonsUrl = environment.BACK_END_URL + '/get/combinaisons';
-    private getCombinaisonUrl = environment.BACK_END_URL + '/get/combinaison';
-    private addCombinUrl = environment.BACK_END_URL + '/add/combinaison';
-    private deleteCombinaisonUrl = environment.BACK_END_URL + '/delete/combinaison';
-    private updateCombinaisonUrl = environment.BACK_END_URL + '/update/combinaison';
+    private getAllUrl = environment.BACK_END_URL + '/get/combinations';
+    private getCombinationUrl = environment.BACK_END_URL + '/get/combination';
+    private addCombinationUrl = environment.BACK_END_URL + '/add/combination';
+    private updateCombinationUrl = environment.BACK_END_URL + '/update/combination';
+    private deleteCombinationUrl = environment.BACK_END_URL + '/delete/combination';
     constructor(private http: HttpClient) { }
     getAllCombinations() {
-        return this.http.get<Combinaison[]>(this.getAllUrl, httpOptions)
+        return this.http.get<Combination[]>(this.getAllUrl, httpOptions);
     }
-    getCombinaisonByCategory(idCategory): Observable<Combinaison[]> {
-        return this.http.get<Combinaison[]>(this.getCombinaisonsUrl + '/' + idCategory);
+    getCombination(idCombination) {
+        return this.http.get<Combination>(this.getCombinationUrl + '/' + idCombination);
     }
-
-    getCombinaison(idCombinaison) {
-        return this.http.get<Combinaison>(this.getCombinaisonUrl + '/' + idCombinaison);
+    addCombination(combination: Combination) {
+        return this.http.post<Response>(this.addCombinationUrl, combination, httpOptions  );
     }
-    addCombinaison( combinaison: Combinaison) {
-        return this.http.post<Response>(this.addCombinUrl, combinaison, httpOptions  );
+    updateCombination(combination: Combination, id: number) {
+        return this.http.put<Response>(this.updateCombinationUrl + '/' + id, combination, httpOptions);
     }
-    deleteCombinaison(id: number) {
-        return this.http.delete<Response>(this.deleteCombinaisonUrl + '/' + id);
+    deleteCombination(id: number) {
+        return this.http.delete<Response>(this.deleteCombinationUrl + '/' + id);
     }
-    updateCombinaison(combinaison: Combinaison, id: number) {
-        return this.http.put<Response>(this.updateCombinaisonUrl + '/' + id, combinaison, httpOptions);
-    }
-
 }

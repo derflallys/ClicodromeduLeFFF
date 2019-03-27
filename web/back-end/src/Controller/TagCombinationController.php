@@ -12,7 +12,7 @@ use App\Entity\TagAssociation;
 
 class TagCombinationController extends AbstractController {
     /**
-     * @Route("/get/combinationsALL", name="getAllCombination", methods={"GET"})
+     * @Route("/get/combinations", name="getAllCombinations", methods={"GET"})
      */
     public function getCombinations() {
         $response = new Response();
@@ -38,56 +38,20 @@ class TagCombinationController extends AbstractController {
     }
 
     /**
-     * @Route("/get/combinaisons/{idCategory}", name="getCombinaisonByCategory", methods={"GET"})
+     * @Route("/get/combination/{idCombination}", name="getCombination", methods={"GET"})
      */
-    public function getCombinaisonByCategory($idCategory) {
+    public function getCombination($idCombination) {
         $response = new Response();
         try {
-
-            $category =  $this->getDoctrine()
-                ->getRepository(Category::class)
-                ->findOneBy(array('id' =>$idCategory));
-            if (!$category) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '.$idCategory);
-            }
-            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findByCategory($category->getId());
+            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombination]);
             if($combinaison != null) {
                 $response->setStatusCode(Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
-                $combine = [];
-                foreach ($combinaison as $combi){
-                    array_push($combine,$combi->toJSON());
-                }
-                $response->setContent(json_encode($combine, JSON_UNESCAPED_UNICODE));
-            }
-            else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant \'' . $idCategory . '\'');
-            }
-        } catch (Exception $exception) {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($exception->getMessage());
-        }
-        return $response;
-    }
-
-    /**
-     * @Route("/get/combinaison/{idCombinaison}", name="getCombinaison", methods={"GET"})
-     */
-    public function getCombinaison($idCombinaison) {
-        $response = new Response();
-        try {
-            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
-            if($combinaison != null) {
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-
                 $response->setContent(json_encode($combinaison->toJSON(), JSON_UNESCAPED_UNICODE));
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
+                $response->setContent( 'Aucune combinaison ne correspond à l\'identifiant : ' . $idCombination);
             }
         } catch (Exception $exception) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -97,9 +61,9 @@ class TagCombinationController extends AbstractController {
     }
 
     /**
-     * @Route("/add/combinaison", name="addCombinaison", methods={"POST"})
+     * @Route("/add/combination", name="addCombination", methods={"POST"})
      */
-    public function addCombinaison(Request $request) {
+    public function addCombination(Request $request) {
         $response = new Response();
         try {
             $content = $request->getContent();
@@ -107,18 +71,29 @@ class TagCombinationController extends AbstractController {
             $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy($parametersAsArray['category']);
             if (!$category) {
                 $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $parametersAsArray['category']['id']);
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $parametersAsArray['category']['id']);
             }
             else {
-                $tagAss = new TagAssociation();
-                $tagAss->setCategory($category);
-                $tagAss->setCombination($parametersAsArray['combinaison']);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($tagAss);
-                $em->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($tagAss->toJSON(), JSON_UNESCAPED_UNICODE));
+                $existingCombination = $this->getDoctrine()->getRepository(TagAssociation::class)->findBy(
+                    [
+                        "category" => $parametersAsArray['category'],
+                        "combination" => $parametersAsArray['tagsAssociation']
+                    ]
+                );
+                if ($existingCombination == null) {
+                    $tagAss = new TagAssociation();
+                    $tagAss->setCategory($category);
+                    $tagAss->setCombination($parametersAsArray['tagsAssociation']);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($tagAss);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode($tagAss->toJSON(), JSON_UNESCAPED_UNICODE));
+                } else {
+                    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                    $response->setContent("Echec : Cette combinaison existe déjà pour cette catégorie.");
+                }
             }
 
         } catch (Exception $e) {
@@ -127,10 +102,59 @@ class TagCombinationController extends AbstractController {
         }
         return $response;
     }
+
     /**
-     * @Route("/delete/combinaison/{idCombinaison}", name="deleteCombinaison", methods={"DELETE"})
+     * @Route("/update/combination/{idCombination}", name="editCombinaison", methods={"PUT","PATCH"})
+     * @param $idCombination
+     * @param Request $request
+     * @return Response
      */
-    public function deleteCombinaison($idCombinaison) {
+    public function editCombination($idCombination, Request $request) {
+        $response = new Response();
+        try {
+            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombination]);
+            $data = json_decode($request->getContent(), true);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $data['category']['id']]);
+            if (!$category) {
+                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+                $response->setContent('Aucune categorie ne correspond à l\'identifiant : '. $data['category']['id']);
+            }
+            if($combinaison != null) {
+                $existingCombination = $this->getDoctrine()->getRepository(TagAssociation::class)->findBy(
+                    [
+                        "category" => $data['category'],
+                        "combination" => $data['tagsAssociation']
+                    ]
+                );
+                if ($existingCombination != null && $existingCombination[0]->getId() != $idCombination) {
+                    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+                    $response->setContent("Echec : Cette combinaison existe déjà pour cette catégorie.");
+                } else {
+                    $combinaison->setCategory($category);
+                    $combinaison->setCombination($data['tagsAssociation']);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($combinaison);
+                    $em->flush();
+                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->headers->set('Content-Type', 'application/json');
+                    $response->setContent(json_encode($combinaison->toJSON(), JSON_UNESCAPED_UNICODE));
+                }
+            }
+            else {
+                $response->setStatusCode(Response::HTTP_NOT_FOUND);
+                $response->setContent( 'Aucune combinaison  ne correspond à l\'identifiant : ' . $idCombination);
+            }
+        } catch (Exception $e) {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setContent($e->getMessage());
+        }
+        return $response;
+    }
+    /**
+     * @Route("/delete/combination/{idCombinaison}", name="deleteCombinaison", methods={"DELETE"})
+     */
+    public function deleteCombination($idCombinaison) {
         $response = new Response();
         try {
             $tagAssoc = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
@@ -143,46 +167,7 @@ class TagCombinationController extends AbstractController {
             }
             else {
                 $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent('Aucun mot ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
-            }
-        } catch (Exception $e) {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($e->getMessage());
-        }
-        return $response;
-    }
-
-    /**
-     * @Route("/update/combinaison/{idCombinaison}", name="editCombinaison", methods={"PUT","PATCH"})
-     * @param $idCombinaison
-     * @param Request $request
-     * @return Response
-     */
-    public function editCombinaison( $idCombinaison,Request $request) {
-        $response = new Response();
-        try {
-            $combinaison = $this->getDoctrine()->getRepository(TagAssociation::class)->findOneBy(['id' => $idCombinaison]);
-            $data = json_decode($request->getContent(), true);
-            //$request->request->replace($data);
-            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['id' => $data['category']['id']]);
-            if (!$category) {
-                $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-                $response->setContent('No category found for id '. $data['category']['id']);
-            }
-            if($combinaison != null) {
-                $combinaison->setCategory($category);
-                $combinaison->setCombination($data['combinaison']);
-
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($combinaison);
-                $em->flush();
-                $response->setStatusCode(Response::HTTP_OK);
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setContent(json_encode($combinaison->toJSON(), JSON_UNESCAPED_UNICODE));
-            }
-            else {
-                $response->setStatusCode(Response::HTTP_NOT_FOUND);
-                $response->setContent( 'Aucune categorie  ne correspond à l\'identifiant \'' . $idCombinaison . '\'');
+                $response->setContent('Aucune combinaison ne correspond à l\'identifiant : ' . $idCombinaison);
             }
         } catch (Exception $e) {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

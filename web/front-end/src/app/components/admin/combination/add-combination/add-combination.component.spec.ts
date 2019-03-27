@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModifyCombinComponent } from './modify-combin.component';
+import { AddCombinationComponent } from './add-combination.component';
 
-describe('ModifyCombinComponent', () => {
-  let component: ModifyCombinComponent;
-  let fixture: ComponentFixture<ModifyCombinComponent>;
+describe('AddCombinationComponent', () => {
+  let component: AddCombinationComponent;
+  let fixture: ComponentFixture<AddCombinationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModifyCombinComponent ]
+      declarations: [ AddCombinationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModifyCombinComponent);
+    fixture = TestBed.createComponent(AddCombinationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
