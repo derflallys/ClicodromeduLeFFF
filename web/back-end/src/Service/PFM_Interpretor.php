@@ -20,24 +20,18 @@ class PFM_Interpretor {
 
         /*** Récupération des règles / tags du mot / combianaison de Tags de la catégorie */
         $rules = $word->getCategory()->getRules();
-        $tagsWord = explode(";", $word->getTags());
+        $tagsWord = $word->getTags();
         $tagsCombinations = $word->getCategory()->getTagsAssociations();
 
         /*** Filtrages des règles selon la correspondances avec les tags du mot + Récupération des règles définissant le radical du mot*/
         $usefulRules = [];
         foreach ($rules as $rule) {
             $selected = false;
-            // Si aucun tag de mot n'est rensigné dans la règle on l'a prend
-            if ($rule->getTagWord() == "" || $rule->getTagWord() == null) {
+            //Si TOUS les tags (mots) de la règle sont renseignés dans les tags du mot OU Si aucun tag de mot n'est rensigné dans la règle
+            if(!array_diff(explode(";", $rule->getTagWord()), explode(";", $tagsWord)) || empty($rule->getTagWord()) ) {
                 $selected = true;
             }
-            // Est-ce qu'un tag du mot est renseigné dans la règles ?
-            foreach ($tagsWord as $tag) {
-                if(in_array($tag, explode(";", $rule->getTagWord())) ) {
-                    $selected = true;
-                    break;
-                }
-            }
+
             //Est ce que le mot en lui-même est un tag de la règle
             if(in_array($word->getValue(), explode(";", $rule->getTagWord()))) {
                 $selected = true;

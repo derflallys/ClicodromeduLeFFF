@@ -122,7 +122,7 @@ class ExportService {
     }
 
     /**
-     * Import d'un lexique au format proposé par Lionel CLEMENT sur son site
+     * Import d'un lexique au format proposé par Lionel Clement sur son site
      * @param ManagerRegistry $doctrine
      * @param $fileContent
      */
@@ -165,7 +165,7 @@ class ExportService {
     }
 
     /**
-     * Import d'un lexique au format Mlex disponible sur le site de Benoît SAGOT
+     * Import d'un lexique au format Mlex disponible sur le site de Benoît Sagot
      * @param ManagerRegistry $doctrine
      * @param $fileContent
      */
