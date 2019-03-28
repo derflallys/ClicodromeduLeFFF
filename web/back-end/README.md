@@ -18,17 +18,20 @@ Votre application est maintenant lancée sur : [http://localhost:8000](http://lo
 
 # Arborescence
 Un projet symfony est composé de plusieurs dossiers :
-- `bin/` : Dossier contenant des executables permettant d'automatiser des taches
+- `bin/` : Dossier contenant des executables de dépendances de symfony
 - `config/` : Dossier contenant les fichiers de configuration de notre projet
 - `public/` : Dossier racine du serveur web. 
 - `src/` : Contient le code du projet (Entités, Controleurs ect...)
 - `templates/` : Dossier contenant les vues de l'application (Inutilisé dans notre projet.)
 - `var/` : Dossier contenant les fichiers de cache et de logs 
-- `vendor/` : Le dossier utilisé pour stocké les dépendances installées du fichier `composer.json` 
+- `vendor/` : Le dossier où sont installées les dépendances référencées dans le fichier `composer.json` 
 - `.env` : Fichier contenant la configuration de l'environnement d'exécution de notre code
 - `composer.json` : Fichier listant les dépendances du projet ainsi que d'autres métadonnées
 
 Toute notre implémentation est présente dans le dossier `src/`, le reste est généré par le framework.
+
+# Test unitaires
+**A faire**
 
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `composer.json`).  

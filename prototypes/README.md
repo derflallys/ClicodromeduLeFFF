@@ -1,3 +1,14 @@
+ 
+Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
+Cette opération permet d'alléger considérablement le volume de données à enregistrer. (passage d'environ 500 000 entrées à 110 000 entrées environ.)
+
+Dans le dossier [compiler/](compiler/), vous trouverez à votre disposition 2 scripts permettant de faire le filtrage du LeFFF qui leurs est passé en paramètre.
+Pour plus de détails sur le fonctionnement des scripts, vous pouvez consulter [le manuel d'utilisation des scripts](compiler/README.md).  
+Les 2 scripts génèrent un fichier `resultat.sql` permettant de remplir la base.  
+Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les systèmes UNIX, vous pouvez exécuter la commande :  
+
+    $ mysql -u <username> -p --database=<database_name> < /path/to/compiler/result.sql
+    
 # Parseur LeFFF - TXT
 Le script "parser_txt.php" est un script permettant de récupérer seulement les mots que l'on souhaite enregistrer en base de données dans un fichier. 
 Il permet donc de filtrer afin d'évincer toutes les formes fléchies présentes.
