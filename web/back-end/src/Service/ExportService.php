@@ -115,10 +115,10 @@ class ExportService {
                     $newWord->setCategory($cat);
                     $newWord->setTags($tags);
                     $em->persist($newWord);
-                    $em->flush();
                 }
             }
         }
+        $em->flush();
     }
 
     /**
@@ -212,9 +212,9 @@ class ExportService {
                     $newWord->setCategory($cat);
                     $newWord->setTags($tags);
                     $em->persist($newWord);
-                    $em->flush();
                 }
             }
         }
+        $em->flush();
     }
 }

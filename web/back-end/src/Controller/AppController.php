@@ -75,6 +75,9 @@ class AppController extends AbstractController {
             $success = false;
             // L'import peut être long -> on désactive le temps d'execution max de PHP
             set_time_limit(0);
+            ini_set("memory_limit","-1");
+
+
             $fileContent = $service->filteringContent($fileContent);
             $service->truncateDatabase($this->getDoctrine());
             // Selon le type, on execute l'import correspondant
