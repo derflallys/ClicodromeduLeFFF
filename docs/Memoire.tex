@@ -45,23 +45,28 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \newpage
 \tableofcontents
+\listoffigures
+\newpage
+\listoffigures
 
-\newpage\section{Contexte général du projet}
-\subsection{Résumé}
+\newpage\section{Introduction}
+\subsection{Contexte}
 
-\smallbreak Dans ce rapport, nous présentons minutieusement notre étude, la conception et le développement d'un site web, un interpréteur qui permet de générer les formes fléchies d'un mot et une base de données :
+\smallbreak 
 
-Pour déterminer les formes fléchies d'un mot en français, notre client Lionel CLEMENT à donc créer un lexique "LEFFF"  contenant un grands nombre de mots de différentes catégories. Cependant, ce lexique est présenté sous format texte qui ne facilite pas l'accès, la modification et l'enrichissement du lexique.
-Donc , Nous avons conçu de développer ce site web afin de faciliter l'accès au LEFFF, sa modification et son enrichissement ainsi que la génération des formes fléchies à partir d'un Interpréteur  pour  rendre ce lexique utilisable par n'importe quelle personne qui souhaiterai l'accéder.
-Le présent rapport va décrire en détail, les différentes étapes suivies tout au long de ce projet allant de l'étude, 
-en passant par la conception et en terminant par la réalisation de l'application.
+Notre client Lionel Clement a réalisé un lexique des formes fléchis du Français "LEFFF"  contenant un grands nombre de mots de différentes catégories. Cependant, ce lexique est présenter sous format texte et il n'existe pas d'outils permettant de faciliter son accès,sa modification et son enrichissement.Le système actuel n'assure pas une bonne traçabilité des modifications des mots effectués par les linguistes et ne permet aucun contrôle de ces modifications.
+
+Pour cela , il serra donc utile de concevoir un site Web interactif qui va permettre de donner accès au lexique pour l'enrichir et l'extraire , et d'implémenter un outil qui va générer le formes fléchis .
+
 \subsection{Objectif}
+
 Avant de détailler l'objectif de notre projet, nous allons mettre
 au clair quelques notions nécessaires à la compréhension du sujet. 
-Dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).
-De plus ce lexique est un dictionnaire contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française.
-Notre but sera de trier tous ces types de mots afin de déterminer quelles sont les formes fléchies et quelles sont les mots "racines".
+D'abord dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).\\
+Ensuite,pour la génération des formes fléchis nous allons utiliser le formalisme PFM (Paradigm Function Morphology),selon cette approche , l'association d'un mot  fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot .\\
+De plus ce lexique est un “dictionnaire” contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française. 
 
+Notre but sera de trier tous ces types de mots afin de déterminer quelles sont les formes fléchies et quelles sont les mots "racines".
 
 Lionel CLEMENT qualifie ce lexique comme "une ressource complexe constituée de
 \begin{itemize}
@@ -78,14 +83,15 @@ Lionel CLEMENT qualifie ce lexique comme "une ressource complexe constituée de
 \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
 \end{itemize}
 
-L'objectif de ce projet est donc de transformer le lexique au format texte en une base de données et de développer une interface web facilitant les interactions avec ce lexique via cette base de données.
+L'objectif de ce projet est donc de transformer le lexique au format texte en une base de données et de développer une interface Web facilitant les interactions avec ce lexique via cette base de données.
 Le projet peut être donc séparé en trois parties principales : 
 \begin{itemize}
     \item L'importation du lexique au format texte dans une base de données
     \item La création de l'interface web qui interagira avec la base de données
-    \item Le développement d'un interpréteur permettant de générer les formes fléchies d'un mot donné en entrée à l'aide d'une approche appelé PFM: l'association d'un mot fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot.
+    \item Le développement d'un interpréteur permettant de générer les formes fléchies d'un mot donné en entrée .
 \end{itemize}
 \subsection{Analyse de l'existant}
+\subsubsection{Le lexique LeFFF }
 Pour ce projet, nous avons a notre  disposition différentes versions  du Lefff  dont la dernière réalisé par Benoît Sagot en 2010. Cette version regroupe diffèrent format du lefff , à savoir \cite{lefff_int} :
 \begin{itemize}
 \item le lexique \textbf{intentionnel}, qui décrit pour chaque entrée son lemme (forme canonique + tableau d'inflexion) ainsi que des informations syntaxiques profondes (cadre de sous-catégorisation profonde + réalisations possibles + restructurations possibles) .
@@ -105,17 +111,16 @@ démarquages	nc	démarquage	mp
 
 \smallbreak La première colonne comprend le mot recherché. 
 \smallbreak La seconde présente sa catégorie (\textbf{adj}(adjectif), \textbf{v}(verbe), \textbf{np}(nom propre), \textbf{nc} (nom commun).
-\smallbreak La troisième colonne présente le mot auxquels est lié le mot de la première colonne.
+\smallbreak La troisième colonne présente le mot auxquel est lié le mot de la première colonne.
 Si la première colonne et la troisième sont différentes, cela signifie que le mot de la première colonne est une forme fléchie du mot de la troisième colonne. S'il les 2 colonnes sont identiques alors c'est que ce mot est un mot que l'on sauvegardera dans la base de données avec ses attributs.
 Enfin la dernière colonne apporte des informations sur le mot comme le genre, s'il est singulier pluriel ou encore a quel personne le verbe est employé. Une explication de ces codes est disponible sur le site de Lionel CLEMENT \cite{tagset}.
 
 La différence entre le contenu des différents formats de fichier du LeFFF à notre disposition est principalement le détail par rapport au paramètre morphologique du mot.
-Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functions for periphrasis) qui permet de générer les formes fléchies d'un mot en prenant comme entrée les paramètres morphologique et le lexème (une unité minimale de sens dans une langue). Selon cette approche , l'association d'un mot fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot.
-
-
-      Le format de base des règles : \textbf{n, Xc, t -> f(X) } \\
+Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functions for periphrasis) qui permet de générer les formes fléchies d'un mot en prenant comme entrée les paramètres morphologique et le lexème (une unité minimale de sens dans une langue).
+\subsubsection{Le formalisme PFM  }
+      Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
 \begin{itemize}
-    \item n : l'ordre de priorité pour l'application des règles
+    \item n : l’ordre de priorité pour l’application des règles
     \item X : la racine du lexème.
     \item C : la classe du lexème (sa catégorie).
     \item t : règles à appliquer
@@ -131,7 +136,7 @@ PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
                  = 2(Sien, {f,p} )(\textbf{ Sienne}) \\
                  =\textbf{ Siennes }
 
-Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences.
+Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
 
 \section{Analyse des besoins}
 \subsection{Analyse des besoins fonctionnels}
@@ -147,7 +152,7 @@ Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première r
   \item \textbf{Les visiteurs} : Ils ne peuvent que rechercher, consulter les mots du lexique, signaler des erreurs sur un mot ou exporter le lexique.
   \item \textbf{Les éditeurs} : Ce type d'utilisateur peut, en plus d'avoir les mêmes droits que les visiteurs, modifier (le mot ou ses attributs) un mot du lexique. Ces actions ne peuvent être effectué qu'en étant connecté (système d'authentification) sur le site.
   \item \textbf{Éditeur Expert} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui peuvent ajouter des catégories.
-  \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, c'est eux qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
+  \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, ce sont qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
 \end{itemize}
  \subsubsection{Gestion du lexique LeFFF}
 \textbf{Importer le LeFFF dans une base de données relationnelle}
@@ -307,7 +312,14 @@ On a pas réussi à implémenter les  fonctionnalités suivantes:
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
 
-\includegraphics[width=150mm]{img/basefinal.PNG}
+
+\begin{figure}[!b]
+\centering
+\includegraphics{img/basefinal.PNG}
+\caption{Architecture: Base de donnée}
+\label{Tux}
+\end{figure}
+
 
 Notre base de données est constitue de quatre table : 
 \begin{itemize}
@@ -362,9 +374,17 @@ Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'ut
 \end{itemize}
 
 \subsection{ Architecture du Site Web }
-\subsubsection{Schéma du site} 
+\subsubsection{Architecture du site} 
 
-\includegraphics[width=150mm]{img/site.PNG}
+
+
+\begin{figure}[!b]
+\centering
+\includegraphics{img/site.PNG}
+\caption{Architecture: Site web}
+\label{Tux}
+\end{figure}
+
 
 Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-dessus,
 Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
@@ -395,7 +415,13 @@ et elle redirige aussi aux  pages qui permet d'importer ou d'exporter le lexique
 Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vous voyez dans cette interface :
 
 
-\includegraphics[width=150mm]{img/Recherche.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/Recherche.PNG}
+\caption{Interface: Rechercher mot}
+\label{Tux}
+\end{figure}
+
 
 
 
@@ -409,7 +435,12 @@ L’utilisateur (l’administrateur) peut gérer le mort en le modifiant ou le s
 L'administrateur a le droit d'ajouter des nouveaux mots  en accédant à l'interface suivante: 
 
 
-\includegraphics[width=150mm]{img/Ajoutermot.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/Ajoutermot.PNG}
+\caption{Interface: Ajouter mot}
+\label{Tux}
+\end{figure}
 
 
 Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est ajouté, l'utilisateur peut cliquer sur les boutons "Modifier" ou "Supprimer" si il a commis une erreur comme le montre la figure suivante:
@@ -423,10 +454,20 @@ Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est aj
 \end{itemize}
 L'interface suivante nous permet de modifier les mots en affichant des messages de réclamation : 
 
-\includegraphics[width=150mm]{img/ModificationMot.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/ModificationMot.PNG}
+\caption{Interface: Modifier mot}
+\label{Tux}
+\end{figure}
 
+\begin{figure}[!b]
+\centering
+\includegraphics{img/ModificationEffectuer.PNG}
+\caption{Interface: Modification Effectuer}
+\label{Tux}
+\end{figure}
 
-\includegraphics[width=150mm]{img/ModificationEffectuer.PNG}
 
 
 \begin{itemize}  
@@ -434,7 +475,13 @@ L'interface suivante nous permet de modifier les mots en affichant des messages 
 \end{itemize}
 Pour la suppression des mots, elle est possible comme il est montrer dans la figure suivante:
 
-\includegraphics[width=150mm]{img/SuppressionEffectuer.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/SuppressionEffectuer.PNG}
+\caption{Interface: Suppression Effectuer}
+\label{Tux}
+\end{figure}
+
 
 
 \begin{itemize}  
@@ -444,13 +491,28 @@ Pour la suppression des mots, elle est possible comme il est montrer dans la fig
 Notre site web, permet aussi l'ajout des catégories et des règles comme il est montré dans les figures ci-dessous: 
 
 
- \includegraphics[width=150mm]{img/AjouterCat.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/AjouterCat.PNG}
+\caption{Interface: Ajouter Catégorie}
+\label{Tux}
+\end{figure}
 
+\begin{figure}[!b]
+\centering
+\includegraphics{img/AjouterReg1.PNG}
+\caption{Interface: Ajouter Règle 1}
+\label{Tux}
+\end{figure}
 
- \includegraphics[width=150mm]{img/AjouterReg1.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/AjouterReg2.PNG}
+\caption{Interface: Ajouter Règle 2}
+\label{Tux}
+\end{figure}
  
- 
- \includegraphics[width=150mm]{img/AjouterReg2.PNG}
+
 
 
 
@@ -460,10 +522,20 @@ Notre site web, permet aussi l'ajout des catégories et des règles comme il est
 Les utilisateurs peuvent consulter la liste des règles et des catègories dans les pages correspondante comme les montres les figures ci-desous: 
 
 
- \includegraphics[width=150mm]{img/GestionCat.PNG}
+\begin{figure}[!b]
+\centering
+\includegraphics{img/GestionCat.PNG}
+\caption{Interface: Gestion des categories }
+\label{Tux}
+\end{figure}
 
+\begin{figure}[!b]
+\centering
+\includegraphics{img/GestionReg.PNG}
+\caption{Interface: Gestion des règles}
+\label{Tux}
+\end{figure}
 
- \includegraphics[width=150mm]{img/GestionReg.PNG}
 
 
 Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La consultation, la modification et la suppression.
@@ -476,10 +548,22 @@ Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La c
 \end{itemize}
 Les utilisateurs peuvent aussi exporter le lexique en extrayant tous les mots enregistrés en base de données dans l'ordre alphabétique avec leurs formes fléchies générer par l'interpréteur :
 
- \includegraphics[width=150mm]{img/ExportReussi.PNG}
+
+\begin{figure}[!b]
+\centering
+\includegraphics{img/ExportReussi.PNG}
+\caption{Interface: Exportation réussie}
+\label{Tux}
+\end{figure}
+
+\begin{figure}[!b]
+\centering
+\includegraphics{img/ExportTxt.PNG}
+\caption{Interface: Le fichier texte exporté}
+\label{Tux}
+\end{figure}
 
 
- \includegraphics[width=150mm]{img/ExportTxt.PNG}
 
 \begin{itemize}  
   \item Importer le lexique
@@ -505,21 +589,6 @@ Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable 
 
 \section{Conclusion}
 
-Notre objectif de ce projet de programmation était de concevoir et d'implémenter un site Web pour la gestion des formes fléchies.
-Ce site Web est une évolution importante qui a permis de mettre fin à la majorité des problèmes et des insuffisances de la gestion des formes fléchies sur les documents format texte. 
-
-
-Après une profonde méditation, on a fait une présentation du contexte général du projet et ses aspects. C'est-à-dire comprendre le fonctionnement de la génération des formes fléchies, les lacunes ou insuffisances du système actuel et les besoin, pour faciliter le déroulement du site Web à la deuxième étape. 
-La dernière étape consiste la mise en œuvre pour adapté un système
-adéquat avec les différents outils et langages utilisés dans le développement de notre application.
-
-Ce projet nous a permis d'enrichir nos connaissances dans le monde de développement des site Web, mettre en pratique une partie des connaissances acquises lors de notre formation universitaire et de notre auto-formation dans des domaines très variés comme :  Symphonie, Angular ...
- 
-
-En termes d'évolution, l'application « Le Clicodrome de LEFFF » pourra par la suite être finalisée et adaptée au client.
-En ajoutant les fonctionnalités qu'on a pas réussi à les implémenter faute de temps: Comme la gestion des utilisateurs.En effet, chaque utilisateur de notre système doit avoir des rôles bien spécifiques, aussi la gestion des historiques pour garder trace de chaque modification apportée au lexique.
-
-L'apport de ce travail a constitué une occasion pour nous immerger dans le monde professionnel et appréhender la réalité des métiers de développement, conception et de gestion des projets et apprendre à organiser des réunions professionnelles avec le client et l'équipe. En effet l'expérience acquise durant ces deux mois est précieuse pour nos futures carrières professionnelles.
 \section{Références}
 \bibliography{references}
 \bibliographystyle{plain}
