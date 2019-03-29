@@ -45,7 +45,6 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 
 \newpage
 \tableofcontents
-\listoffigures
 \newpage
 \listoffigures
 
@@ -120,7 +119,7 @@ Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functi
 \subsubsection{Le formalisme PFM  }
       Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
 \begin{itemize}
-    \item n : l’ordre de priorité pour l’application des règles
+    \item n : le niveau de la  règle
     \item X : la racine du lexème.
     \item C : la classe du lexème (sa catégorie).
     \item t : règles à appliquer
@@ -194,6 +193,14 @@ Avant d'ajouter le mot en base, des vérifications seront effectués afin  de v�
 \textbf{Signaler un mot}
  \textbf{Priorité : 2}
  \\ Les visiteurs simple et les éditeurs ont la possibilité de signaler des erreurs sur un mot. Ce mécanisme permet d'envoyer une notification aux administrateurs pour leur faire part d'informations sur un mot en particulier. 
+ 
+ \subsubsection{Génération des formes fléchis  Priorité : 1} 
+Pour repondre a cette fonctionnalité nous avons mis en place un interpréteur qui permet de générer les formes fléchies d'un mot.
+En effet, Le rôle de l'interpréteur est important lors de la recherche d'un mot et l'exportation du lexique.Pour la recherche du mot l'utilisateur doit données en paramètre le mot, dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée, ensuite on filtre les règles selon la correspondances avec les tags du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
+Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
+Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application.
+
+ D'aprés le formalisme PFM une règle a des niveaux, et le premier niveau de chaque règle est 0 'la détermination du radical'.Si on a deux règles  avec le même niveau, la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres . Pour l'ordre de priorité, il s'applique quand on aura des priorités dans la langue et on doit appliqué une règle avant l'autre. 
 \subsubsection{Gestion des règles }
 \textbf{ajouter une règle } \textbf{Priorité : 1} \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
 Avant d'ajouter la règle en base, des vérifications seront effectués afin  de vérifier si la règle n'existe pas déjà en base.
@@ -204,35 +211,35 @@ Avant d'ajouter la règle en base, des vérifications seront effectués afin  de
 \textbf{supprimer une règle } \textbf{Priorité : 1} \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
 
 \subsubsection{Gestion des combinaisons de tags }
-\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Les combinaisons de règle ce sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons est géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
+\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Les combinaisons de tags  sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
 Pour les ajouter, un formulaire est mis en place pour ajouter la catégorie du mot et les combinaisons. Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
-
 
 \textbf{modifier et supprimer une combinaison } \textbf{Priorité : 1} \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
 
-
-\subsubsection{Gestion des catégories de règle }
-\textbf{ajouter une catégorie } \textbf{Priorité : 2}\\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernes peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
+ 
+\subsubsection{Gestion des catégories }
+\textbf{ajouter une catégorie } \textbf{Priorité : 2}\\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernés peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
 
 \textbf{modifier et supprimer  une catégorie } \textbf{Priorité : 2}\\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
+
 \subsubsection{Contrôler les interactions }
  \textbf{Priorité : 2}
 \\ Tous les utilisateurs doivent s'authentifier pour pouvoir modifier où enrichir le LeFFF. Afin d'ajouter de la sécurité, nous avons décider de mettre constamment des message de validation pour être sur que l'utilisateur souhaite réellement effectuer une action et ne pas faire d'erreur.
 De plus un système de déconnexion automatique après une période d'inactivité (environ 10 minutes) sera mis en place en cas d'oubli de fermeture de session afin que personne ne puisse subtiliser la session.
 Enfin des logs seront implémentés afin de tracer les changements effectués en plus de l'historique.
 
+
 \subsubsection{Gestion des rôles:}
  \textbf{Priorité : 3} \\
 Pour qu'un utilisateur puisse effectuer des tâches d'ajout, de modification ou de suppression de mot, il faut qu'un administrateur lui affecte ces droits (les rôle d'éditeur ou modérateur). A cet égard, on doit créer une interface où l'administrateur puisse faire cela.
 Sur cette interface, apparaîtra la liste des comptes utilisateurs, pour chaque utilisateur se trouvera des boutons  : \textbf{Supprimer} cet utilisateur ,\textbf{ Modifier} le rôle de cet utilisateur. 
 Sur la même interface on va mettre en place un bouton pour \textbf{Valider} l'inscription d'un nouvel utilisateur.
-\begin{center}\includegraphics[width=150mm]{img/user_screen.png}\end{center}
 
 
 
 \subsubsection{Gestion de l'historique d'un mot}
  \textbf{Priorité : 3} \\
-Nous avons décidé de mettre en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression. Pour cela nous voulons implémenter de l'Event Sourcing permettant d'enregistrer tous les évènements exécutés plutôt que d'enregistrer les données modifiées en base de données.
+Nous avons décidé de mettre en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression de tous les données. 
 \subsection{Analyse des besoins non fonctionnels}
 \smallbreak
 
@@ -277,6 +284,7 @@ Nous avons fait le choix d'adopter une design très simple et épurée afin que 
 \smallbreak
 Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
+\subsection{Contraintes}
 \subsection{Contraintes}
 \subsection{Solutions proposées : les besoins réalisés}
 
@@ -330,21 +338,35 @@ Notre base de données est constitue de quatre table :
 \item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
 
 \end{itemize}
-\subsection{Génération des formes fléchis  }
-\subsubsection{Implémentation}
+\section{Architecture et description du logiciel}
+\subsection{Architecture de la base de données }
 
 
-Nous avons choisi d'implémenter l'interpréteur en PHP.
-Cet interpréteur, nous permet de générer les formes fléchies d'un mot.
-En effet, Le rôle de l'interpréteur est important lors de la recherche d'un mot et l'exportation du lexique.
-Pour la recherche du mot l'utilisateur doit données en paramètre le mot, 
-dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée, ensuite on filtre les règles selon la correspondances avec les tags du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
-Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
-Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application.
+\begin{figure}[!h]
+\centering
+\includegraphics{img/basefinal.PNG}
+\caption{Architecture: Base de donnée}
+\label{Tux}
+\end{figure}
 
- Pour une règle donnée, elle a des niveaux, et le premier niveau de chaque règle est 0 'la détermination du radical'.
-Si on a deux règles  avec le même niveau, la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres .
- Pour l'ordre de priorité, il s'applique quand on aura des priorités dans la langue et on doit appliqué une règle avant l'autre. 
+
+
+
+
+
+
+
+
+
+
+Notre base de données est constitue de quatre table : 
+\begin{itemize}
+\item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
+\item \textbf{Word} : la table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
+\item \textbf{Tag-Association} :cette table contient des combinaisons de tags, ce sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs pour avoir des combinaison correcte et qui marchent avec une catégorie renseignée par la clé étrangère CategoryId  et un tag du mot par exemple le groupe pour les verbes en français .
+\item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
+
+\end{itemize}
 
 \subsection{Outils de développement}
 
@@ -364,14 +386,13 @@ Nous avons choisi de développer le site Web et l'interpréteur en PHP car c'est
 \textbf{Base de données : MySQL:}
 
 
-Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et sa bonne compatibilité avec le framework Symfony utilisé pour le site web. 
+Pour la base de données, le choix s'est porté sur MySQL car c'est le client qui nous a proposé de l'utiliser et également pour sa facilité d'utilisation et sa bonne compatibilité avec le framework Symfony utilisé pour le site web.
 
 
 \textbf{Ces choix des outils ont des avantages énormes coté client:}
 
 \begin{itemize}  
   \item solution client léger : Rien d'autre qu'un navigateur pour faire fonctionner l'application sur le poste de l'utilisateur.
-  \item MySQL est très rapide : Puisque notre base de données contient un lexique très lourd l'accès aux données à l'aide de MySQl devient un peu plus rapide.
 \end{itemize}
 
 \subsection{ Architecture du Site Web }
@@ -379,7 +400,7 @@ Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'ut
 
 
 
-\begin{figure}[!b]
+\begin{figure}[!p]
 \centering
 \includegraphics{img/site.PNG}
 \caption{Architecture: Site web}
@@ -413,15 +434,9 @@ et elle redirige aussi aux  pages qui permet d'importer ou d'exporter le lexique
 \begin{itemize}  
   \item Rechercher Mot
 \end{itemize}
-Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vous voyez dans cette interface :
+Les utilisateurs peuvent consulter la liste des formes fléchies du mot présenté dans la figure suivante:
 
 
-\begin{figure}[!b]
-\centering
-\includegraphics{img/Recherche.PNG}
-\caption{Interface: Rechercher mot}
-\label{Tux}
-\end{figure}
 
 
 
@@ -436,18 +451,10 @@ L’utilisateur (l’administrateur) peut gérer le mort en le modifiant ou le s
 L'administrateur a le droit d'ajouter des nouveaux mots  en accédant à l'interface suivante: 
 
 
-\begin{figure}[!b]
-\centering
-\includegraphics{img/Ajoutermot.PNG}
-\caption{Interface: Ajouter mot}
-\label{Tux}
-\end{figure}
 
 
 Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est ajouté, l'utilisateur peut cliquer sur les boutons "Modifier" ou "Supprimer" si il a commis une erreur comme le montre la figure suivante:
 
-
-\includegraphics[width=150mm]{img/AjoutEffectuer.PNG}
 
 
 \begin{itemize}  
@@ -455,87 +462,27 @@ Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est aj
 \end{itemize}
 L'interface suivante nous permet de modifier les mots en affichant des messages de réclamation : 
 
-\begin{figure}[!b]
-\centering
-\includegraphics{img/ModificationMot.PNG}
-\caption{Interface: Modifier mot}
-\label{Tux}
-\end{figure}
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/ModificationEffectuer.PNG}
-\caption{Interface: Modification Effectuer}
-\label{Tux}
-\end{figure}
-
-
 
 \begin{itemize}  
   \item Supprimer Mot
 \end{itemize}
 Pour la suppression des mots, elle est possible comme il est montrer dans la figure suivante:
 
-\begin{figure}[!b]
-\centering
-\includegraphics{img/SuppressionEffectuer.PNG}
-\caption{Interface: Suppression Effectuer}
-\label{Tux}
-\end{figure}
-
-
 
 \begin{itemize}  
-  \item Ajouter Catégorie / Ajouter Régle 
+  \item Ajouter Catégorie / Ajouter Règle 
 \end{itemize}
 
 Notre site web, permet aussi l'ajout des catégories et des règles comme il est montré dans les figures ci-dessous: 
 
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/AjouterCat.PNG}
-\caption{Interface: Ajouter Catégorie}
-\label{Tux}
-\end{figure}
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/AjouterReg1.PNG}
-\caption{Interface: Ajouter Règle 1}
-\label{Tux}
-\end{figure}
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/AjouterReg2.PNG}
-\caption{Interface: Ajouter Règle 2}
-\label{Tux}
-\end{figure}
  
-
-
 
 
 \begin{itemize}  
   \item Listes des Catégories et des règles:
 \end{itemize}
-Les utilisateurs peuvent consulter la liste des règles et des catègories dans les pages correspondante comme les montres les figures ci-desous: 
+Les utilisateurs peuvent consulter la liste des règles et des catégories dans les pages correspondante comme les montres les figures ci-desous: 
 
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/GestionCat.PNG}
-\caption{Interface: Gestion des categories }
-\label{Tux}
-\end{figure}
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/GestionReg.PNG}
-\caption{Interface: Gestion des règles}
-\label{Tux}
-\end{figure}
 
 
 
@@ -550,19 +497,6 @@ Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La c
 Les utilisateurs peuvent aussi exporter le lexique en extrayant tous les mots enregistrés en base de données dans l'ordre alphabétique avec leurs formes fléchies générer par l'interpréteur :
 
 
-\begin{figure}[!b]
-\centering
-\includegraphics{img/ExportReussi.PNG}
-\caption{Interface: Exportation réussie}
-\label{Tux}
-\end{figure}
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/ExportTxt.PNG}
-\caption{Interface: Le fichier texte exporté}
-\label{Tux}
-\end{figure}
 
 
 
