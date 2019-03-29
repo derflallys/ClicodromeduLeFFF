@@ -189,22 +189,23 @@ Avant d'ajouter le mot en base, des vérifications seront effectués afin  de v�
 
 \textbf{Modifier un mot}
  \textbf{Priorité : 2} \\ 
- La fonction de modification d'un mot ressemble à celle d'ajout (voir partie Ajouter un mot). Elle est accessible a tous les utilisateurs connectés. En effet le formulaire sera le même mais pré rempli avec les informations existante du mot. Il suffit à  l'utilisateur d'effectuer les modification qu'il souhaite et de les valider pour que les changements soient persisté en base de données.
+ La fonction de modification d'un mot ressemble à celle d'ajout (voir partie Ajouter un mot). Elle est accessible a tous les utilisateurs connectés. En effet le formulaire sera le même mais pré rempli avec les informations existante du mot. Il suffit à  l'utilisateur d'effectuer les modification qu'il souhaite et de les valider pour que les changements soient enregistrés dans la base de données.
 
 \textbf{Signaler un mot}
  \textbf{Priorité : 2}
  \\ Les visiteurs simple et les éditeurs ont la possibilité de signaler des erreurs sur un mot. Ce mécanisme permet d'envoyer une notification aux administrateurs pour leur faire part d'informations sur un mot en particulier. 
 \subsubsection{Gestion des règles }
-\textbf{ajouter une règle } \textbf{Priorité : 1} \\ Nous avons mis en place un formulaire pour les utilisateurs ayant le droit de gérer les règles où il est demandé d'ajouter la catégorie , le niveau d'application de la règle (l'ordre de priorité),les tags liés aux mot et les tags d'application de la règle , on demande aussi a l'utilisateur s'il veut ajouter le radical du mot sur le quel on va appliquer la règle et enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
-Avant d'ajouter le mot en base, des vérifications seront effectués afin  de vérifier si le mot n'existe pas déjà en base.
+\textbf{ajouter une règle } \textbf{Priorité : 1} \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
+Avant d'ajouter la règle en base, des vérifications seront effectués afin  de vérifier si la règle n'existe pas déjà en base.
 
-\textbf{modifier une règle } \textbf{Priorité : 1} \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . l'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise a jour  en base de données.
+\textbf{modifier une règle } \textbf{Priorité : 1} \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . L'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise à jour  en base de données.
 
 
-\textbf{supprimer une règle } \textbf{Priorité : 1} \\ Pour la suppression et la modification nous avons mis en place une liste des règles . Il suffit de rechercher la règle et d'appuyer sur le bouton supprimer , la règle  sera alors supprimé de la base de données.
+\textbf{supprimer une règle } \textbf{Priorité : 1} \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
 
-\subsubsection{Gestion des combinaisons de règle }
-\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Nous avons proposé un formulaire où il est demandé d'ajouter la catégorie du mot et les combinaisons .Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
+\subsubsection{Gestion des combinaisons de tags }
+\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Les combinaisons de règle ce sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons est géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
+Pour les ajouter, un formulaire est mis en place pour ajouter la catégorie du mot et les combinaisons. Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
 
 
 \textbf{modifier et supprimer une combinaison } \textbf{Priorité : 1} \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
@@ -283,7 +284,6 @@ Après l'analyse des problèmes du système actuel, nous avons proposé la réal
 qui permettra d'améliorer le processus de travail et de gagner plus de temps en assurant :
 
 \begin{itemize}
-\item \textbf{La protection des données } : A l'aide d'une page d'authentification.
 \item \textbf{Importations des fichiers} : Intégration à partir d'une interface graphique, le lexique qui existent dans l'archive du format texte.
 \item \textbf{Exportations des fichiers} : Pour avoir une versions de lexique sous format texte.
 \item \textbf{Recherche} : Pour avoir une versions de lexique sous format texte.
@@ -305,6 +305,7 @@ qui permettra d'améliorer le processus de travail et de gagner plus de temps en
 On a pas réussi à implémenter les  fonctionnalités suivantes:
 
 \begin{itemize}
+\item \textbf{La protection des données } : A l'aide d'une page d'authentification.
 \item \textbf{La gestions des rôles }
 \item \textbf{Le signalement d'un mot}
 \item \textbf{La gestion de l'historique}
