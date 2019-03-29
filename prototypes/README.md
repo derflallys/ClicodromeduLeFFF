@@ -1,16 +1,15 @@
- 
-Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
-Cette opération permet d'alléger considérablement le volume de données à enregistrer. (passage d'environ 500 000 entrées à 110 000 entrées environ.)
+# Prototype de génération de formes fléchies
+**Attention ces fichiers sont des prototypes, ils fonctionnent toujours mais le fichier SQL généré ne correspond plus à l'architecture actuelle de la base de données et provoquera donc une erreur.**
+Dans le dossier `Prototype/`, vous trouverez un premier prototype permettant de générer des fomres fléchies d'un mot.
+Nous n'avons pas donné suite à ce prototype car les règles étant écrites directement dans le code source, ne permettaient pas une généricité de notre code.
 
-Dans le dossier [compiler/](compiler/), vous trouverez à votre disposition 2 scripts permettant de faire le filtrage du LeFFF qui leurs est passé en paramètre.
-Pour plus de détails sur le fonctionnement des scripts, vous pouvez consulter [le manuel d'utilisation des scripts](compiler/README.md).  
-Les 2 scripts génèrent un fichier `resultat.sql` permettant de remplir la base.  
-Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les systèmes UNIX, vous pouvez exécuter la commande :  
+# Prototypes d'import de lexique
+**Attention ces fichiers sont des prototypes, ils fonctionnent toujours mais le fichier SQL généré ne correspond plus à l'architecture actuelle de la base de données et provoquera donc une erreur.**
 
-    $ mysql -u <username> -p --database=<database_name> < /path/to/compiler/result.sql
-    
-# Parseur LeFFF - TXT
-Le script "parser_txt.php" est un script permettant de récupérer seulement les mots que l'on souhaite enregistrer en base de données dans un fichier. 
+Ce dossier contient 2 prototypes (`parser_txt.php` et `parser_mlex.php`) permettant de parser des lexique passé en paramètre afin de créer un fichier SQL à importer dans la base de données.
+
+## Parseur LeFFF - TXT
+Le script `parser_txt.php` est un script permettant de récupérer seulement les mots que l'on souhaite enregistrer en base de données dans un fichier. 
 Il permet donc de filtrer afin d'évincer toutes les formes fléchies présentes.
 
 Ce script fonctionne pour un format particulier de données, voici le manuel d'utilisation du script : 
@@ -44,13 +43,13 @@ Exemples:
         abaissables             adj     [pred='abaissable_____1<suj:(sn),obl:(de-sn|de-sinf|de-scompl|à-sn|à-sinf|à-scompl)>',cat=adj,@p]
 ```
 
-Le LeFFF est disponible à  ce format à l'adresse suivante : [http://www.labri.fr/perso/clement/lefff/telechargement.html](http://www.labri.fr/perso/clement/lefff/telechargement.html).
+Le LeFFF est disponible à ce format à l'adresse suivante : [http://www.labri.fr/perso/clement/lefff/telechargement.html](http://www.labri.fr/perso/clement/lefff/telechargement.html).
 
-# Parseur LeFFF - MLEX
+## Parseur LeFFF - MLEX
 
-Le script "parser_mlex.php" est fonctionne de la même manière que script "parser_txt.php". 
+Le script `parser_mlex.php` est fonctionne de la même manière que script "parser_txt.php". 
 La différence est qu'il prend entrée le LeFFF au format .mlex. Ce format ne comprend que les formes morphologique des mots. 
-Il y a donc moins d'informations a traiter dans ce format.
+Il y a donc moins d'informations a traiter.
 
 Les données sont formatées différemment. Voici donc le manuel d'utilisation du script.
 ```
@@ -81,11 +80,13 @@ Exemples:
 
 Le LeFFF est disponible au format MLEX à l'adresse suivante : [https://gforge.inria.fr/frs/download.php/file/34601/lefff-3.4.mlex.tgz](https://gforge.inria.fr/frs/download.php/file/34601/lefff-3.4.mlex.tgz).
 
-## Résultat
+## Résultat (NE FONCTIONNE PLUS AVEC L'ARCHITECTURE ACTUELLE)
 
 Ces scripts permettent d'obtenir un fichier "resultat.sql" à executer sur la base de données.
-Ce fichier contient un grand nombre de requête, son execution peut donc prendre quelques minutes.
+Ce fichier contient un grand nombre de requêtes, son execution peut donc prendre quelques minutes.
+Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les systèmes UNIX, vous pouvez exécuter la commande :  
 
+    $ mysql -u <username> -p --database=<database_name> < /path/to/compiler/result.sql
 
 ## Avertissement
 

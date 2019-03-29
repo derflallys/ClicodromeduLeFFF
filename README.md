@@ -74,6 +74,7 @@ Les fonctionnalités présentes dans notre application sont :
 - Export du lexique de la base de données (Seulement des mots / catégories)
 - Import du lexique dans plusieurs format (Seulement des mots / catégories)
 - Génération de formes fléchies à partir des données de la base
+- Tests unitaires (front-end et back-end)
 
 **Amélioration possibles :**
 - Gestion d'utilisateurs et de rôle + Restreindre les accès à certaines fonctionnalités selon les utilisateurs
