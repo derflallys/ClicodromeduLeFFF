@@ -46,7 +46,7 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 \newpage
 \tableofcontents
 
-\newpage\section{Contexte général du projet}
+\newpage\section{Introduction}
 \subsection{Contexte}
 
 \smallbreak 
@@ -134,13 +134,14 @@ PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
                  =\textbf{ Siennes }
 
 Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
+
 \section{Analyse des besoins}
 \subsection{Analyse des besoins fonctionnels}
 \smallbreak Lors de nos communication avec le client, nous avons pu identifié ses principaux besoins pour le projet. En effet, le projet se découpe en trois partie principales : 
 \begin{itemize}  
   \item Une application web permettant aux utilisateurs d'interagir facilement avec le lexique
   \item une base de données contenant les différents mot du lexique (les formes fléchies des mots sont exclus de la base) et leurs attributs.
-  \item Un compilateur permettant, pour un mot donné, de générer ses formes fléchies.
+  \item Un interpréteur PFM permettant, pour un mot donné, de générer ses formes fléchies.
 \end{itemize}
 
 \smallbreak Pour apporter un contrôle des interactions des utilisateurs depuis le site web, un système de rôle sur le site sera mis en place. Avant de présenter la liste des besoins fonctionnels identifiés, voici une présentation de ces différents rôles, qui vous aidera a mieux comprendre ces besoins : 
@@ -148,7 +149,7 @@ Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première r
   \item \textbf{Les visiteurs} : Ils ne peuvent que rechercher, consulter les mots du lexique, signaler des erreurs sur un mot ou exporter le lexique.
   \item \textbf{Les éditeurs} : Ce type d'utilisateur peut, en plus d'avoir les mêmes droits que les visiteurs, modifier (le mot ou ses attributs) un mot du lexique. Ces actions ne peuvent être effectué qu'en étant connecté (système d'authentification) sur le site.
   \item \textbf{Éditeur Expert} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui peuvent ajouter des catégories.
-  \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, c'est eux qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
+  \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, ce sont qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
 \end{itemize}
  \subsubsection{Gestion du lexique LeFFF}
 \textbf{Importer le LeFFF dans une base de données relationnelle}
@@ -242,7 +243,7 @@ Afin de protéger l'intégrité des données du LeFFF dans la base de données, 
     \item \textbf{Le Cross-Site Scripting (XSS)} : Cette faille permet d'injecter du code malicieux sur une page web. Par exemple sur un forum, si quelqu'un entre en commentaire un code Javascript nuisible, tous les autres utilisateurs qui accéderont à cette page seront impacté par ce code qui s'exécutera sur leur navigateur. \\
     \textbf{Notre solution :}Pour remédier à cela, le framework Symfony possède aussi un système (filtrage des données d'entrées, échappement des données en sortie...) protégeant de ce genre d'attaque afin de filtrer tous ce qui pourrait ressembler à du code. C'est un procédé assez similaire à celui de la protection contre les injections SQL.
     
-    \item \textbf{La falsification de requête inter-sites (CSRF)} : Cette faille permet à un attaquant de forcer ses victimes à effectuer certaines actions sur un site cible, sans qu’elles s’en aperçoivent. Pour cela, les attaquants cherche à ce que leur victime visite une page (en étant connecté) où des scripts malicieux seront exécutes sans que la victime s'en aperçoive à l'aide de balise image chargeant le script par exemple. La victime étant authentifié sur le site, les scripts pourront s'exécuter correctement et corrompre les données du site. \\
+    \item \textbf{La falsification de requête inter-sites (CSRF)} : Cette faille permet à un attaquant de forcer ses victimes à effectuer certaines actions sur un site cible, sans qu'elles s'en aperçoivent. Pour cela, les attaquants cherche à ce que leur victime visite une page (en étant connecté) où des scripts malicieux seront exécutes sans que la victime s'en aperçoive à l'aide de balise image chargeant le script par exemple. La victime étant authentifié sur le site, les scripts pourront s'exécuter correctement et corrompre les données du site. \\
     \textbf{Notre solution :} Voici la dernière faille de sécurité à laquelle Symfony nous protège. En effet le framework fait cela en générèrant des jetons ("tokens") au moment de l'authentification, différents pour chaque utilisateur et qui sont stockés dans la session. Ce jeton est ensuite vérifié a chaque action avec la base afin de vérifier que c'est bien une action voulue par l'utilisateur et non une attaque CSRF. 
     
     \item \textbf{Le déchiffrement de données} qui consiste à déchiffrer des données crypté. Cela peut permettre de trouver des mot de passe et donc prendre le contrôle d'une session utilisateur ou bien de découvrir des informations sensibles (informations bancaire, personnelles...) \\
@@ -290,6 +291,7 @@ qui permettra d'améliorer le processus de travail et de gagner plus de temps en
 
 
 - La modification et la suppression des mots, des règle, des combinaisons et des catégories.
+\item \textbf{Intégration d'un interpréteur PFM } : qui permet de générer les formes fléchie lors de la recherche des morts et l'exportation du lexique.
 \item \textbf{Possibilité du filtrage} : lors de la recherche dans les listes.
 \item \textbf{Possibilité de la modification et suppression dans les listes.}
 \end{itemize}
@@ -324,10 +326,14 @@ Notre base de données est constitue de quatre table :
 Nous avons choisi d'implémenter l'interpréteur en PHP.
 Cet interpréteur, nous permet de générer les formes fléchies d'un mot.
 En effet, Le rôle de l'interpréteur est important lors de la recherche d'un mot et l'exportation du lexique.
-Pour la recherche du mot l'utilisateur doit données en paramétre le mot, 
+Pour la recherche du mot l'utilisateur doit données en paramètre le mot, 
 dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée, ensuite on filtre les règles selon la correspondances avec les tags du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
 Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
-Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application , si le niveau est le même , la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres .
+Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application.
+
+ Pour une règle donnée, elle a des niveaux, et le premier niveau de chaque règle est 0 'la détermination du radical'.
+Si on a deux règles  avec le même niveau, la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres .
+ Pour l'ordre de priorité, il s'applique quand on aura des priorités dans la langue et on doit appliqué une règle avant l'autre. 
 
 \subsection{Outils de développement}
 
@@ -338,7 +344,7 @@ Ce projet est divisé en 3 parties :
   \item la base de données
 \end{itemize}
 
-\textbf{Application web et L'intérpreteur : PHP avec le framework Symfony 4:}
+\textbf{Application web et L'interpréteur : PHP avec le framework Symfony 4:}
 
 Nous avons choisi de développer le site Web et l'interpréteur en PHP car c'est un langage simple d'utilisation et que ce framework apporte beaucoup d'avantages en termes de sécurité (comme énoncé précédemment dans la partie 2.2.1) et de développement (configuration simple et rapide ect...) ainsi, qu'il offre des 
 
@@ -501,21 +507,7 @@ Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable 
 
 \section{Conclusion}
 
-Notre objectif de ce projet de programmation était de concevoir et d'implémenter un site Web pour la gestion des formes fléchies.
-Ce site Web est une évolution importante qui a permis de mettre fin à la majorité des problèmes et des insuffisances de la gestion des formes fléchies sur les documents format texte. 
 
-
-Après une profonde méditation, on a fait une présentation du contexte général du projet et ses aspects. C'est-à-dire comprendre le fonctionnement de la génération des formes fléchies, les lacunes ou insuffisances du système actuel et les besoin, pour faciliter le déroulement du site Web à la deuxième étape. 
-La dernière étape consiste la mise en œuvre pour adapté un système
-adéquat avec les différents outils et langages utilisés dans le développement de notre application.
-
-Ce projet nous a permis d'enrichir nos connaissances dans le monde de développement des site Web, mettre en pratique une partie des connaissances acquises lors de notre formation universitaire et de notre auto-formation dans des domaines très variés comme :  Symphonie, Angular ...
- 
-
-En termes d'évolution, l'application « Le Clicodrome de LEFFF » pourra par la suite être finalisée et adaptée au client.
-En ajoutant les fonctionnalités qu'on a pas réussi à les implémenter faute de temps: Comme la gestion des utilisateurs.En effet, chaque utilisateur de notre système doit avoir des rôles bien spécifiques, aussi la gestion des historiques pour garder trace de chaque modification apportée au lexique.
-
-L'apport de ce travail a constitué une occasion pour nous immerger dans le monde professionnel et appréhender la réalité des métiers de développement, conception et de gestion des projets et apprendre à organiser des réunions professionnelles avec le client et l'équipe. En effet l'expérience acquise durant ces deux mois est précieuse pour nos futures carrières professionnelles.
 \section{Références}
 \bibliography{references}
 \bibliographystyle{plain}
