@@ -282,7 +282,6 @@ Nous avons fait le choix d'adopter une design très simple et épurée afin que 
 Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
 \subsection{Contraintes}
-\subsection{Contraintes}
 \subsection{Solutions proposées : les besoins réalisés}
 
 Après l'analyse des problèmes du système actuel, nous avons proposé la réalisation d'un site Web  adaptée aux besoins 
@@ -315,38 +314,18 @@ On a pas réussi à implémenter les  fonctionnalités suivantes:
 \item \textbf{Le signalement d'un mot}
 \item \textbf{La gestion de l'historique}
 \end{itemize}
+
+
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
 
 
-\begin{figure}[!b]
-\centering
+
 \includegraphics{img/basefinal.PNG}
-\caption{Architecture: Base de donnée}
-\label{Tux}
-\end{figure}
 
 
-Notre base de données est constitue de quatre table : 
-\begin{itemize}
-\item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
-\item \textbf{Word} : la table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
-\item \textbf{Tag-Association} :cette table contient des combinaisons de règles qui marche avec une catégorie renseignée par la clé étrangère CategoryId  et un tag du mot par exemple le groupe pour les verbes en français .
-\item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
 
-\end{itemize}
-\section{Architecture et description du logiciel}
-\subsection{Architecture de la base de données }
-
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/basefinal.PNG}
-\caption{Architecture: Base de donnée}
-\label{Tux}
-\end{figure}
-
-
+\newpage
 Notre base de données est constitue de quatre table : 
 \begin{itemize}
 \item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
@@ -898,7 +877,6 @@ Nous avons fait le choix d'adopter une design très simple et épurée afin que 
 Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
 \subsection{Contraintes}
-\subsection{Contraintes}
 \subsection{Solutions proposées : les besoins réalisés}
 
 Après l'analyse des problèmes du système actuel, nous avons proposé la réalisation d'un site Web  adaptée aux besoins 
@@ -931,36 +909,11 @@ On a pas réussi à implémenter les  fonctionnalités suivantes:
 \item \textbf{Le signalement d'un mot}
 \item \textbf{La gestion de l'historique}
 \end{itemize}
+
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
 
-
-\begin{figure}[!b]
-\centering
 \includegraphics{img/basefinal.PNG}
-\caption{Architecture: Base de donnée}
-\label{Tux}
-\end{figure}
-
-
-Notre base de données est constitue de quatre table : 
-\begin{itemize}
-\item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
-\item \textbf{Word} : la table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
-\item \textbf{Tag-Association} :cette table contient des combinaisons de règles qui marche avec une catégorie renseignée par la clé étrangère CategoryId  et un tag du mot par exemple le groupe pour les verbes en français .
-\item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
-
-\end{itemize}
-\section{Architecture et description du logiciel}
-\subsection{Architecture de la base de données }
-
-
-\begin{figure}[!b]
-\centering
-\includegraphics{img/basefinal.PNG}
-\caption{Architecture: Base de donnée}
-\label{Tux}
-\end{figure}
 
 
 Notre base de données est constitue de quatre table : 
