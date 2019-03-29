@@ -47,20 +47,22 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 \tableofcontents
 
 \newpage\section{Contexte général du projet}
-\subsection{Résumé}
+\subsection{Contexte}
 
-\smallbreak Dans ce rapport, nous avons présenté minutieusement notre étude, la conception et le développement d'un site web / Interpréteur :
-    \textbf{" Le Clicodrome de LEFFF "}
+\smallbreak 
 
-Pour déterminer les formes fléchies d'un mot en français, notre client Lionel CLEMENT à donc créer un lexique "LEFFF"  contenant un grands nombre de mots de différentes catégories. Cependant, ce lexique est présenter sous format texte qui ne facilite pas l'accès, la modification et l'enrichissement du lexique.
-Donc , Nous avons conçu de développer ce site web afin de faciliter l'accès au LEFFF, sa modification et son enrichissement ainsi que la génération des formes fléchies à partir d'un Interpréteur  pour  rendre ce lexique utilisable par n'importe quelle personne qui souhaiterai l'accéder.
-Le présent rapport va décrire en détail, les différentes étapes suivies tout au long de ce projet allant de l'étude, 
-en passant par la conception et en terminant par la réalisation de l'application.
+Notre client Lionel Clement a réalisé un lexique des formes fléchis du Français "LEFFF"  contenant un grands nombre de mots de différentes catégories. Cependant, ce lexique est présenter sous format texte et il n'existe pas d'outils permettant de faciliter son accès,sa modification et son enrichissement.Le système actuel n'assure pas une bonne traçabilité des modifications des mots effectués par les linguistes et ne permet aucun contrôle de ces modifications.
+
+Pour cela , il serra donc utile de concevoir un site Web interactif qui va permettre de donner accès au lexique pour l'enrichir et l'extraire , et d'implémenter un outil qui va générer le formes fléchis .
+
 \subsection{Objectif}
-Avant de détailler l’objectif de notre projet, nous allons mettre
+
+Avant de détailler l'objectif de notre projet, nous allons mettre
 au clair quelques notions nécessaires à la compréhension du sujet. 
-Il faut savoir que dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).
-De plus ce lexique est un “dictionnaire” contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française.
+D'abord dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).\\
+Ensuite,pour la génération des formes fléchis nous allons utiliser le formalisme PFM (Paradigm Function Morphology),selon cette approche , l'association d'un mot  fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot .\\
+De plus ce lexique est un “dictionnaire” contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française. 
+
 Notre but sera de trier tous ces types de mots afin de déterminer quelles sont les formes fléchies et quelles sont les mots "racines".
 
 Lionel CLEMENT qualifie ce lexique comme "une ressource complexe constituée de
@@ -78,14 +80,15 @@ Lionel CLEMENT qualifie ce lexique comme "une ressource complexe constituée de
 \item Fonctions lexicales (ie Magn: "Prendre une belle initiative")
 \end{itemize}
 
-L'objectif de ce projet est donc de transformer le lexique au format texte en une base de données et de développer une interface web facilitant les interactions avec ce lexique via cette base de données.
+L'objectif de ce projet est donc de transformer le lexique au format texte en une base de données et de développer une interface Web facilitant les interactions avec ce lexique via cette base de données.
 Le projet peut être donc séparé en trois parties principales : 
 \begin{itemize}
     \item L'importation du lexique au format texte dans une base de données
     \item La création de l'interface web qui interagira avec la base de données
-    \item Le développement d'un compilateur permettant de générer les formes fléchies d"un mot donné en entrée
+    \item Le développement d'un interpréteur permettant de générer les formes fléchies d'un mot donné en entrée .
 \end{itemize}
 \subsection{Analyse de l'existant}
+\subsubsection{Le lexique LeFFF }
 Pour ce projet, nous avons a notre  disposition différentes versions  du Lefff  dont la dernière réalisé par Benoît Sagot en 2010. Cette version regroupe diffèrent format du lefff , à savoir \cite{lefff_int} :
 \begin{itemize}
 \item le lexique \textbf{intentionnel}, qui décrit pour chaque entrée son lemme (forme canonique + tableau d'inflexion) ainsi que des informations syntaxiques profondes (cadre de sous-catégorisation profonde + réalisations possibles + restructurations possibles) .
@@ -111,6 +114,26 @@ Enfin la dernière colonne apporte des informations sur le mot comme le genre, s
 
 La différence entre le contenu des différents formats de fichier du LeFFF à notre disposition est principalement le détail par rapport au paramètre morphologique du mot.
 Lionel CLEMENT nous a aussi parlé d'une implémentation de PFM (Paradigm functions for periphrasis) qui permet de générer les formes fléchies d'un mot en prenant comme entrée les paramètres morphologique et le lexème (une unité minimale de sens dans une langue).
+\subsubsection{Le formalisme PFM  }
+      Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
+\begin{itemize}
+    \item n : l’ordre de priorité pour l’application des règles
+    \item X : la racine du lexème.
+    \item C : la classe du lexème (sa catégorie).
+    \item t : règles à appliquer
+    \item f(X) : la forme flexionnelle
+\end{itemize}
+
+Exemple de règles pour les adjectifs : \\
+\textbf{1, racine,{f} -> racine + "ne"} \\
+\textbf{2, racine, {p}-> racine + "s"}
+
+Exemple d'application : \\
+PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
+                 = 2(Sien, {f,p} )(\textbf{ Sienne}) \\
+                 =\textbf{ Siennes }
+
+Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
 \section{Analyse des besoins}
 \subsection{Analyse des besoins fonctionnels}
 \smallbreak Lors de nos communication avec le client, nous avons pu identifié ses principaux besoins pour le projet. En effet, le projet se découpe en trois partie principales : 
@@ -295,30 +318,6 @@ Notre base de données est constitue de quatre table :
 
 \end{itemize}
 \subsection{Génération des formes fléchis  }
-\subsubsection{Présentation du PFM }
-L'interpréteur  nous permet de générer les formes fléchies d'un mot donné en entrée. 
-Notre client nous a proposé PFM ( paradigm function morphology), selon cette approche , l'association d'un mot fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot.
-
-
-      Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
-\begin{itemize}
-    \item n : l’ordre de priorité pour l’application des règles
-    \item X : la racine du lexème.
-    \item C : la classe du lexème (sa catégorie).
-    \item t : règles à appliquer
-    \item f(X) : la forme flexionnelle
-\end{itemize}
-
-Exemple de règles pour les adjectifs : \\
-\textbf{1, racine,{f} -> racine + "ne"} \\
-\textbf{2, racine, {p}-> racine + "s"}
-
-Exemple d'application : \\
-PF(Sien, {f,p} ) = 2 o 1(Sien, {f,p} )(\textbf{ epsilon}) \\
-                 = 2(Sien, {f,p} )(\textbf{ Sienne}) \\
-                 =\textbf{ Siennes }
-
-Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première règle à appliquer c'est d'ajouter le "ne" du féminin puis ajouter le "s" du pluriel en appliquant la deuxième règle ce qui nous assure l'ordre de priorité d'application des règles pour ne pas avoir des incohérences .
 \subsubsection{Implémentation}
 
 
