@@ -134,7 +134,7 @@ class WordController extends AbstractController {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($word);
                     $em->flush();
-                    $response->setStatusCode(Response::HTTP_OK);
+                    $response->setStatusCode(Response::HTTP_CREATED);
                     $response->headers->set('Content-Type', 'application/json');
                     $response->setContent(json_encode($word->toJSON(), JSON_UNESCAPED_UNICODE));
                 }
