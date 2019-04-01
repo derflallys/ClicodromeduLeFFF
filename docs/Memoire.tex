@@ -125,13 +125,13 @@ démarquages	nc	démarquage	mp
 
 \smallbreak La première colonne comprend le mot recherché. 
 \smallbreak La seconde présente sa catégorie (\textbf{adj}(adjectif), \textbf{v}(verbe), \textbf{np}(nom propre), \textbf{nc} (nom commun).
-\smallbreak La troisième colonne présente le mot auxquel est lié le mot de la première colonne.
+\smallbreak La troisième colonne présente le mot auquel est lié le mot de la première colonne.
 Si la première colonne et la troisième sont différentes, cela signifie que le mot de la première colonne est une forme fléchie du mot de la troisième colonne. S'il les 2 colonnes sont identiques alors c'est que ce mot est un mot que l'on sauvegardera dans la base de données avec ses attributs.
 Enfin la dernière colonne apporte des informations sur le mot comme le genre, s'il est singulier pluriel ou encore a quel personne le verbe est employé. Une explication de ces codes est disponible sur le site de Lionel CLEMENT \cite{tagset}.
 
 La différence entre le contenu des différents formats de fichier du LeFFF à notre disposition est principalement le détail par rapport au paramètre morphologique du mot.
 \subsubsection{Le formalisme PFM  }
-      Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
+      Le format de base des règles : \textbf{n, Xc, t -> f(X) } \\
 \begin{itemize}
     \item n : l’ordre de priorité pour l’application des règles
     \item X : la racine du lexème.
@@ -215,25 +215,32 @@ Pour l'application des règles on vérifie au début si la règle possède une c
 
  D'aprés le formalisme PFM une règle a des niveaux, et le premier niveau de chaque règle est 0 'la détermination du radical'.Si on a deux règles  avec le même niveau, la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres . Pour l'ordre de priorité, il s'applique quand on aura des priorités dans la langue et on doit appliqué une règle avant l'autre. 
 \subsubsection{Gestion des règles }
-\textbf{ajouter une règle } \textbf{Priorité : 1} \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
+ \textbf{Priorité :  1} 
+ 
+ 
+\textbf{ajouter une règle }  \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
 Avant d'ajouter la règle en base, des vérifications seront effectués afin  de vérifier si la règle n'existe pas déjà en base.
 
-\textbf{modifier une règle } \textbf{Priorité : 1} \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . L'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise à jour  en base de données.
+\textbf{modifier une règle } \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . L'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise à jour  en base de données.
 
 
-\textbf{supprimer une règle } \textbf{Priorité : 1} \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
+\textbf{supprimer une règle }  \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
 
 \subsubsection{Gestion des combinaisons de tags }
-\textbf{ajouter une combinaison } \textbf{Priorité : 1} \\ Les combinaisons de tags  sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
+ \textbf{Priorité : 1 } 
+ 
+ 
+\textbf{ajouter une combinaison } \\ Les combinaisons de tags  sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
 Pour les ajouter, un formulaire est mis en place pour ajouter la catégorie du mot et les combinaisons. Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
 
-\textbf{modifier et supprimer une combinaison } \textbf{Priorité : 1} \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
+\textbf{modifier et supprimer une combinaison }  \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
 
  
 \subsubsection{Gestion des catégories }
-\textbf{ajouter une catégorie } \textbf{Priorité : 2}\\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernés peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
+ \textbf{Priorité : 2 } \\
+\textbf{ajouter une catégorie } \\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernés peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
 
-\textbf{modifier et supprimer  une catégorie } \textbf{Priorité : 2}\\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
+\textbf{modifier et supprimer  une catégorie } \\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
 \subsubsection{Généralité de l'interpréteur} \textbf{Priorité : 1}\\ cette fonctionnalité est mis en place pour que l'interpréteur soit générique et qu'on puisse générer les formes fléchis de n'importe quel mot dans n'importe quelle langue . Pour cela nous avons fait un choix spécifique pour l'organisation de notre bases de données qu'on va l'expliquer plus tard dans la partie architecture .
 
 \subsubsection{Contrôler les interactions }
@@ -340,7 +347,7 @@ On a pas réussi à implémenter les  fonctionnalités suivantes:
 \label{Tux}
 \end{figure}
 
-Notre base de données est constitue de quatre table : 
+Notre base de données est constitué de quatre tables : 
 \begin{itemize}
 \item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
 \item \textbf{Word} : la table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
@@ -351,7 +358,7 @@ Notre base de données est constitue de quatre table :
 
 
 
-Nous avons choisi cette organisation de base de données pour pouvoir générer des formes fléchis de n'importe quel langue .En effet nous avons pas spécifié les tags du mot a stocker dans la base ça peut être "groupe" pour les verbes de français ou "irregular verb " pour les verbes en anglais .
+Nous avons choisi cette organisation de base de données pour pouvoir générer des formes fléchis de n'importe quelle langue .En effet nous avons pas spécifié les tags du mot a stocker dans la base ça peut être "groupe" pour les verbes de français ou " irregular verb " pour les verbes en anglais .
 
 
 
@@ -516,7 +523,7 @@ nous avons voulu améliorer mieux le niveau des utilisateurs en gérant les rôl
 en mettant en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression effectuer par les utilisateurs. 
 
  Notre projet à d'autre limites coté performance notamment pour l'importation du lexique qui prends beaucoup du temps. Cela est du à l'utilisation de MySQL 
-et non à l'algorithme utilisé.
+et non à l'algorithme utiliser.
 
  Ce projet, nous a énormément aidé à mettre en valeur nos compétences acquises en programmation et aussi de travailler en groupe afin d'atteindre notre objectif commun. 
 
