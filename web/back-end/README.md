@@ -23,6 +23,7 @@ Un projet symfony est composé de plusieurs dossiers :
 - `public/` : Dossier racine du serveur web. 
 - `src/` : Contient le code du projet (Entités, Controleurs ect...)
 - `templates/` : Dossier contenant les vues de l'application (Inutilisé dans notre projet.)
+- `tests/` : Dossier contenant les tests unitaires de l'application.
 - `var/` : Dossier contenant les fichiers de cache et de logs 
 - `vendor/` : Le dossier où sont installées les dépendances référencées dans le fichier `composer.json` 
 - `.env` : Fichier contenant la configuration de l'environnement d'exécution de notre code
