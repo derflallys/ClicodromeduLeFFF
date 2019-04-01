@@ -455,7 +455,7 @@ Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La c
   \item Exporter le lexique
 \end{itemize}
 Les utilisateurs peuvent aussi exporter le lexique en extrayant tous les mots enregistrés en base de données dans l'ordre alphabétique avec leurs formes fléchies générer par l'interpréteur :
-Les formes fléchies de chaque mot seront généréés sont presentés dans l'export à la suite du mot correspondant en respectant le format ci-dessous : \\
+Les formes fléchies de chaque mot seront généréés sont presentés dans l'export à la suite du mot correspondant en respectant le format ci_dessous :
 \textbf{<mot> <code-catégorie>["<categorie-name">] lemme="<mot>" {<mot-tags>}} \\
 \textbf{<forme-fléchie-générée>  f["forme fléchie"] lemme="<mot>" {<tags-combinaison>}}\\
 \textbf{<mot> <code-catégorie>["<categorie-name">] lemme="<mot>" {<mot-tags>}} \\
@@ -524,5 +524,25 @@ Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'ut
 \section{Analyse du fonctionnement et tests}
 
 \section{Conclusion}
+  A la fin de ce projet, nous avons réussi à réaliser notre objectif principale 
+qui est la mise en place d'un site web qui permet d'offrir aux utilisateurs des interfaces graphiques 
+efficaces à leurs demandes et notamment pour l'interpréteur qui génère les formes fléchies lors de la recherche d'un mot ou l'exportation du lexique.
+
+
+  Pour la réalisation de notre projet, nous avons tout d'abord commencer par l'étude de l'existant afin de trouver 
+des solutions convenable. Ensuite, nous avons déterminé les besoins fonctionnels et non fonctionnels en élaborant 
+un cahier de charge. La réalisation de ce cahier de charge nous a énormément aidé pour organiser notre travail en donnant des priorités 
+pour tous les besoins et de répartir les tâches entre nous.
+  
+  Nous sommes arrivés à implémenter tous les besoins fonctionnels de priorité 1 et 2 que nous avons fixé lors de la conceptualisation du cahier de charge.
+Notre site web fonctionne alors comme prévu pour la langue française, et il pourra aussi utiliser par d'autre langues, nous avons fait en sorte que notre interpréteur soit générique pour pouvoir générer des formes fléchis de n'importe quel mot et dans n'importe quelle langue.Portant, nous avons pas réussi à réaliser quelques besoins fonctionnels comme il est motionné dans le présent rapport, 
+nous avons voulu améliorer mieux le niveau des utilisateurs en gérant les rôles de chacun entre eux. Nous avons aussi voulu améliorer le gestion des données 
+en mettant en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression effectuer par les utilisateurs. 
+
+ Notre projet à d'autre limites coté performance notamment pour l'importation du lexique qui prends beaucoup du temps. Cela est du à l'utilisation de MySQL 
+et non à l'algorithme utilisé.
+
+ Ce projet, nous a énormément aidé à mettre en valeur nos compétences acquises en programmation et aussi de travailler en groupe afin d'atteindre notre objectif commun. 
+
 \section{Références}
 \end{document}
