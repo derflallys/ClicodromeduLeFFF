@@ -31,7 +31,23 @@ Un projet symfony est composé de plusieurs dossiers :
 Toute notre implémentation est présente dans le dossier `src/`, le reste est généré par le framework.
 
 # Test unitaires
-**A faire**
+Les tests  unitaires ont été implémentés dans le dossier `tests/` de l'application.
+Pour les executer voici les commandes à utiliser : 
+
+```
+    # lancer tous les tests de l'application
+    $ php bin/phpunit
+
+    # Lancer tous les tests du dossiers Utils/
+    $ php bin/phpunit tests/Utils
+
+    # lancer les tests de la classe MaClasse 
+    $ php bin/phpunit tests/Util/MaClasseTest.php
+```
+
+Vous pouvez ajouter l'option `--testdox` à votre commande pour afficher le nom des tests effectués.
+
+La configuration de PHPUnit, utilisé pour nos tests unitaires se trouve dans le fichier `phpunit.xml.dist`.
 
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `composer.json`).  
