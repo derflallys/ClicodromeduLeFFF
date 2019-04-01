@@ -20,14 +20,15 @@ flex-direction: row";
 5.2 [Importation d'un lexique en base de données](#import)  
 5.3 [Lancement de l'application web](#launch)
 6. [Arborescence du projet](#manuel)
-7. [L'équipe](#team)
-8. [Références](#references)
-9. [Licence](#license)
+7. [Tests unitaires](#unitTests)
+8. [L'équipe](#team)
+9. [Références](#references)
+10. [Licence](#license)
 
 <a name="project"></a>
 ## Projet : Le Clicodrome de LeFFF
 
-Le Lexique des formes fĺechies du francais, appelé le **LeFFF** est un lexique contenant des mots ainsi que les formes fléchies de chacun des mots (conjuagison et déclinaisons du mot). 
+Le Lexique des formes fĺechies du francais, appelé le **LeFFF** est un lexique contenant des mots ainsi que les formes fléchies de chacun des mots (conjugaison et déclinaisons du mot). 
 Aujourd'hui il n'existe pas d'outil permettant d'interagir avec ce lexique, que ce soit pour l'enrichir ou le corriger.
 L'objectif du projet est donc de réaliser une application web facilitant la manipulation de ce lexique.  
 Pour ce faire, nous allons devoir importer ce lexique dans une base de données et créer des algorithmes permettant de générer les formes fléchies d'un mot afin de ne pas avoir à les enregistrer en base de données.
@@ -64,7 +65,22 @@ A ce stade du développment à été développé :
 
 <a name="releaseFinal"></a>
 ## Release finale - Avril 2019
-*Fonctionnalités à décrire*
+Les fonctionnalités présentes dans notre application sont :
+- La base de données
+- Recherche / Consultation / Ajout / Modification de mots
+- Consultation / Ajout / Modification de catégories
+- Consultation / Ajout / Modification de règles
+- Consultation / Ajout / Modification de combinaisons de tags (associé à une catégorie)
+- Export du lexique de la base de données (Seulement des mots / catégories)
+- Import du lexique dans plusieurs format (Seulement des mots / catégories)
+- Génération de formes fléchies à partir des données de la base
+- Tests unitaires (front-end et back-end)
+
+**Amélioration possibles :**
+- Gestion d'utilisateurs et de rôle + Restreindre les accès à certaines fonctionnalités selon les utilisateurs
+- Import/Export : ajouter le traitement des règles et des associations de tags
+- Génération des formes fléchies : avertir l'utilisateur quand un conflit entre 2 règles survient
+- Mise en place d'un historique des changements sur le lexique (garder une trace et une possiilité d'annuler certains changements)
 
 <a name="requirements"></a>
 ## Pré-requis
@@ -112,7 +128,7 @@ __Génération de l'architecture de la base de données :__
 Le framework Symfony et son ORM Doctrine va nous permettre de générer l'architecture de la base automatiquement.  
 Pour ce faire rendez-vous dans le dossier [web/back-end](web/back-end) et vérifiez que le fichier `.env` correspond bien à votre configuration précédente.  
 La ligne corresponsante est : `DATABASE_URL=mysql://USER:PASSWORD@127.0.0.1:3306/DB_NAME`  
-Il vous suffit de remplacer les informations `USER` et `PASSWORD` par les informations que vous avez configuré (souvent "root" et "root").  
+Il vous suffit de remplacer les informations `USER` et `PASSWORD` par les informations que vous avez configuré (par défaut "root" et "root").  
 Enfin vérifiez que `DB_NAME` correspond bien au nom de votre base de données.
 
 La dernière étape consiste à installer les dépendances du projet avec la commande :  
@@ -131,28 +147,21 @@ Puis installer les migrations d'architecture de la base de données avec la comm
 Si vous souhaitez seulement tester l'application avec des données de tests, nous avons créé un jeu de données permettant de tester les différentes fonctionnalités de l'application web.
 Pour installer ces données, il vous suffit de lancer la commande depuis le dossier `web/back-end` :
 
+    // Nécéssite APP_ENV=dev dans le fichier .env
     $ php bin/console doctrine:fixtures:load
     
-Si vous souhaiter importer le lexique "Lefff" complet en base de données, on va le "filtrer" afin de ne pas enregistrer les formes fléchies.
-Cette opération permet d'alléger considérablement le volume de données à enregistrer. (passage d'environ 500 000 entrées à 110 000 entrées environ.)
-
-Dans le dossier [compiler/](compiler/), vous trouverez à votre disposition 2 scripts permettant de faire le filtrage du LeFFF qui leurs est passé en paramètre.
-Pour plus de détails sur le fonctionnement des scripts, vous pouvez consulter [le manuel d'utilisation des scripts](compiler/README.md).  
-Les 2 scripts génèrent un fichier `resultat.sql` permettant de remplir la base.  
-Il vous suffit d'executer ce fichier depuis votre interface phpMyAdmin ou bien pour les systèmes UNIX, vous pouvez exécuter la commande :  
-
-    $ mysql -u <username> -p --database=<database_name> < /path/to/compiler/result.sql
+Si vous souhaitez importer votre lexique dans la base de données, il vous suffit de [lancer l'application web](#launch) et de suivre les consignes indiquées sur l'écran d'import.
 
 ***Félicitations, les données sont bien présentes dans la base de données !***
 
 <a name="launch"></a>
 ### **Lancement de l'application web**
 
-L'application web est divisé en 2 parties. Chacune des parties est bien détaillées dans leur manuel d'installation respectifs.
+L'application web est divisé en 2 parties. Chacune des parties est bien détaillée dans son manuel d'installation respectif.
 
 __Le front__ ([le manuel complet](web/front-end)) : 
 Cette partie représente l'interface web. Basé sur le framework javascript Angular 7, 
-il faut installer les dépendances du projet à l'aide de la commande à éxecuter à au niveau du code du front [web/front-end/](web/front-end) :  
+il faut installer les dépendances du projet à l'aide de la commande à executer au niveau du code du front [web/front-end/](web/front-end) :  
 
     $ npm install 
       
@@ -162,19 +171,19 @@ Il suffit ensuite de lancer la commande executant l'application ensuite disponib
     
 __Le back__ ([le manuel complet](web/back-end)) : 
 Cette partie gère le traitement des données, ainsi que les interactions avec la base de données.
-il faut installer les dépendances du projet à l'aide de la commande à éxécuter à au niveau du code du back [web/back-end/](web/back-end) :  
+il faut installer les dépendances du projet à l'aide de la commande à executer au niveau du code du back [web/back-end/](web/back-end) :  
 
     $ php composer.phar install
     
 Il suffit ensuite de lancer la commande permettant d'executer l'application à l'adresse : [http://localhost:8000](http://localhost:8000)
 
+    // Nécéssite APP_ENV=dev dans le fichier .env
     $ php bin/console server:run
-
 
 
 L'utilisateur n'a pas besoin de se rendre directement sur l'application du back-end (sur le port 8000).
 En effet l'utilisateur va naviguer sur l'application depuis le port 4200. 
-Lorsque des données devront être affichées, c'est notre application Angular qui va envoyer une requête vers notre application "serveur" (sur le port 8000) pour récupérer les informations à affichées sur l'interface.
+Lorsque des données devront être affichées, c'est notre application Angular qui va envoyer une requête vers notre application "serveur" (sur le port 8000) pour récupérer les informations à afficher sur l'interface.
 
 ***Félicitations, votre application web est lancée. Rendez-vous à l'adresse [http://localhost:4200](http://localhost:4200) pour y accéder !***
 
@@ -182,26 +191,32 @@ Lorsque des données devront être affichées, c'est notre application Angular q
 ## Arborescence du projet
 ```
 .
-|-- compiler
+|-- prototypes
 |-- compte_rendus_td
 |-- docs
 |-- web
     |-- back-end
     |-- front-end
 ```
-Vous trouverez dans le répertoire ``` compiler ```  le code des différents parseurs permettant de récupérer toutes les informations du LeFFF a enregistrer dans la base de données.
-Ce dossier contient aussi des prototypes de génération de formes fléchies.   
-[Plus d'infos sur les parseurs...](compiler/)
+Vous trouverez dans le répertoire ``` prototypes ```  le code des différents prototypes réalisés pour le fonctionnement de notre application.   
+[Plus d'infos sur les prototypes...](prototypes/)
 
-Vous trouverez dans le répertoire ``` compte_rendus_td ``` les comptes rendus des différents TDs réalisé avec notre chargé de TD, au format [LaTeX](https://www.latex-project.org/).  
+Vous trouverez dans le répertoire ``` compte_rendus_td ``` les comptes rendus des différents TDs réalisés avec notre chargé de TD, au format [LaTeX](https://www.latex-project.org/).  
 [Voir les compte rendus des TDs.](compte_rendus_td/)
 
-Vous trouverez dans le répertoire ``` docs ```  la documentation du projet au format [LaTeX](https://www.latex-project.org/).  
+Vous trouverez dans le répertoire ``` docs ```  la documentation du projet (cachier des besoins et mémoire) au format [LaTeX](https://www.latex-project.org/).  
 [Consulter la documentation.](docs/)
 
 Vous trouverez dans le répertoire ``` web ```  le code de l'application web du projet. Cette application possède un back-end réalisé en PHP avec [Symfony](https://symfony.com/) et le front réalisé avec [Angular](https://angular.io/).  
 [Plus d'infos sur le back-end Symfony...](web/back-end/)   
 [Plus d'infos sur le front-end Angular...](web/front-end/)
+
+<a name="unitTests"></a>
+## Tests unitaires
+Les tests unitaires sont séparés entre ceux du back-end et du front-end.
+Pour tester les différentes parties de l'application, veuillez consultez les documentations du back et du front.  
+[Documentation back-end](web/back-end/)   
+[Documentation front-end](web/front-end/)
 
 <a name="team"></a>
 ## L'équipe
@@ -214,9 +229,9 @@ Vous trouverez dans le répertoire ``` web ```  le code de l'application web du 
 <a name="reference"></a>
 ## Références
 
-* http://www.labri.fr/perso/clement/lefff/
+* [http://www.labri.fr/perso/clement/lefff/](http://www.labri.fr/perso/clement/lefff/)
                             
-* http://alpage.inria.fr/~sagot/
+* [http://alpage.inria.fr/~sagot/](http://alpage.inria.fr/~sagot/)
                                  
 * **Sagot B 2018** *"Informatiser le lexique: Modélisation, développement et exploitation de lexiques morphologiques, syntaxiques et sémantiques"*, HDR in Computer Science, Sorbonne Université, Paris, France
         

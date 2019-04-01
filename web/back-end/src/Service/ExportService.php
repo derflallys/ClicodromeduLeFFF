@@ -28,12 +28,12 @@ class ExportService {
             // Pour chaque mot du lexique
             foreach ($words as $word) {
                 // On ajoute une ligne concernant le mot
-                $line = $word . "\t" . $word->getCategory()->getCode() . "[\"" . $word->getCategory()->getName() . "\"]\tlemme=\"" . $word . "\"\t{" . $word->getTags() . "}\n";
+                $line = $word . "\t" . $word->getCategory()->getCode() . "[\"" . $word->getCategory()->getName() . "\"]\tlemme=\"" . $word . "\" \t{" . $word->getTags() . "}\n";
                 $result .= $line;
                 // On génère ses formes fléchies
                 foreach ($pfmInterpretor->generateInflectedForm($word, true) as $inflectedForm) {
                     // On ajoute une ligne pour chaque forme fléchie générée
-                    $line = $inflectedForm["value"] . "\tf[\"forme fléchie\"]\tlemme=\"" . $word . "\"\t{" . $inflectedForm["tags"] . "}\n";
+                    $line = $inflectedForm["value"] . "\tf[\"forme fléchie\"]\tlemme=\"" . $word . "\" \t{" . $inflectedForm["tags"] . "}\n";
                     $result .= $line;
                 }
             }
@@ -94,7 +94,7 @@ class ExportService {
                 $tagsWord = $splitLine[3];
                 $categoryCode = explode("[", $categoryInfos)[0];
                 $categoryLabel = explode("\"]", explode("[\"", $categoryInfos)[1])[0];
-                $lemme = explode("\"", explode("lemme=\"", $lemmesInfos)[1])[0];
+                $lemme = explode("\" ", explode("lemme=\"", $lemmesInfos)[1])[0];
                 $tags = explode("}", explode("{", $tagsWord)[1])[0];
 
                 // Si le mot n'est pas une forme fléchie -> on l'enregistre
@@ -115,14 +115,14 @@ class ExportService {
                     $newWord->setCategory($cat);
                     $newWord->setTags($tags);
                     $em->persist($newWord);
-                    $em->flush();
                 }
             }
         }
+        $em->flush();
     }
 
     /**
-     * Import d'un lexique au format proposé par Lionel CLEMENT sur son site
+     * Import d'un lexique au format proposé par Lionel Clement sur son site
      * @param ManagerRegistry $doctrine
      * @param $fileContent
      */
@@ -165,7 +165,7 @@ class ExportService {
     }
 
     /**
-     * Import d'un lexique au format Mlex disponible sur le site de Benoît SAGOT
+     * Import d'un lexique au format Mlex disponible sur le site de Benoît Sagot
      * @param ManagerRegistry $doctrine
      * @param $fileContent
      */
@@ -212,9 +212,9 @@ class ExportService {
                     $newWord->setCategory($cat);
                     $newWord->setTags($tags);
                     $em->persist($newWord);
-                    $em->flush();
                 }
             }
         }
+        $em->flush();
     }
 }

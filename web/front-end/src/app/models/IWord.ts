@@ -1,10 +1,10 @@
 import {Category} from './Category';
-import {Tag} from './Tag';
+import {InflectedForm} from './InflectedForm';
 
 export interface IWord {
   id: number;
   value: string;
   category: Category;
   tags: string;
-  inflectedForms: string[];
+  inflectedForms: InflectedForm[];
 }

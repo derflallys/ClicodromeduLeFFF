@@ -40,6 +40,7 @@ a {
 .content {
   margin-top: 15px;
   min-height: 100%;
+  background-color: #fff;
 }
 
 main {
