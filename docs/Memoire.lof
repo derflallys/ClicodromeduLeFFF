@@ -1,31 +1,6 @@
 \select@language {french}
-<<<<<<< HEAD
-\contentsline {figure}{\numberline {1}{\ignorespaces Architecture: Base de donn\IeC {\'e}e}}{16}{figure.1}
-\contentsline {figure}{\numberline {2}{\ignorespaces Architecture: Site web}}{17}{figure.2}
-\contentsline {figure}{\numberline {3}{\ignorespaces Interface: Rechercher mot}}{18}{figure.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces Interface: Ajouter mot}}{19}{figure.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Interface: Modifier mot}}{21}{figure.5}
-\contentsline {figure}{\numberline {6}{\ignorespaces Interface: Modification Effectuer}}{22}{figure.6}
-\contentsline {figure}{\numberline {7}{\ignorespaces Interface: Suppression Effectuer}}{23}{figure.7}
-\contentsline {figure}{\numberline {8}{\ignorespaces Interface: Ajouter Cat\IeC {\'e}gorie}}{24}{figure.8}
-\contentsline {figure}{\numberline {9}{\ignorespaces Interface: Ajouter R\IeC {\`e}gle 1}}{25}{figure.9}
-\contentsline {figure}{\numberline {10}{\ignorespaces Interface: Ajouter R\IeC {\`e}gle 2}}{26}{figure.10}
-\contentsline {figure}{\numberline {11}{\ignorespaces Interface: Gestion des categories }}{27}{figure.11}
-\contentsline {figure}{\numberline {12}{\ignorespaces Interface: Gestion des r\IeC {\`e}gles}}{28}{figure.12}
-\contentsline {figure}{\numberline {13}{\ignorespaces Interface: Exportation r\IeC {\'e}ussie}}{29}{figure.13}
-\contentsline {figure}{\numberline {14}{\ignorespaces Interface: Le fichier texte export\IeC {\'e}}}{30}{figure.14}
-=======
-\contentsline {figure}{\numberline {1}{\ignorespaces Architecture: Site web}}{19}{figure.1}
-\contentsline {figure}{\numberline {2}{\ignorespaces Interface: Rechercher mot}}{20}{figure.2}
-\contentsline {figure}{\numberline {3}{\ignorespaces Interface: Ajouter mot}}{21}{figure.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces Interface: Modifier mot}}{22}{figure.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Interface: Modification Effectuer}}{23}{figure.5}
-\contentsline {figure}{\numberline {6}{\ignorespaces Interface: Suppression Effectuer}}{24}{figure.6}
-\contentsline {figure}{\numberline {7}{\ignorespaces Interface: Ajouter Cat\IeC {\'e}gorie}}{25}{figure.7}
-\contentsline {figure}{\numberline {8}{\ignorespaces Interface: Ajouter R\IeC {\`e}gle 1}}{26}{figure.8}
-\contentsline {figure}{\numberline {9}{\ignorespaces Interface: Ajouter R\IeC {\`e}gle 2}}{27}{figure.9}
-\contentsline {figure}{\numberline {10}{\ignorespaces Interface: Gestion des categories }}{28}{figure.10}
-\contentsline {figure}{\numberline {11}{\ignorespaces Interface: Gestion des r\IeC {\`e}gles}}{29}{figure.11}
-\contentsline {figure}{\numberline {12}{\ignorespaces Interface: Exportation r\IeC {\'e}ussie}}{30}{figure.12}
-\contentsline {figure}{\numberline {13}{\ignorespaces Interface: Le fichier texte export\IeC {\'e}}}{31}{figure.13}
->>>>>>> a5ad6d60298fa6d49d46b07d2d74f26795cc1795
+\contentsline {figure}{\numberline {1}{\ignorespaces Architecture: Base de donn\IeC {\'e}es}}{15}{figure.1}
+\contentsline {figure}{\numberline {2}{\ignorespaces Architecture: Site web}}{16}{figure.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Interface: Rechercher mot}}{16}{figure.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Interface: Ajouter mot}}{17}{figure.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Interface: Modifier mot}}{18}{figure.5}
