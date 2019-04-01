@@ -49,6 +49,16 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 \listoffigures
 
 \newpage\section{Introduction}
+
+\subsection{Résumé}
+ Ce présent document est le rapport de projet de programmation effectué au sein du Master 1 à l'université de bordeaux.Il décrit les différentes étapes suivies afin de rendre notre projet  \textbf{"Le Clicodrome de LEFFF "} effectif.
+
+ Les objectifs de notre projet consiste à la création d'un site Web interactif permettant de donner accès
+au lexique LEFFF pour l'enrichir, et d'analyser un mot donné afin de générer ses formes fléchies à l'aide  d'un interpréteur PFM codé en PHP.
+Les interfaces graphiques doivent fournir aux utilisateurs la possibilité d'ajouter, modifier et supprimer les mots, les règles ect... .
+Il permettent également de proposer les différents formes fléchies de n'importe quel mot. Ainsi, des interfaces pour l'exportation et l'importation du lexique. 
+
+Pour réaliser ce projet , nous choisissons l’implémenter en PHP, en utilisant le framework Symphonie pour le site Web et MySQL pour la base de données.
 \subsection{Contexte}
 
 \smallbreak 
@@ -57,13 +67,18 @@ Notre client Lionel Clement a réalisé un lexique des formes fléchis du Franç
 
 Pour cela , il serra donc utile de concevoir un site Web interactif qui va permettre de donner accès au lexique pour l'enrichir et l'extraire , et d'implémenter un outil qui va générer le formes fléchis .
 
+/********** AUTRE PROPOSITION ************/
+Lionel CLEMENT est un enseignant-chercheur du Labri (Laboratoire Bordelais de Recherche en Informatique) informatique, spécialisé dans le domaine de la linguistique formelle et du traitement automatiques des langues. Il a réalisé avec Benoît SAGOT, chercheur dans le même domaine à l'Inria (Institut National de Recherche en Informatique et en Automatique), le Lexique des formes fléchies du français, appelé le LeFFF.
+
+Aujourd'hui, ce lexique n'est disponible que dans un fichier au format texte, ce qui ne facilite pas sa consultation, sa modification ou son enrichissement.
+
 \subsection{Objectif}
 
 Avant de détailler l'objectif de notre projet, nous allons mettre
 au clair quelques notions nécessaires à la compréhension du sujet. 
 D'abord dans la langue française, les formes fléchies d'un mot correspondent à sa conjugaison et à ses déclinaisons (sa forme au pluriel, les mots ayant une correspondance comme "mien" et "moi" par exemple).\\
 Ensuite,pour la génération des formes fléchis nous allons utiliser le formalisme PFM (Paradigm Function Morphology),selon cette approche , l'association d'un mot  fléchi avec ses propriétés morphosyntaxiques permet d'appliquer des règles déterminant la forme flexionnelle de ce mot .\\
-De plus ce lexique est un dictionnaire contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française. 
+De plus ce lexique est un “dictionnaire” contenant un grands nombre de mots de différentes catégories. Ce sont des noms propres, des noms communs, des adverbes, des adjectifs, des tous les autres types de mots possible dans la langue française. 
 
 Notre but sera de trier tous ces types de mots afin de déterminer quelles sont les formes fléchies et quelles sont les mots "racines".
 
@@ -118,7 +133,7 @@ La différence entre le contenu des différents formats de fichier du LeFFF à n
 \subsubsection{Le formalisme PFM  }
       Le format de base des régles : \textbf{n, Xc, t -> f(X) } \\
 \begin{itemize}
-    \item n : l'ordre de priorité pour l'application des règles
+    \item n : l’ordre de priorité pour l’application des règles
     \item X : la racine du lexème.
     \item C : la classe du lexème (sa catégorie).
     \item t : règles à appliquer
@@ -281,7 +296,6 @@ Nous avons fait le choix d'adopter une design très simple et épurée afin que 
 \smallbreak
 Des codes couleurs et icônes distinctifs seront mis en place afin que l'utilisateur comprennent le plus rapidement possible à quoi il est confronté. (par exemple, les messages en rouge correspondront à des messages d'erreurs, le vert pour la validation et du jaune pour des avertissements.).
 
-\subsection{Contraintes}
 \subsection{Solutions proposées : les besoins réalisés}
 
 Après l'analyse des problèmes du système actuel, nous avons proposé la réalisation d'un site Web  adaptée aux besoins 
@@ -307,7 +321,7 @@ qui permettra d'améliorer le processus de travail et de gagner plus de temps en
 
 \subsection{Les besoins non réalisés : Faute de temps}
 
-On n'a pas réussi à implémenter les  fonctionnalités suivantes:
+On a pas réussi à implémenter les  fonctionnalités suivantes:
 
 \begin{itemize}
 \item \textbf{La protection des données } : A l'aide d'une page d'authentification.
@@ -319,11 +333,6 @@ On n'a pas réussi à implémenter les  fonctionnalités suivantes:
 
 \section{Architecture et description du logiciel}
 \subsection{Architecture de la base de données }
-
-
-
-
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=150mm]{img/basefinal.PNG}
@@ -340,9 +349,16 @@ Notre base de données est constitue de quatre table :
 \item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
 
 \end{itemize}
+
+
+
+Nous avons choisi cette organisation de base de données pour pouvoir générer des formes fléchis de n'importe quel langue .En effet nous avons pas spécifié les tags du mot a stocker dans la base ça peut être "groupe" pour les verbes de français ou "irregular verb " pour les verbes en anglais .
+
+
+
 \subsection{ Architecture du Site Web }
 \subsubsection{Architecture du site} 
-
+\newpage
 \begin{figure}[h]
 \centering
 \includegraphics[width=150mm]{img/site.PNG}
@@ -355,7 +371,7 @@ Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-
 Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
 avant d'accéder aux différents services proposé par le site.
 
-Cette interface permet aux utilisateurs de s'authentifier à l'aide d'un login et un Mot de passe, 
+Cette interface permet aux utilisateurs de s'authentifier à l’aide d'un login et un Mot de passe, 
 et faire la redirection vers la page d'accueil (dans notre application la page d'accueil
 pour l'administrateur c'est le page de recherche d'un mot).
 
@@ -371,12 +387,12 @@ La page d'accueil contient également des boutons qui redirigent vers les diffé
    \end{itemize}
 et elle redirigé aussi aux  pages qui permet d'importer ou d'exporter le lexique.
 
-
+\newpage
 \subsubsection{Exemple de bon fonctionnement: Interfaces} 
 
-\begin{itemize}  
-  \item Rechercher Mot
-\end{itemize}
+ 
+  \textbf{ Rechercher Mot }
+
 Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vous voyez dans cette interface :
 
 
@@ -393,9 +409,9 @@ Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vo
 L’utilisateur (l’administrateur) peut gérer le mort en le modifiant ou le supprimer.
 
 
-\begin{itemize}  
-  \item Ajouter mot
-\end{itemize}
+  
+  \textbf{ Ajouter mot}
+
 
 L'administrateur a le droit d'ajouter des nouveaux mots  en accédant à l'interface suivante: 
 
@@ -412,48 +428,21 @@ Si le mot  est ajouté, un message de réclamation s'affiche. Une fois il est aj
 
 
 
-\begin{itemize}  
-  \item Modifier Mot
-\end{itemize}
-L'interface suivante nous permet de modifier les mots en affichant des messages de réclamation : 
-
+ 
+\textbf{Éditer un mot}
 \begin{figure}[h]
 \centering
-\includegraphics[width=150mm]{img/ModificationMot.PNG}
-\caption{Interface: Modifier mot}
+\includegraphics[width=150mm]{img/AjoutEffectuer.PNG}
+\caption{Interface: Ajouter mot}
 \label{Tux}
 \end{figure}
 
+comme vous pouvez le voir sur la figure ci-dessus nous avons mis en place une interface pour pouvoir éditer un mot ; modifier ,supprimer et consulter un mot juste en cliquant sur les boutons présente sur l'interface .
+Nous avons fait la même chose pour la gestion des règles et les combinaisons de tags .
 
-\begin{itemize}  
-  \item Supprimer Mot
-\end{itemize}
-Pour la suppression des mots, elle est possible comme il est montrer dans la figure suivante:
+ 
+   \textbf{Exporter le lexique}
 
-
-\begin{itemize}  
-  \item Ajouter Catégorie / Ajouter Régle 
-\end{itemize}
-
-Notre site web, permet aussi l'ajout des catégories et des règles comme il est montré dans les figures ci-dessous: 
-
-
-
-\begin{itemize}  
-  \item Listes des Catégories et des règles:
-\end{itemize}
-Les utilisateurs peuvent consulter la liste des règles et des catègories dans les pages correspondante comme les montres les figures ci-desous: 
-
-
-
-Ces pages, permet aux utilisateurs  d'effectuer plusieurs fonctionnalités: La consultation, la modification et la suppression.
-
-
-
-
-\begin{itemize}  
-  \item Exporter le lexique
-\end{itemize}
 Les utilisateurs peuvent aussi exporter le lexique en extrayant tous les mots enregistrés en base de données dans l'ordre alphabétique avec leurs formes fléchies générer par l'interpréteur :
 Les formes fléchies de chaque mot seront généréés sont presentés dans l'export à la suite du mot correspondant en respectant le format ci-dessous :\\
 \textbf{<mot> <code-catégorie>["<categorie-name">] lemme="<mot>" {<mot-tags>}} \\
@@ -474,24 +463,16 @@ Les formes fléchies de chaque mot seront généréés sont presentés dans l'ex
 \item \textbf{<tags-combinaison>} : l'association de tags ayant permis de générer la forme fléchie .Chaque tag est séparé par ";".
 \end{itemize}
 
-\begin{itemize}  
-  \item Importer le lexique
-\end{itemize}
+ 
+  \textbf{ Importer le lexique}
+
 ON a ajouté une interface ou les utilisateurs peuvent importer les fichier sous format texte qui existent déjà. Pour cela on a définie 3 syntaxes différentes : 
+\begin{itemize}
 
-
-La  première correspond à celle respectée par notre fonctionnalité d'export.
-
-
-
-
-La deuxième  correspond à la syntaxe du Lefff consultable le site de Lionel CLEMENT.
-
-
-
-Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable sur le site de Benoît SAGOT..
-
-						
+  \item La  première correspond à celle respectée par notre fonctionnalité d'export.
+  \item La deuxième  correspond à la syntaxe du Lefff consultable le site de Lionel CLEMENT.
+  \item Et La troisième  correspond à la syntaxe du Lefff au format .mlex consultable sur le site de Benoît SAGOT..
+\end{itemize}
 
 \subsection{Outils de développement}
 
@@ -514,12 +495,8 @@ Nous avons choisi de développer le site Web et l'interpréteur en PHP car c'est
 Pour la base de données, le choix s'est porté sur MySQL pour sa facilité d'utilisation et sa bonne compatibilité avec le framework Symfony utilisé pour le site web. 
 
 
-\textbf{Ces choix des outils ont des avantages énormes coté client:}
+Ces choix des outils ont des avantages coté client;solution client léger : Rien d'autre qu'un navigateur pour faire fonctionner l'application sur le poste de l'utilisateur.
 
-\begin{itemize}  
-  \item solution client léger : Rien d'autre qu'un navigateur pour faire fonctionner l'application sur le poste de l'utilisateur.
-  \item MySQL est très rapide : Puisque notre base de données contient un lexique très lourd l'accès aux données à l'aide de MySQl devient un peu plus rapide.
-\end{itemize}
 
 \section{Analyse du fonctionnement et tests}
 
