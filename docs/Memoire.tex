@@ -29,12 +29,12 @@
 {\Large\bfseries par Lionel CLEMENT \par}
 \vspace{0.5cm}
 {\Large\itshape Mémoire \par}
-{\large 05 Avril 2019\par}
+{\large 4 Avril 2019\par}
 
 \vfill
 réalisé par \par
-JELLITE \textsc{Oumayma} \par
 BAKIR \textsc{Fatima Ezzahra} \par
+JELLITE \textsc{Oumayma} \par
 NEDELEC \textsc{Guillaume} \par
 SYLLA  \textsc{Alfred Aboubacar} \par
 \vfill
@@ -42,6 +42,11 @@ SYLLA  \textsc{Alfred Aboubacar} \par
 {\large Enseignants responsables : Philippe NARBEL et Vincent PENELLE\par}
 
 \end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
 
 \newpage
 \tableofcontents
@@ -105,7 +110,7 @@ Le projet peut être donc séparé en trois parties principales :
     \item Le développement d'un interpréteur permettant de générer les formes fléchies d'un mot donné en entrée .
 \end{itemize}
 \subsection{Analyse de l'existant}
-\subsubsection{Le lexique LeFFF }
+\subsection{Le lexique LeFFF }
 Pour ce projet, nous avons a notre  disposition différentes versions  du Lefff  dont la dernière réalisé par Benoît Sagot en 2010. Cette version regroupe diffèrent format du lefff , à savoir \cite{lefff_int} :
 \begin{itemize}
 \item le lexique \textbf{intentionnel}, qui décrit pour chaque entrée son lemme (forme canonique + tableau d'inflexion) ainsi que des informations syntaxiques profondes (cadre de sous-catégorisation profonde + réalisations possibles + restructurations possibles) .
@@ -130,7 +135,7 @@ Si la première colonne et la troisième sont différentes, cela signifie que le
 Enfin la dernière colonne apporte des informations sur le mot comme le genre, s'il est singulier pluriel ou encore a quel personne le verbe est employé. Une explication de ces codes est disponible sur le site de Lionel CLEMENT \cite{tagset}.
 
 La différence entre le contenu des différents formats de fichier du LeFFF à notre disposition est principalement le détail par rapport au paramètre morphologique du mot.
-\subsubsection{Le formalisme PFM  }
+\subsection{Le formalisme PFM  }
       Le format de base des règles : \textbf{n, Xc, t -> f(X) } \\
 \begin{itemize}
     \item n : l’ordre de priorité pour l’application des règles
@@ -167,102 +172,124 @@ Pour cet exemple on veut mettre le mot sien au féminin pluriel ; la première r
   \item \textbf{Éditeur Expert} :  Ces utilisateurs sont des éditeurs pouvant supprimer des mots du LeFFF et qui peuvent ajouter des catégories.
   \item \textbf{Les administrateurs} : Ils ont un contrôle total de l'application. En plus d'agir comme des modérateurs, ce sont qui valident les inscriptions sur site, gèrent les rôle des différents utilisateurs et ont le pouvoir de bannir des utilisateurs du site.
 \end{itemize}
- \subsubsection{Gestion du lexique LeFFF}
+ \subsection{Gestion du lexique LeFFF}
 \textbf{Importer le LeFFF dans une base de données relationnelle}
+
+
 \textbf{Priorité : 1} \\ 
 Cette fonctionnalité permet d'importer les données du lexique dans un format donné (.txt / .mlex) directement dans une base de données où l'architecture sera préalablement configuré.
 Cette fonctionnalité est nécessaire pour alimenter notre base de donnée puisque le leFFF comprend un très grand nombre de données (environ 500 000 lignes).
 Pour l'implémenter, nous allons définir un algorithme qui permet de découper le fichier d'entrée, de filtrer les mots a enregistré et d'effectuer des requêtes d'ajout dans notre base de données
 
- \textbf{ Exporter le Lefff}
+
+ \textbf{ Exporter le Lefff} 
+ 
+ 
 \textbf{Priorité : 3}  \\
 Tous les utilisateurs peuvent effectuer une exportation du lexique. Cette option sera disponible depuis notre application web. Cette opération nécessite l'utilisation du compilateur PFM pour générer les formes fléchis de tous les mots présents dans la base de données.
 Nous proposerons aussi une exportation du lexique sans les formes fléchies, qui sera bien plus rapide et légère.
-\subsubsection{Gestion du mot}
+\subsection{Gestion du mot} 
 \textbf{Rechercher un mot}
+
+
  \textbf{Priorité : 2}
 \\ Nous avons mis à la disposition de tous les utilisateurs un champ de saisie sur toutes les pages de l'application web leur permettant de rechercher un mot. A la manière d'un moteur de recherche classique, la liste des mots enregistrés dans notre base de données, correspondant plus ou moins à ce qui a été recherché apparaîtront sur la page. Il sera ensuite possible à l'utilisateur de consulter en détail un mot, de signaler une erreur, de le modifier ou le supprimer (Si les droits de l'utilisateur le lui permet). Si aucun mot ne correspond en base de données, un message d'avertissement apparaîtra sur l'interface.
 
 
-\textbf{Consulter un mot}
+\textbf{Consulter un mot} 
+
+
  \textbf{Priorité : 2}
 \\ Tous les utilisateurs du site web peuvent consulter un mot. Pour cela il suffit à l'utilisateur de rechercher un mot (voir la partie "Rechercher un mot") et de sélectionné le mot voulu. Ce mot sera ensuite envoyé à notre interpréteur pour générer ses formes fléchies et les renvoyer à notre application afin d'avoir toutes les informations du mot affichées sur l'interface.
 Si les droits de l'utilisateur le permet, les boutons d'ajout, de modification et de suppression apparaissent sur cet écran.
 
 
-\textbf{Ajouter un mot}
+\textbf{Ajouter un mot} 
+
+
  \textbf{Priorité : 2}
 \\ Cette fonctionnalité est réservé au utilisateurs authentifiés (les administrateur ,les éditeurs et les modérateurs). Un formulaire est proposé, où il est demandé d'ajouter le mot, ses catégories (adjectifs, nom commun etc...), et ses tags (par exemple groupe pour les verbes)
 Avant d'ajouter le mot en base, des vérifications seront effectués afin  de vérifier si le mot n'existe pas déjà en base, ou si le mot n'est pas une forme fléchies d'un mot en base de données.
 
 
-\textbf{Supprimer un mot}
+\textbf{Supprimer un mot} 
+
+
  \textbf{Priorité : 2} \\ 
  Les modérateurs et les administrateurs peuvent supprimer un mot de la base de données. Il suffit simplement de rechercher le mot et d'appuyer sur "Supprimer". Une notification sera envoyé aux administrateurs pour les informer de la suppression du mot. Le mot sera alors supprimé de la base de données.
 
-\textbf{Modifier un mot}
+\textbf{Modifier un mot} 
+
+
  \textbf{Priorité : 2} \\ 
  La fonction de modification d'un mot ressemble à celle d'ajout (voir partie Ajouter un mot). Elle est accessible a tous les utilisateurs connectés. En effet le formulaire sera le même mais pré rempli avec les informations existante du mot. Il suffit à  l'utilisateur d'effectuer les modification qu'il souhaite et de les valider pour que les changements soient enregistrés dans la base de données.
 
-\textbf{Signaler un mot}
+\textbf{Signaler un mot} 
+
+
  \textbf{Priorité : 2}
  \\ Les visiteurs simple et les éditeurs ont la possibilité de signaler des erreurs sur un mot. Ce mécanisme permet d'envoyer une notification aux administrateurs pour leur faire part d'informations sur un mot en particulier. 
- \subsubsection{Génération des formes fléchis  Priorité : 1} 
-Pour repondre a cette fonctionnalité nous avons mis en place un interpréteur qui permet de générer les formes fléchies d'un mot.
+ \subsection{Génération des formes fléchis} 
+ 
+ 
+ \textbf{Priorité : 1} \\
+Pour répondre a cette fonctionnalité nous avons mis en place un interpréteur qui permet de générer les formes fléchies d'un mot.
 En effet, Le rôle de l'interpréteur est important lors de la consultation d'un mot et l'exportation du lexique.Pour la recherche du mot l'utilisateur doit données en paramètre le mot, dans un premier temps , on récupère les règles , les tags du mot et les combinaison de tags qui convient avec la catégorie du mot donnée en entrée, ensuite on filtre les règles selon la correspondances avec les tags du mot et on récupère aussi les règles définissant le radical du mot sachant que nous avons choisi de stocker pour chaque mot une règle qui définit son radical avec le formalisme PFM ,puis en vérifie si le tag du mot est renseigne dans les règles et si le mot en lui-même est un tag de la règle . 
 Dans un deuxième temps on vérifie si tous les tags de la règle sont renseignes dans la combinaisons ou si aucun tag n'est renseigné ensuite on fait un tri des règles dans leur ordre d'application .
 Pour l'application des règles on vérifie au début si la règle possède une combinaison de tags correspondant à une combinaison de tag de la catégorie si c'est le cas on l'applique, sinon on l'ignore en plus si plusieurs règles s'appliquent pour une combinaison données , elles respecte l'ordre croissant du niveau d'application.
 
  D'aprés le formalisme PFM une règle a des niveaux, et le premier niveau de chaque règle est 0 'la détermination du radical'.Si on a deux règles  avec le même niveau, la règle la plus spécifique avec le plus de tags qui correspondent s'applique et on ignore les autres . Pour l'ordre de priorité, il s'applique quand on aura des priorités dans la langue et on doit appliqué une règle avant l'autre. 
-\subsubsection{Gestion des règles }
+\subsection{Gestion des règles } 
+
+
  \textbf{Priorité :  1} 
  
  
-\textbf{ajouter une règle }  \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
+\textbf{Ajouter une règle }  \\ Seulement les utilisateurs ayant le droit de gérer les règles qui peut ajouter ces règles à partir d'une interface où il est demandé d'ajouter la catégorie , le niveau d'application de la règle et l'ordre de priorité de cette règle,les tags liés aux mot et les tags d'application de la règle. Dans le cas d'un  verbe, le radical du mot doit être ajouter dans la même interface.Enfin le résultat de la règle avec un champs préfixe,mot et suffixe.
 Avant d'ajouter la règle en base, des vérifications seront effectués afin  de vérifier si la règle n'existe pas déjà en base.
 
-\textbf{modifier une règle } \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . L'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise à jour  en base de données.
+\textbf{Modifier une règle } \\ Comme pour la modification du mot nous avons repris le même formulaire d'ajout pré-rempli avec les informations existante de la règle . L'utilisateur doit juste effectuer les modification qu'il souhaite et de les valider pour que les changements soient mise à jour  en base de données.
 
 
-\textbf{supprimer une règle }  \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
+\textbf{Supprimer une règle }  \\ Pour la suppression le site web doit fournir aux utilisateurs une liste des règles. Il suffit de rechercher la règle et d'appuyer sur supprimer, la règle  sera alors supprimé de la base de données.
 
-\subsubsection{Gestion des combinaisons de tags }
+\subsection{Gestion des combinaisons de tags } 
  \textbf{Priorité : 1 } 
  
  
-\textbf{ajouter une combinaison } \\ Les combinaisons de tags  sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
+\textbf{Ajouter une combinaison } \\ Les combinaisons de tags  sont  toutes les tags qui convient avec la catégorie de chaque mot, ces combinaisons sont géré par les utilisateurs qui doivent les ajouter d'une façon cohérente.
 Pour les ajouter, un formulaire est mis en place pour ajouter la catégorie du mot et les combinaisons. Avant d'ajouter la combinaison de règle en base, on vérifie si la combinaison n'existe pas déjà en base.
 
-\textbf{modifier et supprimer une combinaison }  \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
+\textbf{Modifier et Supprimer une combinaison }  \\ Comme pour la modification et la suppression d'un mot ou d'une règle nous avons mis en place une liste des combinaisons avec des boutons supprimer et modifier .
 
  
-\subsubsection{Gestion des catégories }
+\subsection{Gestion des catégories } 
  \textbf{Priorité : 2 } \\
-\textbf{ajouter une catégorie } \\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernés peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
+\textbf{Ajouter une catégorie } \\ Cette fonctionnalité  est mis en place pour que les utilisateurs concernés peuvent ajouter des catégories . Le formulaire propose contient les champs suivant : le code de l catégorie et sa valeur (exemple : code v , valeur verbe ).
 
-\textbf{modifier et supprimer  une catégorie } \\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
-\subsubsection{Généralité de l'interpréteur} \textbf{Priorité : 1}\\ cette fonctionnalité est mis en place pour que l'interpréteur soit générique et qu'on puisse générer les formes fléchis de n'importe quel mot dans n'importe quelle langue . Pour cela nous avons fait un choix spécifique pour l'organisation de notre bases de données qu'on va l'expliquer plus tard dans la partie architecture .
+\textbf{Modifier et supprimer  une catégorie } \\ Pour cette fonctionnalité aussi nous avons propose une liste de catégorie avec des boutons supprimer et modifier .
+\subsection{Généralité de l'interpréteur} \textbf{Priorité : 1}\\ cette fonctionnalité est mis en place pour que l'interpréteur soit générique et qu'on puisse générer les formes fléchis de n'importe quel mot dans n'importe quelle langue . Pour cela nous avons fait un choix spécifique pour l'organisation de notre bases de données qu'on va l'expliquer plus tard dans la partie architecture .
 
-\subsubsection{Contrôler les interactions }
+\subsection{Contrôler les interactions } 
  \textbf{Priorité : 2}
 \\ Tous les utilisateurs doivent d'authentifier pour pouvoir modifier où enrichir le LeFFF. Afin d'ajouter de la sécurité, nous avons décider de mettre constamment des message de validation pour être sur que l'utilisateur souhaite réellement effectuer une action et ne pas faire d'erreur.
 De plus un système de déconnexion automatique après une période d'inactivité (environ 10 minutes) sera mis en place en cas d'oubli de fermeture de session afin que personne ne puisse subtiliser la session.
 Enfin des logs seront implémentés afin de tracer les changements effectués en plus de l'historique.
 
-\subsubsection{Gestion des rôles:}
+\subsection{Gestion des rôles:} 
  \textbf{Priorité : 3} \\
 Pour qu'un utilisateur puisse effectuer des tâches d'ajout, de modification ou de suppression de mot, il faut qu'un administrateur lui affecte ces droits (les rôle d'éditeur ou modérateur). A cet égard, on doit créer une interface où l'administrateur puisse faire cela.
 Sur cette interface, apparaîtra la liste des comptes utilisateurs, pour chaque utilisateur se trouvera des boutons  : \textbf{Supprimer} cet utilisateur ,\textbf{ Modifier} le rôle de cet utilisateur. 
 Sur la même interface on va mettre en place un bouton pour \textbf{Valider} l'inscription d'un nouvel utilisateur.
 
 
-\subsubsection{Gestion de l'historique d'un mot}
+\subsection{Gestion de l'historique d'un mot} 
  \textbf{Priorité : 3} \\
 Nous avons décidé de mettre en place un historique permettant d'enregistrer tous les ajouts, modifications et suppression. Pour cela nous allons enregistrer les données modifiées en base de données.
-\subsection{Analyse des besoins non fonctionnels}
+\section{Analyse des besoins non fonctionnels}
 \smallbreak
 
-\subsubsection{Sécurité}
+\subsection{Sécurité}
 \textbf{Priorité : 1}
 \smallbreak
 Afin de protéger l'intégrité des données du LeFFF dans la base de données, nous sécuriserons la base et l'application web des problèmes de sécurité suivants :
@@ -283,7 +310,7 @@ Afin de protéger l'intégrité des données du LeFFF dans la base de données, 
     \textbf{Notre solution} : Utiliser le protocole HTTPS qui permet de chiffrer les données échangées et ainsi les protéger de toutes interceptions ou modification.
 \end{itemize}
 
-\subsubsection{Format de fichier}
+\subsection{Format de fichier}
 \textbf{Priorité : 2}
 \smallbreak
 \begin{itemize}
@@ -291,12 +318,12 @@ Afin de protéger l'intégrité des données du LeFFF dans la base de données, 
 Nous avons fait le choix d'utiliser les formats textes et elex (.txt et .elex)  car ce sont les formats disponibles au téléchargement du LeFFF actuellement. Ce choix nous permet de pouvoir exploiter le LeFFF existant sans avoir à le reformatter dans un autre format.
 \end{itemize}
 
-\subsubsection{Performances}
+\subsection{Performances}
 \textbf{Priorité : 3}
 \smallbreak
 Au niveau des performances, nous avons décider de faire une implémentation du projet de manière à ce que la requête de demande des formes fléchies d'un mot (requête en base et génération des formes fléchies par le compilateur) n'excède pas les deux secondes d'exécutions. De plus les actions d'importation et d'exportation étant plus lourdes, nous voulons implémenter ces fonctions pour qu'elles n'excèdent pas 10 minutes d'exécution.
 
-\subsubsection{Ergonomie}
+\subsection{Ergonomie}
 \textbf{Priorité : 4}
 \smallbreak
 Nous avons fait le choix d'adopter une design très simple et épurée afin que l'utilisateur ne se perde pas dans l'interface et puisse trouver des solutions à son besoin de manière simple et naturelle.
@@ -349,9 +376,9 @@ On a pas réussi à implémenter les  fonctionnalités suivantes:
 
 Notre base de données est constitué de quatre tables : 
 \begin{itemize}
-\item \textbf{Category} : cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
-\item \textbf{Word} : la table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
-\item \textbf{Tag-Association} :cette table contient des combinaisons de règles qui marche avec une catégorie renseignée par la clé étrangère CategoryId  et un tag du mot par exemple le groupe pour les verbes en français .
+\item \textbf{Category} : Cette table contient le code et le nom de la catégorie ,par exemple code : adj et name : adjectif .
+\item \textbf{Word} : La table word contient une référence categoryid vers la table category , la valeur du mot et ses tags (exp : groupe,etc).
+\item \textbf{Tag-Association} : Cette table contient des combinaisons de règles qui marche avec une catégorie renseignée par la clé étrangère CategoryId  et un tag du mot par exemple le groupe pour les verbes en français .
 \item \textbf{PFM-Rule} : Nous avons choisi de stocker les règles PFM en base pour pouvoir les récupérer facilement par la suite et générer les formes fléchis d'un mot , en plus nous avons mis en place une interface pour que l'administrateur ou l'éditeur puisse ajouter des règles .
 
 \end{itemize}
@@ -363,18 +390,18 @@ Nous avons choisi cette organisation de base de données pour pouvoir générer 
 
 
 \subsection{ Architecture du Site Web }
-\subsubsection{Architecture du site} 
-\newpage
+\subsection{Architecture du site} 
+
 \begin{figure}[h]
 \centering
-\includegraphics[width=150mm]{img/diagActivite.png}
+\includegraphics[width=150mm]{img/site1.png}
 \caption{Architecture: Site web}
 \label{Tux}
 \end{figure}
 
 
 Nous avons réussi à mettre en place les interfaces décrit dans le schéma ci-dessus,
-Notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
+notre site web est réalisé seulement pour l'administrateur, qui doit s'authentifier
 avant d'accéder aux différents services proposé par le site.
 
 Cette interface permet aux utilisateurs de s'authentifier à l’aide d'un login et un Mot de passe, 
@@ -394,9 +421,8 @@ La page d'accueil contient également des boutons qui redirigent vers les diffé
 et elle redirigé aussi aux  pages qui permet d'importer ou d'exporter le lexique.
 
 \newpage
-\subsubsection{Exemple de bon fonctionnement: Interfaces} 
+\subsection{Exemple de bon fonctionnement: Interfaces} 
 
- 
   \textbf{ Rechercher Mot }
 
 Les utilisateurs peuvent consulter la liste des formes fléchies du mot comme vous voyez dans cette interface :
@@ -505,7 +531,9 @@ Ces choix des outils ont des avantages coté client;solution client léger : Rie
 
 
 \section{Analyse du fonctionnement et tests}
-
+\subsection{Tests}
+\subsection{Tests Unitaires}
+\subsection{Tests de Fonctionnement}
 \section{Conclusion}
   A la fin de ce projet, nous avons réussi à réaliser notre objectif principale 
 qui est la mise en place d'un site web qui permet d'offrir aux utilisateurs des interfaces graphiques 

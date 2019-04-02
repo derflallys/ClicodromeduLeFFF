@@ -1,14 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModifyCategoryComponent } from './modify-category.component';
+import {ActivatedRoute} from '@angular/router';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('ModifyCategoryComponent', () => {
   let component: ModifyCategoryComponent;
   let fixture: ComponentFixture<ModifyCategoryComponent>;
-
+  let mockActivatedRoute;
   beforeEach(async(() => {
+    mockActivatedRoute = {
+      snapshot: { paramMap: {get: () => { return '1'; }}}
+    };
     TestBed.configureTestingModule({
-      declarations: [ ModifyCategoryComponent ]
+      declarations: [ ModifyCategoryComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        {provide: ActivatedRoute, useValue: mockActivatedRoute}]
     })
     .compileComponents();
   }));
