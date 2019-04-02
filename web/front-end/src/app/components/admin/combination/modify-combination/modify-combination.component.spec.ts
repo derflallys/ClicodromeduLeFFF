@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ModifyCombinationComponent } from './modify-combination.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 describe('ModifyCombinationComponent', () => {
   let component: ModifyCombinationComponent;

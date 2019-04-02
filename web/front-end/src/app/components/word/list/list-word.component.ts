@@ -37,7 +37,6 @@ export class ListWordComponent implements OnInit {
         private router: ActivatedRoute,
         private service: WordService,
         public dialog: MatDialog,
-        private route: Router,
         public snackBar: MatSnackBar
     ) {}
 
