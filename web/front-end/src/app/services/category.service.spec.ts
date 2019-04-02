@@ -1,23 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CategoryService } from './category.service';
-import {Category} from '../models/Category';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {environment} from '../../environments/environment';
 
 describe('CategoryService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    const service: CategoryService = TestBed.get(CategoryService);
-    expect(service).toBeTruthy();
+  let httpTestingController: HttpTestingController;
+  let service: CategoryService;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
+      providers: [
+        CategoryService,
+      ]
+    });
+    httpTestingController = TestBed.get(HttpTestingController);
+    service = TestBed.get(CategoryService);
   });
-  it('should add Catergory whend addCategory is called',  () => {
-    const service: CategoryService = TestBed.get(CategoryService);
-    //et newCategory: Category;
-  /*  service.addCategory({id: 1, code: 'adj', name: 'Adjectif'}).subscribe(
-      res => {
-        newCategory = res;
-      }
-    );*/
-   //expect(newCategory.name).toEqual('Adjectif');
+
+  describe('getCategory', () => {
+    it('should call getCategory with the correct URL',  () => {
+      service.getCategory(24).subscribe(res => {
+        expect(res.name).toEqual('adjectif');
+      });
+      const req = httpTestingController.expectOne(environment.BACK_END_URL + '/get/category/24');
+      req.flush({id: 24, code: 'adj', name: 'adjectif'});
+      httpTestingController.verify();
+    });
   });
 });
