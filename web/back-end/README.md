@@ -33,8 +33,11 @@ Toute notre implémentation est présente dans le dossier `src/`, le reste est g
 
 # Test unitaires
 Les tests  unitaires ont été implémentés dans le dossier `tests/` de l'application.
-Pour les executer voici les commandes à utiliser : 
-
+Pour les executer, n'oubliez pas de lancer votre serveur web sur le port 8000 avec la commande :
+ 
+     $ php bin/console server:run
+ 
+Vous pourrez enfin exécutrer les tests avec les commandes suivantes : 
 ```
     # lancer tous les tests de l'application
     $ php bin/phpunit

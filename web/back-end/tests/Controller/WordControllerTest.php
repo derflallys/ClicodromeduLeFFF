@@ -2,96 +2,341 @@
 
 namespace App\Tests\Controller;
 
+use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class WordControllerTest extends WebTestCase
 {
-    /*public function testGetComments() {
-        $client = $this->createAuthenticatedClient('api@api.com', 'api');
-        $this->execQuery($client, 'GET', null, '/api/comments');$response = $client->getResponse();
-        $this->assertJsonResponse($response, 200);
+    /**
+     * @var Client $client
+     */
+    protected $client;
 
-        $content = json_decode($response->getContent(), true);
-        $this->assertInternalType('array', $content);
-        $this->assertCount(3, $content);
 
-        $comment = $content[0];
-        $this->assertArrayHasKey('body', $comment);
-        $this->assertArrayHasKey('status', $comment);
-        $this->assertArrayNotHasKey('content', $comment);
-        $this->assertArrayNotHasKey('password', $comment['user']);
-    }
-
-    public function testPostNewComment()
-    {
-        $data = array
-        (
-            "body"  => "This is a comment",
-            "status"  => "1",
-            "user_id" => "1",
-            "movie_id"  => "4",
-        );
-
-        $client = $this->createAuthenticatedClient('api@api.com', 'api');
-        $this->postData($client, $data, '/api/comments');
-        $response = $client->getResponse();
-        $this->assertStatusCodeResponse($response, 201);
-        $comment = json_decode($response->getContent(), true);
-
-        $this->assertInternalType('array', $comment);
-        $this->assertArrayHasKey('id', $comment);
-        $this->assertArrayHasKey('movie_id', $comment);
-        $this->assertArrayHasKey('body', $comment);
-        $this->assertArrayNotHasKey('password', $comment['user']);
-    }
-
-    public function testPostNewCommentWithoutMovieId()
-    {
-        $data = array
-        (
-            "body" => 'My new simple comment',
-        );
-
-        $client = $this->createAuthenticatedClient('api@api.com', 'api');
-        $this->postData($client, $data, '/api/comments');
-
-        $response = $client->getResponse();
-        $this->assertStatusCodeResponse($response, 410);
-    }
     public function setUp()
     {
-        parent::setup();
-        $fixtures = array(
-            'App\DataFixtures\AppFixtures',
-        );
-        $this->loadFixtures($fixtures);
-    }*/
+        $this->client = new Client([
+            'base_uri' => 'http://localhost:8000',
+            'http_errors' => false,
+        ]);
+    }
 
     /**
-     * @dataProvider provideUrls
+     * @dataProvider provideSearchValues
      */
-    public function testUrlStatus($url)
+    public function testSearchWords($searchValue)
     {
-        $client = static::createClient();
+/*        $client = static::createClient();
 
-        $client->request('GET', $url);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        // asserts that the "Content-Type" header is "application/json"
+        $client->request('GET', '/list/word/' . $searchValue);
+        $response = $client->getResponse();*/
+
+        $response = $this->client->get('/list/word/' . $searchValue);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/json', $response->getHeader('content-type')[0]);
+
         /*$this->assertTrue(
-            $client->getResponse()->headers->contains(
+            $response->headers->contains(
                 'Content-Type',
                 'application/json'
             ),
-            'the "Content-Type" header is "application/json"' // optional message shown on failure
+            'the "Content-Type" header is "application/json"'
         );*/
+
+        $content = json_decode($response->getBody(), true);
+        $this->assertInternalType('array', $content);
+        if(count($content) >= 1) {
+            $word = $content[0];
+            $this->assertArrayHasKey('id', $word);
+            $this->assertArrayHasKey('value', $word);
+            $this->assertArrayHasKey('category', $word);
+            $this->assertArrayHasKey('tags', $word);
+            $this->assertArrayHasKey('inflectedForms', $word);
+        } else {
+            $this->assertArrayNotHasKey('id', $content);
+            $this->assertArrayNotHasKey('value', $content);
+            $this->assertArrayNotHasKey('category', $content);
+            $this->assertArrayNotHasKey('tags', $content);
+            $this->assertArrayNotHasKey('inflectedForms', $content);
+        }
     }
 
-    public function provideUrls()
+    public function testGetWordWithExistingId()
+    {
+        $response = $this->client->get('/get/word/100');
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/json', $response->getHeader('content-type')[0]);
+
+        $content = json_decode($response->getBody(), true);
+        $this->assertInternalType('array', $content);
+        $this->assertArrayHasKey('id', $content);
+        $this->assertArrayHasKey('value', $content);
+        $this->assertArrayHasKey('category', $content);
+        $this->assertArrayHasKey('tags', $content);
+        $this->assertArrayHasKey('inflectedForms', $content);
+
+        $this->assertEquals('100', $content['id']);
+        $this->assertEquals('xaridan', $content['value']);
+        $this->assertEquals('persian', $content['category']["code"]);
+        $this->assertEquals('mots perses', $content['category']["name"]);
+        $this->assertEmpty($content['tags']);
+        $this->assertCount(2, $content['inflectedForms']);
+        $this->assertEquals('nemixarid', $content['inflectedForms'][0]['value']);
+        $this->assertEquals('ind;pst;evdir;ipfv;neg;3sg', $content['inflectedForms'][0]['tags']);
+        $this->assertEquals('naxarideast', $content['inflectedForms'][1]['value']);
+        $this->assertEquals('ind;pst;pfv;evind;nonprf;neg;3sg', $content['inflectedForms'][1]['tags']);
+    }
+
+    public function testGetWordWithUnknowId()
+    {
+        $response = $this->client->get('/get/word/9482654');
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+
+        $this->assertEquals('Aucun mot ne correspond à l\'identifiant : 9482654', $response->getBody());
+    }
+
+    /**
+     * @dataProvider provideAddWord
+     */
+    public function testAddWord($data) {
+        $response = $this->client->post('/add/word', [
+            'body' => json_encode($data),
+        ]);
+
+        switch ($data["expected"]) {
+            case "success" :
+                $this->assertEquals(201, $response->getStatusCode());
+
+                $this->assertEquals('application/json', $response->getHeader('content-type')[0]);
+                $content = json_decode($response->getBody(), true);
+                $this->assertInternalType('array', $content);
+                $this->assertArrayHasKey('id', $content);
+                $this->assertArrayHasKey('value', $content);
+                $this->assertArrayHasKey('category', $content);
+                $this->assertArrayHasKey('tags', $content);
+                $this->assertArrayHasKey('inflectedForms', $content);
+
+                $this->assertNotEmpty($content['id']);
+                $this->assertEquals($data["value"], $content['value']);
+                $this->assertEquals($data["category"]["id"], $content['category']["id"]);
+                $this->assertEquals($data["category"]["code"], $content['category']["code"]);
+                $this->assertEquals($data["category"]["name"], $content['category']["name"]);
+                $this->assertEquals($data["tags"], $content['tags']);
+                $this->assertEmpty($content['inflectedForms']);
+                break;
+            case "errorCategory" :
+                $this->assertEquals(500, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertEquals('Aucune categorie ne correspond à l\'identifiant : ' . $data["category"]["id"], $response->getBody());
+                break;
+            case "errorData" :
+                $this->assertEquals(500, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertNotEquals('Aucune categorie ne correspond à l\'identifiant : ' . $data["category"]["id"], $response->getBody());
+                break;
+            case "alreadyExist" :
+                $this->assertEquals(400, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertEquals("Echec : Ce mot existe déjà avec les tags {" . $data['tags'] . "} dans la catégorie renseignée.", $response->getBody());
+                break;
+            default :
+                break;
+        }
+    }
+
+    /**
+     * @dataProvider provideEditWord
+     */
+    public function testEditWord($data)
+    {
+        $response = $this->client->put('/update/word/' . $data["id"], [
+            'body' => json_encode($data),
+        ]);
+        switch ($data["expected"]) {
+            case "success" :
+                $this->assertEquals(200, $response->getStatusCode());
+
+                $this->assertEquals('application/json', $response->getHeader('content-type')[0]);
+                $content = json_decode($response->getBody(), true);
+                $this->assertInternalType('array', $content);
+                $this->assertArrayHasKey('id', $content);
+                $this->assertArrayHasKey('value', $content);
+                $this->assertArrayHasKey('category', $content);
+                $this->assertArrayHasKey('tags', $content);
+                $this->assertArrayHasKey('inflectedForms', $content);
+
+                $this->assertEquals($data["id"], $content['id']);
+                $this->assertEquals($data["value"], $content['value']);
+                $this->assertEquals($data["category"]["id"], $content['category']["id"]);
+                $this->assertEquals($data["category"]["code"], $content['category']["code"]);
+                $this->assertEquals($data["category"]["name"], $content['category']["name"]);
+                $this->assertEquals($data["tags"], $content['tags']);
+                $this->assertEmpty($content['inflectedForms']);
+                break;
+            case "errorCategory" :
+                $this->assertEquals(500, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertEquals("La catégorie  " . $data['category']['name'] . " n'existe pas.", $response->getBody());
+                break;
+            case "errorData" :
+                $this->assertEquals(500, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertNotEquals("La catégorie  " . $data['category']['name'] . " n'existe pas.", $response->getBody());
+                break;
+            case "alreadyExist" :
+                $this->assertEquals(400, $response->getStatusCode());
+                $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+                $this->assertEquals("Echec : Ce mot existe déjà avec les tags {" . $data['tags'] . "} dans la catégorie renseignée.", $response->getBody());
+                break;
+            default :
+                break;
+        }
+    }
+
+    public function testDeleteExistingWord()
+    {
+        $response = $this->client->delete('/delete/word/3');
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+        $this->assertEquals(null, $response->getBody());
+    }
+
+    public function testDeleteUnknownWord()
+    {
+        $response = $this->client->delete('/delete/word/9482654');
+
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+        $this->assertEquals('Aucun mot ne correspond à l\'identifiant : 9482654', $response->getBody());
+    }
+
+    /**
+     * PROVIDERS
+     */
+    public function provideSearchValues()
     {
         return [
-            ['/list/word/a'],
-            ['/get/word/1'],
+            ['a'],
+            ['couper'],
+            ['zers'],
+        ];
+    }
+    public function provideAddWord()
+    {
+        return [
+            [
+                [
+                    "expected" => "success",
+                    "value"  => "tester",
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "groupe1;tagTest"
+                ]
+            ],
+            [
+                [
+                    "expected" => "errorCategory",
+                    "value"  => "errorTest",
+                    "category"  => [
+                        "id" => "12",
+                        "code" => "?",
+                        "name" => "unknown"
+                    ],
+                    "tags" => "tagTest;error"
+                ]
+            ],
+            [
+                [
+                    "expected" => "errorData",
+                    "value"  => null,
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "noValue;tagTest"
+                ]
+            ],
+            [
+                [
+                    "expected" => "alreadyExist",
+                    "value"  => "ouvrir",
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "groupe3"
+                ]
+            ],
+        ];
+    }
+    public function provideEditWord()
+    {
+        return [
+            [
+                [
+                    "expected" => "success",
+                    "id" => 4,
+                    "value"  => "abolirModifié",
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "groupe2;nouveauTagModifié"
+                ]
+            ],
+            [
+                [
+                    //Modification du mot dégainer en une catégorie inexistante
+                    "expected" => "errorCategory",
+                    "id" => 3,
+                    "value"  => "errorTest",
+                    "category"  => [
+                        "id" => "12",
+                        "code" => "?",
+                        "name" => "unknown"
+                    ],
+                    "tags" => "tagTest;error"
+                ]
+            ],
+            [
+                [
+                    //Modification du mot crier avec une valeur impossible
+                    "expected" => "errorData",
+                    "id" => 2,
+                    "value"  => null,
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "noValue;tagTest"
+                ]
+            ],
+            [
+                [
+                    //Modification du mot couper en un mot existant
+                    "expected" => "alreadyExist",
+                    "id" => 1,
+                    "value"  => "ouvrir",
+                    "category"  => [
+                        "id" => "7",
+                        "code" => "v",
+                        "name" => "verbe"
+                    ],
+                    "tags" => "groupe3"
+                ]
+            ],
         ];
     }
 }

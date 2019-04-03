@@ -148,7 +148,7 @@ Si vous souhaitez seulement tester l'application avec des données de tests, nou
 Pour installer ces données, il vous suffit de lancer la commande depuis le dossier `web/back-end` :
 
     // Nécéssite APP_ENV=dev dans le fichier .env
-    $ php bin/console doctrine:fixtures:load
+    $ php bin/console doctrine:fixtures:load -n
     
 Si vous souhaitez importer votre lexique dans la base de données, il vous suffit de [lancer l'application web](#launch) et de suivre les consignes indiquées sur l'écran d'import.
 
