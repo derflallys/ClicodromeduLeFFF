@@ -26,27 +26,14 @@ class WordControllerTest extends WebTestCase
      */
     public function testSearchWords($searchValue)
     {
-/*        $client = static::createClient();
-
-
-        $client->request('GET', '/list/word/' . $searchValue);
-        $response = $client->getResponse();*/
-
         $response = $this->client->get('/list/word/' . $searchValue);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('application/json', $response->getHeader('content-type')[0]);
 
-        /*$this->assertTrue(
-            $response->headers->contains(
-                'Content-Type',
-                'application/json'
-            ),
-            'the "Content-Type" header is "application/json"'
-        );*/
-
         $content = json_decode($response->getBody(), true);
         $this->assertInternalType('array', $content);
+        // Si des mots ont été trouvés
         if(count($content) >= 1) {
             $word = $content[0];
             $this->assertArrayHasKey('id', $word);
@@ -78,6 +65,7 @@ class WordControllerTest extends WebTestCase
         $this->assertArrayHasKey('tags', $content);
         $this->assertArrayHasKey('inflectedForms', $content);
 
+        //Vérification des données du mot
         $this->assertEquals('100', $content['id']);
         $this->assertEquals('xaridan', $content['value']);
         $this->assertEquals('persian', $content['category']["code"]);
@@ -157,7 +145,7 @@ class WordControllerTest extends WebTestCase
         $response = $this->client->put('/update/word/' . $data["id"], [
             'body' => json_encode($data),
         ]);
-        switch ($data["expected"]) {
+        switch ($data["expected"]) { //Tests des différents cas
             case "success" :
                 $this->assertEquals(200, $response->getStatusCode());
 
@@ -200,10 +188,15 @@ class WordControllerTest extends WebTestCase
 
     public function testDeleteExistingWord()
     {
-        $response = $this->client->delete('/delete/word/3');
+        $response = $this->client->delete('/delete/word/4');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
-        $this->assertEquals(null, $response->getBody());
+
+        //Vérification que le mot n'existe plus
+        $response = $this->client->get('/get/word/4');
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertNotEquals('application/json', $response->getHeader('content-type')[0]);
+        $this->assertEquals('Aucun mot ne correspond à l\'identifiant : 4', $response->getBody());
     }
 
     public function testDeleteUnknownWord()

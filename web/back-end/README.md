@@ -32,12 +32,17 @@ Un projet symfony est composé de plusieurs dossiers :
 Toute notre implémentation est présente dans le dossier `src/`, le reste est généré par le framework.
 
 # Test unitaires
-Les tests  unitaires ont été implémentés dans le dossier `tests/` de l'application.
-Pour les executer, n'oubliez pas de lancer votre serveur web sur le port 8000 avec la commande :
+Les tests  unitaires ont été implémentés dans le dossier `tests/` de l'application grâce à PHPUnit.
+Nous utilisons la dépendance "Guzzle" pour simuler un client.
+Pour exécuter les tests, n'oubliez pas de lancer votre serveur web sur le port 8000 avec la commande et de charger les données de tests :
  
+     # Lance le serveur web
      $ php bin/console server:run
+     
+     # Charge les données de tests
+     $ php bin/console doctrine:fixtures:load -n
  
-Vous pourrez enfin exécutrer les tests avec les commandes suivantes : 
+Vous pourrez enfin exécuter les tests avec les commandes suivantes : 
 ```
     # lancer tous les tests de l'application
     $ php bin/phpunit
