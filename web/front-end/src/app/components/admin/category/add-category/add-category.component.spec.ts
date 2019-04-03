@@ -9,6 +9,7 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {CategoryService} from '../../../../services/category.service';
 import {Category} from '../../../../models/Category';
+import {Test} from "tslint";
 
 describe('AddCategoryComponent', () => {
   let component: AddCategoryComponent;
@@ -48,9 +49,5 @@ describe('AddCategoryComponent', () => {
   it('should have the correct category', () => {
     fixture.componentInstance.category = {id: 1, code: 'adj', name: 'Adjectif'};
     expect(fixture.componentInstance.category.name).toEqual('Adjectif');
-  });
-  it('should add category correctly from the service', () => {
-    mockCategoryService.addCategory({id: 1, code: 'adj', name: 'Adjectif'});
-
   });
 });
