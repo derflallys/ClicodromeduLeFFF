@@ -67,16 +67,21 @@ La partie "require-dev" correspond aux dépendances nécéssaires en développem
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "guzzlehttp/guzzle": "^6.3",
         "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
+        "symfony/browser-kit": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.11",
         "symfony/orm-pack": "^1.0",
-        "symfony/yaml": "4.2.*",
-        "symfony/web-server-bundle": "4.2.*"
+        "symfony/phpunit-bridge": "4.2.*",
+        "symfony/web-server-bundle": "4.2.*",
+        "symfony/yaml": "4.2.*"
     },
     "require-dev": {
             "symfony/profiler-pack": "^1.0",
