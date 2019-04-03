@@ -8,6 +8,7 @@ use App\Entity\TagAssociation;
 use App\Entity\Word;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 class AppFixtures extends Fixture
 {
@@ -30,6 +31,7 @@ class AppFixtures extends Fixture
     public function getData() {
         $data = [
             [
+                'id' => 1,
                 'code' => 'adj',
                 'label' => 'adjectif',
                 'words' => [
@@ -78,6 +80,7 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 2,
                 'code' => 'adv',
                 'label' => 'adverbe',
                 'words' => [
@@ -126,6 +129,7 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 3,
                 'code' => 'advneg',
                 'label' => 'adverbe négatif',
                 'words' => [
@@ -174,6 +178,7 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 4,
                 'code' => 'nc',
                 'label' => 'nom commun',
                 'words' => [
@@ -252,6 +257,7 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 5,
                 'code' => 'np',
                 'label' => 'nom propre',
                 'words' => [
@@ -304,34 +310,42 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 6,
                 'code' => 'prep',
                 'label' => 'locution prépositive',
                 'words' => [
                     [
+                        'id' => 12,
                         'value' => 'afin de',
                         'tags' => []
                     ],
                     [
+                        'id' => 13,
                         'value' => 'à moins de',
                         'tags' => []
                     ],
                     [
+                        'id' => 14,
                         'value' => 'de façon à',
                         'tags' => []
                     ],
                     [
+                        'id' => 15,
                         'value' => 'par suite de',
                         'tags' => []
                     ],
                     [
+                        'id' => 16,
                         'value' => 'au sein de',
                         'tags' => []
                     ],
                     [
+                        'id' => 17,
                         'value' => 'de part et d\'autre de',
                         'tags' => []
                     ],
                     [
+                        'id' => 18,
                         'value' => 'en absence de',
                         'tags' => []
                     ]
@@ -340,50 +354,62 @@ class AppFixtures extends Fixture
                 'tags' => []
             ],
             [
+                'id' => 7,
                 'code' => 'v',
                 'label' => 'verbe',
                 'words' => [
                     [
+                        'id' => 1,
                         'value' => 'couper',
                         'tags' => ['groupe1']
                     ],
                     [
+                        'id' => 2,
                         'value' => 'crier',
                         'tags' => ['groupe1']
                     ],
                     [
+                        'id' => 3,
                         'value' => 'dégainer',
                         'tags' => ['groupe1']
                     ],
                     [
+                        'id' => 4,
                         'value' => 'abolir',
                         'tags' => ['groupe2']
                     ],
                     [
+                        'id' => 5,
                         'value' => 'bâtir',
                         'tags' => ['groupe2']
                     ],
                     [
+                        'id' => 6,
                         'value' => 'applaudir',
                         'tags' => ['groupe2']
                     ],
                     [
+                        'id' => 7,
                         'value' => 'ouvrir',
                         'tags' => ['groupe3']
                     ],
                     [
+                        'id' => 8,
                         'value' => 'pouvoir',
                         'tags' => ['groupe3']
                     ],
                     [
+                        'id' => 9,
                         'value' => 'vaincre',
                         'tags' => ['groupe3']
                     ],
                     [
+                        'id' => 10,
                         'value' => 'vouloir',
                         'tags' => ['groupe3']
                     ],
                     [
+                        'id' => 11,
                         'value' => 'mordre',
                         'tags' => ['groupe3']
                     ]
@@ -590,10 +616,12 @@ class AppFixtures extends Fixture
                 ]
             ],
             [
+                'id' => 8,
                 'code' => 'persian',
                 'label' => 'mots perses',
                 'words' => [
                     [
+                        'id' => '100',
                         'value' => 'xaridan',
                         'tags' => []
                     ]
@@ -680,17 +708,27 @@ class AppFixtures extends Fixture
         // Pour chaque catégorie...
         foreach ($categories as $item) {
             $category = new Category();
+            $category->setId($item['id']);
             $category->setCode($item['code']);
             $category->setName($item['label']);
             $manager->persist($category);
+            $metadata = $manager->getClassMetaData(get_class($category));
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
             // ... On ajoute les mots de la catégorie...
             foreach ($item['words'] as $wordData) {
                 $word = new Word();
+                if(isset($wordData['id'])) {
+                    $word->setId($wordData['id']);
+                }
                 $word->setValue($wordData['value']);
                 $word->setCategory($category);
                 $word->setTags(implode(";", $wordData['tags']));
                 $manager->persist($word);
+
+                // Enforce specified record ID
+                $metadata = $manager->getClassMetaData(get_class($word));
+                $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
             }
 
             // ... Puis les règle de cette catégorie...

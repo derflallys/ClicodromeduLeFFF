@@ -53,6 +53,12 @@ class Category
         return $this->id;
     }
 
+    public function setId($id) {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getCode(): ?string
     {
         return $this->code;

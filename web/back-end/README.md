@@ -32,7 +32,31 @@ Un projet symfony est composé de plusieurs dossiers :
 Toute notre implémentation est présente dans le dossier `src/`, le reste est généré par le framework.
 
 # Test unitaires
-**A faire**
+Les tests  unitaires ont été implémentés dans le dossier `tests/` de l'application grâce à PHPUnit.
+Nous utilisons la dépendance "Guzzle" pour simuler un client.
+Pour exécuter les tests, n'oubliez pas de lancer votre serveur web sur le port 8000 avec la commande et de charger les données de tests :
+ 
+     # Lance le serveur web
+     $ php bin/console server:run
+     
+     # Charge les données de tests
+     $ php bin/console doctrine:fixtures:load -n
+ 
+Vous pourrez enfin exécuter les tests avec les commandes suivantes : 
+```
+    # lancer tous les tests de l'application
+    $ php bin/phpunit
+
+    # Lancer tous les tests du dossiers Utils/
+    $ php bin/phpunit tests/Utils
+
+    # lancer les tests de la classe MaClasse 
+    $ php bin/phpunit tests/Util/MaClasseTest.php
+```
+
+Vous pouvez ajouter l'option `--testdox` à votre commande pour afficher le nom des tests effectués.
+
+La configuration de PHPUnit, utilisé pour nos tests unitaires se trouve dans le fichier `phpunit.xml.dist`.
 
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `composer.json`).  
@@ -43,16 +67,21 @@ La partie "require-dev" correspond aux dépendances nécéssaires en développem
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "guzzlehttp/guzzle": "^6.3",
         "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
+        "symfony/browser-kit": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.11",
         "symfony/orm-pack": "^1.0",
-        "symfony/yaml": "4.2.*",
-        "symfony/web-server-bundle": "4.2.*"
+        "symfony/phpunit-bridge": "4.2.*",
+        "symfony/web-server-bundle": "4.2.*",
+        "symfony/yaml": "4.2.*"
     },
     "require-dev": {
             "symfony/profiler-pack": "^1.0",

@@ -51,9 +51,13 @@ Les autres fichiers du dossier dont des fichiers de configurations auxquels on n
 Toute notre implémentation est présente dans le dossier `src/app`, le reste est généré par le framework.
 
 # Test unitaires
-Pour lancer les tests unitaires des composants et des differents services vous pouvez taper la commande :
-```` npm test ```` .
-Une fenétre de votre navigateur sera ouvert où vous pourrez voir les differents tests executés ainsi que leurs status.
+Pour lancer les tests unitaires relatifs aux composants et aux services de l'application, vous pouvez exécuter la commande :
+
+    $ npm run test
+    
+Angular utilise Karma et Jasmine pour ces tests. 
+Une fenêtre va s'ouvrir dans votre navigateur et indiquera les différents tests exécutés ainsi que leur état (OK ou echec).
+
 # Dependances
 Voici la liste des dépendances pour le projet (inscrite dans le fichier `package.json`).  
 La partie "devDependencies" correspond aux dépendances nécéssaires en développement mais non utilisé en production.
