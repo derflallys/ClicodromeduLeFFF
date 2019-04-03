@@ -50,4 +50,8 @@ describe('AddCategoryComponent', () => {
     fixture.componentInstance.category = {id: 1, code: 'adj', name: 'Adjectif'};
     expect(fixture.componentInstance.category.name).toEqual('Adjectif');
   });
+  it('should create 2 input for attribute of category', () => {
+    const inp = fixture.nativeElement.querySelectorAll('input');
+    expect(inp.length).toBe(2);
+  });
 });
