@@ -28,4 +28,14 @@ describe('CategoryService', () => {
       httpTestingController.verify();
     });
   });
+
+  describe('addCategory', () => {
+    it('should call addCategory with the correct URL',  () => {
+      service.addCategory({id: 24, code: 'adj', name: 'adjectif'}).subscribe(res => {
+      });
+      const req = httpTestingController.expectOne(environment.BACK_END_URL + '/add/category');
+      req.flush({id: 24, code: 'adj', name: 'adjectif'});
+      httpTestingController.verify();
+    });
+  });
 });
