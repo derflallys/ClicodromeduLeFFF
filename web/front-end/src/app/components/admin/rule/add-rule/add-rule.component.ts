@@ -200,6 +200,7 @@ export class AddRuleComponent implements OnInit {
             );
         }
     }
+
     setTagsArray(tags, index) {
         const formGroup = [];
         const tab = tags.split(';');
@@ -220,6 +221,7 @@ export class AddRuleComponent implements OnInit {
         });
         return formGroup;
     }
+    // permet de transformer un tableau de regle en string avec comme separateur ;
     combinationTagsToString(rules): string {
         let textrules = '';
         let empty = true;
@@ -234,6 +236,7 @@ export class AddRuleComponent implements OnInit {
         }
         return textrules;
     }
+  // permet de transformer un tableau de tags en string avec comme separateur ;
     wordTagsToString(rules): string {
         let textrules = '';
         let empty = true;
@@ -248,6 +251,7 @@ export class AddRuleComponent implements OnInit {
         }
         return textrules;
     }
+    // permet de creer un input dynamiquement pour ajouter des tags ou de combinaison
     createTag(index) {
         if (index === 0) {
             return this.formBuilder.group({
@@ -259,6 +263,7 @@ export class AddRuleComponent implements OnInit {
             });
         }
     }
+    // appel createTag pour les ajouter dans le formulaire
     addCombinationTag() {
         (this.addRule.controls.combinationTags as FormArray).push(this.createTag(1));
     }

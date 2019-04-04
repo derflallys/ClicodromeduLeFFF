@@ -33,12 +33,13 @@ export class AddCategoryComponent implements OnInit {
         public snackBar: MatSnackBar,
         private location: Location
     ) { }
-
+    // method appeler quand le formulaire d'ajout/modification est validé
     onSubmit() {
         this.error = false;
         if (this.addCategory.invalid) {
             return;
         }
+        // recupere les valeurs saisies du formulaire
         const code = this.addCategory.controls.code.value;
         console.log(code);
         const name = this.addCategory.controls.name.value;
@@ -48,6 +49,7 @@ export class AddCategoryComponent implements OnInit {
         config.verticalPosition = 'bottom';
         config.horizontalPosition = 'center';
         config.duration = 5000;
+        // si  update est à  vrai , la modification est effecté avec l'appel du service updateCatergory
         if (this.update) {
             this.category = new Category(this.categoryId, code, name);
             this.snackBar.open('⌛ Modification en cours...', 'Fermer', config);
@@ -65,7 +67,7 @@ export class AddCategoryComponent implements OnInit {
                     }
                 }
             );
-        } else {
+        } else { // sinon le service addCategory est appelé
             this.category = new Category(null, code, name);
             this.snackBar.open('⌛ Ajout en cours...', 'Fermer', config);
             this.service.addCategory(this.category).subscribe(
@@ -83,17 +85,19 @@ export class AddCategoryComponent implements OnInit {
         }
         console.log(JSON.stringify(this.category));
     }
-
+    // methode appeler une fois lors de l'initialisation du composant
     ngOnInit() {
+      // formBuilder permet d'initialier les inputs du formulaire et d'ajouter des controles sur
         this.addCategory = this.formBuilder.group({
             code: ['', Validators.required],
             name: ['', Validators.required],
         });
+        // si categoryId n'est pas null c'est à dire que c'est le composant Modification est appelé avec un input sur AddCategorie
         if (this.categoryId != null) {
             this.loadData();
         }
     }
-
+    // on recharge les données de la categorie en appelant getCategory  du service pour charger les inputs de la categorie
     loadData() {
         this.loading.status = true;
         this.service.getCategory(this.categoryId).subscribe(

@@ -55,6 +55,7 @@ export class ListCategoryComponent implements OnInit {
         }
     );
   }
+  // permet de rafraichir les données du tableau
   refreshTable() {
     this.dataSource = new MatTableDataSource(this.categories);
     this.dataSource.sort = this.sort;
@@ -81,7 +82,7 @@ export class ListCategoryComponent implements OnInit {
     });
     this.refreshTable();
   }
-
+  // permet de supprimer une categorie en invoquant la methode deleteCategory du service
   deleteCategory(name: string, categoryId: number) {
     const dialogConfig = new MatDialogConfig();
 
