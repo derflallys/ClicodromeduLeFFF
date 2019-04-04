@@ -34,6 +34,7 @@ describe('ModifyCategoryComponent', () => {
   });
   it('should have the AddCategory directive', () => {
     const tab = fixture.debugElement.query(By.css('app-add-category'));
+    console.log(tab);
     expect(tab.name).toEqual('app-add-category');
   });
 });
