@@ -58,7 +58,8 @@ describe('ListCombinationComponent', () => {
   it('should set Combinaisons correctly from the service',  () => {
     expect(fixture.componentInstance.combinations.length).toBe(2);
   });
-  it('should create a table for list of combinaison',  () => {
-    expect(fixture.debugElement.queryAll(By.css('table')).length).toBe(1);
+  it('should create a tr for each combinaison', () => {
+    const tab = fixture.nativeElement.querySelectorAll('tr.mat-row');
+    expect(tab.length).toBe(2);
   });
 });
