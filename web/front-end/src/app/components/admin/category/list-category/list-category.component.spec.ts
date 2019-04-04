@@ -49,7 +49,8 @@ describe('ListCategoryComponent', () => {
   it('should set Categories correctly from the service',  () => {
     expect(fixture.componentInstance.categories.length).toBe(3);
   });
-  it('should create a table for list of category', () => {
-    expect(fixture.debugElement.queryAll(By.css('table')).length).toBe(1);
+  it('should create a tr for each category', () => {
+    const tab = fixture.nativeElement.querySelectorAll('tr.mat-row');
+    expect(tab.length).toBe(3);
   });
 });
