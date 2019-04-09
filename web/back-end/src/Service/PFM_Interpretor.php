@@ -83,16 +83,21 @@ class PFM_Interpretor {
                     foreach ($newRulesTab as $sortedRule) {
                         if(count($sortedRule)> 1) {
                             $selectedRule = $sortedRule[0];
+                            $error = false;
                             for($i=1; $i < count($sortedRule); $i++) {
                                 $nbTagI = count(explode(";", $sortedRule[$i]->getTagCategory()));
                                 $nbTagSelect = count(explode(";", $selectedRule->getTagCategory()));
                                 if ($nbTagI > $nbTagSelect) {
                                     $selectedRule = $sortedRule[$i];
+                                    $error = false;
                                 } else if($sortedRule[$i]->getTagCategory() != "" && $selectedRule->getTagCategory() == "" ) {
                                     $selectedRule = $sortedRule[$i];
                                 } else {
-                                    throw new Exception("Error : Conflict beetween 2 rules with the same number of tags.");
+                                    $error = true;
                                 }
+                            }
+                            if($error) {
+                                throw new Exception("Error : Conflict beetween 2 rules with the same number of tags.");
                             }
                             array_push($ruleToApply, $selectedRule);
                         }
